@@ -9,6 +9,7 @@ import Process from '@/components/home/Process';
 import RedCarBanner from '@/components/home/RedCarBanner';
 import Contact from '@/components/home/Contact';
 import FeatureBar from '@/components/home/FeatureBar';
+import AboutCard from '@/components/home/AboutCard';
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <Header />
       <Hero />
       <FeatureBar />
+      <AboutCard />
       <Services />
       <Process />
       <RedCarBanner />
