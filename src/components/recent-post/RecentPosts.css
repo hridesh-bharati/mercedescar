@@ -1,0 +1,254 @@
+/* ============================================
+   RECENT POSTS SECTION
+   ============================================ */
+
+.recent-posts-section {
+  width: 100%;
+  background: #ffffff;
+  padding: 60px 0;
+}
+
+.recent-posts-container {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.recent-posts-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 40px;
+  align-items: start;
+}
+
+/* ============ LEFT COLUMN ============ */
+.recent-posts-left {
+  min-width: 0;
+}
+
+.recent-posts-heading {
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: #111827;
+  margin: 0 0 12px 0;
+  text-transform: uppercase;
+}
+
+.recent-posts-underline {
+  width: 56px;
+  height: 3px;
+  background: #e50914;
+  border-radius: 2px;
+  margin-bottom: 26px;
+}
+
+/* ============ Posts List ============ */
+.recent-posts-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid #eef0f3;
+}
+
+.recent-post-item {
+  border-bottom: 1px solid #eef0f3;
+}
+
+.recent-post-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 16px 4px;
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.25s ease, padding 0.25s ease;
+}
+
+.recent-post-link:hover {
+  background: #fafbfc;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+/* ============ Title ============ */
+.recent-post-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #6b7280;
+  line-height: 1.5;
+  transition: color 0.25s ease;
+  flex: 1;
+}
+
+.recent-post-link:hover .recent-post-title {
+  color: #e50914;
+}
+
+/* ============ Arrow ============ */
+.recent-post-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #c0c4cc;
+  flex-shrink: 0;
+  transition: color 0.25s ease, transform 0.25s ease;
+}
+
+.recent-post-link:hover .recent-post-arrow {
+  color: #e50914;
+  transform: translateX(4px);
+}
+
+/* ============ Show More Button ============ */
+.recent-posts-more-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 26px;
+}
+
+.recent-posts-more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 24px;
+  border-radius: 100px;
+  background: #ffffff;
+  border: 1.5px solid rgba(229, 9, 20, 0.35);
+  color: #e50914;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.recent-posts-more-btn:hover {
+  background: #e50914;
+  border-color: #e50914;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(229, 9, 20, 0.25);
+}
+
+.recent-posts-more-btn svg {
+  transition: transform 0.3s ease;
+}
+
+.recent-posts-more-btn:hover svg {
+  transform: translateY(2px);
+}
+
+.recent-posts-more-btn.is-open svg {
+  transform: rotate(180deg);
+}
+
+.recent-posts-more-btn.is-open:hover svg {
+  transform: rotate(180deg) translateY(2px);
+}
+
+/* ============ RIGHT COLUMN: Wheel (STATIC) ============ */
+.recent-posts-right {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 10px;
+}
+
+.recent-posts-wheel-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.recent-posts-wheel {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.12));
+}
+
+.recent-posts-wheel-glow {
+  position: absolute;
+  inset: 10%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(229, 9, 20, 0.15) 0%,
+    transparent 70%
+  );
+  filter: blur(40px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 991px) {
+  .recent-posts-section {
+    padding: 50px 0;
+  }
+
+  .recent-posts-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .recent-posts-heading {
+    font-size: 1.4rem;
+  }
+
+  .recent-posts-right {
+    order: 2;
+    padding-top: 10px;
+  }
+
+  .recent-posts-wheel-wrap {
+    max-width: 240px;
+  }
+}
+
+@media (max-width: 576px) {
+  .recent-posts-section {
+    padding: 40px 0;
+  }
+
+  .recent-posts-heading {
+    font-size: 1.2rem;
+  }
+
+  .recent-posts-underline {
+    width: 44px;
+    margin-bottom: 20px;
+  }
+
+  .recent-post-link {
+    padding: 14px 4px;
+    gap: 12px;
+  }
+
+  .recent-post-title {
+    font-size: 0.88rem;
+  }
+
+  .recent-posts-wheel-wrap {
+    max-width: 180px;
+  }
+
+  .recent-posts-more-btn {
+    font-size: 0.8rem;
+    padding: 10px 20px;
+  }
+}

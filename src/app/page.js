@@ -10,13 +10,17 @@ import RedCarBanner from '@/components/home/RedCarBanner';
 import Contact from '@/components/home/Contact';
 import FeatureBar from '@/components/home/FeatureBar';
 import AboutCard from '@/components/home/AboutCard';
+import RecentPosts from '@/components/recent-post/RecentPost';
+import Welcome from '@/components/home/Welcome';
 
 export default function Home() {
   return (
     <div className="min-vh-100">
       <Header />
       <Hero />
+      <RecentPosts />
       <FeatureBar />
+      <Welcome />
       <AboutCard />
       <Services />
       <Process />

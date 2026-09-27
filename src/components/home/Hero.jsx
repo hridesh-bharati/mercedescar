@@ -40,30 +40,52 @@ function WordReveal({ children, delay = 0, stagger = 0.08 }) {
 }
 
 export default function Hero() {
-  const slides = [
+  // Sirf ek hi stable background image
+  const bgImage = '/images/hero-car.png';
+
+  // 3 alag-alag texts aur tags jo rotate honge
+  const textSlides = [
     {
-      image: '/images/hero-car1.png',
-      headingTop: 'German Car Repair &',
-      headingAccent: 'Service in Dubai, UAE',
+      badge: 'AUTO EXPERT WORKSHOP DUBAI',
+      headingTop: 'One-Stop Shop for',
+      headingAccent: 'All Auto Repairs',
       paragraph:
-        'Specialized independent garage for Mercedes, BMW, Audi, Porsche, Volkswagen, and Lamborghini with dealer-level diagnostics.',
-      caption: 'Luxury Car Care Experts',
+        'Auto Expert Workshop is equipped with latest technology, excellent infrastructural facilities and a team of professional mechanics to solve every automobile-related need.',
+      caption: 'Trusted Auto Care Experts',
+      tags: [
+        'Computer Diagnostics',
+        'Complete Safety Analysis',
+        'Drivability Problems',
+        'Performance Upgrade',
+      ],
     },
     {
-      image: '/images/hero-car2.png',
-      headingTop: 'Advanced Supercar &',
-      headingAccent: 'Exotic Car Repair',
+      badge: 'ADVANCED AUTO CARE',
+      headingTop: 'Complete Auto',
+      headingAccent: 'Repair Solutions',
       paragraph:
-        'Professional mechanics and state-of-the-art workshop setup designed for high-performance and luxury supercars.',
+        'From routine servicing to complex auto repairs, our premium workshop features state-of-the-art machinery and equipment to give you the service you deserve.',
       caption: 'Precision & Excellence',
+      tags: [
+        'Engine Diagnostics',
+        'Brake & Suspension',
+        'AC Service & Repair',
+        'Full Body Work',
+      ],
     },
     {
-      image: '/images/hero-car3.png',
-      headingTop: 'Complete Body Shop &',
-      headingAccent: 'Accident Repair',
+      badge: 'PROFESSIONAL AUTO GARAGE',
+      headingTop: 'Premium Auto Garage',
+      headingAccent: 'in Al Quoz, Dubai',
       paragraph:
-        'Top-tier paint booth, denting, chassis alignment, and insurance claim support under one roof in Al Quoz.',
-      caption: 'Trusted Workshop Dubai',
+        'High-standard auto garage with quality services, modern equipment and a team of certified mechanics ready to handle every automobile-related need.',
+      caption: 'Your Auto, Our Passion',
+      tags: [
+        'Oil & Filter Change',
+        'Battery Replacement',
+        'Wheel Alignment',
+        'Insurance Support',
+      ],
     },
   ];
 
@@ -71,13 +93,13 @@ export default function Hero() {
   const heroRef = useRef(null);
   const contentRef = useRef(null);
 
-  // ----- Auto Slide -----
+  // ----- Auto Slide for Text -----
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 7000);
+      setCurrentSlide((prev) => (prev + 1) % textSlides.length);
+    }, 7500);
     return () => clearInterval(timer);
-  }, [slides.length]);
+  }, [textSlides.length]);
 
   // ----- Mouse Parallax (3D Tilt) -----
   useEffect(() => {
@@ -113,7 +135,7 @@ export default function Hero() {
 
   const goToSlide = (idx) => setCurrentSlide(idx);
 
-  const activeSlide = slides[currentSlide];
+  const activeSlide = textSlides[currentSlide];
 
   return (
     <section
@@ -121,16 +143,13 @@ export default function Hero() {
       className="hero-section"
       aria-label="Auto Expert Workshop Hero Section"
     >
-      {/* Background Slider */}
-      {slides.map((slide, index) => (
-        <div
-          key={index}
-          className={`hero-bg ${index === currentSlide ? 'active' : ''}`}
-          style={{ backgroundImage: `url('${slide.image}')` }}
-          role="img"
-          aria-label={`Slide ${index + 1}`}
-        ></div>
-      ))}
+      {/* Background Image - Single & Static (No image switching/flickering) */}
+      <div
+        className="hero-bg active"
+        style={{ backgroundImage: `url('${bgImage}')` }}
+        role="img"
+        aria-label="Hero Background"
+      ></div>
 
       {/* Overlays */}
       <div className="hero-overlay"></div>
@@ -138,26 +157,11 @@ export default function Hero() {
       <div className="hero-glow-right"></div>
       <div className="hero-cursor-glow"></div>
 
-      {/* Pure CSS Particles — SSR safe ✅ */}
+      {/* Pure CSS Particles */}
       <div className="hero-particles" aria-hidden="true">
-        <span className="particle"></span>
-        <span className="particle"></span>
-        <span className="particle"></span>
-        <span className="particle"></span>
-        <span className="particle"></span>
-        <span className="particle"></span>
-        <span className="particle"></span>
-        <span className="particle"></span>
-        <span className="particle"></span>
-        <span className="particle"></span>
-        <span className="particle"></span>
-        <span className="particle"></span>
-        <span className="particle"></span>
-        <span className="particle"></span>
-        <span className="particle"></span>
-        <span className="particle"></span>
-        <span className="particle"></span>
-        <span className="particle"></span>
+        {Array.from({ length: 18 }).map((_, i) => (
+          <span key={i} className="particle"></span>
+        ))}
       </div>
 
       {/* Animated Grid Lines */}
@@ -182,14 +186,14 @@ export default function Hero() {
                 <div className="hero-badge animate-slide-down">
                   <span className="hero-badge-dash"></span>
                   <SplitText
-                    text="AUTO EXPERT WORKSHOP DUBAI"
+                    text={activeSlide.badge}
                     className="hero-badge-text"
                     delay={0.2}
                     stagger={0.03}
                   />
                 </div>
 
-                {/* Heading — TWO LINES ✅ */}
+                {/* Heading — TWO LINES */}
                 <h1 className="hero-heading">
                   <span className="heading-line">
                     <SplitText
@@ -210,10 +214,28 @@ export default function Hero() {
 
                 {/* Paragraph */}
                 <p className="hero-paragraph">
-                  <WordReveal delay={1.1} stagger={0.03}>
+                  <WordReveal delay={1.1} stagger={0.025}>
                     {activeSlide.paragraph}
                   </WordReveal>
                 </p>
+
+                {/* Service Tags */}
+                <ul className="hero-tags">
+                  {activeSlide.tags.map((tag, i) => (
+                    <li
+                      key={i}
+                      className="hero-tag"
+                      style={{ animationDelay: `${1.4 + i * 0.1}s` }}
+                    >
+                      <span className="hero-tag-check" aria-hidden="true">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                      </span>
+                      <span>{tag}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
 
               {/* Buttons */}
@@ -263,7 +285,7 @@ export default function Hero() {
       <div className="hero-bottom-bar container">
         {/* Desktop Progress Ring Indicators */}
         <div className="hero-indicators">
-          {slides.map((_, index) => (
+          {textSlides.map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
@@ -293,7 +315,7 @@ export default function Hero() {
 
         {/* Mobile Dots */}
         <div className="hero-mobile-dots">
-          {slides.map((_, index) => (
+          {textSlides.map((_, index) => (
             <span
               key={index}
               onClick={() => goToSlide(index)}
@@ -306,43 +328,13 @@ export default function Hero() {
 
         {/* Infinite Arrows */}
         <div className="hero-infinite-arrows">
-          <svg
-            className="arrow-icon arrow-small"
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
+          <svg className="arrow-icon arrow-small" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="6 9 12 15 18 9" />
           </svg>
-          <svg
-            className="arrow-icon arrow-medium"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
+          <svg className="arrow-icon arrow-medium" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="6 9 12 15 18 9" />
           </svg>
-          <svg
-            className="arrow-icon arrow-large"
-            width="26"
-            height="26"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
+          <svg className="arrow-icon arrow-large" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="6 9 12 15 18 9" />
           </svg>
         </div>
