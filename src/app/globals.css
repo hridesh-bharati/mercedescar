@@ -2,7 +2,10 @@
 /* ============================================
    GLOBAL CUSTOM RED CURSOR
    ============================================ */
+body{
+    font-family: 'Barlow Condensed', sans-serif !important;
 
+}
 /* Hide default cursor only on real desktop (not touch) */
 @media (hover: hover) and (pointer: fine) {
   html, body,

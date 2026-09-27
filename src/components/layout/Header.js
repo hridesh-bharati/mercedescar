@@ -3,15 +3,14 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import './Header.css';
 
-const Icon = ({ path, size = 22, fill = 'none' }) => (
+const Icon = ({ path, size = 20, fill = 'none' }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill={fill} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d={path} />
   </svg>
 );
 
 const ICONS = {
-  // Aapka manga hua alignment-end custom menu icon
-  Menu: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 5H3"/><path d="M21 12H9"/><path d="M21 19H7"/></svg>,
+  Menu: <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 5H3"/><path d="M21 12H9"/><path d="M21 19H7"/></svg>,
   Back: 'M19 12H5 M12 19l-7-7 7-7',
   Search: 'M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16z M21 21l-4.3-4.3',
   Close: 'M18 6L6 18 M6 6l12 12',
@@ -151,51 +150,68 @@ export default function Header() {
 
   return (
     <>
-      {/* Top Info Bar (Green Theme) */}
+      {/* 1st Layer: Top Info Bar */}
       <div className="md-top-info-bar d-none d-lg-block">
-        <div className="container d-flex justify-content-between align-items-center py-2 small">
+        <div className="container d-flex justify-content-between align-items-center py-2">
           <div className="d-flex align-items-center gap-2 text-white">
             <Icon path={ICONS.Location} size={14} />
-            <span>Warehouse #S2, Al Qouz 20C Street Industrial Area 2, Dubai, UAE</span>
+            <span style={{ fontSize: '0.83rem' }}>Warehouse #S2, Al Qouz 20C Street Industrial Area 2, Dubai, UAE</span>
           </div>
           <div className="d-flex align-items-center gap-4">
-            <a href="tel:+971567888808" className="text-decoration-none text-white d-flex align-items-center gap-1">
+            <a href="tel:+971567888808" className="text-decoration-none text-white d-flex align-items-center gap-1" style={{ fontSize: '0.83rem' }}>
               <Icon path={ICONS.Phone} size={14} /> +971 56 788 8808
             </a>
-            <a href="mailto:info@autoexpertworkshop.com" className="text-decoration-none text-white d-flex align-items-center gap-1">
+            <a href="mailto:info@autoexpertworkshop.com" className="text-decoration-none text-white d-flex align-items-center gap-1" style={{ fontSize: '0.83rem' }}>
               <Icon path={ICONS.Email} size={14} /> info@autoexpertworkshop.com
             </a>
           </div>
         </div>
       </div>
 
-      {/* Main App Bar */}
+      {/* 2nd Layer: Main Unified App Bar */}
       <header className={`md-appbar ${elevated ? 'md-appbar--elevated' : ''}`}>
-        <div className="container-fluid px-3 md-appbar-row">
+        <div className="container d-flex align-items-center justify-content-between md-appbar-row">
           {!searchOpen ? (
             <>
-              {/* Custom Menu Button with provided SVG */}
-              <button className="md-icon-btn md-ripple" onMouseDown={addRipple} onClick={() => setDrawerOpen(true)} aria-label="Open menu">
-                {ICONS.Menu}
-              </button>
+              <div className="d-flex align-items-center gap-3">
+                <button className="md-icon-btn md-ripple d-lg-none" onMouseDown={addRipple} onClick={() => setDrawerOpen(true)} aria-label="Open menu">
+                  {ICONS.Menu}
+                </button>
 
-              <Link href="/" className="md-appbar-brand" onClick={closeDrawer}>
-                <img src="/images/logo.png" alt="Auto Expert Workshop" className="md-logo-img" />
-              </Link>
+                <Link href="/" className="md-appbar-brand" onClick={closeDrawer}>
+                  <img src="/images/logo.png" alt="Auto Expert Workshop" className="md-logo-img" />
+                </Link>
+              </div>
 
-              <div className="md-appbar-actions">
+              {/* Desktop Inline Navigation */}
+              <nav className="md-desktop-nav d-none d-lg-flex align-items-center gap-1 m-0">
+                {navItems.map((item) => (
+                  <div key={item.key} className="md-desktop-item">
+                    <Link href={item.href} className="md-desktop-link">{item.label}</Link>
+                    {item.subItems && (
+                      <div className="md-desktop-menu shadow-sm">
+                        {item.subItems.map((s, i) => (
+                          <Link key={i} href={s.href} className="md-desktop-menu-item">{s.label}</Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </nav>
+
+              <div className="md-appbar-actions d-flex align-items-center gap-2">
                 <button className="md-icon-btn md-ripple" onMouseDown={addRipple} onClick={() => setSearchOpen(true)} aria-label="Search">
-                  <Icon path={ICONS.Search} size={22} />
+                  <Icon path={ICONS.Search} size={20} />
                 </button>
                 <Link href="/login" className="md-icon-btn md-ripple d-none d-lg-flex" onMouseDown={addRipple} aria-label="Account">
-                  <Icon path={ICONS.User} size={22} />
+                  <Icon path={ICONS.User} size={20} />
                 </Link>
               </div>
             </>
           ) : (
-            <div className="md-search-row">
+            <div className="md-search-row w-100">
               <button className="md-icon-btn md-ripple" onMouseDown={addRipple} onClick={() => setSearchOpen(false)} aria-label="Close search">
-                <Icon path={ICONS.Back} size={22} />
+                <Icon path={ICONS.Back} size={20} />
               </button>
               <input
                 ref={searchRef}
@@ -207,42 +223,21 @@ export default function Header() {
               />
               {query && (
                 <button className="md-icon-btn md-ripple" onMouseDown={addRipple} onClick={() => setQuery('')} aria-label="Clear">
-                  <Icon path={ICONS.Close} size={20} />
+                  <Icon path={ICONS.Close} size={18} />
                 </button>
               )}
             </div>
           )}
         </div>
-
-        {/* Desktop inline navigation */}
-        <nav className="md-desktop-nav d-none d-lg-flex container">
-          {navItems.map((item) => (
-            <div key={item.key} className="md-desktop-item">
-              <Link href={item.href} className="md-desktop-link">{item.label}</Link>
-              {item.subItems && (
-                <div className="md-desktop-menu">
-                  {item.subItems.map((s, i) => (
-                    <Link key={i} href={s.href} className="md-desktop-menu-item">{s.label}</Link>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
-        </nav>
       </header>
 
       {/* Scrim */}
       <div className={`md-scrim ${drawerOpen ? 'show' : ''}`} onClick={closeDrawer} aria-hidden="true" />
 
-      {/* Left Navigation Drawer */}
+      {/* Mobile Right-Side Navigation Drawer */}
       <aside className={`md-drawer ${drawerOpen ? 'open' : ''}`} aria-hidden={!drawerOpen}>
         <div className="md-drawer-header">
           <img src="/images/logo.png" alt="Auto Expert Workshop" className="md-logo-img-drawer" />
-        </div>
-
-        <div className="md-drawer-search">
-          <Icon path={ICONS.Search} size={16} />
-          <input type="text" placeholder="Search brand or service" value={query} onChange={(e) => setQuery(e.target.value)} />
         </div>
 
         <ul className="md-drawer-list">
@@ -265,7 +260,7 @@ export default function Header() {
               </div>
 
               {item.subItems && (
-                <ul className="md-drawer-submenu" style={{ maxHeight: (expanded === item.key || query.trim()) ? `${item.subItems.length * 40 + 8}px` : '0px' }}>
+                <ul className="md-drawer-submenu" style={{ maxHeight: expanded === item.key ? `${item.subItems.length * 40 + 8}px` : '0px' }}>
                   {item.subItems.map((s, i) => (
                     <li key={i}>
                       <Link href={s.href} className="md-drawer-sublink md-ripple" onMouseDown={addRipple} onClick={closeDrawer}>
@@ -278,12 +273,6 @@ export default function Header() {
             </li>
           ))}
         </ul>
-
-        <div className="p-3 bg-light small border-top">
-          <div className="text-muted mb-1 d-flex align-items-center gap-2"><Icon path={ICONS.Location} size={14} /> Warehouse #S2, Al Qouz 20C St, Dubai</div>
-          <div className="text-muted mb-1 d-flex align-items-center gap-2"><Icon path={ICONS.Phone} size={14} /> +971 56 788 8808</div>
-          <div className="text-muted d-flex align-items-center gap-2"><Icon path={ICONS.Email} size={14} /> info@autoexpertworkshop.com</div>
-        </div>
 
         <div className="md-drawer-footer">
           <Link href="/login" className="md-btn-filled md-ripple w-100" onMouseDown={addRipple} onClick={closeDrawer}>

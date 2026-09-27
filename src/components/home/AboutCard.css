@@ -1,533 +1,324 @@
 /* ============================================
-   ABOUT SECTION — FULL PREMIUM LIGHT MODE
+   ABOUT SECTION — Android Material (Light)
+   Same token system as Header for consistency
    ============================================ */
+:root {
+  --md-primary: #D6241D;
+  --md-primary-dark: #A81A15;
+  --md-primary-container: #FFDAD4;
+  --md-on-primary-container: #5C0A04;
+  --md-background: #F6F7F9;
+  --md-surface: #FFFFFF;
+  --md-surface-variant: #F0F1F5;
+  --md-outline: #E2E4E8;
+  --md-on-surface: #1B1C1E;
+  --md-on-surface-variant: #5F6368;
+
+  --md-elev-1: 0 1px 2px rgba(20,20,25,0.06), 0 1px 3px rgba(20,20,25,0.10);
+  --md-elev-2: 0 2px 4px rgba(20,20,25,0.08), 0 4px 10px rgba(20,20,25,0.10);
+  --md-elev-3: 0 4px 10px rgba(20,20,25,0.10), 0 8px 20px rgba(20,20,25,0.12);
+  --md-elev-4: 0 6px 14px rgba(20,20,25,0.12), 0 14px 28px rgba(20,20,25,0.14);
+}
+
 .about-section {
   position: relative;
-  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
-  color: #0f172a;
-  padding: 110px 0;
+  background: var(--md-background);
+  color: var(--md-on-surface);
+  padding: 88px 0;
   overflow: hidden;
-  isolation: isolate;
 }
 
-/* ============ Grid Pattern Background ============ */
-.about-pattern {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(15, 23, 42, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(15, 23, 42, 0.05) 1px, transparent 1px);
-  background-size: 56px 56px;
-  mask-image: radial-gradient(ellipse at center, #000 30%, transparent 85%);
-  -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 85%);
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* ============ Soft Red Ambient Glow ============ */
-.about-glow {
-  position: absolute;
-  top: -200px;
-  right: -200px;
-  width: 600px;
-  height: 600px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(229, 9, 20, 0.10) 0%, transparent 70%);
-  filter: blur(80px);
-  z-index: 0;
-  pointer-events: none;
-  animation: glowDrift 12s ease-in-out infinite;
-}
-@keyframes glowDrift {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50%      { transform: translate(-20px, 20px) scale(1.08); }
-}
-
-/* ============ Container ============ */
 .about-container {
   position: relative;
-  z-index: 1;
-  max-width: 1320px;
+  max-width: 1280px;
   margin: 0 auto;
   padding: 0 20px;
 }
 
-/* ============ Badge ============ */
+/* ============ Material Assist Chip (badge) ============ */
 .about-badge {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 8px 18px 8px 14px;
-  margin-bottom: 20px;
-  background: rgba(229, 9, 20, 0.06);
-  border: 1px solid rgba(229, 9, 20, 0.18);
+  gap: 8px;
+  padding: 6px 16px 6px 12px;
+  margin-bottom: 18px;
+  background: var(--md-primary-container);
   border-radius: 100px;
-  position: relative;
-  overflow: hidden;
 }
-.about-badge::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(229, 9, 20, 0.14), transparent);
-  animation: badgeShine 3.5s ease-in-out infinite;
-  pointer-events: none;
-}
-@keyframes badgeShine {
-  0%   { left: -100%; }
-  60%  { left: 100%; }
-  100% { left: 100%; }
-}
-
 .about-badge-dot {
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  background: #e50914;
-  box-shadow: 0 0 0 4px rgba(229, 9, 20, 0.15);
-  animation: badgeDotPulse 2s ease-in-out infinite;
-  position: relative;
-  z-index: 1;
-}
-@keyframes badgeDotPulse {
-  0%, 100% { box-shadow: 0 0 0 4px rgba(229, 9, 20, 0.15); }
-  50%      { box-shadow: 0 0 0 8px rgba(229, 9, 20, 0.05); }
+  background: var(--md-primary);
 }
 .about-badge-text {
-  font-size: 0.72rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 2.5px;
-  color: #e50914;
-  position: relative;
-  z-index: 1;
+  color: var(--md-on-primary-container);
 }
 
 /* ============ Heading ============ */
 .about-heading {
-  font-size: clamp(2.2rem, 3.2vw, 3.3rem);
-  font-weight: 800;
-  line-height: 1.12;
-  letter-spacing: -0.02em;
-  color: #0f172a;
-  margin-bottom: 20px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(2rem, 3.2vw, 3rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--md-on-surface);
+  margin-bottom: 16px;
 }
-.about-heading-accent {
-  background: linear-gradient(135deg, #ff2b2b 0%, #e50914 60%, #ff6b4a 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+.about-heading-accent { color: var(--md-primary); }
 
 /* ============ Paragraph ============ */
 .about-paragraph {
   font-size: 1rem;
-  color: #64748b;
-  line-height: 1.75;
-  margin-bottom: 32px;
-  max-width: 540px;
+  color: var(--md-on-surface-variant);
+  line-height: 1.7;
+  margin-bottom: 28px;
+  max-width: 520px;
 }
 
-/* ============ Button ============ */
+/* ============ Filled Button (Material) ============ */
 .about-btn-primary {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  background: linear-gradient(135deg, #e50914 0%, #b0060f 100%);
+  background: var(--md-primary);
   color: #ffffff;
-  padding: 14px 28px;
-  border-radius: 10px;
-  font-weight: 600;
+  padding: 14px 26px;
+  border-radius: 26px;
+  font-weight: 700;
   font-size: 0.95rem;
   text-decoration: none;
+  box-shadow: var(--md-elev-1);
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  margin-bottom: 40px;
   position: relative;
   overflow: hidden;
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
-              box-shadow 0.4s ease;
-  box-shadow: 0 8px 24px rgba(229, 9, 20, 0.3);
-  margin-bottom: 42px;
 }
-.about-btn-primary::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
-  transition: left 0.6s ease;
-}
-.about-btn-primary:hover::before { left: 100%; }
 .about-btn-primary:hover {
+  background: var(--md-primary-dark);
   color: #ffffff;
-  transform: translateY(-3px);
-  box-shadow: 0 14px 32px rgba(229, 9, 20, 0.5);
+  box-shadow: var(--md-elev-2);
+  transform: translateY(-1px);
 }
-.about-btn-primary svg {
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.about-btn-primary:hover svg {
-  transform: translateX(4px);
-}
+.about-btn-primary svg { transition: transform 0.3s ease; }
+.about-btn-primary:hover svg { transform: translateX(3px); }
 
-/* ============ Stats Row ============ */
+/* ============ Ripple (shared Material pattern) ============ */
+.md-ripple { position: relative; overflow: hidden; }
+.md-ripple-effect {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.5);
+  transform: scale(0);
+  animation: mdRipple 0.55s ease-out;
+  pointer-events: none;
+}
+@keyframes mdRipple { to { transform: scale(1); opacity: 0; } }
+
+/* ============ Stats Row — Material tonal cards ============ */
 .about-stats-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  padding-top: 32px;
-  border-top: 1px solid rgba(15, 23, 42, 0.08);
+  gap: 12px;
+  padding-top: 28px;
+  border-top: 1px solid var(--md-outline);
 }
 .about-stat-item {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  gap: 10px;
+  padding: 10px;
+  border-radius: 14px;
+  transition: background 0.2s ease;
 }
-.about-stat-item:hover {
-  transform: translateY(-4px);
-}
+.about-stat-item:hover { background: var(--md-surface); box-shadow: var(--md-elev-1); }
+
 .stat-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
-  background: linear-gradient(
-    135deg,
-    rgba(229, 9, 20, 0.10) 0%,
-    rgba(229, 9, 20, 0.03) 100%
-  );
-  border: 1px solid rgba(229, 9, 20, 0.18);
-  color: #e50914;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.about-stat-item:hover .stat-icon {
-  background: linear-gradient(135deg, #e50914 0%, #b0060f 100%);
-  color: #ffffff;
-  border-color: #e50914;
-  box-shadow: 0 8px 20px rgba(229, 9, 20, 0.35);
-  transform: scale(1.06) rotate(-4deg);
 }
 .stat-content h4 {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   font-weight: 800;
-  color: #0f172a;
-  margin-bottom: 2px;
-  letter-spacing: -0.01em;
+  color: var(--md-on-surface);
+  margin-bottom: 1px;
   line-height: 1.2;
   font-variant-numeric: tabular-nums;
 }
 .stat-content p {
-  font-size: 0.75rem;
-  color: #64748b;
+  font-size: 0.72rem;
+  color: var(--md-on-surface-variant);
   margin: 0;
   font-weight: 500;
   line-height: 1.3;
 }
 
 /* ============================================
-   IMAGE SHOWCASE — DUAL CARD SWAP
+   IMAGE SHOWCASE — layered Material cards
    ============================================ */
-.about-image-col {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+.about-image-col { display: flex; justify-content: center; align-items: center; }
 
 .about-image-wrapper {
   position: relative;
   width: 100%;
-  max-width: 550px;
-  height: 440px;
+  max-width: 520px;
+  height: 420px;
   display: flex;
   align-items: center;
 }
 
-/* ---------- BACK CARD (left, dark) ---------- */
+/* ---------- BACK CARD ---------- */
 .about-card-back {
   position: absolute;
   left: 0;
-  top: 7.5%;
-  width: 35%;
-  height: 85%;
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  border-radius: 14px;
+  top: 8%;
+  width: 34%;
+  height: 84%;
+  background: var(--md-surface);
+  border-radius: 20px;
   z-index: 1;
   overflow: hidden;
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
+  box-shadow: var(--md-elev-2);
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.about-image-wrapper:hover .about-card-back {
-  transform: translate(-6px, -6px);
-}
-.about-back-img-box {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
+.about-image-wrapper:hover .about-card-back { transform: translate(-4px, -4px); }
+
+.about-back-img-box { position: relative; width: 100%; height: 100%; overflow: hidden; }
 .about-back-dim {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(11, 15, 25, 0.45) 0%,
-    rgba(11, 15, 25, 0.85) 100%
-  );
+  background: linear-gradient(180deg, rgba(15,23,42,0.15) 0%, rgba(15,23,42,0.55) 100%);
   pointer-events: none;
-  z-index: 2;
 }
 
-/* ---------- FRONT CARD (right, large) ---------- */
+/* ---------- FRONT CARD ---------- */
 .about-card-front {
   position: absolute;
-  right: 25px;
-  width: 82%;
-  height: 95%;
-  background-color: #0b0f19;
-  border-radius: 18px;
+  right: 20px;
+  width: 80%;
+  height: 94%;
+  background: var(--md-on-surface);
+  border-radius: 24px;
   overflow: hidden;
   z-index: 2;
-  box-shadow:
-    0 20px 40px rgba(15, 23, 42, 0.15),
-    0 0 0 1px rgba(229, 9, 20, 0.08);
-  transition:
-    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.5s ease;
+  box-shadow: var(--md-elev-4);
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.about-image-wrapper:hover .about-card-front {
-  transform: translate(4px, 4px);
-  box-shadow:
-    0 28px 60px rgba(229, 9, 20, 0.18),
-    0 0 0 1px rgba(229, 9, 20, 0.18);
-}
+.about-image-wrapper:hover .about-card-front { transform: translate(3px, 3px); }
 
 /* ---------- SWAP LAYERS ---------- */
-.about-swap-layer {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  will-change: transform, opacity, filter;
-}
-.about-swap-up {
-  animation: swapFromBottom 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-.about-swap-down {
-  animation: swapFromTop 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
+.about-swap-layer { position: absolute; inset: 0; width: 100%; height: 100%; overflow: hidden; will-change: transform, opacity; }
+.about-swap-up { animation: swapFromBottom 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.about-swap-down { animation: swapFromTop 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+@keyframes swapFromBottom { 0% { opacity: 0; transform: translateY(60px); } 100% { opacity: 1; transform: translateY(0); } }
+@keyframes swapFromTop { 0% { opacity: 0; transform: translateY(-60px); } 100% { opacity: 1; transform: translateY(0); } }
 
-@keyframes swapFromBottom {
-  0%   { opacity: 0; transform: translateY(100%); filter: blur(6px); }
-  60%  { opacity: 1; }
-  100% { opacity: 1; transform: translateY(0); filter: blur(0); }
-}
-@keyframes swapFromTop {
-  0%   { opacity: 0; transform: translateY(-100%); filter: blur(6px); }
-  60%  { opacity: 1; }
-  100% { opacity: 1; transform: translateY(0); filter: blur(0); }
-}
+.about-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.about-image-wrapper:hover .about-img { transform: scale(1.04); }
 
-/* ---------- IMAGE ---------- */
-.about-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.about-image-wrapper:hover .about-img {
-  transform: scale(1.05);
-}
-
-/* ---------- OVERLAY TEXT ---------- */
+/* ---------- OVERLAY TEXT (Material scrim) ---------- */
 .about-img-overlay-text {
   position: absolute;
-  bottom: 22px;
-  left: 22px;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
   color: #ffffff;
   z-index: 3;
-  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
-  animation: textFade 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
-}
-@keyframes textFade {
-  0%   { opacity: 0; transform: translateY(12px); }
-  100% { opacity: 1; transform: translateY(0); }
+  padding-top: 40px;
+  background: linear-gradient(0deg, rgba(0,0,0,0.55) 0%, transparent 100%);
+  margin: -20px;
+  padding: 40px 20px 18px;
 }
 .about-img-overlay-text span {
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #ff6b4a;
+  letter-spacing: 0.5px;
+  color: var(--md-primary-container);
   display: block;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
-.about-img-overlay-text p {
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: #ffffff;
-  margin: 0;
-  letter-spacing: -0.01em;
-}
+.about-img-overlay-text p { font-size: 1.25rem; font-weight: 700; color: #ffffff; margin: 0; }
 
-/* ---------- SLIDER DOTS ---------- */
-.about-slider-dots {
-  position: absolute;
-  bottom: 22px;
-  right: 22px;
-  display: flex;
-  gap: 6px;
-  z-index: 4;
-}
+/* ---------- SLIDER DOTS (tappable, Material) ---------- */
+.about-slider-dots { position: absolute; bottom: 16px; right: 16px; display: flex; gap: 6px; z-index: 4; }
 .about-slider-dot {
-  width: 6px;
-  height: 6px;
+  width: 8px;
+  height: 8px;
+  border: none;
+  padding: 0;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.4);
-  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  background: rgba(255,255,255,0.45);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
-.about-slider-dot.active {
-  width: 22px;
-  border-radius: 100px;
-  background: #e50914;
-  box-shadow: 0 0 10px rgba(229, 9, 20, 0.7);
-}
+.about-slider-dot.active { width: 22px; border-radius: 100px; background: var(--md-primary-container); }
 
-/* ---------- RED STRIPE ---------- */
-.about-red-stripe {
-  position: absolute;
-  right: 0;
-  top: 15%;
-  width: 5px;
-  height: 65%;
-  background: linear-gradient(180deg, #e50914 0%, #ff6b4a 100%);
-  border-radius: 4px;
-  z-index: 3;
-  box-shadow: 0 0 20px rgba(229, 9, 20, 0.5);
-  animation: stripePulse 3s ease-in-out infinite;
-}
-@keyframes stripePulse {
-  0%, 100% { box-shadow: 0 0 20px rgba(229, 9, 20, 0.4); }
-  50%      { box-shadow: 0 0 32px rgba(229, 9, 20, 0.75); }
-}
-
-/* ---------- FLOATING BADGE ---------- */
+/* ---------- FLOATING BADGE (Material elevated card) ---------- */
 .about-floating-badge {
   position: absolute;
-  top: 30px;
-  left: -10px;
+  top: 20px;
+  left: -8px;
   z-index: 4;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 16px 10px 10px;
-  background: #ffffff;
-  border: 1px solid rgba(15, 23, 42, 0.06);
-  border-radius: 14px;
-  box-shadow:
-    0 12px 30px rgba(15, 23, 42, 0.12),
-    0 2px 6px rgba(15, 23, 42, 0.06);
-  animation: floatBadge 4s ease-in-out infinite;
-}
-@keyframes floatBadge {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-6px); }
+  gap: 9px;
+  padding: 9px 15px 9px 9px;
+  background: var(--md-surface);
+  border-radius: 16px;
+  box-shadow: var(--md-elev-3);
 }
 .floating-badge-icon {
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border-radius: 10px;
-  background: linear-gradient(135deg, #e50914 0%, #b0060f 100%);
+  background: var(--md-primary);
   color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(229, 9, 20, 0.35);
 }
-.floating-badge-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.15;
-}
-.floating-badge-text strong {
-  font-size: 0.85rem;
-  font-weight: 800;
-  color: #0f172a;
-}
-.floating-badge-text span {
-  font-size: 0.7rem;
-  font-weight: 500;
-  color: #64748b;
-  letter-spacing: 0.5px;
-}
+.floating-badge-text { display: flex; flex-direction: column; line-height: 1.15; }
+.floating-badge-text strong { font-size: 0.82rem; font-weight: 800; color: var(--md-on-surface); }
+.floating-badge-text span { font-size: 0.68rem; font-weight: 500; color: var(--md-on-surface-variant); }
 
 /* ============================================
    RESPONSIVE
    ============================================ */
 @media (max-width: 991px) {
-  .about-section { padding: 80px 0; }
+  .about-section { padding: 64px 0; }
   .about-text-col { text-align: center; }
   .about-paragraph { margin-left: auto; margin-right: auto; }
   .about-badge { justify-content: center; }
-  .about-stats-row {
-    grid-template-columns: repeat(3, 1fr);
-    max-width: 560px;
-    margin: 0 auto;
-  }
-  .about-stat-item { justify-content: center; text-align: left; }
-  .about-image-wrapper {
-    margin-top: 50px;
-    max-width: 480px;
-    height: 400px;
-  }
-  .about-pattern { background-size: 48px 48px; }
+  .about-stats-row { max-width: 520px; margin: 0 auto; }
+  .about-image-wrapper { margin-top: 44px; max-width: 460px; height: 380px; }
 }
 
 @media (max-width: 576px) {
-  .about-section { padding: 60px 0; }
-  .about-stats-row {
-    grid-template-columns: 1fr;
-    gap: 16px;
-    max-width: 320px;
-  }
-  .about-stat-item { justify-content: flex-start; }
-  .about-image-wrapper {
-    height: 340px;
-    max-width: 100%;
-  }
-  .about-card-front { right: 15px; }
-  .about-floating-badge {
-    left: 5px;
-    top: 15px;
-    padding: 8px 12px 8px 8px;
-  }
-  .floating-badge-icon { width: 30px; height: 30px; }
-  .floating-badge-text strong { font-size: 0.78rem; }
-  .floating-badge-text span { font-size: 0.65rem; }
-  .about-img-overlay-text p { font-size: 1.15rem; }
-  .about-pattern { background-size: 40px 40px; }
+  .about-section { padding: 48px 0; }
+  .about-stats-row { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .about-stat-item { flex-direction: column; align-items: center; text-align: center; padding: 8px 4px; }
+  .stat-icon { margin-bottom: 4px; }
+  .about-image-wrapper { height: 320px; max-width: 100%; }
+  .about-card-front { right: 12px; border-radius: 20px; }
+  .about-card-back { border-radius: 16px; }
+  .about-floating-badge { left: 4px; top: 12px; padding: 7px 12px 7px 7px; }
+  .floating-badge-icon { width: 28px; height: 28px; }
+  .floating-badge-text strong { font-size: 0.75rem; }
+  .floating-badge-text span { font-size: 0.62rem; }
+  .about-img-overlay-text p { font-size: 1.05rem; }
+  .about-btn-primary { width: 100%; justify-content: center; }
 }
 
-/* ============================================
-   REDUCED MOTION
-   ============================================ */
 @media (prefers-reduced-motion: reduce) {
-  .about-badge::before,
-  .about-badge-dot,
-  .about-floating-badge,
-  .about-red-stripe,
-  .about-glow,
-  .about-swap-up,
-  .about-swap-down,
-  .about-img-overlay-text {
-    animation: none !important;
-  }
+  .about-swap-up, .about-swap-down, .about-img { animation: none !important; transition: none !important; }
 }

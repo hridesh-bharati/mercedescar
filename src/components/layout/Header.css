@@ -1,4 +1,4 @@
-/* Header.css — Android Material (Light) & Refined Layout */
+/* Header.css — Fade Glow Underline for Desktop Links */
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
@@ -6,6 +6,7 @@
   --md-primary-dark: #A81A15;
   --md-primary-container: #FFDAD4;
   --md-on-primary-container: #5C0A04;
+  --md-ink: #0F1B2B;
   --md-background: #F6F7F9;
   --md-surface: #FFFFFF;
   --md-surface-variant: #F0F1F5;
@@ -29,47 +30,63 @@ body {
   padding-bottom: 78px;
 }
 
-/* ===== Top Info Bar (Green Theme) ===== */
+/* ===== Top Info Bar ===== */
 .md-top-info-bar {
-  background: #065f46; /* Professional green theme */
+  background: var(--md-ink);
   color: #fff;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 .md-top-info-bar span, 
 .md-top-info-bar a {
-  color: #e6f4ea !important;
-  font-size: 0.8rem;
+  color: #d1d5db !important;
   transition: color 0.2s ease;
 }
 .md-top-info-bar a:hover {
   color: #ffffff !important;
-  text-decoration: underline !important;
 }
 
-/* ===== Top App Bar ===== */
+/* ===== Main App Bar with Fade Red Glow Bottom Border ===== */
 .md-appbar {
   position: sticky;
   top: 0;
   z-index: 1030;
   background: var(--md-surface);
-  border-bottom: 1px solid var(--md-outline);
+  border-bottom: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   transition: box-shadow 0.25s ease;
 }
+
+.md-appbar::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(214, 36, 29, 0.2) 20%,
+    var(--md-primary) 50%,
+    rgba(214, 36, 29, 0.2) 80%,
+    transparent 100%
+  );
+  box-shadow: 0 2px 8px rgba(214, 36, 29, 0.4);
+  pointer-events: none;
+  z-index: 10;
+}
+
 .md-appbar--elevated { 
   box-shadow: var(--md-elev-2); 
-  border-bottom-color: transparent; 
 }
 
 .md-appbar-row {
-  height: 70px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
+  height: 75px;
 }
 
 .md-icon-btn {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   border: none;
   background: transparent;
@@ -90,7 +107,6 @@ body {
   display: flex;
   align-items: center;
   text-decoration: none;
-  margin-left: 8px;
 }
 .md-logo-img {
   height: 42px;
@@ -106,8 +122,7 @@ body {
 .md-appbar-actions { 
   display: flex; 
   align-items: center; 
-  gap: 2px; 
-  margin-left: auto; 
+  gap: 4px; 
 }
 
 /* ===== Expanding search app bar ===== */
@@ -115,7 +130,6 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
-  width: 100%;
   animation: mdSearchIn 0.22s ease;
 }
 @keyframes mdSearchIn { 
@@ -133,13 +147,13 @@ body {
 }
 .md-search-field::placeholder { color: var(--md-on-surface-variant); }
 
-/* ===== Desktop inline nav ===== */
+/* ===== Desktop Inline Nav (Fade Glow Underline on Links) ===== */
 .md-desktop-nav {
-  border-top: 1px solid var(--md-outline);
-  padding: 0 12px;
-  gap: 4px;
+  list-style: none;
 }
-.md-desktop-item { position: relative; }
+.md-desktop-item { 
+  position: relative; 
+}
 .md-desktop-link {
   display: block;
   padding: 12px 14px;
@@ -147,13 +161,42 @@ body {
   text-decoration: none;
   font-weight: 600;
   font-size: 0.9rem;
-  border-bottom: 2px solid transparent;
-  transition: color 0.2s ease, border-color 0.2s ease;
+  background: transparent !important;
+  position: relative;
+  transition: color 0.2s ease;
 }
+
+/* Links par solid ki jagah fade gradient underline effect */
+.md-desktop-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 6px;
+  right: 6px;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(214, 36, 29, 0.3) 20%,
+    var(--md-primary) 50%,
+    rgba(214, 36, 29, 0.3) 80%,
+    transparent 100%
+  );
+  box-shadow: 0 0 8px rgba(214, 36, 29, 0.5);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.25s ease-in-out;
+}
+
 .md-desktop-item:hover .md-desktop-link { 
-  color: var(--md-primary); 
-  border-color: var(--md-primary); 
+  color: var(--md-primary) !important; 
+  background: transparent !important;
 }
+
+.md-desktop-item:hover .md-desktop-link::after {
+  transform: scaleX(1);
+}
+
 .md-desktop-menu {
   position: absolute;
   top: 100%;
@@ -168,6 +211,7 @@ body {
   max-height: 340px;
   overflow-y: auto;
   z-index: 20;
+  border: 1px solid var(--md-outline);
 }
 .md-desktop-item:hover .md-desktop-menu { display: flex; }
 .md-desktop-menu-item {
@@ -209,21 +253,22 @@ body {
 }
 .md-scrim.show { opacity: 1; visibility: visible; }
 
-/* ===== Modal Navigation Drawer ===== */
+/* ===== Right-Side Navigation Drawer ===== */
 .md-drawer {
   position: fixed;
   top: 0;
-  left: 0;
+  right: 0;
+  left: auto;
   width: 320px;
   max-width: 86vw;
   height: 100dvh;
   background: var(--md-surface);
-  transform: translateX(-100%);
+  transform: translateX(100%);
   transition: transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
   z-index: 1050;
   display: flex;
   flex-direction: column;
-  border-radius: 0 20px 20px 0;
+  border-radius: 20px 0 0 20px;
   box-shadow: var(--md-elev-4);
   overflow: hidden;
 }
@@ -236,25 +281,6 @@ body {
   padding: 20px 20px 16px;
 }
 
-.md-drawer-search {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 0 16px 8px;
-  padding: 10px 14px;
-  background: var(--md-surface-variant);
-  border-radius: 12px;
-  color: var(--md-on-surface-variant);
-}
-.md-drawer-search input {
-  border: none;
-  outline: none;
-  background: transparent;
-  width: 100%;
-  font-size: 0.88rem;
-  color: var(--md-on-surface);
-}
-
 .md-drawer-list {
   list-style: none;
   margin: 0;
@@ -264,7 +290,7 @@ body {
 }
 .md-drawer-item {
   opacity: 0;
-  transform: translateX(-10px);
+  transform: translateX(10px);
   animation: mdDrawerIn 0.35s ease forwards;
   animation-delay: var(--d, 0s);
 }
@@ -314,7 +340,6 @@ body {
   transition: max-height 0.35s ease;
 }
 .md-drawer-sublink {
-  path: block;
   display: block;
   padding: 8px 10px;
   border-radius: 20px;
@@ -325,9 +350,24 @@ body {
 }
 .md-drawer-sublink:hover { background: var(--md-surface-variant); color: var(--md-on-surface); }
 
-.md-drawer-footer { padding: 14px 20px 22px; border-top: 1px solid var(--md-outline); }
+/* Fire / Glowing Red Border Footer */
+.md-drawer-footer { 
+  padding: 16px 20px 24px; 
+  border-top: 1px solid var(--md-outline);
+  position: relative;
+}
+.md-drawer-footer::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, var(--md-primary), #ff4d4d, var(--md-primary), transparent);
+  box-shadow: 0 -2px 12px rgba(214, 36, 29, 0.6);
+  pointer-events: none;
+}
 
-/* ===== Filled Button ===== */
 .md-btn-filled {
   display: flex;
   align-items: center;
