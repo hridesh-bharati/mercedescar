@@ -155,13 +155,13 @@ export default function Header() {
         <div className="container d-flex justify-content-between align-items-center py-2">
           <div className="d-flex align-items-center gap-2 text-white">
             <Icon path={ICONS.Location} size={14} />
-            <span style={{ fontSize: '0.83rem' }}>Warehouse #S2, Al Qouz 20C Street Industrial Area 2, Dubai, UAE</span>
+            <span>Warehouse #S2, Al Qouz 20C Street Industrial Area 2, Dubai, UAE</span>
           </div>
           <div className="d-flex align-items-center gap-4">
-            <a href="tel:+971567888808" className="text-decoration-none text-white d-flex align-items-center gap-1" style={{ fontSize: '0.83rem' }}>
+            <a href="tel:+971567888808" className="text-decoration-none text-white d-flex align-items-center gap-1">
               <Icon path={ICONS.Phone} size={14} /> +971 56 788 8808
             </a>
-            <a href="mailto:info@autoexpertworkshop.com" className="text-decoration-none text-white d-flex align-items-center gap-1" style={{ fontSize: '0.83rem' }}>
+            <a href="mailto:info@autoexpertworkshop.com" className="text-decoration-none text-white d-flex align-items-center gap-1">
               <Icon path={ICONS.Email} size={14} /> info@autoexpertworkshop.com
             </a>
           </div>
@@ -173,11 +173,8 @@ export default function Header() {
         <div className="container d-flex align-items-center justify-content-between md-appbar-row">
           {!searchOpen ? (
             <>
+              {/* Left Side: Logo only on Mobile, Logo + Desktop Nav on Desktop */}
               <div className="d-flex align-items-center gap-3">
-                <button className="md-icon-btn md-ripple d-lg-none" onMouseDown={addRipple} onClick={() => setDrawerOpen(true)} aria-label="Open menu">
-                  {ICONS.Menu}
-                </button>
-
                 <Link href="/" className="md-appbar-brand" onClick={closeDrawer}>
                   <img src="/images/logo.png" alt="Auto Expert Workshop" className="md-logo-img" />
                 </Link>
@@ -199,6 +196,7 @@ export default function Header() {
                 ))}
               </nav>
 
+              {/* Right Side: Search, Account, & Menu Button for Mobile */}
               <div className="md-appbar-actions d-flex align-items-center gap-2">
                 <button className="md-icon-btn md-ripple" onMouseDown={addRipple} onClick={() => setSearchOpen(true)} aria-label="Search">
                   <Icon path={ICONS.Search} size={20} />
@@ -206,6 +204,10 @@ export default function Header() {
                 <Link href="/login" className="md-icon-btn md-ripple d-none d-lg-flex" onMouseDown={addRipple} aria-label="Account">
                   <Icon path={ICONS.User} size={20} />
                 </Link>
+                {/* Mobile Menu Button Moved to Right Side */}
+                <button className="md-icon-btn md-ripple d-lg-none" onMouseDown={addRipple} onClick={() => setDrawerOpen(true)} aria-label="Open menu">
+                  {ICONS.Menu}
+                </button>
               </div>
             </>
           ) : (

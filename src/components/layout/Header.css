@@ -1,4 +1,3 @@
-/* Header.css — Fade Glow Underline for Desktop Links */
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
@@ -30,7 +29,7 @@ body {
   padding-bottom: 78px;
 }
 
-/* ===== Top Info Bar ===== */
+/* ===== Top Info Bar (Larger Text) ===== */
 .md-top-info-bar {
   background: var(--md-ink);
   color: #fff;
@@ -38,7 +37,9 @@ body {
 }
 .md-top-info-bar span, 
 .md-top-info-bar a {
-  color: #d1d5db !important;
+  color: #e5e7eb !important;
+  font-size: 0.98rem !important; /* Increased font size */
+  font-weight: 500;
   transition: color 0.2s ease;
 }
 .md-top-info-bar a:hover {
@@ -81,12 +82,12 @@ body {
 }
 
 .md-appbar-row {
-  height: 75px;
+  height: 80px; /* Slightly taller header for prominent feel */
 }
 
 .md-icon-btn {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   border: none;
   background: transparent;
@@ -109,12 +110,12 @@ body {
   text-decoration: none;
 }
 .md-logo-img {
-  height: 42px;
+  height: 48px; /* Slightly larger logo */
   width: auto;
   object-fit: contain;
 }
 .md-logo-img-drawer {
-  height: 48px;
+  height: 52px;
   width: auto;
   object-fit: contain;
 }
@@ -122,14 +123,14 @@ body {
 .md-appbar-actions { 
   display: flex; 
   align-items: center; 
-  gap: 4px; 
+  gap: 6px; 
 }
 
 /* ===== Expanding search app bar ===== */
 .md-search-row {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   animation: mdSearchIn 0.22s ease;
 }
 @keyframes mdSearchIn { 
@@ -141,13 +142,14 @@ body {
   border: none;
   outline: none;
   background: transparent;
-  font-size: 1rem;
+  font-size: 1.12rem; /* Larger search input font */
+  font-weight: 500;
   color: var(--md-on-surface);
-  height: 44px;
+  height: 46px;
 }
 .md-search-field::placeholder { color: var(--md-on-surface-variant); }
 
-/* ===== Desktop Inline Nav (Fade Glow Underline on Links) ===== */
+/* ===== Desktop Inline Nav (Larger & Bolder Links) ===== */
 .md-desktop-nav {
   list-style: none;
 }
@@ -156,24 +158,23 @@ body {
 }
 .md-desktop-link {
   display: block;
-  padding: 12px 14px;
-  color: var(--md-on-surface-variant);
+  padding: 12px 16px;
+  color: #374151;
   text-decoration: none;
-  font-weight: 600;
-  font-size: 0.9rem;
+  font-weight: 700; /* Bolder font weight */
+  font-size: 1.06rem !important; /* Larger desktop link font */
   background: transparent !important;
   position: relative;
   transition: color 0.2s ease;
 }
 
-/* Links par solid ki jagah fade gradient underline effect */
 .md-desktop-link::after {
   content: '';
   position: absolute;
   bottom: 0;
-  left: 6px;
-  right: 6px;
-  height: 2px;
+  left: 8px;
+  right: 8px;
+  height: 2.5px;
   background: linear-gradient(
     90deg,
     transparent 0%,
@@ -201,26 +202,27 @@ body {
   position: absolute;
   top: 100%;
   left: 0;
-  min-width: 220px;
+  min-width: 230px;
   background: var(--md-surface);
   border-radius: 12px;
   box-shadow: var(--md-elev-3);
-  padding: 8px;
+  padding: 10px;
   display: none;
   flex-direction: column;
-  max-height: 340px;
+  max-height: 360px;
   overflow-y: auto;
   z-index: 20;
   border: 1px solid var(--md-outline);
 }
 .md-desktop-item:hover .md-desktop-menu { display: flex; }
 .md-desktop-menu-item {
-  padding: 9px 12px;
+  padding: 11px 16px;
   border-radius: 8px;
   color: var(--md-on-surface);
   text-decoration: none;
-  font-size: 0.88rem;
-  transition: background 0.15s ease;
+  font-weight: 600; /* Bolder dropdown item font */
+  font-size: 0.98rem !important; /* Larger dropdown items */
+  transition: background 0.15s ease, color 0.15s ease;
 }
 .md-desktop-menu-item:hover { 
   background: var(--md-primary-container); 
@@ -253,14 +255,14 @@ body {
 }
 .md-scrim.show { opacity: 1; visibility: visible; }
 
-/* ===== Right-Side Navigation Drawer ===== */
+/* ===== Right-Side Navigation Drawer (Larger text inside drawer) ===== */
 .md-drawer {
   position: fixed;
   top: 0;
   right: 0;
   left: auto;
-  width: 320px;
-  max-width: 86vw;
+  width: 330px;
+  max-width: 88vw;
   height: 100dvh;
   background: var(--md-surface);
   transform: translateX(100%);
@@ -278,13 +280,13 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 20px 20px 16px;
+  padding: 22px 22px 16px;
 }
 
 .md-drawer-list {
   list-style: none;
   margin: 0;
-  padding: 4px 12px;
+  padding: 4px 14px;
   flex: 1;
   overflow-y: auto;
 }
@@ -301,19 +303,19 @@ body {
   display: flex;
   align-items: center;
   gap: 14px;
-  height: 52px;
+  height: 56px; /* Taller touch targets */
   padding: 0 16px;
-  border-radius: 26px;
+  border-radius: 28px;
   cursor: pointer;
   transition: background 0.2s ease;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 }
 .md-drawer-row:hover { background: rgba(27,28,30,0.05); }
 .md-drawer-row.is-active { background: var(--md-primary-container); }
 .md-drawer-row.is-active .md-drawer-label,
 .md-drawer-row.is-active .md-drawer-icon { 
   color: var(--md-on-primary-container); 
-  font-weight: 700; 
+  font-weight: 800; 
 }
 
 .md-drawer-icon { color: var(--md-on-surface-variant); display: flex; flex-shrink: 0; }
@@ -321,8 +323,8 @@ body {
   flex: 1;
   color: var(--md-on-surface);
   text-decoration: none;
-  font-size: 0.95rem;
-  font-weight: 600;
+  font-size: 1.08rem !important; /* Larger mobile drawer labels */
+  font-weight: 700; /* Bolder mobile drawer font */
 }
 .md-drawer-chevron {
   color: var(--md-on-surface-variant);
@@ -334,25 +336,25 @@ body {
 .md-drawer-submenu {
   list-style: none;
   margin: 0;
-  padding-left: 52px;
+  padding-left: 54px;
   overflow: hidden;
   max-height: 0;
   transition: max-height 0.35s ease;
 }
 .md-drawer-sublink {
   display: block;
-  padding: 8px 10px;
+  padding: 10px 14px;
   border-radius: 20px;
   color: var(--md-on-surface-variant);
   text-decoration: none;
-  font-size: 0.85rem;
+  font-size: 0.96rem !important; /* Larger submenu font */
+  font-weight: 600;
   transition: background 0.15s ease, color 0.15s ease;
 }
 .md-drawer-sublink:hover { background: var(--md-surface-variant); color: var(--md-on-surface); }
 
-/* Fire / Glowing Red Border Footer */
 .md-drawer-footer { 
-  padding: 16px 20px 24px; 
+  padding: 18px 22px 26px; 
   border-top: 1px solid var(--md-outline);
   position: relative;
 }
@@ -373,12 +375,12 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  height: 48px;
-  border-radius: 24px;
+  height: 50px;
+  border-radius: 25px;
   background: var(--md-primary);
   color: #fff;
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 1.02rem; /* Larger button text */
   text-decoration: none;
   box-shadow: var(--md-elev-1);
   transition: background 0.2s ease, box-shadow 0.2s ease;
@@ -389,13 +391,13 @@ body {
   color: #fff; 
 }
 
-/* ===== Android Bottom Navigation Bar ===== */
+/* ===== Android Bottom Navigation Bar (Larger Labels) ===== */
 .md-navbar {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 74px;
+  height: 76px;
   background: var(--md-surface);
   border-top: 1px solid var(--md-outline);
   box-shadow: var(--md-elev-2);
@@ -415,15 +417,15 @@ body {
   justify-content: center;
   gap: 4px;
   color: var(--md-on-surface-variant);
-  font-size: 0.68rem;
-  font-weight: 600;
+  font-size: 0.75rem; /* Larger bottom nav font */
+  font-weight: 700; /* Bolder bottom nav font */
   position: relative;
   overflow: hidden;
   text-decoration: none;
 }
 .md-nav-indicator {
-  width: 52px;
-  height: 30px;
+  width: 56px;
+  height: 32px;
   border-radius: 16px;
   display: flex;
   align-items: center;
@@ -444,8 +446,8 @@ body {
   height: 100%;
 }
 .md-fab {
-  width: 56px;
-  height: 56px;
+  width: 58px;
+  height: 58px;
   border-radius: 50%;
   background: var(--md-primary);
   color: #fff;
@@ -453,7 +455,7 @@ body {
   align-items: center;
   justify-content: center;
   box-shadow: var(--md-elev-3);
-  margin-top: -30px;
+  margin-top: -32px;
   border: 4px solid var(--md-background);
   transition: box-shadow 0.2s ease, transform 0.2s ease;
   text-decoration: none;
