@@ -1,547 +1,422 @@
-/* Header.css */
+/* Header.css — Android Material (Light) & Refined Layout */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600;700&display=swap');
 
-/* ===== Navbar ===== */
-.mercedes-navbar {
-  background: rgba(8, 10, 15, 0.98);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  min-height: 85px;
-  z-index: 1030;
-  transition: background 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-              border-color 0.5s ease,
-              box-shadow 0.5s ease;
+:root {
+  --md-primary: #D6241D;
+  --md-primary-dark: #A81A15;
+  --md-primary-container: #FFDAD4;
+  --md-on-primary-container: #5C0A04;
+  --md-background: #F6F7F9;
+  --md-surface: #FFFFFF;
+  --md-surface-variant: #F0F1F5;
+  --md-outline: #E2E4E8;
+  --md-on-surface: #1B1C1E;
+  --md-on-surface-variant: #5F6368;
+
+  --md-elev-1: 0 1px 2px rgba(20,20,25,0.06), 0 1px 3px rgba(20,20,25,0.10);
+  --md-elev-2: 0 2px 4px rgba(20,20,25,0.08), 0 4px 10px rgba(20,20,25,0.10);
+  --md-elev-3: 0 4px 10px rgba(20,20,25,0.10), 0 8px 20px rgba(20,20,25,0.12);
+  --md-elev-4: 0 6px 14px rgba(20,20,25,0.12), 0 14px 28px rgba(20,20,25,0.14);
 }
 
-/* Soft red glow line under navbar */
-.mercedes-navbar::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: -1px;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(229, 9, 20, 0.35),
-    transparent
-  );
-  opacity: 0.7;
-  pointer-events: none;
+* { box-sizing: border-box; }
+body {
+  background: var(--md-background);
+  color: var(--md-on-surface);
+  font-family: 'Inter', system-ui, sans-serif;
+  margin: 0;
+  padding-top: 0px;
+  padding-bottom: 78px;
 }
 
-/* ===== Logo Circle ===== */
-.mercedes-logo-circle {
-  width: 46px;
-  height: 46px;
-  background: rgba(229, 9, 20, 0.06);
-  border: 1px solid rgba(229, 9, 20, 0.25);
-  border-radius: 50%;
-  color: #ffffff;
-  transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-  flex-shrink: 0;
-  position: relative;
+/* ===== Top Info Bar (Green Theme) ===== */
+.md-top-info-bar {
+  background: #065f46; /* Professional green theme */
+  color: #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
-
-.mercedes-logo-circle::before {
-  content: '';
-  position: absolute;
-  inset: -4px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(229, 9, 20, 0.25) 0%, transparent 70%);
-  opacity: 0;
-  transition: opacity 0.6s ease;
-  pointer-events: none;
+.md-top-info-bar span, 
+.md-top-info-bar a {
+  color: #e6f4ea !important;
+  font-size: 0.8rem;
+  transition: color 0.2s ease;
 }
-
-.navbar-brand:hover .mercedes-logo-circle {
-  border-color: #e50914;
-  box-shadow: 0 0 22px rgba(229, 9, 20, 0.4);
-  background: rgba(229, 9, 20, 0.1);
-  transform: scale(1.05);
-}
-
-.navbar-brand:hover .mercedes-logo-circle::before {
-  opacity: 1;
-}
-
-/* ===== Brand Text ===== */
-.mercedes-brand-title {
-  letter-spacing: 0.8px;
-  font-family: system-ui, -apple-system, sans-serif;
-  color: #ffffff;
-  transition: color 0.4s ease;
-}
-
-.mercedes-brand-subtitle {
-  font-size: 0.65rem;
-  color: #9ca3af;
-  letter-spacing: 2px;
-  font-weight: 600;
-  margin-top: 3px;
-  text-transform: uppercase;
-  transition: color 0.4s ease;
-}
-
-.navbar-brand:hover .mercedes-brand-subtitle {
-  color: #e50914;
-}
-
-/* ===== Desktop Nav Links ===== */
-.mercedes-desktop-nav {
-  list-style: none;
-  padding: 0;
-}
-
-.mercedes-nav-link {
-  color: #cbd5e1 !important;
-  font-weight: 500;
-  font-size: 0.95rem;
-  position: relative;
-  transition: color 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  padding-bottom: 4px;
-}
-
-.mercedes-nav-link:hover,
-.mercedes-nav-link.active {
+.md-top-info-bar a:hover {
   color: #ffffff !important;
+  text-decoration: underline !important;
 }
 
-/* Underline Animation */
-.mercedes-nav-link::after {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 2px;
-  bottom: -2px;
-  left: 50%;
-  background: linear-gradient(90deg, transparent, #e50914, transparent);
-  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-  transform: translateX(-50%);
-  border-radius: 2px;
-}
-
-.mercedes-nav-link:hover::after,
-.mercedes-nav-link.active::after {
-  width: 100%;
-}
-
-.mercedes-nav-link.active::after {
-  box-shadow: 0 0 10px rgba(229, 9, 20, 0.6);
-}
-
-/* ===== CTA Button ===== */
-.mercedes-cta-btn {
-  background: #e50914;
-  border: none;
-  color: #ffffff;
-  font-weight: 600;
-  font-size: 0.9rem;
-  letter-spacing: 0.3px;
-  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-              background 0.5s ease,
-              box-shadow 0.6s ease;
-  box-shadow: 0 4px 15px rgba(229, 9, 20, 0.35);
-  position: relative;
-  overflow: hidden;
-}
-
-.mercedes-cta-btn::before {
-  content: '';
-  position: absolute;
+/* ===== Top App Bar ===== */
+.md-appbar {
+  position: sticky;
   top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.22), transparent);
-  transition: left 1s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 1030;
+  background: var(--md-surface);
+  border-bottom: 1px solid var(--md-outline);
+  transition: box-shadow 0.25s ease;
+}
+.md-appbar--elevated { 
+  box-shadow: var(--md-elev-2); 
+  border-bottom-color: transparent; 
 }
 
-.mercedes-cta-btn:hover::before {
-  left: 100%;
-}
-
-.mercedes-cta-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(229, 9, 20, 0.55);
-  color: #ffffff;
-  background: #ff0a16;
-}
-
-/* ===== Hamburger Menu Button ===== */
-.mercedes-menu-btn {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background: rgba(255, 255, 255, 0.03);
+.md-appbar-row {
+  height: 70px;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.md-icon-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--md-on-surface);
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
-  cursor: pointer;
-  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  padding: 0;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+.md-icon-btn:hover { background: rgba(27,28,30,0.06); }
+.md-icon-btn:active { background: rgba(27,28,30,0.10); }
+
+.md-appbar-brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  margin-left: 8px;
+}
+.md-logo-img {
+  height: 42px;
+  width: auto;
+  object-fit: contain;
+}
+.md-logo-img-drawer {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
 }
 
-.mercedes-menu-btn:hover {
-  border-color: #e50914;
-  background: rgba(229, 9, 20, 0.08);
-  box-shadow: 0 0 20px rgba(229, 9, 20, 0.3);
+.md-appbar-actions { 
+  display: flex; 
+  align-items: center; 
+  gap: 2px; 
+  margin-left: auto; 
 }
 
-.mercedes-menu-line {
-  width: 18px;
-  height: 2px;
-  background: #ffffff;
-  border-radius: 2px;
-  transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+/* ===== Expanding search app bar ===== */
+.md-search-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  animation: mdSearchIn 0.22s ease;
+}
+@keyframes mdSearchIn { 
+  from { opacity: 0; transform: translateX(8px); } 
+  to { opacity: 1; transform: translateX(0); } 
+}
+.md-search-field {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 1rem;
+  color: var(--md-on-surface);
+  height: 44px;
+}
+.md-search-field::placeholder { color: var(--md-on-surface-variant); }
+
+/* ===== Desktop inline nav ===== */
+.md-desktop-nav {
+  border-top: 1px solid var(--md-outline);
+  padding: 0 12px;
+  gap: 4px;
+}
+.md-desktop-item { position: relative; }
+.md-desktop-link {
+  display: block;
+  padding: 12px 14px;
+  color: var(--md-on-surface-variant);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.md-desktop-item:hover .md-desktop-link { 
+  color: var(--md-primary); 
+  border-color: var(--md-primary); 
+}
+.md-desktop-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 220px;
+  background: var(--md-surface);
+  border-radius: 12px;
+  box-shadow: var(--md-elev-3);
+  padding: 8px;
+  display: none;
+  flex-direction: column;
+  max-height: 340px;
+  overflow-y: auto;
+  z-index: 20;
+}
+.md-desktop-item:hover .md-desktop-menu { display: flex; }
+.md-desktop-menu-item {
+  padding: 9px 12px;
+  border-radius: 8px;
+  color: var(--md-on-surface);
+  text-decoration: none;
+  font-size: 0.88rem;
+  transition: background 0.15s ease;
+}
+.md-desktop-menu-item:hover { 
+  background: var(--md-primary-container); 
+  color: var(--md-on-primary-container); 
 }
 
-.mercedes-menu-btn:hover .mercedes-menu-line {
-  background: #e50914;
+/* ===== Ripple effect ===== */
+.md-ripple { position: relative; overflow: hidden; }
+.md-ripple-effect {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.14);
+  transform: scale(0);
+  animation: mdRipple 0.55s ease-out;
+  pointer-events: none;
+}
+@keyframes mdRipple {
+  to { transform: scale(1); opacity: 0; }
 }
 
-.mercedes-menu-btn:hover .mercedes-menu-line:nth-child(1) {
-  width: 12px;
-  transform: translateX(-3px);
-}
-
-.mercedes-menu-btn:hover .mercedes-menu-line:nth-child(3) {
-  width: 12px;
-  transform: translateX(3px);
-}
-
-/* ===== Overlay ===== */
-.mercedes-overlay {
+/* ===== Scrim ===== */
+.md-scrim {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  background: rgba(0,0,0,0.4);
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-              visibility 0.5s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
   z-index: 1040;
 }
+.md-scrim.show { opacity: 1; visibility: visible; }
 
-.mercedes-overlay.show {
-  opacity: 1;
-  visibility: visible;
-}
-
-/* ===== Offcanvas Sidebar ===== */
-.mercedes-offcanvas {
+/* ===== Modal Navigation Drawer ===== */
+.md-drawer {
   position: fixed;
   top: 0;
-  right: 0;
-  width: 400px;
-  max-width: 90vw;
+  left: 0;
+  width: 320px;
+  max-width: 86vw;
   height: 100dvh;
-  background: linear-gradient(180deg, #0a0d14 0%, #05070b 100%);
-  border-left: 1px solid rgba(255, 255, 255, 0.08);
-  transform: translateX(100%);
-  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  background: var(--md-surface);
+  transform: translateX(-100%);
+  transition: transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
   z-index: 1050;
   display: flex;
   flex-direction: column;
-  padding: 2rem;
+  border-radius: 0 20px 20px 0;
+  box-shadow: var(--md-elev-4);
+  overflow: hidden;
+}
+.md-drawer.open { transform: translateX(0); }
+
+.md-drawer-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 20px 16px;
+}
+
+.md-drawer-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 16px 8px;
+  padding: 10px 14px;
+  background: var(--md-surface-variant);
+  border-radius: 12px;
+  color: var(--md-on-surface-variant);
+}
+.md-drawer-search input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  font-size: 0.88rem;
+  color: var(--md-on-surface);
+}
+
+.md-drawer-list {
+  list-style: none;
+  margin: 0;
+  padding: 4px 12px;
+  flex: 1;
   overflow-y: auto;
-  box-shadow: -20px 0 60px rgba(0, 0, 0, 0.6);
+}
+.md-drawer-item {
+  opacity: 0;
+  transform: translateX(-10px);
+  animation: mdDrawerIn 0.35s ease forwards;
+  animation-delay: var(--d, 0s);
+}
+.md-drawer.open .md-drawer-item { animation-play-state: running; }
+@keyframes mdDrawerIn { to { opacity: 1; transform: translateX(0); } }
+
+.md-drawer-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 52px;
+  padding: 0 16px;
+  border-radius: 26px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  margin-bottom: 2px;
+}
+.md-drawer-row:hover { background: rgba(27,28,30,0.05); }
+.md-drawer-row.is-active { background: var(--md-primary-container); }
+.md-drawer-row.is-active .md-drawer-label,
+.md-drawer-row.is-active .md-drawer-icon { 
+  color: var(--md-on-primary-container); 
+  font-weight: 700; 
 }
 
-/* Red ambient glows inside sidebar */
-.mercedes-offcanvas::before {
-  content: '';
-  position: absolute;
-  top: 10%;
-  left: -40px;
-  width: 200px;
-  height: 200px;
-  background: rgba(229, 9, 20, 0.14);
-  filter: blur(80px);
-  pointer-events: none;
-  z-index: 0;
+.md-drawer-icon { color: var(--md-on-surface-variant); display: flex; flex-shrink: 0; }
+.md-drawer-label {
+  flex: 1;
+  color: var(--md-on-surface);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 600;
 }
-
-.mercedes-offcanvas::after {
-  content: '';
-  position: absolute;
-  bottom: 10%;
-  right: -40px;
-  width: 180px;
-  height: 180px;
-  background: rgba(229, 9, 20, 0.08);
-  filter: blur(70px);
-  pointer-events: none;
-  z-index: 0;
+.md-drawer-chevron {
+  color: var(--md-on-surface-variant);
+  display: flex;
+  transition: transform 0.3s ease;
 }
+.md-drawer-chevron.open { transform: rotate(90deg); }
 
-.mercedes-offcanvas.open {
-  transform: translateX(0);
+.md-drawer-submenu {
+  list-style: none;
+  margin: 0;
+  padding-left: 52px;
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.35s ease;
 }
-
-.mercedes-offcanvas > * {
-  position: relative;
-  z-index: 1;
+.md-drawer-sublink {
+  path: block;
+  display: block;
+  padding: 8px 10px;
+  border-radius: 20px;
+  color: var(--md-on-surface-variant);
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: background 0.15s ease, color 0.15s ease;
 }
+.md-drawer-sublink:hover { background: var(--md-surface-variant); color: var(--md-on-surface); }
 
-/* Hide offcanvas on desktop */
-@media (min-width: 992px) {
-  .mercedes-offcanvas,
-  .mercedes-overlay {
-    display: none !important;
-  }
-}
+.md-drawer-footer { padding: 14px 20px 22px; border-top: 1px solid var(--md-outline); }
 
-/* Close Button */
-.mercedes-close-btn {
-  position: absolute;
-  top: 1.5rem;
-  right: 1.5rem;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background: rgba(255, 255, 255, 0.03);
-  color: #ffffff;
+/* ===== Filled Button ===== */
+.md-btn-filled {
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-  z-index: 10;
+  gap: 8px;
+  height: 48px;
+  border-radius: 24px;
+  background: var(--md-primary);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  box-shadow: var(--md-elev-1);
+  transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+.md-btn-filled:hover { 
+  background: var(--md-primary-dark); 
+  box-shadow: var(--md-elev-2); 
+  color: #fff; 
 }
 
-.mercedes-close-btn:hover {
-  border-color: #e50914;
-  background: rgba(229, 9, 20, 0.1);
-  color: #e50914;
-  transform: rotate(90deg);
-  box-shadow: 0 0 20px rgba(229, 9, 20, 0.4);
-}
-
-/* Offcanvas Logo */
-.mercedes-offcanvas-logo {
+/* ===== Android Bottom Navigation Bar ===== */
+.md-navbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 74px;
+  background: var(--md-surface);
+  border-top: 1px solid var(--md-outline);
+  box-shadow: var(--md-elev-2);
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding-bottom: 1.5rem;
-  margin-bottom: 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  opacity: 0;
-  transform: translateX(30px);
-  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.1s,
-              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
+  z-index: 1020;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
-
-.mercedes-offcanvas.open .mercedes-offcanvas-logo {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-/* Nav List */
-.mercedes-offcanvas-nav {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.md-nav-dest {
+  flex: 1;
+  height: 100%;
+  border: none;
+  background: transparent;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-  flex: 1;
-}
-
-.mercedes-offcanvas-item {
-  opacity: 0;
-  transform: translateX(40px);
-  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--delay),
-              transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) var(--delay);
-}
-
-.mercedes-offcanvas.open .mercedes-offcanvas-item {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-/* Nav Link */
-.mercedes-offcanvas-link {
-  display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 1rem 1.25rem;
-  text-decoration: none;
-  color: #cbd5e1;
-  border-radius: 12px;
-  border: 1px solid transparent;
-  transition: all 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  justify-content: center;
+  gap: 4px;
+  color: var(--md-on-surface-variant);
+  font-size: 0.68rem;
+  font-weight: 600;
   position: relative;
   overflow: hidden;
+  text-decoration: none;
+}
+.md-nav-indicator {
+  width: 52px;
+  height: 30px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+.md-nav-dest.is-active { color: var(--md-on-surface); }
+.md-nav-dest.is-active .md-nav-indicator {
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
 }
 
-.mercedes-offcanvas-link::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 3px;
-  background: linear-gradient(180deg, #e50914, #ff4d4d);
-  transform: scaleY(0);
-  transform-origin: bottom;
-  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-  border-radius: 0 3px 3px 0;
-}
-
-.mercedes-offcanvas-link:hover {
-  color: #ffffff;
-  background: rgba(229, 9, 20, 0.06);
-  border-color: rgba(229, 9, 20, 0.2);
-  padding-left: 1.5rem;
-}
-
-.mercedes-offcanvas-link:hover::before {
-  transform: scaleY(1);
-}
-
-.mercedes-link-number {
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: #e50914;
-  letter-spacing: 1px;
-  opacity: 0.7;
-  transition: opacity 0.4s ease;
-}
-
-.mercedes-offcanvas-link:hover .mercedes-link-number {
-  opacity: 1;
-}
-
-.mercedes-link-text {
-  font-size: 1.15rem;
-  font-weight: 500;
-  letter-spacing: 0.3px;
+.md-nav-fab-slot {
   flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
-
-.mercedes-link-arrow {
-  opacity: 0;
-  transform: translateX(-10px);
-  transition: all 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-  color: #e50914;
+.md-fab {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--md-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--md-elev-3);
+  margin-top: -30px;
+  border: 4px solid var(--md-background);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  text-decoration: none;
 }
-
-.mercedes-offcanvas-link:hover .mercedes-link-arrow {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-/* Offcanvas Footer */
-.mercedes-offcanvas-footer {
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--delay),
-              transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--delay);
-}
-
-.mercedes-offcanvas.open .mercedes-offcanvas-footer {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.mercedes-offcanvas-tagline {
-  text-align: center;
-  color: #6b7280;
-  font-size: 0.75rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-top: 1rem;
-  margin-bottom: 0;
-}
-
-/* ===== Responsive ===== */
-
-/* Tablet & below */
-@media (max-width: 991.98px) {
-  .mercedes-navbar {
-    min-height: 68px;
-  }
-}
-
-@media (max-width: 575.98px) {
-  /* Mobile — much smaller navbar */
-  .mercedes-navbar {
-    min-height: 60px;
-  }
-  .mercedes-logo-circle {
-    width: 40px;
-    height: 40px;
-  }
-  .mercedes-logo-circle svg {
-    width: 22px;
-    height: 22px;
-  }
-  .mercedes-brand-title {
-    font-size: 1.1rem !important;
-  }
-  .mercedes-brand-subtitle {
-    font-size: 0.58rem;
-    letter-spacing: 1.5px;
-  }
-  .mercedes-menu-btn {
-    width: 38px;
-    height: 38px;
-    gap: 4px;
-  }
-  .mercedes-menu-line {
-    width: 16px;
-  }
-
-  /* Offcanvas — compact on mobile */
-  .mercedes-offcanvas {
-    padding: 1.5rem;
-  }
-  .mercedes-offcanvas-logo {
-    padding-bottom: 1rem;
-    margin-bottom: 1rem;
-  }
-  .mercedes-offcanvas-link {
-    padding: 0.8rem 1rem;
-  }
-  .mercedes-link-text {
-    font-size: 1rem;
-  }
-  .mercedes-close-btn {
-    top: 1rem;
-    right: 1rem;
-    width: 36px;
-    height: 36px;
-  }
-  .mercedes-offcanvas-footer {
-    margin-top: 1.25rem;
-    padding-top: 1rem;
-  }
-  .mercedes-offcanvas-footer .mercedes-cta-btn {
-    padding: 0.65rem 1rem !important;
-    font-size: 0.85rem;
-  }
-  .mercedes-offcanvas-tagline {
-    margin-top: 0.75rem;
-    font-size: 0.68rem;
-    letter-spacing: 1.5px;
-  }
-}
-
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-  }
-}
+.md-fab:hover { box-shadow: var(--md-elev-4); color: #fff; }
+.md-fab:active { transform: scale(0.94); }
