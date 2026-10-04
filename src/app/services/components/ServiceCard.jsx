@@ -18,12 +18,12 @@ export default function ServiceCard({ service, index }) {
         </div>
         <div className="service-card-content">
           <div className="service-card-icon">
-            {IconComponent && <IconComponent size={28} strokeWidth={2} />}
+            {IconComponent && <IconComponent size={26} strokeWidth={2} />}
           </div>
           <h3 className="service-card-title">{title}</h3>
           <p className="service-card-desc">{description}</p>
           <Link href={`/services/${service.id}`} className="service-card-btn">
-            DETAILS MORE <ArrowRight size={18} />
+            DETAILS MORE <ArrowRight size={16} />
           </Link>
         </div>
       </div>
