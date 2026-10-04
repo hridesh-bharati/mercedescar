@@ -16,10 +16,10 @@ export default function Footer() {
   }, []);
 
   const quickLinks = [
-    { label: 'Diagnostics & Repair', href: '#services' },
-    { label: 'Engine & Performance', href: '#services' },
-    { label: 'Body & Paintwork', href: '#services' },
-    { label: 'Premium Maintenance', href: '#services' },
+    { label: 'Diagnostics & Repair', href: '/services' },
+    { label: 'Engine & Performance', href: '/services' },
+    { label: 'Body & Paintwork', href: '/services' },
+    { label: 'Premium Maintenance', href: '/services' },
   ];
 
   const socials = [
@@ -45,7 +45,7 @@ export default function Footer() {
     },
     {
       label: 'WhatsApp',
-      href: '#',
+      href: 'https://wa.me/971567888808?text=Hello%2C%20I%20would%20like%20to%20inquire%20about%20auto%20services.',
       icon: (
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z" />
@@ -65,9 +65,9 @@ export default function Footer() {
   ];
 
   const bottomLinks = [
-    { label: 'Privacy', href: '#' },
-    { label: 'Terms', href: '#' },
-    { label: 'Cookies', href: '#' },
+    { label: 'Privacy Policy', href: '#' },
+    { label: 'Terms of Service', href: '#' },
+    { label: 'Cookie Settings', href: '#' },
   ];
 
   return (
@@ -91,14 +91,14 @@ export default function Footer() {
             </div>
             <p className="footer-tagline">
               Experience the art of automotive perfection. Premium diagnostics,
-              maintenance, and repair for your luxury vehicle.
+              maintenance, and repair services for your luxury vehicle in Dubai.
             </p>
           </div>
 
           <div className="footer-newsletter">
             <h5 className="footer-newsletter-title">Stay in the loop</h5>
             <p className="footer-newsletter-sub">
-              Service tips, exclusive offers &amp; AMG news — once a month.
+              Service tips, exclusive offers &amp; updates — delivered monthly.
             </p>
             <form className="footer-newsletter-form" onSubmit={(e) => e.preventDefault()}>
               <input
@@ -124,12 +124,12 @@ export default function Footer() {
           <div className="footer-col" data-aos="fade-up" data-aos-delay="0">
             <h6 className="footer-col-title">About</h6>
             <p className="footer-col-text">
-              Dubai&apos;s trusted Mercedes-Benz specialists since 2014.
-              Certified technicians, genuine parts, and a commitment to
-              keeping your Mercedes performing at its best.
+              Dubai&apos;s trusted luxury vehicle specialists.
+              Certified technicians, genuine parts, and absolute commitment to
+              excellence.
             </p>
             <div className="footer-badges">
-              <span className="footer-badge">ISO Certified</span>
+              <span className="footer-badge">Certified Workshop</span>
               <span className="footer-badge">OEM Parts</span>
             </div>
           </div>
@@ -164,7 +164,7 @@ export default function Footer() {
                     <circle cx="12" cy="10" r="3" />
                   </svg>
                 </span>
-                <span>Al Quoz Industrial Area 3,<br />Dubai, UAE</span>
+                <span>Warehouse #32, Al Quoz 26th Street Industrial Area 2, Dubai, UAE</span>
               </li>
               <li>
                 <span className="footer-contact-icon">
@@ -172,7 +172,7 @@ export default function Footer() {
                     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                   </svg>
                 </span>
-                <a href="tel:+97140000000" className="footer-contact-link">+971 4 000 0000</a>
+                <a href="tel:+971567888808" className="footer-contact-link">+971 56 788 8808</a>
               </li>
               <li>
                 <span className="footer-contact-icon">
@@ -181,8 +181,8 @@ export default function Footer() {
                     <polyline points="22,6 12,13 2,6" />
                   </svg>
                 </span>
-                <a href="mailto:support@mercedesgaragedubai.com" className="footer-contact-link">
-                  support@mercedesgaragedubai.com
+                <a href="mailto:info@mercedesgaragedubai.com" className="footer-contact-link">
+                  info@mercedesgaragedubai.com
                 </a>
               </li>
               <li>
@@ -192,7 +192,7 @@ export default function Footer() {
                     <polyline points="12 6 12 12 16 14" />
                   </svg>
                 </span>
-                <span>Mon – Sat: 8:00 AM – 7:30 PM<br />Sunday: Closed</span>
+                <span>Mon – Sat: 8:00 AM – 7:00 PM<br />Sunday: Closed</span>
               </li>
             </ul>
           </div>
@@ -201,7 +201,7 @@ export default function Footer() {
           <div className="footer-col" data-aos="fade-up" data-aos-delay="240">
             <h6 className="footer-col-title">Follow Us</h6>
             <p className="footer-col-text">
-              Follow our builds, tuning projects, and behind-the-scenes content.
+              Connect with us for updates, maintenance tips, and special service packages.
             </p>
             <div className="footer-socials">
               {socials.map((s) => (
@@ -221,9 +221,9 @@ export default function Footer() {
             <div className="footer-cta-mini">
               <span className="footer-cta-mini-dot" aria-hidden="true"></span>
               <div>
-                <strong>Book a service</strong>
-                <a href="#contact" className="footer-cta-mini-link">
-                  Schedule now →
+                <strong>Need Immediate Help?</strong>
+                <a href="https://wa.me/971567888808" target="_blank" rel="noopener noreferrer" className="footer-cta-mini-link">
+                  Chat on WhatsApp →
                 </a>
               </div>
             </div>
