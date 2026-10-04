@@ -1,0 +1,84 @@
+/* ============================================
+   TESTIMONIALS — Bootstrap 5 Glassmorphism CSS
+   ============================================ */
+
+.testimonials-main {
+  background: linear-gradient(135deg, #e8f0fe 0%, #fae8e0 50%, #f3e8ff 100%);
+  overflow-x: hidden;
+}
+
+/* Hero Section */
+.testimonials-hero {
+  position: relative;
+  background-color: #0f172a;
+  padding: 40px 0;
+  overflow: hidden;
+}
+
+.testimonials-hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('/images/servicesman.webp');
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+  transform: scale(1.02);
+}
+
+.testimonials-hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    90deg,
+    rgba(15, 23, 42, 0.95) 0%,
+    rgba(15, 23, 42, 0.85) 50%,
+    rgba(15, 23, 42, 0.6) 100%
+  );
+}
+
+/* Glass Card styling */
+.glass-card {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.95) !important;
+  border-radius: 22px;
+  box-shadow: 0 10px 30px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 1);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 45px rgba(31, 38, 135, 0.14), inset 0 1px 0 rgba(255, 255, 255, 1);
+}
+
+/* Ambient Background Glows */
+.testimonials-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.5;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.testimonials-glow-blue {
+  width: 450px;
+  height: 450px;
+  background: #60a5fa;
+  top: 10%;
+  left: -100px;
+}
+
+.testimonials-glow-pink {
+  width: 450px;
+  height: 450px;
+  background: #f472b6;
+  bottom: 10%;
+  right: -100px;
+}
+
+.tracking-wider {
+  letter-spacing: 2px;
+}

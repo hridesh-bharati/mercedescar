@@ -83,7 +83,7 @@ export default function Header() {
         { label: 'Case Single', href: '/portfolio/full-synthetic-oil-change' },
         { label: 'Work Process', href: '/work-process' },
         { label: 'Testimonials', href: '/testimonials' },
-        { label: 'Pricing Plan', href: '/pricing-table' },
+        { label: 'Pricing Plan', href: '/pricing-plan' },
         { label: 'FAQs', href: '/faqs' },
         { label: 'Shop Cart', href: '/cart' },
       ]

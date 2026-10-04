@@ -1,0 +1,134 @@
+/* ============================================
+   PRICING PLAN — Bootstrap 5 Glassmorphism CSS
+   ============================================ */
+
+.pricing-main {
+  background: linear-gradient(135deg, #e8f0fe 0%, #fae8e0 50%, #f3e8ff 100%);
+  overflow-x: hidden;
+}
+
+/* Hero Section */
+.pricing-hero {
+  position: relative;
+  background-color: #0f172a;
+  padding: 40px 0;
+  overflow: hidden;
+}
+
+.pricing-hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('/images/servicesman.webp');
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+  transform: scale(1.02);
+}
+
+.pricing-hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    90deg,
+    rgba(15, 23, 42, 0.95) 0%,
+    rgba(15, 23, 42, 0.85) 50%,
+    rgba(15, 23, 42, 0.6) 100%
+  );
+}
+
+/* Glass Card styling */
+.glass-card {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(20px) saturate(190%);
+  -webkit-backdrop-filter: blur(20px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.95) !important;
+  border-radius: 22px;
+  box-shadow: 0 10px 30px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 1);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 45px rgba(31, 38, 135, 0.14), inset 0 1px 0 rgba(255, 255, 255, 1);
+}
+
+/* Featured Dark Pricing Card */
+.pricing-card-dark {
+  background: #0f172a;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 22px;
+  box-shadow: 0 15px 40px rgba(15, 23, 42, 0.3);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.pricing-card-dark:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 25px 55px rgba(15, 23, 42, 0.45);
+}
+
+/* Trusted Worldwide Partners Banner */
+.trusted-banner {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  box-shadow: 0 15px 35px rgba(99, 102, 241, 0.25);
+}
+
+/* Ambient Background Glows */
+.pricing-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.5;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.pricing-glow-blue {
+  width: 450px;
+  height: 450px;
+  background: #60a5fa;
+  top: 15%;
+  left: -100px;
+}
+
+.pricing-glow-pink {
+  width: 450px;
+  height: 450px;
+  background: #f472b6;
+  bottom: 15%;
+  right: -100px;
+}
+
+.tracking-wider {
+  letter-spacing: 2px;
+}
+
+/* Custom Testimonial Card Corner Accent Styles matching reference */
+.testimonial-card-custom {
+  position: relative;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  transition: all 0.3s ease;
+}
+
+.testimonial-card-custom::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 4px;
+  background: #0056b3;
+  border-top-left-radius: 22px;
+}
+
+.testimonial-card-custom::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 40px;
+  height: 4px;
+  background: #0056b3;
+  border-bottom-right-radius: 22px;
+}
