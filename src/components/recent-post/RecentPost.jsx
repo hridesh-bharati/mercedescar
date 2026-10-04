@@ -200,7 +200,7 @@ export default function RecentPosts() {
     },
   ];
 
-  const INITIAL_COUNT = 6;
+  const INITIAL_COUNT = 3;
   const [showAll, setShowAll] = useState(false);
 
   const visiblePosts = showAll ? posts : posts.slice(0, INITIAL_COUNT);

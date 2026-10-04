@@ -27,10 +27,13 @@ export default function Welcome() {
     <section className="welcome-section" id="about">
       {/* Ambient Lighting & Pattern */}
       <div className="welcome-pattern" aria-hidden="true"></div>
-      <div className="welcome-glow-orb" aria-hidden="true"></div>
+      <div className="welcome-glow-orb welcome-glow-orb--red" aria-hidden="true"></div>
+      <div className="welcome-glow-orb welcome-glow-orb--blue" aria-hidden="true"></div>
+      <div className="welcome-glow-orb welcome-glow-orb--pink" aria-hidden="true"></div>
 
       <div className="container welcome-container">
         <div className="row align-items-center g-5">
+
           {/* Left Text Column */}
           <div className="col-lg-7">
             {/* Badge */}
@@ -46,7 +49,9 @@ export default function Welcome() {
 
             {/* Paragraph */}
             <p className="welcome-paragraph" data-aos="fade-up" data-aos-delay="300">
-              Auto Expert Workshop provides exceptional automotive services including repairs, maintenance, and diagnostics. Our skilled technicians ensure your vehicle receives the care it deserves, keeping you safely on the road.
+              Auto Expert Workshop provides exceptional automotive services including repairs,
+              maintenance, and diagnostics. Our skilled technicians ensure your vehicle receives
+              the care it deserves, keeping you safely on the road.
             </p>
 
             {/* Subheading */}
@@ -64,7 +69,8 @@ export default function Welcome() {
                   data-aos-delay={450 + index * 100}
                 >
                   <span className="benefit-icon" aria-hidden="true">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                      stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
                   </span>
@@ -79,15 +85,15 @@ export default function Welcome() {
             <div className="welcome-image-wrapper">
               <div className="image-frame-glow" aria-hidden="true"></div>
               <div className="welcome-image-box">
-                <img 
-                  src="/images/mechanic-car.jpg" 
-                  alt="Mechanic working on car" 
+                <img
+                  src="/images/mechanic-car.jpg"
+                  alt="Mechanic working on car"
                   className="welcome-img"
                 />
-                <div 
-                  className="experience-badge" 
-                  data-aos="fade-up" 
-                  data-aos-delay="600" 
+                <div
+                  className="experience-badge"
+                  data-aos="fade-up"
+                  data-aos-delay="600"
                   data-aos-anchor-placement="top-bottom"
                 >
                   <span className="exp-number">15+</span>
@@ -96,6 +102,7 @@ export default function Welcome() {
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </section>
