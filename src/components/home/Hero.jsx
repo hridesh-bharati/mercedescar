@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import './Hero.css';
 
-// ---------- Split Text Component ----------
+/* ---------- Split Text ---------- */
 function SplitText({ text, className = '', delay = 0, stagger = 0.035 }) {
   const chars = useMemo(() => text.split(''), [text]);
   return (
@@ -21,7 +21,7 @@ function SplitText({ text, className = '', delay = 0, stagger = 0.035 }) {
   );
 }
 
-// ---------- Word Reveal Component ----------
+/* ---------- Word Reveal ---------- */
 function WordReveal({ children, delay = 0, stagger = 0.08 }) {
   if (typeof children !== 'string') return children;
   return (
@@ -40,52 +40,36 @@ function WordReveal({ children, delay = 0, stagger = 0.08 }) {
 }
 
 export default function Hero() {
-  // Sirf ek hi stable background image
   const bgImage = '/images/hero-car.png';
 
-  // 3 alag-alag texts aur tags jo rotate honge
+  /* ✅ Content trimmed — max 3 tags per slide, single-line paragraphs */
   const textSlides = [
     {
       badge: 'AUTO EXPERT WORKSHOP DUBAI',
       headingTop: 'One-Stop Shop for',
       headingAccent: 'All Auto Repairs',
       paragraph:
-        'Auto Expert Workshop is equipped with latest technology, excellent infrastructural facilities and a team of professional mechanics to solve every automobile-related need.',
+        'Latest technology, professional mechanics, and complete care for every automobile need.',
       caption: 'Trusted Auto Care Experts',
-      tags: [
-        'Computer Diagnostics',
-        'Complete Safety Analysis',
-        'Drivability Problems',
-        'Performance Upgrade',
-      ],
+      tags: ['Computer Diagnostics', 'Safety Analysis', 'Performance Upgrade'],
     },
     {
       badge: 'ADVANCED AUTO CARE',
       headingTop: 'Complete Auto',
       headingAccent: 'Repair Solutions',
       paragraph:
-        'From routine servicing to complex auto repairs, our premium workshop features state-of-the-art machinery and equipment to give you the service you deserve.',
+        'From routine servicing to complex repairs — precision, speed, and premium quality.',
       caption: 'Precision & Excellence',
-      tags: [
-        'Engine Diagnostics',
-        'Brake & Suspension',
-        'AC Service & Repair',
-        'Full Body Work',
-      ],
+      tags: ['Engine Diagnostics', 'Brake & Suspension', 'AC Service'],
     },
     {
       badge: 'PROFESSIONAL AUTO GARAGE',
       headingTop: 'Premium Auto Garage',
       headingAccent: 'in Al Quoz, Dubai',
       paragraph:
-        'High-standard auto garage with quality services, modern equipment and a team of certified mechanics ready to handle every automobile-related need.',
+        'Certified mechanics, modern equipment, and quality service for every automobile need.',
       caption: 'Your Auto, Our Passion',
-      tags: [
-        'Oil & Filter Change',
-        'Battery Replacement',
-        'Wheel Alignment',
-        'Insurance Support',
-      ],
+      tags: ['Oil & Filter Change', 'Battery Replacement', 'Wheel Alignment'],
     },
   ];
 
@@ -93,7 +77,7 @@ export default function Hero() {
   const heroRef = useRef(null);
   const contentRef = useRef(null);
 
-  // ----- Auto Slide for Text -----
+  /* ----- Auto Slide ----- */
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % textSlides.length);
@@ -101,11 +85,14 @@ export default function Hero() {
     return () => clearInterval(timer);
   }, [textSlides.length]);
 
-  // ----- Mouse Parallax (3D Tilt) -----
+  /* ----- Mouse Parallax (desktop only) ----- */
   useEffect(() => {
     const hero = heroRef.current;
     const content = contentRef.current;
     if (!hero || !content) return;
+
+    // Skip on touch devices
+    if (window.matchMedia('(hover: none)').matches) return;
 
     const handleMove = (e) => {
       const rect = hero.getBoundingClientRect();
@@ -134,7 +121,6 @@ export default function Hero() {
   }, []);
 
   const goToSlide = (idx) => setCurrentSlide(idx);
-
   const activeSlide = textSlides[currentSlide];
 
   return (
@@ -143,7 +129,7 @@ export default function Hero() {
       className="hero-section"
       aria-label="Auto Expert Workshop Hero Section"
     >
-      {/* Background Image - Single & Static (No image switching/flickering) */}
+      {/* Background */}
       <div
         className="hero-bg active"
         style={{ backgroundImage: `url('${bgImage}')` }}
@@ -157,14 +143,14 @@ export default function Hero() {
       <div className="hero-glow-right"></div>
       <div className="hero-cursor-glow"></div>
 
-      {/* Pure CSS Particles */}
+      {/* Particles */}
       <div className="hero-particles" aria-hidden="true">
-        {Array.from({ length: 18 }).map((_, i) => (
+        {Array.from({ length: 12 }).map((_, i) => (
           <span key={i} className="particle"></span>
         ))}
       </div>
 
-      {/* Animated Grid Lines */}
+      {/* Grid Lines */}
       <div className="hero-grid-lines" aria-hidden="true">
         <span></span>
         <span></span>
@@ -174,7 +160,7 @@ export default function Hero() {
 
       {/* Main Content */}
       <div className="hero-main">
-        <div className="hero-container container">
+        <div className="hero-container">
           <div className="row">
             <div className="col-lg-7 hero-text-col">
               <div
@@ -193,7 +179,7 @@ export default function Hero() {
                   />
                 </div>
 
-                {/* Heading — TWO LINES */}
+                {/* Heading */}
                 <h1 className="hero-heading">
                   <span className="heading-line">
                     <SplitText
@@ -219,7 +205,7 @@ export default function Hero() {
                   </WordReveal>
                 </p>
 
-                {/* Service Tags */}
+                {/* Tags */}
                 <ul className="hero-tags">
                   {activeSlide.tags.map((tag, i) => (
                     <li
@@ -242,16 +228,7 @@ export default function Hero() {
               <div className="hero-buttons animate-slide-up-delay">
                 <a href="/book" className="hero-btn-primary md-ripple">
                   <span>Book Service Now</span>
-                  <svg
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12" />
                     <polyline points="12 5 19 12 12 19" />
                   </svg>
@@ -260,16 +237,7 @@ export default function Hero() {
                 <a href="tel:+971567888808" className="hero-btn-video">
                   <span className="hero-play-circle">
                     <span className="pulse-ring"></span>
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 3a2 2 0 0 1-.5 2.1L8 10.1a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c1 .3 2 .5 3 .7a2 2 0 0 1 1.6 2z"></path>
                     </svg>
                   </span>
@@ -282,16 +250,14 @@ export default function Hero() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="hero-bottom-bar container">
-        {/* Desktop Progress Ring Indicators */}
+      <div className="hero-bottom-bar">
+        {/* Desktop Indicators */}
         <div className="hero-indicators">
           {textSlides.map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`hero-indicator-btn ${
-                index === currentSlide ? 'active' : ''
-              }`}
+              className={`hero-indicator-btn ${index === currentSlide ? 'active' : ''}`}
               aria-label={`Go to slide ${index + 1}`}
             >
               <span className="indicator-ring">
@@ -301,9 +267,7 @@ export default function Hero() {
                     cx="18"
                     cy="18"
                     r="15"
-                    className={`ring-progress ${
-                      index === currentSlide ? 'running' : ''
-                    }`}
+                    className={`ring-progress ${index === currentSlide ? 'running' : ''}`}
                   />
                 </svg>
                 <span className="indicator-num">0{index + 1}</span>
@@ -319,22 +283,20 @@ export default function Hero() {
             <span
               key={index}
               onClick={() => goToSlide(index)}
-              className={`hero-mobile-dot ${
-                index === currentSlide ? 'active' : ''
-              }`}
+              className={`hero-mobile-dot ${index === currentSlide ? 'active' : ''}`}
             ></span>
           ))}
         </div>
 
         {/* Infinite Arrows */}
         <div className="hero-infinite-arrows">
-          <svg className="arrow-icon arrow-small" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <svg className="arrow-icon arrow-small" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="6 9 12 15 18 9" />
           </svg>
-          <svg className="arrow-icon arrow-medium" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <svg className="arrow-icon arrow-medium" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="6 9 12 15 18 9" />
           </svg>
-          <svg className="arrow-icon arrow-large" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <svg className="arrow-icon arrow-large" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="6 9 12 15 18 9" />
           </svg>
         </div>

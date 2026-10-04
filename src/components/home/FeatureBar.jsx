@@ -13,6 +13,7 @@ export default function FeatureBar() {
       ),
       title: 'Certified Technicians',
       subtitle: 'Factory trained experts',
+      variant: 'blue',
     },
     {
       icon: (
@@ -23,6 +24,7 @@ export default function FeatureBar() {
       ),
       title: 'Genuine Parts',
       subtitle: '100% original parts',
+      variant: 'orange',
     },
     {
       icon: (
@@ -35,6 +37,7 @@ export default function FeatureBar() {
       ),
       title: 'Advanced Diagnostics',
       subtitle: 'Latest technology',
+      variant: 'green',
     },
     {
       icon: (
@@ -45,6 +48,7 @@ export default function FeatureBar() {
       ),
       title: 'Customer Satisfaction',
       subtitle: 'Your trust drives us',
+      variant: 'purple',
     },
   ];
 
@@ -54,7 +58,7 @@ export default function FeatureBar() {
         <div className="feature-bar">
           {features.map((feature, index) => (
             <div
-              className="feature-item"
+              className={`feature-item feature-item--${feature.variant}`}
               key={index}
               data-aos="fade-up"
               data-aos-delay={index * 150}
@@ -68,10 +72,6 @@ export default function FeatureBar() {
                 <h3 className="feature-title">{feature.title}</h3>
                 <p className="feature-subtitle">{feature.subtitle}</p>
               </div>
-
-              {index < features.length - 1 && (
-                <span className="feature-divider" aria-hidden="true"></span>
-              )}
             </div>
           ))}
         </div>

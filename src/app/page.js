@@ -18,10 +18,10 @@ export default function Home() {
     <div className="min-vh-100">
       <Header />
       <Hero />
-      <RecentPosts />
       <FeatureBar />
-      <Welcome />
       <AboutCard />
+      <RecentPosts />
+      <Welcome />
       <Services />
       <Process />
       <RedCarBanner />
