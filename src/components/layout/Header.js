@@ -53,8 +53,9 @@ export default function Header() {
   const searchRef = useRef(null);
 
   useEffect(() => {
-    document.body.style.overflow = drawerOpen ? 'hidden' : 'unset';
-    return () => { document.body.style.overflow = 'unset'; };
+    const original = document.body.style.overflow;
+    document.body.style.overflow = drawerOpen ? 'hidden' : original;
+    return () => { document.body.style.overflow = original; };
   }, [drawerOpen]);
 
   useEffect(() => {
@@ -64,11 +65,10 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    if (searchOpen) setTimeout(() => searchRef.current?.focus(), 150);
+    if (searchOpen) setTimeout(() => searchRef.current?.focus(), 80);
     else setQuery('');
   }, [searchOpen]);
 
-  // ✅ Mercedes Garage Dubai ke actual links
   const navItems = [
     { key: 'home', label: 'Home', href: '/', icon: ICONS.Home },
     { key: 'services', label: 'Services', href: '/services', icon: ICONS.Wrench },
@@ -79,24 +79,13 @@ export default function Header() {
       href: '#',
       icon: ICONS.Blog,
       subItems: [
-        { label: 'Our Team 1', href: '/our-team' },
-        { label: 'Our Team 2', href: '/our-team-2' },
-        { label: 'Team Details', href: '/team-details' },
-        { label: 'Case Studies 3 Columns', href: '/case-studies-3-columns' },
-        { label: 'Case Studies 4 Columns', href: '/case-studies-4-columns' },
-        { label: 'Case Carousel', href: '/case-carousel' },
+        { label: 'Our Team', href: '/our-team' },
         { label: 'Case Single', href: '/portfolio/full-synthetic-oil-change' },
         { label: 'Work Process', href: '/work-process' },
         { label: 'Testimonials', href: '/testimonials' },
         { label: 'Pricing Plan', href: '/pricing-table' },
         { label: 'FAQs', href: '/faqs' },
-        { label: 'Shop Grid', href: '/shop-grid' },
-        { label: 'Shop Default', href: '/shop' },
-        { label: 'Shop Details', href: '/product/vehicle-suspension' },
         { label: 'Shop Cart', href: '/cart' },
-        { label: 'Shop Checkout', href: '/checkout' },
-        { label: 'Error 404', href: '/error-404' },
-        { label: 'Landing', href: '/landing' },
       ]
     },
     {
@@ -126,7 +115,7 @@ export default function Header() {
 
   return (
     <>
-      {/* 1st Layer: Top Info Bar */}
+      {/* Top Info Bar */}
       <div className="md-top-info-bar d-none d-lg-block">
         <div className="container d-flex justify-content-between align-items-center py-2">
           <div className="d-flex align-items-center gap-2 text-white">
@@ -144,7 +133,7 @@ export default function Header() {
         </div>
       </div>
 
-      {/* 2nd Layer: Main App Bar */}
+      {/* Main App Bar */}
       <header className={`md-appbar ${elevated ? 'md-appbar--elevated' : ''}`}>
         <div className="container d-flex align-items-center justify-content-between md-appbar-row">
           {!searchOpen ? (
@@ -158,7 +147,7 @@ export default function Header() {
                   <div key={item.key} className="md-desktop-item">
                     <Link href={item.href} className="md-desktop-link">{item.label}</Link>
                     {item.subItems && (
-                      <div className="md-desktop-menu shadow-sm">
+                      <div className="md-desktop-menu">
                         {item.subItems.map((s, i) => (
                           <Link key={i} href={s.href} className="md-desktop-menu-item">{s.label}</Link>
                         ))}

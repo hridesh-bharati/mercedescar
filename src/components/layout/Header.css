@@ -1,30 +1,25 @@
+/* ============================================
+   HEADER — Top Original + Bottom Glass Nav
+   ============================================ */
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
   --md-primary: #D6241D;
   --md-primary-dark: #A81A15;
-  --md-primary-container: rgba(214, 36, 29, 0.12);
-  --md-on-primary-container: #8B1410;
+  --md-primary-container: #FFDAD4;
+  --md-on-primary-container: #5C0A04;
   --md-ink: #0F1B2B;
   --md-background: #F6F7F9;
-  --md-surface: rgba(255, 255, 255, 0.72);
-  --md-surface-solid: #FFFFFF;
-  --md-surface-variant: rgba(240, 241, 245, 0.6);
-  --md-outline: rgba(226, 228, 232, 0.6);
+  --md-surface: #FFFFFF;
+  --md-surface-variant: #F0F1F5;
+  --md-outline: #E2E4E8;
   --md-on-surface: #1B1C1E;
   --md-on-surface-variant: #5F6368;
 
-  /* Glass tokens */
-  --glass-bg: rgba(255, 255, 255, 0.65);
-  --glass-bg-strong: rgba(255, 255, 255, 0.82);
-  --glass-border: rgba(255, 255, 255, 0.55);
-  --glass-blur: blur(20px) saturate(180%);
-  --glass-blur-strong: blur(28px) saturate(200%);
-
-  --md-elev-1: 0 1px 2px rgba(20,20,25,0.05);
-  --md-elev-2: 0 2px 8px rgba(20,20,25,0.06);
-  --md-elev-3: 0 6px 18px rgba(20,20,25,0.08);
-  --md-elev-4: 0 10px 30px rgba(20,20,25,0.12);
+  --md-elev-1: 0 1px 2px rgba(20,20,25,0.06), 0 1px 3px rgba(20,20,25,0.10);
+  --md-elev-2: 0 2px 4px rgba(20,20,25,0.08), 0 4px 10px rgba(20,20,25,0.10);
+  --md-elev-3: 0 4px 10px rgba(20,20,25,0.10), 0 8px 20px rgba(20,20,25,0.12);
+  --md-elev-4: 0 6px 14px rgba(20,20,25,0.12), 0 14px 28px rgba(20,20,25,0.14);
 }
 
 * { box-sizing: border-box; }
@@ -34,65 +29,73 @@ body {
   color: var(--md-on-surface);
   font-family: 'Inter', system-ui, sans-serif;
   margin: 0;
-  padding-top: 0;
-  padding-bottom: 84px;
+  padding-top: 0px;
+  padding-bottom: 78px;
 }
 
-/* ===== Top Info Bar ===== */
+/* ============================================
+   TOP INFO BAR (Original)
+   ============================================ */
 .md-top-info-bar {
   background: var(--md-ink);
   color: #fff;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 .md-top-info-bar span,
 .md-top-info-bar a {
-  color: #d1d5db !important;
-  font-size: 0.92rem !important;
+  color: #e5e7eb !important;
+  font-size: 0.98rem !important;
   font-weight: 500;
   transition: color 0.2s ease;
 }
-.md-top-info-bar a:hover { color: #fff !important; }
+.md-top-info-bar a:hover {
+  color: #ffffff !important;
+}
 
-/* ===== Main App Bar — Glass Lightweight ===== */
+/* ============================================
+   MAIN APPBAR (Original — solid white + red glow)
+   ============================================ */
 .md-appbar {
   position: sticky;
   top: 0;
   z-index: 1030;
-  background: var(--glass-bg-strong);
-  -webkit-backdrop-filter: var(--glass-blur-strong);
-  backdrop-filter: var(--glass-blur-strong);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
-  box-shadow: 0 1px 0 rgba(0,0,0,0.03), 0 4px 16px rgba(0,0,0,0.04);
-  transition: box-shadow 0.3s ease, background 0.3s ease;
+  background: var(--md-surface);
+  border-bottom: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.25s ease;
 }
 
-/* Thin accent line — subtle, not heavy */
 .md-appbar::after {
   content: '';
   position: absolute;
-  left: 0; right: 0; bottom: 0;
-  height: 1px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(214, 36, 29, 0.15) 30%,
-    rgba(214, 36, 29, 0.45) 50%,
-    rgba(214, 36, 29, 0.15) 70%,
+    rgba(214, 36, 29, 0.2) 20%,
+    var(--md-primary) 50%,
+    rgba(214, 36, 29, 0.2) 80%,
     transparent 100%
   );
+  box-shadow: 0 2px 8px rgba(214, 36, 29, 0.4);
   pointer-events: none;
+  z-index: 10;
 }
 
 .md-appbar--elevated {
-  background: var(--glass-bg-strong);
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  box-shadow: var(--md-elev-2);
 }
 
-.md-appbar-row { height: 68px; }
+.md-appbar-row {
+  height: 80px;
+}
 
 .md-icon-btn {
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   border: none;
   background: transparent;
@@ -104,26 +107,44 @@ body {
   overflow: hidden;
   flex-shrink: 0;
   text-decoration: none;
-  transition: background 0.2s ease, transform 0.15s ease;
+  transition: background 0.2s ease;
 }
-.md-icon-btn:hover { background: rgba(27,28,30,0.05); }
-.md-icon-btn:active { transform: scale(0.92); }
+.md-icon-btn:hover { background: rgba(27,28,30,0.06); }
+.md-icon-btn:active { background: rgba(27,28,30,0.10); }
 
-.md-appbar-brand { display: flex; align-items: center; text-decoration: none; }
-.md-logo-img { height: 42px; width: auto; object-fit: contain; }
-.md-logo-img-drawer { height: 46px; width: auto; object-fit: contain; }
+.md-appbar-brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+.md-logo-img {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
+}
+.md-logo-img-drawer {
+  height: 52px;
+  width: auto;
+  object-fit: contain;
+}
 
-.md-appbar-actions { display: flex; align-items: center; gap: 4px; }
+.md-appbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
 
-/* ===== Search ===== */
+/* ============================================
+   Search (Original)
+   ============================================ */
 .md-search-row {
   display: flex;
   align-items: center;
   gap: 8px;
-  animation: mdSearchIn 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation: mdSearchIn 0.22s ease;
 }
 @keyframes mdSearchIn {
-  from { opacity: 0; transform: translateX(12px); }
+  from { opacity: 0; transform: translateX(8px); }
   to { opacity: 1; transform: translateX(0); }
 }
 .md-search-field {
@@ -131,112 +152,118 @@ body {
   border: none;
   outline: none;
   background: transparent;
-  font-size: 1.05rem;
+  font-size: 1.12rem;
   font-weight: 500;
   color: var(--md-on-surface);
-  height: 44px;
+  height: 46px;
 }
 .md-search-field::placeholder { color: var(--md-on-surface-variant); }
 
-/* ===== Desktop Nav ===== */
-.md-desktop-nav { list-style: none; }
-.md-desktop-item { position: relative; }
-
-.md-desktop-link {
-  display: block;
-  padding: 10px 14px;
-  color: #374151;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.98rem;
-  border-radius: 10px;
-  transition: color 0.2s ease, background 0.2s ease;
+/* ============================================
+   Desktop Nav (Original — underline animation)
+   ============================================ */
+.md-desktop-nav {
+  list-style: none;
+}
+.md-desktop-item {
   position: relative;
 }
+.md-desktop-link {
+  display: block;
+  padding: 12px 16px;
+  color: #374151;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.06rem !important;
+  background: transparent !important;
+  position: relative;
+  transition: color 0.2s ease;
+}
 
-/* Subtle underline glow instead of heavy border */
 .md-desktop-link::after {
   content: '';
   position: absolute;
-  bottom: 4px;
-  left: 50%;
-  transform: translateX(-50%) scaleX(0);
-  width: 60%;
-  height: 2px;
-  border-radius: 2px;
-  background: var(--md-primary);
-  box-shadow: 0 0 6px rgba(214, 36, 29, 0.4);
-  transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+  bottom: 0;
+  left: 8px;
+  right: 8px;
+  height: 2.5px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(214, 36, 29, 0.3) 20%,
+    var(--md-primary) 50%,
+    rgba(214, 36, 29, 0.3) 80%,
+    transparent 100%
+  );
+  box-shadow: 0 0 8px rgba(214, 36, 29, 0.5);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.25s ease-in-out;
 }
 
 .md-desktop-item:hover .md-desktop-link {
-  color: var(--md-primary);
-  background: rgba(214, 36, 29, 0.04);
+  color: var(--md-primary) !important;
+  background: transparent !important;
 }
-.md-desktop-item:hover .md-desktop-link::after { transform: translateX(-50%) scaleX(1); }
 
-/* Dropdown — glass panel */
+.md-desktop-item:hover .md-desktop-link::after {
+  transform: scaleX(1);
+}
+
 .md-desktop-menu {
   position: absolute;
-  top: calc(100% + 8px);
+  top: 100%;
   left: 0;
-  min-width: 240px;
-  background: var(--glass-bg-strong);
-  -webkit-backdrop-filter: var(--glass-blur-strong);
-  backdrop-filter: var(--glass-blur-strong);
-  border-radius: 16px;
-  border: 1px solid var(--glass-border);
-  box-shadow: var(--md-elev-4);
-  padding: 8px;
+  min-width: 230px;
+  background: var(--md-surface);
+  border-radius: 12px;
+  box-shadow: var(--md-elev-3);
+  padding: 10px;
   display: none;
   flex-direction: column;
-  max-height: 380px;
+  max-height: 360px;
   overflow-y: auto;
   z-index: 20;
-  animation: mdDropdownIn 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-@keyframes mdDropdownIn {
-  from { opacity: 0; transform: translateY(-6px); }
-  to { opacity: 1; transform: translateY(0); }
+  border: 1px solid var(--md-outline);
 }
 .md-desktop-item:hover .md-desktop-menu { display: flex; }
-
 .md-desktop-menu-item {
-  padding: 10px 14px;
-  border-radius: 10px;
+  padding: 11px 16px;
+  border-radius: 8px;
   color: var(--md-on-surface);
   text-decoration: none;
-  font-weight: 500;
-  font-size: 0.92rem;
-  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+  font-weight: 600;
+  font-size: 0.98rem !important;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 .md-desktop-menu-item:hover {
-  background: rgba(214, 36, 29, 0.08);
-  color: var(--md-primary);
-  transform: translateX(2px);
+  background: var(--md-primary-container);
+  color: var(--md-on-primary-container);
 }
 
-/* ===== Ripple — softer ===== */
+/* ============================================
+   Ripple (Original)
+   ============================================ */
 .md-ripple { position: relative; overflow: hidden; }
 .md-ripple-effect {
   position: absolute;
   border-radius: 50%;
-  background: rgba(214, 36, 29, 0.12);
+  background: rgba(0,0,0,0.14);
   transform: scale(0);
-  animation: mdRipple 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation: mdRipple 0.55s ease-out;
   pointer-events: none;
 }
 @keyframes mdRipple {
   to { transform: scale(1); opacity: 0; }
 }
 
-/* ===== Scrim ===== */
+/* ============================================
+   Scrim (Original)
+   ============================================ */
 .md-scrim {
   position: fixed;
   inset: 0;
-  background: rgba(15, 27, 43, 0.32);
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
+  background: rgba(0,0,0,0.4);
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -244,24 +271,25 @@ body {
 }
 .md-scrim.show { opacity: 1; visibility: visible; }
 
-/* ===== Drawer — Glass Panel ===== */
+/* ============================================
+   Drawer (Original — solid white)
+   ============================================ */
 .md-drawer {
   position: fixed;
-  top: 0; right: 0; left: auto;
-  width: 320px;
-  max-width: 86vw;
+  top: 0;
+  right: 0;
+  left: auto;
+  width: 330px;
+  max-width: 88vw;
   height: 100dvh;
-  background: var(--glass-bg-strong);
-  -webkit-backdrop-filter: var(--glass-blur-strong);
-  backdrop-filter: var(--glass-blur-strong);
+  background: var(--md-surface);
   transform: translateX(100%);
-  transition: transform 0.38s cubic-bezier(0.2, 0.9, 0.25, 1);
+  transition: transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
   z-index: 1050;
   display: flex;
   flex-direction: column;
-  border-radius: 24px 0 0 24px;
-  border-left: 1px solid var(--glass-border);
-  box-shadow: -8px 0 40px rgba(15, 27, 43, 0.15);
+  border-radius: 20px 0 0 20px;
+  box-shadow: var(--md-elev-4);
   overflow: hidden;
 }
 .md-drawer.open { transform: translateX(0); }
@@ -270,20 +298,20 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 22px 22px 14px;
+  padding: 22px 22px 16px;
 }
 
 .md-drawer-list {
   list-style: none;
   margin: 0;
-  padding: 4px 12px;
+  padding: 4px 14px;
   flex: 1;
   overflow-y: auto;
 }
 .md-drawer-item {
   opacity: 0;
-  transform: translateX(12px);
-  animation: mdDrawerIn 0.4s cubic-bezier(0.2, 0.9, 0.25, 1) forwards;
+  transform: translateX(10px);
+  animation: mdDrawerIn 0.35s ease forwards;
   animation-delay: var(--d, 0s);
 }
 .md-drawer.open .md-drawer-item { animation-play-state: running; }
@@ -293,22 +321,19 @@ body {
   display: flex;
   align-items: center;
   gap: 14px;
-  height: 52px;
-  padding: 0 14px;
-  border-radius: 26px;
+  height: 56px;
+  padding: 0 16px;
+  border-radius: 28px;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.15s ease;
-  margin-bottom: 2px;
+  transition: background 0.2s ease;
+  margin-bottom: 4px;
 }
 .md-drawer-row:hover { background: rgba(27,28,30,0.05); }
-.md-drawer-row:active { transform: scale(0.98); }
-.md-drawer-row.is-active {
-  background: rgba(214, 36, 29, 0.1);
-}
+.md-drawer-row.is-active { background: var(--md-primary-container); }
 .md-drawer-row.is-active .md-drawer-label,
 .md-drawer-row.is-active .md-drawer-icon {
   color: var(--md-on-primary-container);
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .md-drawer-icon { color: var(--md-on-surface-variant); display: flex; flex-shrink: 0; }
@@ -316,43 +341,51 @@ body {
   flex: 1;
   color: var(--md-on-surface);
   text-decoration: none;
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 1.08rem !important;
+  font-weight: 700;
 }
 .md-drawer-chevron {
   color: var(--md-on-surface-variant);
   display: flex;
-  transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.25, 1);
+  transition: transform 0.3s ease;
 }
 .md-drawer-chevron.open { transform: rotate(90deg); }
 
 .md-drawer-submenu {
   list-style: none;
   margin: 0;
-  padding-left: 52px;
+  padding-left: 54px;
   overflow: hidden;
   max-height: 0;
-  transition: max-height 0.38s cubic-bezier(0.2, 0.9, 0.25, 1);
+  transition: max-height 0.35s ease;
 }
 .md-drawer-sublink {
   display: block;
-  padding: 9px 14px;
-  border-radius: 18px;
+  padding: 10px 14px;
+  border-radius: 20px;
   color: var(--md-on-surface-variant);
   text-decoration: none;
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: 0.96rem !important;
+  font-weight: 600;
   transition: background 0.15s ease, color 0.15s ease;
 }
-.md-drawer-sublink:hover {
-  background: rgba(214, 36, 29, 0.08);
-  color: var(--md-primary);
-}
+.md-drawer-sublink:hover { background: var(--md-surface-variant); color: var(--md-on-surface); }
 
 .md-drawer-footer {
-  padding: 16px 22px 24px;
-  border-top: 1px solid rgba(255,255,255,0.4);
-  background: rgba(255,255,255,0.3);
+  padding: 18px 22px 26px;
+  border-top: 1px solid var(--md-outline);
+  position: relative;
+}
+.md-drawer-footer::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, var(--md-primary), #ff4d4d, var(--md-primary), transparent);
+  box-shadow: 0 -2px 12px rgba(214, 36, 29, 0.6);
+  pointer-events: none;
 }
 
 .md-btn-filled {
@@ -360,25 +393,24 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  height: 48px;
-  border-radius: 24px;
+  height: 50px;
+  border-radius: 25px;
   background: var(--md-primary);
   color: #fff;
-  font-weight: 600;
-  font-size: 0.98rem;
+  font-weight: 700;
+  font-size: 1.02rem;
   text-decoration: none;
-  box-shadow: 0 4px 14px rgba(214, 36, 29, 0.3);
-  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
+  box-shadow: var(--md-elev-1);
+  transition: background 0.2s ease, box-shadow 0.2s ease;
 }
 .md-btn-filled:hover {
   background: var(--md-primary-dark);
-  box-shadow: 0 6px 20px rgba(214, 36, 29, 0.4);
+  box-shadow: var(--md-elev-2);
   color: #fff;
 }
-.md-btn-filled:active { transform: scale(0.97); }
 
 /* ============================================================
-   BOTTOM NAV — AIRTEL-STYLE GLASSMORPHISM
+   BOTTOM NAV — GLASSMORPHISM (Airtel Style) ⭐ NEW
    ============================================================ */
 .md-navbar {
   position: fixed;
@@ -508,16 +540,10 @@ body {
 .md-fab:hover::before { opacity: 1; }
 .md-fab:active { transform: scale(0.92); }
 
-/* ===== Dark mode support (optional, Airtel-style) ===== */
+/* ============================================
+   Dark Mode (Bottom nav only — optional)
+   ============================================ */
 @media (prefers-color-scheme: dark) {
-  :root {
-    --md-background: #0F1115;
-    --md-on-surface: #E8EAED;
-    --md-on-surface-variant: #9AA0A6;
-    --glass-bg: rgba(28, 30, 36, 0.65);
-    --glass-bg-strong: rgba(28, 30, 36, 0.82);
-    --glass-border: rgba(255, 255, 255, 0.08);
-  }
   .md-navbar {
     background: rgba(28, 30, 36, 0.6);
     border-color: rgba(255, 255, 255, 0.08);
@@ -525,5 +551,4 @@ body {
       0 8px 32px rgba(0, 0, 0, 0.4),
       inset 0 1px 0 rgba(255, 255, 255, 0.06);
   }
-  .md-drawer-footer { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.06); }
 }
