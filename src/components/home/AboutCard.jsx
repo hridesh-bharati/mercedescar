@@ -139,6 +139,11 @@ export default function AboutCard() {
   return (
     <>
       <section className="about-section" id="about" ref={sectionRef}>
+        {/* Decorative background layers */}
+        <span className="about-pattern" aria-hidden="true"></span>
+        <span className="about-glow about-glow--blue" aria-hidden="true"></span>
+        <span className="about-glow about-glow--pink" aria-hidden="true"></span>
+
         <div className="container about-container">
           <div className="row align-items-center g-5">
 

@@ -1,9 +1,9 @@
 /* ============================================
-   ABOUT SECTION — APP UI/UX DESIGN (LIGHT MODE)
+   ABOUT SECTION — LIGHT GLASSMORPHISM
    ============================================ */
 .about-section {
   position: relative;
-  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  background: linear-gradient(135deg, #f0f4ff 0%, #fef6f0 50%, #f5f0ff 100%);
   color: #0f172a;
   padding: 100px 0;
   overflow: hidden;
@@ -15,8 +15,8 @@
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(15, 23, 42, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
+    linear-gradient(rgba(15, 23, 42, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 23, 42, 0.035) 1px, transparent 1px);
   background-size: 40px 40px;
   mask-image: radial-gradient(ellipse at center, #000 40%, transparent 85%);
   -webkit-mask-image: radial-gradient(ellipse at center, #000 40%, transparent 85%);
@@ -24,18 +24,30 @@
   pointer-events: none;
 }
 
-/* ============ Soft Glow Accent ============ */
+/* ============ Soft Glow Accents (colored orbs) ============ */
 .about-glow {
   position: absolute;
-  top: -150px;
-  right: -150px;
-  width: 500px;
-  height: 500px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(214, 36, 29, 0.08) 0%, transparent 70%);
-  filter: blur(60px);
+  filter: blur(110px);
+  opacity: 0.5;
   z-index: 0;
   pointer-events: none;
+}
+
+.about-glow--blue {
+  top: -140px;
+  right: -140px;
+  width: 460px;
+  height: 460px;
+  background: #93c5fd;
+}
+
+.about-glow--pink {
+  bottom: -160px;
+  left: -140px;
+  width: 460px;
+  height: 460px;
+  background: #f0abfc;
 }
 
 .about-container {
@@ -53,15 +65,21 @@
   gap: 8px;
   padding: 6px 14px;
   margin-bottom: 16px;
-  background: rgba(214, 36, 29, 0.06);
-  border: 1px solid rgba(214, 36, 29, 0.15);
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
   border-radius: 50px;
+  box-shadow:
+    0 4px 14px rgba(31, 38, 135, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
 }
 .about-badge-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
   background: var(--md-primary, #D6241D);
+  box-shadow: 0 0 8px rgba(214, 36, 29, 0.5);
 }
 .about-badge-text {
   font-size: 0.72rem;
@@ -93,13 +111,15 @@
 }
 
 /* ============================================
-   SHOW MORE BUTTON
+   SHOW MORE BUTTON — Glass pill
    ============================================ */
 .about-showmore-btn {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px dashed rgba(214, 36, 29, 0.5);
   color: var(--md-primary, #D6241D);
   font-size: 0.85rem;
@@ -108,19 +128,26 @@
   border-radius: 100px;
   cursor: pointer;
   margin-bottom: 22px;
+  box-shadow:
+    0 4px 14px rgba(31, 38, 135, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
   transition:
     background 0.3s ease,
     border-color 0.3s ease,
     color 0.3s ease,
-    transform 0.3s ease;
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .about-showmore-btn:hover {
-  background: rgba(214, 36, 29, 0.08);
+  background: rgba(255, 255, 255, 0.85);
   border-color: var(--md-primary, #D6241D);
   border-style: solid;
   color: var(--md-primary-dark, #A81A15);
   transform: translateY(-2px);
+  box-shadow:
+    0 10px 24px rgba(214, 36, 29, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
 }
 
 .about-showmore-btn svg {
@@ -131,7 +158,7 @@
   transform: translateY(3px);
 }
 
-/* ============ Button ============ */
+/* ============ Primary Button ============ */
 .about-btn-primary {
   display: inline-flex;
   align-items: center;
@@ -143,15 +170,15 @@
   font-weight: 600;
   font-size: 0.9rem;
   text-decoration: none;
-  box-shadow: 0 4px 14px rgba(214, 36, 29, 0.3);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 8px 22px rgba(214, 36, 29, 0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
   margin-bottom: 36px;
 }
 .about-btn-primary:hover {
   background: var(--md-primary-dark, #A81A15);
   color: #ffffff;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(214, 36, 29, 0.4);
+  box-shadow: 0 12px 28px rgba(214, 36, 29, 0.45);
 }
 .about-btn-primary svg {
   transition: transform 0.25s ease;
@@ -160,30 +187,54 @@
   transform: translateX(4px);
 }
 
-/* ============ Stats Row (App Card Grid Style) ============ */
+/* ============================================
+   STATS ROW — Glass cards
+   ============================================ */
 .about-stats-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  gap: 14px;
   padding-top: 24px;
-  border-top: 1px solid var(--md-outline, #E2E4E8);
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
 }
+
 .about-stat-item {
   display: flex;
   align-items: flex-start;
   gap: 10px;
+  padding: 14px 14px;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 14px;
+  box-shadow:
+    0 6px 18px rgba(31, 38, 135, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
+
+.about-stat-item:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 1);
+  box-shadow:
+    0 14px 30px rgba(31, 38, 135, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+}
+
 .stat-icon {
   width: 40px;
   height: 40px;
   border-radius: 12px;
-  background: var(--md-surface-variant, #F0F1F5);
+  background: linear-gradient(135deg, rgba(214, 36, 29, 0.12), rgba(255, 107, 74, 0.12));
   color: var(--md-primary, #D6241D);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  border: 1px solid rgba(214, 36, 29, 0.15);
 }
+
 .stat-content h4 {
   font-size: 1.15rem;
   font-weight: 700;
@@ -199,7 +250,7 @@
 }
 
 /* ============================================
-   IMAGE SHOWCASE — APP CARD STYLE
+   IMAGE SHOWCASE — Glass Cards
    ============================================ */
 .about-image-col {
   display: flex;
@@ -223,17 +274,22 @@
   top: 5%;
   width: 34%;
   height: 90%;
-  background: var(--md-ink, #0F1B2B);
-  border-radius: 16px;
+  background: rgba(15, 27, 43, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 18px;
   z-index: 1;
   overflow: hidden;
-  box-shadow: 0 10px 25px rgba(15, 27, 43, 0.12);
+  box-shadow: 0 14px 36px rgba(15, 27, 43, 0.18);
 }
+
 .about-back-img-box {
   position: relative;
   width: 100%;
   height: 100%;
 }
+
 .about-back-dim {
   position: absolute;
   inset: 0;
@@ -247,12 +303,16 @@
   right: 15px;
   width: 82%;
   height: 100%;
-  background-color: var(--md-surface, #FFFFFF);
-  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-radius: 22px;
   overflow: hidden;
   z-index: 2;
-  box-shadow: 0 16px 36px rgba(15, 27, 43, 0.1);
-  border: 1px solid var(--md-outline, #E2E4E8);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow:
+    0 20px 45px rgba(31, 38, 135, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
 }
 
 /* ---------- SWAP LAYERS ---------- */
@@ -324,7 +384,7 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.5);
   transition: all 0.3s ease;
   cursor: pointer;
   border: none;
@@ -334,21 +394,10 @@
   width: 18px;
   border-radius: 10px;
   background: var(--md-primary, #D6241D);
+  box-shadow: 0 0 10px rgba(214, 36, 29, 0.5);
 }
 
-/* ---------- RED ACCENT STRIPE ---------- */
-.about-red-stripe {
-  position: absolute;
-  right: 0;
-  top: 20%;
-  width: 4px;
-  height: 60%;
-  background: var(--md-primary, #D6241D);
-  border-radius: 4px;
-  z-index: 3;
-}
-
-/* ---------- FLOATING APP BADGE ---------- */
+/* ---------- FLOATING BADGE — Glass ---------- */
 .about-floating-badge {
   position: absolute;
   top: 24px;
@@ -358,21 +407,26 @@
   align-items: center;
   gap: 10px;
   padding: 8px 14px 8px 8px;
-  background: var(--md-surface, #FFFFFF);
-  border: 1px solid var(--md-outline, #E2E4E8);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.95);
   border-radius: 14px;
-  box-shadow: 0 8px 20px rgba(15, 27, 43, 0.1);
+  box-shadow:
+    0 10px 26px rgba(31, 38, 135, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
 }
 .floating-badge-icon {
   width: 32px;
   height: 32px;
   border-radius: 10px;
-  background: var(--md-primary, #D6241D);
+  background: linear-gradient(135deg, var(--md-primary, #D6241D), #ff5e54);
   color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  box-shadow: 0 6px 16px rgba(214, 36, 29, 0.4);
 }
 .floating-badge-text {
   display: flex;
@@ -391,15 +445,15 @@
 }
 
 /* ============================================
-   MODAL OVERLAY
+   MODAL OVERLAY — Light glass
    ============================================ */
 .about-modal-overlay {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: rgba(8, 11, 18, 0.75);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -413,18 +467,22 @@
 }
 
 /* ============================================
-   MODAL BOX
+   MODAL BOX — Glass
    ============================================ */
 .about-modal {
   position: relative;
   width: 100%;
   max-width: 780px;
   max-height: 85vh;
-  background: #ffffff;
-  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
   box-shadow:
-    0 30px 70px rgba(0, 0, 0, 0.35),
-    0 10px 30px rgba(214, 36, 29, 0.15);
+    0 30px 70px rgba(15, 23, 42, 0.25),
+    0 10px 30px rgba(214, 36, 29, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -446,8 +504,8 @@
 .about-modal-header {
   position: relative;
   padding: 24px 60px 20px 28px;
-  border-bottom: 1px solid #f0f0f0;
-  background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(255, 255, 255, 0.6);
   flex-shrink: 0;
 }
 
@@ -485,8 +543,10 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.04);
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(15, 23, 42, 0.1);
   color: #6b7280;
   display: flex;
   align-items: center;
@@ -496,7 +556,8 @@
     background 0.3s ease,
     color 0.3s ease,
     border-color 0.3s ease,
-    transform 0.3s ease;
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .about-modal-close:hover {
@@ -504,6 +565,7 @@
   color: #ffffff;
   border-color: var(--md-primary, #D6241D);
   transform: rotate(90deg) scale(1.08);
+  box-shadow: 0 8px 20px rgba(214, 36, 29, 0.4);
 }
 
 /* ---------- Modal Body ---------- */
@@ -534,11 +596,11 @@
 }
 
 .about-modal-body::-webkit-scrollbar-track {
-  background: #f5f5f5;
+  background: transparent;
 }
 
 .about-modal-body::-webkit-scrollbar-thumb {
-  background: #d1d5db;
+  background: rgba(214, 36, 29, 0.25);
   border-radius: 10px;
 }
 
@@ -547,7 +609,7 @@
 }
 
 /* ============================================
-   RESPONSIVE DESIGN
+   RESPONSIVE
    ============================================ */
 @media (max-width: 991px) {
   .about-section { padding: 70px 0; }
@@ -556,10 +618,10 @@
   .about-badge { justify-content: center; }
   .about-stats-row {
     grid-template-columns: repeat(3, 1fr);
-    max-width: 520px;
+    max-width: 560px;
     margin: 0 auto;
   }
-  .about-stat-item { justify-content: center; text-align: left; }
+  .about-stat-item { justify-content: flex-start; text-align: left; }
   .about-image-wrapper {
     margin-top: 40px;
     max-width: 440px;
@@ -571,8 +633,8 @@
   .about-section { padding: 50px 0; }
   .about-stats-row {
     grid-template-columns: 1fr;
-    gap: 14px;
-    max-width: 280px;
+    gap: 12px;
+    max-width: 320px;
   }
   .about-stat-item { justify-content: flex-start; }
   .about-image-wrapper {
@@ -593,7 +655,7 @@
 
   .about-modal {
     max-height: 90vh;
-    border-radius: 14px;
+    border-radius: 16px;
   }
 
   .about-modal-header {
