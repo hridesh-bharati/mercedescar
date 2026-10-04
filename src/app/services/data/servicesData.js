@@ -1,5 +1,4 @@
-import { 
-  ShieldAlert, 
+import { ShieldAlert, 
   Droplet, 
   Cpu, 
   Compass, 
@@ -43,7 +42,7 @@ export const servicesData = [
     id: 'steering-airmatic',
     title: 'Steering & Airmatic Suspension',
     description: 'Maintain a flawlessly smooth ride with expert diagnostics and repairs for complex Mercedes steering and air suspension systems.',
-    image: '/images/services/bg-metabox-2.webp',
+    image: '/images/services/bg-mtabox-2.webp',
     imagePosition: 'right',
     icon: Compass,
   },
