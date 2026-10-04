@@ -3,91 +3,96 @@
 :root {
   --md-primary: #D6241D;
   --md-primary-dark: #A81A15;
-  --md-primary-container: #FFDAD4;
-  --md-on-primary-container: #5C0A04;
+  --md-primary-container: rgba(214, 36, 29, 0.12);
+  --md-on-primary-container: #8B1410;
   --md-ink: #0F1B2B;
   --md-background: #F6F7F9;
-  --md-surface: #FFFFFF;
-  --md-surface-variant: #F0F1F5;
-  --md-outline: #E2E4E8;
+  --md-surface: rgba(255, 255, 255, 0.72);
+  --md-surface-solid: #FFFFFF;
+  --md-surface-variant: rgba(240, 241, 245, 0.6);
+  --md-outline: rgba(226, 228, 232, 0.6);
   --md-on-surface: #1B1C1E;
   --md-on-surface-variant: #5F6368;
 
-  --md-elev-1: 0 1px 2px rgba(20,20,25,0.06), 0 1px 3px rgba(20,20,25,0.10);
-  --md-elev-2: 0 2px 4px rgba(20,20,25,0.08), 0 4px 10px rgba(20,20,25,0.10);
-  --md-elev-3: 0 4px 10px rgba(20,20,25,0.10), 0 8px 20px rgba(20,20,25,0.12);
-  --md-elev-4: 0 6px 14px rgba(20,20,25,0.12), 0 14px 28px rgba(20,20,25,0.14);
+  /* Glass tokens */
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-bg-strong: rgba(255, 255, 255, 0.82);
+  --glass-border: rgba(255, 255, 255, 0.55);
+  --glass-blur: blur(20px) saturate(180%);
+  --glass-blur-strong: blur(28px) saturate(200%);
+
+  --md-elev-1: 0 1px 2px rgba(20,20,25,0.05);
+  --md-elev-2: 0 2px 8px rgba(20,20,25,0.06);
+  --md-elev-3: 0 6px 18px rgba(20,20,25,0.08);
+  --md-elev-4: 0 10px 30px rgba(20,20,25,0.12);
 }
 
 * { box-sizing: border-box; }
+
 body {
   background: var(--md-background);
   color: var(--md-on-surface);
   font-family: 'Inter', system-ui, sans-serif;
   margin: 0;
-  padding-top: 0px;
-  padding-bottom: 78px;
+  padding-top: 0;
+  padding-bottom: 84px;
 }
 
-/* ===== Top Info Bar (Larger Text) ===== */
+/* ===== Top Info Bar ===== */
 .md-top-info-bar {
   background: var(--md-ink);
   color: #fff;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
-.md-top-info-bar span, 
+.md-top-info-bar span,
 .md-top-info-bar a {
-  color: #e5e7eb !important;
-  font-size: 0.98rem !important; /* Increased font size */
+  color: #d1d5db !important;
+  font-size: 0.92rem !important;
   font-weight: 500;
   transition: color 0.2s ease;
 }
-.md-top-info-bar a:hover {
-  color: #ffffff !important;
-}
+.md-top-info-bar a:hover { color: #fff !important; }
 
-/* ===== Main App Bar with Fade Red Glow Bottom Border ===== */
+/* ===== Main App Bar — Glass Lightweight ===== */
 .md-appbar {
   position: sticky;
   top: 0;
   z-index: 1030;
-  background: var(--md-surface);
-  border-bottom: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  transition: box-shadow 0.25s ease;
+  background: var(--glass-bg-strong);
+  -webkit-backdrop-filter: var(--glass-blur-strong);
+  backdrop-filter: var(--glass-blur-strong);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 1px 0 rgba(0,0,0,0.03), 0 4px 16px rgba(0,0,0,0.04);
+  transition: box-shadow 0.3s ease, background 0.3s ease;
 }
 
+/* Thin accent line — subtle, not heavy */
 .md-appbar::after {
   content: '';
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 2px;
+  left: 0; right: 0; bottom: 0;
+  height: 1px;
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(214, 36, 29, 0.2) 20%,
-    var(--md-primary) 50%,
-    rgba(214, 36, 29, 0.2) 80%,
+    rgba(214, 36, 29, 0.15) 30%,
+    rgba(214, 36, 29, 0.45) 50%,
+    rgba(214, 36, 29, 0.15) 70%,
     transparent 100%
   );
-  box-shadow: 0 2px 8px rgba(214, 36, 29, 0.4);
   pointer-events: none;
-  z-index: 10;
 }
 
-.md-appbar--elevated { 
-  box-shadow: var(--md-elev-2); 
+.md-appbar--elevated {
+  background: var(--glass-bg-strong);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
 }
 
-.md-appbar-row {
-  height: 80px; /* Slightly taller header for prominent feel */
-}
+.md-appbar-row { height: 68px; }
 
 .md-icon-btn {
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   border: none;
   background: transparent;
@@ -99,144 +104,126 @@ body {
   overflow: hidden;
   flex-shrink: 0;
   text-decoration: none;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, transform 0.15s ease;
 }
-.md-icon-btn:hover { background: rgba(27,28,30,0.06); }
-.md-icon-btn:active { background: rgba(27,28,30,0.10); }
+.md-icon-btn:hover { background: rgba(27,28,30,0.05); }
+.md-icon-btn:active { transform: scale(0.92); }
 
-.md-appbar-brand {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-}
-.md-logo-img {
-  height: 48px; /* Slightly larger logo */
-  width: auto;
-  object-fit: contain;
-}
-.md-logo-img-drawer {
-  height: 52px;
-  width: auto;
-  object-fit: contain;
-}
+.md-appbar-brand { display: flex; align-items: center; text-decoration: none; }
+.md-logo-img { height: 42px; width: auto; object-fit: contain; }
+.md-logo-img-drawer { height: 46px; width: auto; object-fit: contain; }
 
-.md-appbar-actions { 
-  display: flex; 
-  align-items: center; 
-  gap: 6px; 
-}
+.md-appbar-actions { display: flex; align-items: center; gap: 4px; }
 
-/* ===== Expanding search app bar ===== */
+/* ===== Search ===== */
 .md-search-row {
   display: flex;
   align-items: center;
   gap: 8px;
-  animation: mdSearchIn 0.22s ease;
+  animation: mdSearchIn 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-@keyframes mdSearchIn { 
-  from { opacity: 0; transform: translateX(8px); } 
-  to { opacity: 1; transform: translateX(0); } 
+@keyframes mdSearchIn {
+  from { opacity: 0; transform: translateX(12px); }
+  to { opacity: 1; transform: translateX(0); }
 }
 .md-search-field {
   flex: 1;
   border: none;
   outline: none;
   background: transparent;
-  font-size: 1.12rem; /* Larger search input font */
+  font-size: 1.05rem;
   font-weight: 500;
   color: var(--md-on-surface);
-  height: 46px;
+  height: 44px;
 }
 .md-search-field::placeholder { color: var(--md-on-surface-variant); }
 
-/* ===== Desktop Inline Nav (Larger & Bolder Links) ===== */
-.md-desktop-nav {
-  list-style: none;
-}
-.md-desktop-item { 
-  position: relative; 
-}
+/* ===== Desktop Nav ===== */
+.md-desktop-nav { list-style: none; }
+.md-desktop-item { position: relative; }
+
 .md-desktop-link {
   display: block;
-  padding: 12px 16px;
+  padding: 10px 14px;
   color: #374151;
   text-decoration: none;
-  font-weight: 700; /* Bolder font weight */
-  font-size: 1.06rem !important; /* Larger desktop link font */
-  background: transparent !important;
+  font-weight: 600;
+  font-size: 0.98rem;
+  border-radius: 10px;
+  transition: color 0.2s ease, background 0.2s ease;
   position: relative;
-  transition: color 0.2s ease;
 }
 
+/* Subtle underline glow instead of heavy border */
 .md-desktop-link::after {
   content: '';
   position: absolute;
-  bottom: 0;
-  left: 8px;
-  right: 8px;
-  height: 2.5px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(214, 36, 29, 0.3) 20%,
-    var(--md-primary) 50%,
-    rgba(214, 36, 29, 0.3) 80%,
-    transparent 100%
-  );
-  box-shadow: 0 0 8px rgba(214, 36, 29, 0.5);
-  transform: scaleX(0);
-  transform-origin: center;
-  transition: transform 0.25s ease-in-out;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%) scaleX(0);
+  width: 60%;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--md-primary);
+  box-shadow: 0 0 6px rgba(214, 36, 29, 0.4);
+  transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.md-desktop-item:hover .md-desktop-link { 
-  color: var(--md-primary) !important; 
-  background: transparent !important;
+.md-desktop-item:hover .md-desktop-link {
+  color: var(--md-primary);
+  background: rgba(214, 36, 29, 0.04);
 }
+.md-desktop-item:hover .md-desktop-link::after { transform: translateX(-50%) scaleX(1); }
 
-.md-desktop-item:hover .md-desktop-link::after {
-  transform: scaleX(1);
-}
-
+/* Dropdown — glass panel */
 .md-desktop-menu {
   position: absolute;
-  top: 100%;
+  top: calc(100% + 8px);
   left: 0;
-  min-width: 230px;
-  background: var(--md-surface);
-  border-radius: 12px;
-  box-shadow: var(--md-elev-3);
-  padding: 10px;
+  min-width: 240px;
+  background: var(--glass-bg-strong);
+  -webkit-backdrop-filter: var(--glass-blur-strong);
+  backdrop-filter: var(--glass-blur-strong);
+  border-radius: 16px;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--md-elev-4);
+  padding: 8px;
   display: none;
   flex-direction: column;
-  max-height: 360px;
+  max-height: 380px;
   overflow-y: auto;
   z-index: 20;
-  border: 1px solid var(--md-outline);
+  animation: mdDropdownIn 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+@keyframes mdDropdownIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 .md-desktop-item:hover .md-desktop-menu { display: flex; }
+
 .md-desktop-menu-item {
-  padding: 11px 16px;
-  border-radius: 8px;
+  padding: 10px 14px;
+  border-radius: 10px;
   color: var(--md-on-surface);
   text-decoration: none;
-  font-weight: 600; /* Bolder dropdown item font */
-  font-size: 0.98rem !important; /* Larger dropdown items */
-  transition: background 0.15s ease, color 0.15s ease;
+  font-weight: 500;
+  font-size: 0.92rem;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
 }
-.md-desktop-menu-item:hover { 
-  background: var(--md-primary-container); 
-  color: var(--md-on-primary-container); 
+.md-desktop-menu-item:hover {
+  background: rgba(214, 36, 29, 0.08);
+  color: var(--md-primary);
+  transform: translateX(2px);
 }
 
-/* ===== Ripple effect ===== */
+/* ===== Ripple — softer ===== */
 .md-ripple { position: relative; overflow: hidden; }
 .md-ripple-effect {
   position: absolute;
   border-radius: 50%;
-  background: rgba(0,0,0,0.14);
+  background: rgba(214, 36, 29, 0.12);
   transform: scale(0);
-  animation: mdRipple 0.55s ease-out;
+  animation: mdRipple 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
   pointer-events: none;
 }
 @keyframes mdRipple {
@@ -247,7 +234,9 @@ body {
 .md-scrim {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.4);
+  background: rgba(15, 27, 43, 0.32);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -255,23 +244,24 @@ body {
 }
 .md-scrim.show { opacity: 1; visibility: visible; }
 
-/* ===== Right-Side Navigation Drawer (Larger text inside drawer) ===== */
+/* ===== Drawer — Glass Panel ===== */
 .md-drawer {
   position: fixed;
-  top: 0;
-  right: 0;
-  left: auto;
-  width: 330px;
-  max-width: 88vw;
+  top: 0; right: 0; left: auto;
+  width: 320px;
+  max-width: 86vw;
   height: 100dvh;
-  background: var(--md-surface);
+  background: var(--glass-bg-strong);
+  -webkit-backdrop-filter: var(--glass-blur-strong);
+  backdrop-filter: var(--glass-blur-strong);
   transform: translateX(100%);
-  transition: transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: transform 0.38s cubic-bezier(0.2, 0.9, 0.25, 1);
   z-index: 1050;
   display: flex;
   flex-direction: column;
-  border-radius: 20px 0 0 20px;
-  box-shadow: var(--md-elev-4);
+  border-radius: 24px 0 0 24px;
+  border-left: 1px solid var(--glass-border);
+  box-shadow: -8px 0 40px rgba(15, 27, 43, 0.15);
   overflow: hidden;
 }
 .md-drawer.open { transform: translateX(0); }
@@ -280,20 +270,20 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 22px 22px 16px;
+  padding: 22px 22px 14px;
 }
 
 .md-drawer-list {
   list-style: none;
   margin: 0;
-  padding: 4px 14px;
+  padding: 4px 12px;
   flex: 1;
   overflow-y: auto;
 }
 .md-drawer-item {
   opacity: 0;
-  transform: translateX(10px);
-  animation: mdDrawerIn 0.35s ease forwards;
+  transform: translateX(12px);
+  animation: mdDrawerIn 0.4s cubic-bezier(0.2, 0.9, 0.25, 1) forwards;
   animation-delay: var(--d, 0s);
 }
 .md-drawer.open .md-drawer-item { animation-play-state: running; }
@@ -303,19 +293,22 @@ body {
   display: flex;
   align-items: center;
   gap: 14px;
-  height: 56px; /* Taller touch targets */
-  padding: 0 16px;
-  border-radius: 28px;
+  height: 52px;
+  padding: 0 14px;
+  border-radius: 26px;
   cursor: pointer;
-  transition: background 0.2s ease;
-  margin-bottom: 4px;
+  transition: background 0.2s ease, transform 0.15s ease;
+  margin-bottom: 2px;
 }
 .md-drawer-row:hover { background: rgba(27,28,30,0.05); }
-.md-drawer-row.is-active { background: var(--md-primary-container); }
+.md-drawer-row:active { transform: scale(0.98); }
+.md-drawer-row.is-active {
+  background: rgba(214, 36, 29, 0.1);
+}
 .md-drawer-row.is-active .md-drawer-label,
-.md-drawer-row.is-active .md-drawer-icon { 
-  color: var(--md-on-primary-container); 
-  font-weight: 800; 
+.md-drawer-row.is-active .md-drawer-icon {
+  color: var(--md-on-primary-container);
+  font-weight: 700;
 }
 
 .md-drawer-icon { color: var(--md-on-surface-variant); display: flex; flex-shrink: 0; }
@@ -323,51 +316,43 @@ body {
   flex: 1;
   color: var(--md-on-surface);
   text-decoration: none;
-  font-size: 1.08rem !important; /* Larger mobile drawer labels */
-  font-weight: 700; /* Bolder mobile drawer font */
+  font-size: 1rem;
+  font-weight: 600;
 }
 .md-drawer-chevron {
   color: var(--md-on-surface-variant);
   display: flex;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.25, 1);
 }
 .md-drawer-chevron.open { transform: rotate(90deg); }
 
 .md-drawer-submenu {
   list-style: none;
   margin: 0;
-  padding-left: 54px;
+  padding-left: 52px;
   overflow: hidden;
   max-height: 0;
-  transition: max-height 0.35s ease;
+  transition: max-height 0.38s cubic-bezier(0.2, 0.9, 0.25, 1);
 }
 .md-drawer-sublink {
   display: block;
-  padding: 10px 14px;
-  border-radius: 20px;
+  padding: 9px 14px;
+  border-radius: 18px;
   color: var(--md-on-surface-variant);
   text-decoration: none;
-  font-size: 0.96rem !important; /* Larger submenu font */
-  font-weight: 600;
+  font-size: 0.9rem;
+  font-weight: 500;
   transition: background 0.15s ease, color 0.15s ease;
 }
-.md-drawer-sublink:hover { background: var(--md-surface-variant); color: var(--md-on-surface); }
-
-.md-drawer-footer { 
-  padding: 18px 22px 26px; 
-  border-top: 1px solid var(--md-outline);
-  position: relative;
+.md-drawer-sublink:hover {
+  background: rgba(214, 36, 29, 0.08);
+  color: var(--md-primary);
 }
-.md-drawer-footer::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, transparent, var(--md-primary), #ff4d4d, var(--md-primary), transparent);
-  box-shadow: 0 -2px 12px rgba(214, 36, 29, 0.6);
-  pointer-events: none;
+
+.md-drawer-footer {
+  padding: 16px 22px 24px;
+  border-top: 1px solid rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.3);
 }
 
 .md-btn-filled {
@@ -375,37 +360,48 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  height: 50px;
-  border-radius: 25px;
+  height: 48px;
+  border-radius: 24px;
   background: var(--md-primary);
   color: #fff;
-  font-weight: 700;
-  font-size: 1.02rem; /* Larger button text */
+  font-weight: 600;
+  font-size: 0.98rem;
   text-decoration: none;
-  box-shadow: var(--md-elev-1);
-  transition: background 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 14px rgba(214, 36, 29, 0.3);
+  transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
 }
-.md-btn-filled:hover { 
-  background: var(--md-primary-dark); 
-  box-shadow: var(--md-elev-2); 
-  color: #fff; 
+.md-btn-filled:hover {
+  background: var(--md-primary-dark);
+  box-shadow: 0 6px 20px rgba(214, 36, 29, 0.4);
+  color: #fff;
 }
+.md-btn-filled:active { transform: scale(0.97); }
 
-/* ===== Android Bottom Navigation Bar (Larger Labels) ===== */
+/* ============================================================
+   BOTTOM NAV — AIRTEL-STYLE GLASSMORPHISM
+   ============================================================ */
 .md-navbar {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 76px;
-  background: var(--md-surface);
-  border-top: 1px solid var(--md-outline);
-  box-shadow: var(--md-elev-2);
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  height: 68px;
+  background: rgba(255, 255, 255, 0.55);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 22px;
+  box-shadow:
+    0 8px 32px rgba(15, 27, 43, 0.12),
+    0 2px 8px rgba(15, 27, 43, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
   display: flex;
   align-items: center;
   z-index: 1020;
-  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding: 0 6px;
+  margin-bottom: env(safe-area-inset-bottom, 0px);
 }
+
 .md-nav-dest {
   flex: 1;
   height: 100%;
@@ -415,29 +411,57 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 3px;
   color: var(--md-on-surface-variant);
-  font-size: 0.75rem; /* Larger bottom nav font */
-  font-weight: 700; /* Bolder bottom nav font */
+  font-size: 0.68rem;
+  font-weight: 600;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   text-decoration: none;
+  transition: color 0.25s ease;
+  cursor: pointer;
 }
+
+/* Indicator pill */
 .md-nav-indicator {
-  width: 56px;
-  height: 32px;
-  border-radius: 16px;
+  width: 46px;
+  height: 28px;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.25s ease, color 0.25s ease;
-}
-.md-nav-dest.is-active { color: var(--md-on-surface); }
-.md-nav-dest.is-active .md-nav-indicator {
-  background: var(--md-primary-container);
-  color: var(--md-on-primary-container);
+  transition: background 0.3s cubic-bezier(0.2, 0.9, 0.25, 1),
+              color 0.25s ease,
+              transform 0.3s cubic-bezier(0.2, 0.9, 0.25, 1);
 }
 
+.md-nav-dest.is-active { color: var(--md-primary); }
+.md-nav-dest.is-active .md-nav-indicator {
+  background: rgba(214, 36, 29, 0.12);
+  color: var(--md-primary);
+  transform: translateY(-1px);
+}
+
+/* Active dot indicator under label (Airtel style) */
+.md-nav-dest.is-active .md-nav-label::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--md-primary);
+  box-shadow: 0 0 6px rgba(214, 36, 29, 0.6);
+}
+
+.md-nav-label {
+  position: relative;
+  line-height: 1;
+}
+
+/* FAB — Glass with red accent */
 .md-nav-fab-slot {
   flex: 1;
   display: flex;
@@ -445,20 +469,61 @@ body {
   justify-content: center;
   height: 100%;
 }
+
 .md-fab {
-  width: 58px;
-  height: 58px;
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
-  background: var(--md-primary);
+  background: linear-gradient(135deg, #E6392F 0%, #D6241D 100%);
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: var(--md-elev-3);
-  margin-top: -32px;
-  border: 4px solid var(--md-background);
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  box-shadow:
+    0 8px 20px rgba(214, 36, 29, 0.35),
+    0 2px 6px rgba(214, 36, 29, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  margin-top: -30px;
+  border: 3px solid rgba(255, 255, 255, 0.9);
+  transition: box-shadow 0.25s ease, transform 0.2s cubic-bezier(0.2, 0.9, 0.25, 1);
   text-decoration: none;
+  position: relative;
 }
-.md-fab:hover { box-shadow: var(--md-elev-4); color: #fff; }
-.md-fab:active { transform: scale(0.94); }
+.md-fab::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(214, 36, 29, 0.4) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+.md-fab:hover {
+  box-shadow:
+    0 12px 28px rgba(214, 36, 29, 0.45),
+    0 4px 10px rgba(214, 36, 29, 0.3);
+  color: #fff;
+}
+.md-fab:hover::before { opacity: 1; }
+.md-fab:active { transform: scale(0.92); }
+
+/* ===== Dark mode support (optional, Airtel-style) ===== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --md-background: #0F1115;
+    --md-on-surface: #E8EAED;
+    --md-on-surface-variant: #9AA0A6;
+    --glass-bg: rgba(28, 30, 36, 0.65);
+    --glass-bg-strong: rgba(28, 30, 36, 0.82);
+    --glass-border: rgba(255, 255, 255, 0.08);
+  }
+  .md-navbar {
+    background: rgba(28, 30, 36, 0.6);
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+  .md-drawer-footer { background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.06); }
+}
