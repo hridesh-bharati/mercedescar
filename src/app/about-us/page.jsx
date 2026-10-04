@@ -23,9 +23,9 @@ const TABS = [
 ];
 
 const WHY = [
-  { icon: Cpu, color: 'c-violet', title: 'High-End Technology', text: 'We use advanced XENTRY diagnostics to repair your Mercedes with pinpoint accuracy and dealership-level service every time.' },
-  { icon: Users, color: 'c-pink', title: 'Expert Team Members', text: 'Our certified technicians have years of specialized experience with Mercedes-Benz and AMG engines, ensuring reliable care.' },
-  { icon: Cog, color: 'c-cyan', title: 'Quality Equipment', text: 'We rely on genuine Mercedes parts and specialized German equipment to guarantee lasting performance and safety.' },
+  { icon: Cpu, title: 'High-End Technology', text: 'We use advanced XENTRY diagnostics to repair your Mercedes with pinpoint accuracy and dealership-level service every time.' },
+  { icon: Users, title: 'Expert Team Members', text: 'Our certified technicians have years of specialized experience with Mercedes-Benz and AMG engines, ensuring reliable care.' },
+  { icon: Cog, title: 'Quality Equipment', text: 'We rely on genuine Mercedes parts and specialized German equipment to guarantee lasting performance and safety.' },
 ];
 
 const SERVICES = ['Oil Change', 'Brake Repair', 'Engine Diagnostics', 'General Maintenance'];
@@ -44,15 +44,13 @@ export default function AboutUs() {
   const [tab, setTab] = useState(0);
   const [form, setForm] = useState(EMPTY);
   const [errors, setErrors] = useState({});
-  const [status, setStatus] = useState('idle'); // idle | sending | sent
+  const [status, setStatus] = useState('idle');
 
   useEffect(() => {
     AOS.init({
-      duration: 900,
+      duration: 800,
       once: false,
-      easing: 'ease-out-cubic',
-      offset: 60,
-      disable: () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+      offset: 40,
     });
   }, []);
 
@@ -87,39 +85,39 @@ export default function AboutUs() {
     <>
       <Header />
 
-      <div className="ab-page">
-        {/* Background orbs */}
-        <div className="ab-orb ab-orb-1" aria-hidden="true" />
-        <div className="ab-orb ab-orb-2" aria-hidden="true" />
-        <div className="ab-orb ab-orb-3" aria-hidden="true" />
-        <div className="ab-orb ab-orb-4" aria-hidden="true" />
+      <main className="ab-page">
+        {/* Background Ambient Glow Orbs */}
+        <div className="ab-glow ab-glow-blue" aria-hidden="true" />
+        <div className="ab-glow ab-glow-pink" aria-hidden="true" />
+        <div className="ab-glow ab-glow-purple" aria-hidden="true" />
 
-        {/* ============ HERO ============ */}
-        <section className="ab-hero">
-          <div className="ab-hero-overlay" />
-          <div className="container ab-hero-inner">
-            <h1
-              className="ab-hero-title"
-              data-aos="fade-down"
-              data-aos-duration="1000"
-            >
-              About Us
-            </h1>
-            <nav
-              aria-label="Breadcrumb"
-              className="ab-glass ab-crumb"
-              data-aos="fade-up"
-              data-aos-delay="200"
-            >
-              <Link href="/">Home</Link>
-              <span aria-hidden="true">/</span>
-              <strong aria-current="page">About Us</strong>
-            </nav>
+        {/* ============ HERO BANNER ============ */}
+        <section className="ab-hero text-white position-relative py-5">
+          <div className="ab-hero-bg"></div>
+          <div className="ab-hero-overlay"></div>
+          <div className="container position-relative z-2 py-3">
+            <div className="row">
+              <div className="col-lg-7 text-start">
+                <div className="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-dark bg-opacity-50 border border-light border-opacity-25 mb-2">
+                  <span style={{ width: '20px', height: '2px', background: '#D6241D', display: 'inline-block' }}></span>
+                  <span className="small fw-bold tracking-wider text-danger">ABOUT US</span>
+                </div>
+                <h1 className="display-4 fw-bold mb-3 text-white">
+                  About Our <span className="text-danger">Workshop</span>
+                </h1>
+                <nav aria-label="breadcrumb">
+                  <ol className="breadcrumb mb-0 bg-dark bg-opacity-50 px-3 py-1 rounded-pill d-inline-flex align-items-center border border-light border-opacity-10 small">
+                    <li className="breadcrumb-item"><Link href="/" className="text-danger text-decoration-none fw-semibold">Home</Link></li>
+                    <li className="breadcrumb-item active text-light fw-semibold" aria-current="page">About Us</li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
           </div>
         </section>
 
         {/* ============ SECTION 1 — Collage + Text ============ */}
-        <section className="ab-section">
+        <section className="py-5">
           <div className="container">
             <div className="row align-items-center g-4 g-lg-5">
               <div className="col-lg-6" data-aos="fade-right">
@@ -136,39 +134,30 @@ export default function AboutUs() {
                     className="ab-sub-img"
                     loading="lazy"
                   />
-                  <div className="ab-glass ab-float-badge">
-                    <Award size={28} />
-                    <span>Certified Experts</span>
-                  </div>
                 </div>
               </div>
 
-              <div className="col-lg-6" data-aos="fade-left" data-aos-delay="150">
-                <span className="ab-tag ab-glass" data-aos="fade-up">
-                  New Exclusive
-                </span>
-                <h2 className="ab-heading" data-aos="fade-up" data-aos-delay="100">
+              <div className="col-lg-6 text-start" data-aos="fade-left">
+                <div className="ab-tag">
+                  <Sparkles size={14} /> NEW EXCLUSIVE
+                </div>
+                <h2 className="ab-heading">
                   Professional Mercedes-Benz Services Since 2020
                 </h2>
-                <p className="ab-lead" data-aos="fade-up" data-aos-delay="200">
+                <p className="ab-lead">
                   Mercedes-Benz engineering is becoming ever more complex. We stay ahead of these
                   challenges by combining advanced dealer-level diagnostic technology, genuine parts,
                   and highly skilled certified technicians to meet every luxury car owner&apos;s needs.
                 </p>
 
-                <ul className="ab-checks">
+                <ul className="list-unstyled d-grid gap-3 mb-4">
                   {[
                     'Have 24 Hour Emergency hotline',
                     'Mobile Diagnostic Service',
                     'Manage your Car Online 24/7',
-                  ].map((t, i) => (
-                    <li
-                      key={t}
-                      className="ab-glass"
-                      data-aos="fade-up"
-                      data-aos-delay={300 + i * 100}
-                    >
-                      <span className="ab-tick">
+                  ].map((t) => (
+                    <li key={t} className="glass-card p-3 d-flex align-items-center gap-3 fw-semibold small text-dark">
+                      <span className="d-grid place-items-center bg-danger bg-opacity-10 text-danger p-1 rounded-circle">
                         <Check size={16} strokeWidth={3} />
                       </span>
                       {t}
@@ -176,12 +165,7 @@ export default function AboutUs() {
                   ))}
                 </ul>
 
-                <a
-                  href="#contact"
-                  className="ab-btn"
-                  data-aos="zoom-in"
-                  data-aos-delay="600"
-                >
+                <a href="#contact" className="ab-btn">
                   Get Started <ArrowRight size={18} />
                 </a>
               </div>
@@ -190,53 +174,44 @@ export default function AboutUs() {
         </section>
 
         {/* ============ SECTION 2 — Circle + Checklist ============ */}
-        <section className="ab-section">
+        <section className="py-5">
           <div className="container">
             <div className="row align-items-center g-4 g-lg-5">
               <div className="col-lg-5 text-center" data-aos="zoom-in">
-                <div className="ab-circle">
+                <div className="ab-circle-wrap">
                   <img
                     src="/images/services/imag-post-3.webp"
                     alt="Mechanic cleaning Mercedes"
                     loading="lazy"
                   />
-                  <div
-                    className="ab-glass ab-discount"
-                    data-aos="zoom-in"
-                    data-aos-delay="400"
-                  >
+                  <div className="ab-discount-badge">
                     <b>45%</b>
                     <span>Discount</span>
                   </div>
                 </div>
               </div>
 
-              <div className="col-lg-7" data-aos="fade-left" data-aos-delay="150">
-                <span className="ab-tag ab-glass" data-aos="fade-up">
-                  New Exclusive
-                </span>
-                <h2 className="ab-heading" data-aos="fade-up" data-aos-delay="100">
+              <div className="col-lg-7 text-start" data-aos="fade-left">
+                <div className="ab-tag">
+                  <Wrench size={14} /> CERTIFIED CARE
+                </div>
+                <h2 className="ab-heading">
                   Essential Mercedes Maintenance &amp; Service Checklist
                 </h2>
-                <p className="ab-lead" data-aos="fade-up" data-aos-delay="200">
+                <p className="ab-lead">
                   Modern Mercedes-Benz engineering is highly complex. Our certified specialists have
                   the upper hand, using advanced tools to overcome these challenges and keep your
                   vehicle performing flawlessly.
                 </p>
 
-                <ul className="ab-list">
+                <ul className="list-unstyled d-grid gap-3">
                   {[
                     'Premium Engine Oil & Genuine Filter Replacement',
                     'AGM Battery Testing & Computer System Coding',
                     'Checking & Replacing Vital Suspension and Brake Components',
-                  ].map((t, i) => (
-                    <li
-                      key={t}
-                      className="ab-glass"
-                      data-aos="fade-up"
-                      data-aos-delay={300 + i * 100}
-                    >
-                      <CheckCircle2 size={22} />
+                  ].map((t) => (
+                    <li key={t} className="glass-card p-3 d-flex align-items-center gap-3 fw-semibold small text-dark">
+                      <CheckCircle2 size={20} className="text-danger flex-shrink-0" />
                       {t}
                     </li>
                   ))}
@@ -247,13 +222,9 @@ export default function AboutUs() {
         </section>
 
         {/* ============ TABS ============ */}
-        <section className="ab-section ab-tabs-section">
+        <section className="py-5">
           <div className="container">
-            <div
-              className="ab-glass ab-tabbar"
-              role="tablist"
-              data-aos="fade-up"
-            >
+            <div className="ab-tabbar" role="tablist">
               {TABS.map((t, i) => {
                 const Icon = t.icon;
                 return (
@@ -265,22 +236,16 @@ export default function AboutUs() {
                     className={`ab-tab ${tab === i ? 'is-active' : ''}`}
                     onClick={() => setTab(i)}
                   >
-                    <Icon size={18} /> {t.label}
+                    <Icon size={16} /> {t.label}
                   </button>
                 );
               })}
             </div>
 
-            <div
-              key={tab}
-              role="tabpanel"
-              className="ab-glass ab-panel"
-              data-aos="zoom-in"
-              data-aos-duration="600"
-            >
-              <h3>{Active.title}</h3>
-              <p>{Active.text}</p>
-              <a href="#contact" className="ab-btn ab-btn-sm">
+            <div className="glass-card p-4 p-md-5 text-center max-w-800 mx-auto" style={{ maxWidth: '800px' }}>
+              <h3 className="fw-bold mb-3 text-dark">{Active.title}</h3>
+              <p className="text-secondary mb-4">{Active.text}</p>
+              <a href="#contact" className="ab-btn">
                 Book this service <ArrowRight size={16} />
               </a>
             </div>
@@ -288,37 +253,24 @@ export default function AboutUs() {
         </section>
 
         {/* ============ WHY CHOOSE US ============ */}
-        <section className="ab-section">
-          <div className="container">
-            <div className="text-center">
-              <span className="ab-tag ab-glass" data-aos="fade-up">
-                Why Choose Us
-              </span>
-              <h2
-                className="ab-heading ab-center"
-                data-aos="fade-up"
-                data-aos-delay="100"
-              >
-                Why Dubai Chooses Us For Mercedes-Benz Excellence
-              </h2>
-            </div>
+        <section className="py-5">
+          <div className="container text-center">
+            <div className="ab-tag mx-auto">WHY CHOOSE US</div>
+            <h2 className="ab-heading mb-5">
+              Why Dubai Chooses Us For Mercedes-Benz Excellence
+            </h2>
 
-            <div className="row g-4 mt-4">
-              {WHY.map((w, i) => {
+            <div className="row g-4 text-start">
+              {WHY.map((w) => {
                 const Icon = w.icon;
                 return (
-                  <div
-                    className="col-md-4"
-                    key={w.title}
-                    data-aos="fade-up"
-                    data-aos-delay={i * 150}
-                  >
-                    <div className={`ab-glass ab-feature ${w.color}`}>
-                      <div className="ab-icon">
-                        <Icon size={30} />
+                  <div className="col-md-4" key={w.title}>
+                    <div className="glass-card p-4 h-100">
+                      <div className="bg-danger bg-opacity-10 text-danger p-3 rounded-4 d-inline-flex mb-3 shadow-sm">
+                        <Icon size={28} />
                       </div>
-                      <h4>{w.title}</h4>
-                      <p>{w.text}</p>
+                      <h4 className="fw-bold mb-2 text-dark fs-5">{w.title}</h4>
+                      <p className="text-secondary small mb-0">{w.text}</p>
                     </div>
                   </div>
                 );
@@ -327,176 +279,152 @@ export default function AboutUs() {
           </div>
         </section>
 
-        {/* ============ CONTACT ============ */}
-        <section id="contact" className="ab-section">
+        {/* ============ CONTACT & FORM SECTION ============ */}
+        <section id="contact" className="py-5 mb-4">
           <div className="container">
-            <div className="row g-4 g-lg-5 align-items-center">
+            <div className="row g-4 g-lg-5 align-items-center text-start">
               <div className="col-lg-5" data-aos="fade-right">
-                <h2 className="ab-heading" data-aos="fade-up">
-                  Book Your Mercedes Service
-                </h2>
-                <p className="ab-lead" data-aos="fade-up" data-aos-delay="100">
+                <h2 className="ab-heading">Book Your Mercedes Service</h2>
+                <p className="ab-lead">
                   We&apos;re here to provide expert assistance. Reach out today for reliable,
                   specialized Mercedes-Benz repair and maintenance services.
                 </p>
 
                 <a
-                  className="ab-glass ab-contact"
+                  className="glass-card p-3 d-flex align-items-center gap-3 text-decoration-none mb-3 text-dark"
                   href="https://www.google.com/maps/search/?api=1&query=Al+Quoz+Dubai"
                   target="_blank"
                   rel="noopener noreferrer"
-                  data-aos="fade-up"
-                  data-aos-delay="200"
                 >
-                  <span className="ab-ci">
-                    <MapPin size={24} />
-                  </span>
-                  <span>
-                    <small>Address</small>
-                    <b>AL-Quoz Dubai</b>
-                  </span>
+                  <div className="bg-danger bg-opacity-10 text-danger p-3 rounded-circle">
+                    <MapPin size={22} />
+                  </div>
+                  <div>
+                    <small className="text-muted text-uppercase fw-bold d-block" style={{ fontSize: '0.7rem' }}>Address</small>
+                    <b className="fs-6">Al Quoz 26th Street Industrial Area 2, Dubai</b>
+                  </div>
                 </a>
 
                 <a
-                  className="ab-glass ab-contact"
+                  className="glass-card p-3 d-flex align-items-center gap-3 text-decoration-none text-dark"
                   href="tel:+971567888808"
-                  data-aos="fade-up"
-                  data-aos-delay="300"
                 >
-                  <span className="ab-ci">
-                    <Phone size={24} />
-                  </span>
-                  <span>
-                    <small>Phone No</small>
-                    <b>+971 56 788 8808</b>
-                  </span>
+                  <div className="bg-success bg-opacity-10 text-success p-3 rounded-circle">
+                    <Phone size={22} />
+                  </div>
+                  <div>
+                    <small className="text-muted text-uppercase fw-bold d-block" style={{ fontSize: '0.7rem' }}>Phone No</small>
+                    <b className="fs-6">+971 56 788 8808</b>
+                  </div>
                 </a>
               </div>
 
-              <div className="col-lg-7" data-aos="fade-left" data-aos-delay="150">
-                <div className="ab-form-wrap">
-                  <div className="ab-form">
-                    <h2 className="ab-heading" data-aos="fade-up">
-                      Contact Us
-                    </h2>
+              <div className="col-lg-7" data-aos="fade-left">
+                <div className="glass-card p-4 p-md-5">
+                  <h3 className="fw-bold text-dark mb-4">Send Us a Message</h3>
 
-                    {status === 'sent' ? (
-                      <div className="ab-success" role="status">
-                        <CheckCircle2 size={44} />
-                        <h3>Request ready!</h3>
-                        <p>
-                          WhatsApp has opened with your details. Press send there and we&apos;ll
-                          reply shortly.
-                        </p>
-                        <button
-                          type="button"
-                          className="ab-btn ab-btn-sm"
-                          onClick={() => setStatus('idle')}
-                        >
-                          Send another request
-                        </button>
-                      </div>
-                    ) : (
-                      <form
-                        onSubmit={submit}
-                        noValidate
-                        data-aos="fade-up"
-                        data-aos-delay="100"
+                  {status === 'sent' ? (
+                    <div className="text-center py-4">
+                      <CheckCircle2 size={48} className="text-success mb-3" />
+                      <h4 className="fw-bold">Request Ready!</h4>
+                      <p className="text-secondary small mb-4">
+                        WhatsApp has opened with your details. Press send there and we&apos;ll reply shortly.
+                      </p>
+                      <button
+                        type="button"
+                        className="ab-btn"
+                        onClick={() => setStatus('idle')}
                       >
-                        <div className="row g-3">
-                          <div className="col-md-6">
-                            <label htmlFor="f-name">Full Name</label>
-                            <input
-                              id="f-name"
-                              className={`ab-input ${errors.name ? 'has-err' : ''}`}
-                              value={form.name}
-                              onChange={set('name')}
-                              placeholder="e.g. Oliver Spiteri"
-                              autoComplete="name"
-                            />
-                            {errors.name && <em>{errors.name}</em>}
-                          </div>
+                        Send Another Request
+                      </button>
+                    </div>
+                  ) : (
+                    <form onSubmit={submit} noValidate className="row g-3">
+                      <div className="col-md-6">
+                        <label className="form-label small fw-bold text-secondary">Full Name</label>
+                        <input
+                          className={`form-control rounded-pill px-3 py-2 bg-white bg-opacity-75 ${errors.name ? 'is-invalid' : ''}`}
+                          value={form.name}
+                          onChange={set('name')}
+                          placeholder="John Doe"
+                        />
+                        {errors.name && <div className="invalid-feedback">{errors.name}</div>}
+                      </div>
 
-                          <div className="col-md-6">
-                            <label htmlFor="f-phone">Phone Number</label>
-                            <input
-                              id="f-phone"
-                              type="tel"
-                              className={`ab-input ${errors.phone ? 'has-err' : ''}`}
-                              value={form.phone}
-                              onChange={set('phone')}
-                              placeholder="e.g. +971 50 123 4567"
-                              autoComplete="tel"
-                            />
-                            {errors.phone && <em>{errors.phone}</em>}
-                          </div>
+                      <div className="col-md-6">
+                        <label className="form-label small fw-bold text-secondary">Phone Number</label>
+                        <input
+                          type="tel"
+                          className={`form-control rounded-pill px-3 py-2 bg-white bg-opacity-75 ${errors.phone ? 'is-invalid' : ''}`}
+                          value={form.phone}
+                          onChange={set('phone')}
+                          placeholder="+971 50 123 4567"
+                        />
+                        {errors.phone && <div className="invalid-feedback">{errors.phone}</div>}
+                      </div>
 
-                          <div className="col-12">
-                            <label htmlFor="f-email">Email Address</label>
-                            <input
-                              id="f-email"
-                              type="email"
-                              className={`ab-input ${errors.email ? 'has-err' : ''}`}
-                              value={form.email}
-                              onChange={set('email')}
-                              placeholder="example@email.com"
-                              autoComplete="email"
-                            />
-                            {errors.email && <em>{errors.email}</em>}
-                          </div>
+                      <div className="col-12">
+                        <label className="form-label small fw-bold text-secondary">Email Address</label>
+                        <input
+                          type="email"
+                          className={`form-control rounded-pill px-3 py-2 bg-white bg-opacity-75 ${errors.email ? 'is-invalid' : ''}`}
+                          value={form.email}
+                          onChange={set('email')}
+                          placeholder="john@example.com"
+                        />
+                        {errors.email && <div className="invalid-feedback">{errors.email}</div>}
+                      </div>
 
-                          <div className="col-12">
-                            <label htmlFor="f-service">Service Type</label>
-                            <select
-                              id="f-service"
-                              className="ab-input"
-                              value={form.service}
-                              onChange={set('service')}
-                            >
-                              {SERVICES.map((s) => (
-                                <option key={s}>{s}</option>
-                              ))}
-                            </select>
-                          </div>
+                      <div className="col-12">
+                        <label className="form-label small fw-bold text-secondary">Service Type</label>
+                        <select
+                          className="form-select rounded-pill px-3 py-2 bg-white bg-opacity-75"
+                          value={form.service}
+                          onChange={set('service')}
+                        >
+                          {SERVICES.map((s) => (
+                            <option key={s}>{s}</option>
+                          ))}
+                        </select>
+                      </div>
 
-                          <div className="col-12">
-                            <label htmlFor="f-msg">Message</label>
-                            <textarea
-                              id="f-msg"
-                              rows="4"
-                              className={`ab-input ${errors.message ? 'has-err' : ''}`}
-                              value={form.message}
-                              onChange={set('message')}
-                              placeholder="Write your message here..."
-                            />
-                            {errors.message && <em>{errors.message}</em>}
-                          </div>
-                        </div>
+                      <div className="col-12">
+                        <label className="form-label small fw-bold text-secondary">Message</label>
+                        <textarea
+                          rows="3"
+                          className={`form-control rounded-4 p-3 bg-white bg-opacity-75 ${errors.message ? 'is-invalid' : ''}`}
+                          value={form.message}
+                          onChange={set('message')}
+                          placeholder="Write your message here..."
+                        />
+                        {errors.message && <div className="invalid-feedback">{errors.message}</div>}
+                      </div>
 
+                      <div className="col-12 mt-4">
                         <button
                           type="submit"
-                          className="ab-btn ab-btn-block"
+                          className="ab-btn w-100 py-3 shadow"
                           disabled={status === 'sending'}
                         >
                           {status === 'sending' ? (
                             <>
-                              <Loader2 size={18} className="ab-spin" /> Sending...
+                              <Loader2 size={18} className="spinner-border spinner-border-sm" /> Sending...
                             </>
                           ) : (
                             <>
-                              <Send size={18} /> Submit Request
+                              <Send size={18} /> Submit Request via WhatsApp
                             </>
                           )}
                         </button>
-                      </form>
-                    )}
-                  </div>
+                      </div>
+                    </form>
+                  )}
                 </div>
               </div>
             </div>
           </div>
         </section>
-      </div>
+      </main>
 
       <Footer />
     </>
