@@ -7,11 +7,11 @@
    ============================================ */
 .team-hero {
   position: relative;
-  padding: 90px 0 60px;
-  background: #f0f4ff;
+  padding: 60px 0 40px;
+  background: #0f172a;
   overflow: hidden;
   isolation: isolate;
-  min-height: 300px;
+  min-height: 220px;
   display: flex;
   align-items: center;
 }
@@ -34,11 +34,10 @@
   z-index: 1;
   background: linear-gradient(
     90deg,
-    rgba(240, 244, 255, 0.98) 0%,
-    rgba(240, 244, 255, 0.94) 35%,
-    rgba(240, 244, 255, 0.7) 60%,
-    rgba(240, 244, 255, 0.4) 80%,
-    rgba(240, 244, 255, 0.2) 100%
+    rgba(11, 17, 32, 0.92) 0%,
+    rgba(15, 23, 42, 0.85) 35%,
+    rgba(15, 23, 42, 0.65) 65%,
+    rgba(15, 23, 42, 0.45) 100%
   );
 }
 
@@ -59,14 +58,14 @@
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   padding: 5px 14px;
-  background: rgba(255, 255, 255, 0.75);
+  background: rgba(15, 23, 42, 0.65);
   backdrop-filter: blur(14px) saturate(180%);
   -webkit-backdrop-filter: blur(14px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 50px;
-  box-shadow: 0 4px 14px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 1);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
 }
 .team-hero-badge-dash {
   width: 22px;
@@ -78,19 +77,19 @@
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 2px;
-  color: #D6241D;
+  color: #ff6b65;
 }
 
 .team-hero-heading {
-  font-size: clamp(2rem, 3.5vw, 3.2rem);
+  font-size: clamp(1.8rem, 3.2vw, 2.8rem);
   font-weight: 800;
   line-height: 1.1;
   letter-spacing: -0.02em;
-  color: #0f172a;
-  margin-bottom: 18px;
+  color: #ffffff;
+  margin-bottom: 14px;
 }
 .team-hero-accent {
-  background: linear-gradient(135deg, #D6241D 0%, #ff4d4d 100%);
+  background: linear-gradient(135deg, #ff4d4d 0%, #ff8080 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -100,29 +99,29 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 18px;
-  background: rgba(255, 255, 255, 0.75);
+  padding: 6px 16px;
+  background: rgba(15, 23, 42, 0.65);
   backdrop-filter: blur(14px) saturate(180%);
   -webkit-backdrop-filter: blur(14px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 50px;
   font-size: 0.82rem;
-  box-shadow: 0 4px 14px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 1);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
 }
 .team-hero-breadcrumb a {
-  color: #D6241D;
+  color: #ff6b65;
   text-decoration: none;
   font-weight: 600;
   transition: color 0.25s ease;
 }
 .team-hero-breadcrumb a:hover {
-  color: #A81A15;
+  color: #ff4d4d;
 }
 .team-hero-breadcrumb svg {
   color: #94a3b8;
 }
 .team-hero-breadcrumb span {
-  color: #0f172a;
+  color: #f1f5f9;
   font-weight: 600;
 }
 
@@ -394,16 +393,16 @@
    ============================================ */
 @media (max-width: 991px) {
   .team-hero {
-    padding: 80px 0 50px;
+    padding: 50px 0 35px;
     text-align: center;
-    min-height: 260px;
+    min-height: 200px;
   }
   .team-hero-bg {
     background-position: center;
-    opacity: 0.35;
+    opacity: 0.45;
   }
   .team-hero-overlay {
-    background: linear-gradient(135deg, rgba(240, 244, 255, 0.95) 0%, rgba(240, 244, 255, 0.85) 60%, rgba(240, 244, 255, 0.75) 100%);
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.92) 0%, rgba(15, 23, 42, 0.85) 60%, rgba(15, 23, 42, 0.78) 100%);
   }
   .team-hero-content { margin: 0 auto; }
   .team-section { padding: 70px 0; }
@@ -412,11 +411,11 @@
 
 @media (max-width: 576px) {
   .team-hero {
-    padding: 70px 0 40px;
-    min-height: 240px;
+    padding: 45px 0 30px;
+    min-height: 180px;
   }
-  .team-hero-heading { font-size: 1.8rem; }
-  .team-hero-breadcrumb { font-size: 0.75rem; padding: 6px 14px; }
+  .team-hero-heading { font-size: 1.6rem; }
+  .team-hero-breadcrumb { font-size: 0.75rem; padding: 5px 12px; }
 
   .team-section { padding: 50px 0; }
   .team-heading { font-size: 1.35rem; margin-bottom: 14px; }
