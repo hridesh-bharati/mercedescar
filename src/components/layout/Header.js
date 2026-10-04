@@ -16,13 +16,6 @@ const ICONS = {
   Close: 'M18 6L6 18 M6 6l12 12',
   Chevron: 'M9 18l6-6-6-6',
   Home: 'M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z M9 22V12h6v10',
-  German: 'M12 2l9 4.5v9L12 20l-9-4.5v-9z',
-  American: 'M12 2l3 7h7l-5.5 4.5L18 21l-6-4.5L6 21l1.5-7.5L2 9h7z',
-  Exotic: 'M12 2l2.4 7.2H22l-6 4.6 2.3 7.2L12 16.4 5.7 21l2.3-7.2-6-4.6h7.6z',
-  Japanese: 'M4 15c0-5 3.5-9 8-9s8 4 8 9-3.5 4-8 4-8 1-8-4z',
-  European: 'M4 4h16v16H4z M4 12h16 M12 4v16',
-  Blog: 'M4 4h16v16H4z M8 8h8 M8 12h8 M8 16h5',
-  Shop: 'M6 2l1.5 5h9L18 2 M4 7h16l-1.5 13a2 2 0 0 1-2 1.8H7.5a2 2 0 0 1-2-1.8z M9 11v4 M15 11v4',
   Wrench: 'M14.7 6.3a4 4 0 0 0-5.4 5.4L2 19l3 3 7.3-7.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2-2z',
   Contact: 'M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 3a2 2 0 0 1-.5 2.1L8 10.1a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c1 .3 2 .5 3 .7a2 2 0 0 1 1.6 2z',
   User: 'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z',
@@ -30,7 +23,9 @@ const ICONS = {
   Plus: 'M12 5v14 M5 12h14',
   Phone: 'M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 3a2 2 0 0 1-.5 2.1L8 10.1a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c1 .3 2 .5 3 .7a2 2 0 0 1 1.6 2z',
   Email: 'M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M22 6l-10 7L2 6',
-  Location: 'M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z M12 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z'
+  Location: 'M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z M12 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z',
+  Blog: 'M4 4h16v16H4z M8 8h8 M8 12h8 M8 16h5',
+  Shop: 'M6 2l1.5 5h9L18 2 M4 7h16l-1.5 13a2 2 0 0 1-2 1.8H7.5a2 2 0 0 1-2-1.8z M9 11v4 M15 11v4',
 };
 
 function addRipple(e) {
@@ -73,71 +68,52 @@ export default function Header() {
     else setQuery('');
   }, [searchOpen]);
 
+  // ✅ Mercedes Garage Dubai ke actual links
   const navItems = [
-    { key: 'home', label: 'Home', href: '/', icon: ICONS.Home, subItems: [{ label: 'Body Shop', href: '/body-shop' }] },
-    { key: 'german', label: 'German', href: '#', icon: ICONS.German,
+    { key: 'home', label: 'Home', href: '/', icon: ICONS.Home },
+    { key: 'services', label: 'Services', href: '/services', icon: ICONS.Wrench },
+    { key: 'about', label: 'About Us', href: '/about-us', icon: ICONS.User },
+    {
+      key: 'pages',
+      label: 'Pages',
+      href: '#',
+      icon: ICONS.Blog,
       subItems: [
-        { label: 'Audi Repair', href: '/repair/audi' },
-        { label: 'BMW Repair', href: '/repair/bmw' },
-        { label: 'Maybach Repair', href: '/repair/maybach' },
-        { label: 'Mercedes Repair', href: '/repair/mercedes' },
-        { label: 'Mini Cooper Repair', href: '/repair/mini-cooper' },
-        { label: 'Opel Repair', href: '/repair/opel' },
-        { label: 'Porsche Repair', href: '/repair/porsche' },
-        { label: 'Volkswagen Repair', href: '/repair/volkswagen' },
-      ] },
-    { key: 'american', label: 'American', href: '#', icon: ICONS.American,
+        { label: 'Our Team 1', href: '/our-team' },
+        { label: 'Our Team 2', href: '/our-team-2' },
+        { label: 'Team Details', href: '/team-details' },
+        { label: 'Case Studies 3 Columns', href: '/case-studies-3-columns' },
+        { label: 'Case Studies 4 Columns', href: '/case-studies-4-columns' },
+        { label: 'Case Carousel', href: '/case-carousel' },
+        { label: 'Case Single', href: '/portfolio/full-synthetic-oil-change' },
+        { label: 'Work Process', href: '/work-process' },
+        { label: 'Testimonials', href: '/testimonials' },
+        { label: 'Pricing Plan', href: '/pricing-table' },
+        { label: 'FAQs', href: '/faqs' },
+        { label: 'Shop Grid', href: '/shop-grid' },
+        { label: 'Shop Default', href: '/shop' },
+        { label: 'Shop Details', href: '/product/vehicle-suspension' },
+        { label: 'Shop Cart', href: '/cart' },
+        { label: 'Shop Checkout', href: '/checkout' },
+        { label: 'Error 404', href: '/error-404' },
+        { label: 'Landing', href: '/landing' },
+      ]
+    },
+    {
+      key: 'blog',
+      label: 'Blog',
+      href: '/blog',
+      icon: ICONS.Blog,
       subItems: [
-        { label: 'Chevrolet Repair', href: '/repair/chevrolet' },
-        { label: 'Dodge Repair', href: '/repair/dodge' },
-        { label: 'Cadillac Repair', href: '/repair/cadillac' },
-        { label: 'Ford Repair', href: '/repair/ford' },
-        { label: 'Ford Bronco Repair', href: '/repair/ford-bronco' },
-        { label: 'GMC Repair', href: '/repair/gmc' },
-        { label: 'Hummer Repair', href: '/repair/hummer' },
-        { label: 'Jeep Repair', href: '/repair/jeep' },
-        { label: 'Lincoln Repair', href: '/repair/lincoln' },
-        { label: 'Tesla Repair', href: '/repair/tesla' },
-      ] },
-    { key: 'exotic', label: 'Exotic Cars', href: '#', icon: ICONS.Exotic,
-      subItems: [
-        { label: 'Aston Martin Repair', href: '/repair/aston-martin' },
-        { label: 'Bentley Repair', href: '/repair/bentley' },
-        { label: 'Ferrari Repair', href: '/repair/ferrari' },
-        { label: 'Lamborghini Repair', href: '/repair/lamborghini' },
-        { label: 'Lotus Repair', href: '/repair/lotus' },
-        { label: 'Maserati Repair', href: '/repair/maserati' },
-        { label: 'McLaren Repair', href: '/repair/mclaren' },
-        { label: 'Rolls Royce Repair', href: '/repair/rolls-royce' },
-        { label: 'Bugatti Repair', href: '/repair/bugatti' },
-        { label: 'Koenigsegg Repair', href: '/repair/koenigsegg' },
-        { label: 'Pagani Repair', href: '/repair/pagani' },
-      ] },
-    { key: 'japanese', label: 'Japanese', href: '#', icon: ICONS.Japanese,
-      subItems: [
-        { label: 'Kia Repair', href: '/repair/kia' },
-        { label: 'Infinity Repair', href: '/repair/infinity' },
-        { label: 'Nissan Repair', href: '/repair/nissan' },
-        { label: 'Mazda Repair', href: '/repair/mazda' },
-        { label: 'Renault Repair', href: '/repair/renault' },
-        { label: 'Subaru Repair', href: '/repair/subaru' },
-        { label: 'Hyundai Repair', href: '/repair/hyundai' },
-        { label: 'Lexus Repair', href: '/repair/lexus' },
-      ] },
-    { key: 'european', label: 'European', href: '#', icon: ICONS.European,
-      subItems: [
-        { label: 'Alfa Romeo Repair', href: '/repair/alfa-romeo' },
-        { label: 'Jaguar Repair', href: '/repair/jaguar' },
-        { label: 'Range Rover Repair', href: '/repair/range-rover' },
-        { label: 'Land Rover Repair', href: '/repair/land-rover' },
-        { label: 'MG Repair', href: '/repair/mg' },
-        { label: 'Land Cruiser Repair', href: '/repair/land-cruiser' },
-        { label: 'Peugeot Repair', href: '/repair/peugeot' },
-        { label: 'Fiat Repair', href: '/repair/fiat' },
-      ] },
-    { key: 'blog', label: 'Blog', href: '/blog', icon: ICONS.Blog },
-    { key: 'shop', label: 'Shop', href: '/shop', icon: ICONS.Shop },
-    { key: 'contact', label: 'Contact us', href: '/contact', icon: ICONS.Contact },
+        { label: 'Blog Grid 01', href: '/blog-grid' },
+        { label: 'Blog Grid 02', href: '/blog-grid-2' },
+        { label: 'Blog Grid 03', href: '/blog-grid-3' },
+        { label: 'Blog Carousel', href: '/blog-carousel' },
+        { label: 'Blog Standard', href: '/blog' },
+        { label: 'Blog Details', href: '/blog-details' },
+      ]
+    },
+    { key: 'contact', label: 'Contact Us', href: '/contact-us', icon: ICONS.Contact },
   ];
 
   const closeDrawer = () => { setDrawerOpen(false); setExpanded(null); };
@@ -161,26 +137,22 @@ export default function Header() {
             <a href="tel:+971567888808" className="text-decoration-none text-white d-flex align-items-center gap-1">
               <Icon path={ICONS.Phone} size={14} /> +971 56 788 8808
             </a>
-            <a href="mailto:info@autoexpertworkshop.com" className="text-decoration-none text-white d-flex align-items-center gap-1">
-              <Icon path={ICONS.Email} size={14} /> info@autoexpertworkshop.com
+            <a href="mailto:info@mercedesgaragedubai.com" className="text-decoration-none text-white d-flex align-items-center gap-1">
+              <Icon path={ICONS.Email} size={14} /> info@mercedesgaragedubai.com
             </a>
           </div>
         </div>
       </div>
 
-      {/* 2nd Layer: Main Unified App Bar */}
+      {/* 2nd Layer: Main App Bar */}
       <header className={`md-appbar ${elevated ? 'md-appbar--elevated' : ''}`}>
         <div className="container d-flex align-items-center justify-content-between md-appbar-row">
           {!searchOpen ? (
             <>
-              {/* Left Side: Logo only on Mobile, Logo + Desktop Nav on Desktop */}
-              <div className="d-flex align-items-center gap-3">
-                <Link href="/" className="md-appbar-brand" onClick={closeDrawer}>
-                  <img src="/images/logo.png" alt="Auto Expert Workshop" className="md-logo-img" />
-                </Link>
-              </div>
+              <Link href="/" className="md-appbar-brand" onClick={closeDrawer}>
+                <img src="/images/logo.png" alt="Mercedes Garage Dubai" className="md-logo-img" />
+              </Link>
 
-              {/* Desktop Inline Navigation */}
               <nav className="md-desktop-nav d-none d-lg-flex align-items-center gap-1 m-0">
                 {navItems.map((item) => (
                   <div key={item.key} className="md-desktop-item">
@@ -196,7 +168,6 @@ export default function Header() {
                 ))}
               </nav>
 
-              {/* Right Side: Search, Account, & Menu Button for Mobile */}
               <div className="md-appbar-actions d-flex align-items-center gap-2">
                 <button className="md-icon-btn md-ripple" onMouseDown={addRipple} onClick={() => setSearchOpen(true)} aria-label="Search">
                   <Icon path={ICONS.Search} size={20} />
@@ -204,7 +175,6 @@ export default function Header() {
                 <Link href="/login" className="md-icon-btn md-ripple d-none d-lg-flex" onMouseDown={addRipple} aria-label="Account">
                   <Icon path={ICONS.User} size={20} />
                 </Link>
-                {/* Mobile Menu Button Moved to Right Side */}
                 <button className="md-icon-btn md-ripple d-lg-none" onMouseDown={addRipple} onClick={() => setDrawerOpen(true)} aria-label="Open menu">
                   {ICONS.Menu}
                 </button>
@@ -233,13 +203,12 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Scrim */}
       <div className={`md-scrim ${drawerOpen ? 'show' : ''}`} onClick={closeDrawer} aria-hidden="true" />
 
-      {/* Mobile Right-Side Navigation Drawer */}
+      {/* Mobile Drawer */}
       <aside className={`md-drawer ${drawerOpen ? 'open' : ''}`} aria-hidden={!drawerOpen}>
         <div className="md-drawer-header">
-          <img src="/images/logo.png" alt="Auto Expert Workshop" className="md-logo-img-drawer" />
+          <img src="/images/logo.png" alt="Mercedes Garage Dubai" className="md-logo-img-drawer" />
         </div>
 
         <ul className="md-drawer-list">
@@ -284,7 +253,7 @@ export default function Header() {
         </div>
       </aside>
 
-      {/* Android Bottom Navigation Bar */}
+      {/* Bottom Nav (Mobile) */}
       <nav className="md-navbar d-lg-none">
         <Link href="/" className={`md-nav-dest md-ripple ${activeTab === 'home' ? 'is-active' : ''}`} onMouseDown={addRipple} onClick={() => setActiveTab('home')}>
           <span className="md-nav-indicator"><Icon path={ICONS.Home} size={20} /></span>
@@ -292,8 +261,8 @@ export default function Header() {
         </Link>
 
         <button className={`md-nav-dest md-ripple ${activeTab === 'categories' ? 'is-active' : ''}`} onMouseDown={addRipple} onClick={() => { setActiveTab('categories'); setDrawerOpen(true); }}>
-          <span className="md-nav-indicator"><Icon path={ICONS.European} size={20} /></span>
-          <span className="md-nav-label">Brands</span>
+          <span className="md-nav-indicator"><Icon path={ICONS.Wrench} size={20} /></span>
+          <span className="md-nav-label">Services</span>
         </button>
 
         <div className="md-nav-fab-slot">
@@ -302,7 +271,7 @@ export default function Header() {
           </Link>
         </div>
 
-        <Link href="/contact" className={`md-nav-dest md-ripple ${activeTab === 'contact' ? 'is-active' : ''}`} onMouseDown={addRipple} onClick={() => setActiveTab('contact')}>
+        <Link href="/contact-us" className={`md-nav-dest md-ripple ${activeTab === 'contact' ? 'is-active' : ''}`} onMouseDown={addRipple} onClick={() => setActiveTab('contact')}>
           <span className="md-nav-indicator"><Icon path={ICONS.Contact} size={20} /></span>
           <span className="md-nav-label">Contact</span>
         </Link>
