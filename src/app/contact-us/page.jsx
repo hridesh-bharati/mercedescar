@@ -50,7 +50,7 @@ export default function ContactUs() {
           <div className="contact-hero-overlay"></div>
           <div className="container position-relative z-2 py-4">
             <div className="row">
-              <div className="col-lg-7">
+              <div className="col-lg-7 text-start">
                 <div className="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-dark bg-opacity-50 border border-light border-opacity-25 mb-2">
                   <span style={{ width: '20px', height: '2px', background: '#D6241D', display: 'inline-block' }}></span>
                   <span className="small fw-bold tracking-wider text-danger">GET IN TOUCH</span>
@@ -77,14 +77,14 @@ export default function ContactUs() {
 
           <div className="container position-relative z-2">
             
-            {/* Top Cards Info Grid */}
+            {/* Top Cards Info Grid (Left Aligned) */}
             <div className="row g-4 mb-4">
               
               {/* Phone Card */}
               <div className="col-md-4">
-                <div className="card border-0 glass-card p-3 p-md-4 text-center text-md-start">
-                  <div className="d-flex align-items-center justify-content-center justify-content-md-start gap-3 mb-2">
-                    <div className="icon-box bg-danger bg-opacity-10 text-danger p-2 rounded-circle">
+                <div className="card border-0 glass-card p-3 p-md-4 text-start">
+                  <div className="d-flex align-items-center gap-3 mb-2">
+                    <div className="icon-box bg-danger bg-opacity-10 text-danger p-2 rounded-circle flex-shrink-0">
                       <Phone size={20} />
                     </div>
                     <div>
@@ -92,15 +92,15 @@ export default function ContactUs() {
                       <h6 className="fw-bold mb-0 text-dark">+971 56 788 8808</h6>
                     </div>
                   </div>
-                  <p className="text-secondary small mb-0" style={{ fontSize: '0.8rem' }}>Mon - Sat: 8:00 AM - 7:00 PM</p>
+                  <p className="text-secondary small mb-0 ps-5" style={{ fontSize: '0.8rem' }}>Mon - Sat: 8:00 AM - 7:00 PM</p>
                 </div>
               </div>
 
               {/* Email Card */}
               <div className="col-md-4">
-                <div className="card border-0 glass-card p-3 p-md-4 text-center text-md-start">
-                  <div className="d-flex align-items-center justify-content-center justify-content-md-start gap-3 mb-2">
-                    <div className="icon-box bg-primary bg-opacity-10 text-primary p-2 rounded-circle">
+                <div className="card border-0 glass-card p-3 p-md-4 text-start">
+                  <div className="d-flex align-items-center gap-3 mb-2">
+                    <div className="icon-box bg-primary bg-opacity-10 text-primary p-2 rounded-circle flex-shrink-0">
                       <Mail size={20} />
                     </div>
                     <div>
@@ -108,15 +108,15 @@ export default function ContactUs() {
                       <h6 className="fw-bold mb-0 text-dark text-break fs-6">info@mercedesgaragedubai.com</h6>
                     </div>
                   </div>
-                  <p className="text-secondary small mb-0" style={{ fontSize: '0.8rem' }}>Response within 2 hours</p>
+                  <p className="text-secondary small mb-0 ps-5" style={{ fontSize: '0.8rem' }}>Response within 2 hours</p>
                 </div>
               </div>
 
               {/* WhatsApp Quick Chat Card */}
               <div className="col-md-4">
-                <div className="card border-0 glass-card p-3 p-md-4 text-center text-md-start bg-success bg-opacity-10 border-success border-opacity-25">
-                  <div className="d-flex align-items-center justify-content-center justify-content-md-start gap-3 mb-2">
-                    <div className="icon-box bg-success text-white p-2 rounded-circle shadow-sm">
+                <div className="card border-0 glass-card p-3 p-md-4 text-start bg-success bg-opacity-10 border-success border-opacity-25">
+                  <div className="d-flex align-items-center gap-3 mb-2">
+                    <div className="icon-box bg-success text-white p-2 rounded-circle shadow-sm flex-shrink-0">
                       <MessageCircle size={20} />
                     </div>
                     <div>
@@ -124,25 +124,27 @@ export default function ContactUs() {
                       <h6 className="fw-bold mb-0 text-dark">+971 56 788 8808</h6>
                     </div>
                   </div>
-                  <a 
-                    href="https://wa.me/971567888808?text=Hello%2C%20I%20would%20like%20to%20inquire%20about%20auto%20services." 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="btn btn-success btn-sm w-100 rounded-pill fw-bold py-1 px-2 shadow-sm d-flex align-items-center justify-content-center gap-2 small"
-                  >
-                    <MessageCircle size={14} /> Chat on WhatsApp Now
-                  </a>
+                  <div className="ps-5">
+                    <a 
+                      href="https://wa.me/971567888808?text=Hello%2C%20I%20would%20like%20to%20inquire%20about%20auto%20services." 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="btn btn-success btn-sm w-100 rounded-pill fw-bold py-1 px-2 shadow-sm d-flex align-items-center justify-content-center gap-2 small"
+                    >
+                      <MessageCircle size={14} /> Chat on WhatsApp Now
+                    </a>
+                  </div>
                 </div>
               </div>
 
             </div>
 
             {/* Form and Map Grid */}
-            <div className="row g-4">
+            <div className="row g-4 text-start">
               
               {/* Contact Form */}
               <div className="col-lg-7">
-                <div className="card border-0 glass-card p-4 p-md-4 shadow-sm">
+                <div className="card border-0 glass-card p-4 p-md-4 shadow-sm text-start">
                   <div className="mb-3">
                     <span className="text-danger fw-bold small text-uppercase tracking-wider">Send a Message</span>
                     <h4 className="fw-bold text-dark mt-1 mb-1">Book an Appointment</h4>
@@ -251,10 +253,10 @@ export default function ContactUs() {
 
               {/* Location & Map Sidebar */}
               <div className="col-lg-5">
-                <div className="card border-0 glass-card p-4 h-100 shadow-sm d-flex flex-column">
+                <div className="card border-0 glass-card p-4 h-100 shadow-sm d-flex flex-column text-start">
                   <div className="mb-3">
                     <div className="d-flex align-items-center gap-3 mb-2">
-                      <div className="bg-danger bg-opacity-10 text-danger p-2 rounded-circle">
+                      <div className="bg-danger bg-opacity-10 text-danger p-2 rounded-circle flex-shrink-0">
                         <MapPin size={20} />
                       </div>
                       <div>
@@ -263,12 +265,12 @@ export default function ContactUs() {
                       </div>
                     </div>
 
-                    <p className="text-secondary small mb-3" style={{ fontSize: '0.85rem' }}>
+                    <p className="text-secondary small mb-3 ps-5" style={{ fontSize: '0.85rem' }}>
                       Warehouse #32, Al Quoz 26th Street Industrial Area 2, Dubai, UAE
                     </p>
 
-                    <div className="d-flex align-items-start gap-2 mb-3">
-                      <div className="bg-primary bg-opacity-10 text-primary p-2 rounded-circle">
+                    <div className="d-flex align-items-start gap-3 mb-3">
+                      <div className="bg-primary bg-opacity-10 text-primary p-2 rounded-circle flex-shrink-0">
                         <Clock size={16} />
                       </div>
                       <div>
