@@ -9,6 +9,8 @@ import {
   CircleDot, Cpu, Users, Cog, MapPin, Phone, Send, Loader2,
 } from 'lucide-react';
 import './about.css';
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
 
 const WHATSAPP = '971567888808';
 
@@ -47,7 +49,7 @@ export default function AboutUs() {
   useEffect(() => {
     AOS.init({
       duration: 900,
-      once: true,
+      once: false,
       easing: 'ease-out-cubic',
       offset: 60,
       disable: () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
@@ -82,7 +84,10 @@ export default function AboutUs() {
   const Active = TABS[tab];
 
   return (
-    <div className="ab-page">
+   <>
+   
+   <Header / >
+ <div className="ab-page">
       <div className="ab-orb ab-orb-1" />
       <div className="ab-orb ab-orb-2" />
       <div className="ab-orb ab-orb-3" />
@@ -91,9 +96,16 @@ export default function AboutUs() {
       {/* HERO */}
       <section className="ab-hero">
         <div className="ab-hero-overlay" />
-        <div className="container ab-hero-inner" data-aos="fade-down">
-          <h1 className="ab-hero-title">About Us</h1>
-          <nav aria-label="Breadcrumb" className="ab-glass ab-crumb">
+        <div className="container ab-hero-inner">
+          <h1 className="ab-hero-title" data-aos="fade-down" data-aos-duration="1000">
+            About Us
+          </h1>
+          <nav
+            aria-label="Breadcrumb"
+            className="ab-glass ab-crumb"
+            data-aos="fade-up"
+            data-aos-delay="200"
+          >
             <Link href="/">Home</Link>
             <span aria-hidden="true">/</span>
             <strong aria-current="page">About Us</strong>
@@ -116,20 +128,22 @@ export default function AboutUs() {
               </div>
             </div>
             <div className="col-lg-6" data-aos="fade-left" data-aos-delay="150">
-              <span className="ab-tag ab-glass">New Exclusive</span>
-              <h2 className="ab-heading">Professional Mercedes-Benz Services Since 2020</h2>
-              <p className="ab-lead">
+              <span className="ab-tag ab-glass" data-aos="fade-up">New Exclusive</span>
+              <h2 className="ab-heading" data-aos="fade-up" data-aos-delay="100">
+                Professional Mercedes-Benz Services Since 2020
+              </h2>
+              <p className="ab-lead" data-aos="fade-up" data-aos-delay="200">
                 Mercedes-Benz engineering is becoming ever more complex. We stay ahead of these challenges by combining advanced dealer-level diagnostic technology, genuine parts, and highly skilled certified technicians to meet every luxury car owner&apos;s needs.
               </p>
               <ul className="ab-checks">
                 {['Have 24 Hour Emergency hotline', 'Mobile Diagnostic Service', 'Manage your Car Online 24/7'].map((t, i) => (
-                  <li key={t} className="ab-glass" data-aos="fade-up" data-aos-delay={200 + i * 100}>
+                  <li key={t} className="ab-glass" data-aos="fade-up" data-aos-delay={300 + i * 100}>
                     <span className="ab-tick"><Check size={16} strokeWidth={3} /></span>
                     {t}
                   </li>
                 ))}
               </ul>
-              <a href="#contact" className="ab-btn">
+              <a href="#contact" className="ab-btn" data-aos="zoom-in" data-aos-delay="600">
                 Get Started <ArrowRight size={18} />
               </a>
             </div>
@@ -151,9 +165,11 @@ export default function AboutUs() {
               </div>
             </div>
             <div className="col-lg-7" data-aos="fade-left" data-aos-delay="150">
-              <span className="ab-tag ab-glass">New Exclusive</span>
-              <h2 className="ab-heading">Essential Mercedes Maintenance &amp; Service Checklist</h2>
-              <p className="ab-lead">
+              <span className="ab-tag ab-glass" data-aos="fade-up">New Exclusive</span>
+              <h2 className="ab-heading" data-aos="fade-up" data-aos-delay="100">
+                Essential Mercedes Maintenance &amp; Service Checklist
+              </h2>
+              <p className="ab-lead" data-aos="fade-up" data-aos-delay="200">
                 Modern Mercedes-Benz engineering is highly complex. Our certified specialists have the upper hand, using advanced tools to overcome these challenges and keep your vehicle performing flawlessly.
               </p>
               <ul className="ab-list">
@@ -162,7 +178,7 @@ export default function AboutUs() {
                   'AGM Battery Testing & Computer System Coding',
                   'Checking & Replacing Vital Suspension and Brake Components',
                 ].map((t, i) => (
-                  <li key={t} className="ab-glass" data-aos="fade-up" data-aos-delay={200 + i * 100}>
+                  <li key={t} className="ab-glass" data-aos="fade-up" data-aos-delay={300 + i * 100}>
                     <CheckCircle2 size={22} />
                     {t}
                   </li>
@@ -192,10 +208,18 @@ export default function AboutUs() {
               );
             })}
           </div>
-          <div key={tab} role="tabpanel" className="ab-glass ab-panel">
+          <div
+            key={tab}
+            role="tabpanel"
+            className="ab-glass ab-panel"
+            data-aos="zoom-in"
+            data-aos-duration="600"
+          >
             <h3>{Active.title}</h3>
             <p>{Active.text}</p>
-            <a href="#contact" className="ab-btn ab-btn-sm">Book this service <ArrowRight size={16} /></a>
+            <a href="#contact" className="ab-btn ab-btn-sm">
+              Book this service <ArrowRight size={16} />
+            </a>
           </div>
         </div>
       </section>
@@ -203,15 +227,17 @@ export default function AboutUs() {
       {/* WHY */}
       <section className="ab-section">
         <div className="container">
-          <div className="text-center" data-aos="fade-up">
-            <span className="ab-tag ab-glass">Why Choose Us</span>
-            <h2 className="ab-heading ab-center">Why Dubai Chooses Us For Mercedes-Benz Excellence</h2>
+          <div className="text-center">
+            <span className="ab-tag ab-glass" data-aos="fade-up">Why Choose Us</span>
+            <h2 className="ab-heading ab-center" data-aos="fade-up" data-aos-delay="100">
+              Why Dubai Chooses Us For Mercedes-Benz Excellence
+            </h2>
           </div>
           <div className="row g-4 mt-4">
             {WHY.map((w, i) => {
               const Icon = w.icon;
               return (
-                <div className="col-md-4" key={w.title} data-aos="flip-up" data-aos-delay={i * 150}>
+                <div className="col-md-4" key={w.title} data-aos="fade-up" data-aos-delay={i * 150}>
                   <div className={`ab-glass ab-feature ${w.color}`}>
                     <div className="ab-icon"><Icon size={30} /></div>
                     <h4>{w.title}</h4>
@@ -229,8 +255,8 @@ export default function AboutUs() {
         <div className="container">
           <div className="row g-5 align-items-center">
             <div className="col-lg-5" data-aos="fade-right">
-              <h2 className="ab-heading">Book Your Mercedes Service</h2>
-              <p className="ab-lead">
+              <h2 className="ab-heading" data-aos="fade-up">Book Your Mercedes Service</h2>
+              <p className="ab-lead" data-aos="fade-up" data-aos-delay="100">
                 We&apos;re here to provide expert assistance. Reach out today for reliable, specialized Mercedes-Benz repair and maintenance services.
               </p>
               <a
@@ -238,11 +264,13 @@ export default function AboutUs() {
                 href="https://www.google.com/maps/search/?api=1&query=Al+Quoz+Dubai"
                 target="_blank"
                 rel="noopener noreferrer"
+                data-aos="fade-up"
+                data-aos-delay="200"
               >
                 <span className="ab-ci"><MapPin size={24} /></span>
                 <span><small>Address</small><b>AL-Quoz Dubai</b></span>
               </a>
-              <a className="ab-glass ab-contact" href="tel:+971567888808">
+              <a className="ab-glass ab-contact" href="tel:+971567888808" data-aos="fade-up" data-aos-delay="300">
                 <span className="ab-ci"><Phone size={24} /></span>
                 <span><small>Phone No</small><b>+971 56 788 8808</b></span>
               </a>
@@ -250,17 +278,19 @@ export default function AboutUs() {
 
             <div className="col-lg-7" data-aos="fade-left" data-aos-delay="150">
               <div className="ab-form-wrap">
-                <div className="ab-glass ab-form">
-                  <h2 className="ab-heading">Contact Us</h2>
+                <div className="ab-form">
+                  <h2 className="ab-heading" data-aos="fade-up">Contact Us</h2>
                   {status === 'sent' ? (
                     <div className="ab-success" role="status">
                       <CheckCircle2 size={44} />
                       <h3>Request ready!</h3>
                       <p>WhatsApp has opened with your details. Press send there and we&apos;ll reply shortly.</p>
-                      <button className="ab-btn ab-btn-sm" onClick={() => setStatus('idle')}>Send another request</button>
+                      <button className="ab-btn ab-btn-sm" onClick={() => setStatus('idle')}>
+                        Send another request
+                      </button>
                     </div>
                   ) : (
-                    <form onSubmit={submit} noValidate>
+                    <form onSubmit={submit} noValidate data-aos="fade-up" data-aos-delay="100">
                       <div className="row g-3">
                         <div className="col-md-6">
                           <label htmlFor="f-name">Full Name</label>
@@ -301,5 +331,7 @@ export default function AboutUs() {
         </div>
       </section>
     </div>
+   <Footer />
+   </>
   );
 }
