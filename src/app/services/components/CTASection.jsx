@@ -2,7 +2,7 @@ import { PhoneCall } from 'lucide-react';
 
 export default function CTASection() {
   return (
-    <section className="services-cta" data-aos="zoom-in" data-aos-duration="700">
+    <section className="services-cta" data-aos="zoom-in" data-aos-duration="800">
       <div className="container services-cta-content">
         <h2 className="services-cta-title">
           Schedule Your

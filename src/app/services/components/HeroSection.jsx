@@ -6,19 +6,16 @@ export default function HeroSection() {
   return (
     <section className="services-hero">
       <div className="container text-center">
-        {/* Top Floating Badge */}
         <div className="services-hero-badge" data-aos="fade-down">
           <Sparkles size={16} className="text-warning" />
           Shop With Confidence • Certified Vehicles
         </div>
 
-        {/* Main Hero Title */}
         <h1 className="services-hero-title" data-aos="fade-up" data-aos-delay="100">
           Discover Our Best Deals On <br />
           <span className="text-danger">New And Used Cars</span>
         </h1>
 
-        {/* Interactive Search / Filter Bar */}
         <div className="hero-search-box mx-auto mt-4 p-3" data-aos="fade-up" data-aos-delay="200">
           <div className="row g-2 align-items-center">
             <div className="col-md-4">
@@ -52,7 +49,6 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Breadcrumb Below Search */}
         <div className="services-breadcrumb mt-4" data-aos="fade-up" data-aos-delay="300">
           <Link href="/" className="breadcrumb-link">Home</Link>
           <span className="breadcrumb-sep">✕</span>
