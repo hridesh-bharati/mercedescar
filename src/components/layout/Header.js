@@ -90,18 +90,9 @@ export default function Header() {
     },
     {
       key: 'blog',
-      label: 'Blog',
-      href: '/blog',
-      icon: ICONS.Blog,
-      subItems: [
-        { label: 'Blog Grid 01', href: '/blog-grid' },
-        { label: 'Blog Grid 02', href: '/blog-grid-2' },
-        { label: 'Blog Grid 03', href: '/blog-grid-3' },
-        { label: 'Blog Carousel', href: '/blog-carousel' },
-        { label: 'Blog Standard', href: '/blog' },
-        { label: 'Blog Details', href: '/blog-details' },
-      ]
-    },
+      label: 'Blogs',
+      href: '/blogs',
+      icon: ICONS.Blog},
     { key: 'contact', label: 'Contact Us', href: '/contact-us', icon: ICONS.Contact },
   ];
 
