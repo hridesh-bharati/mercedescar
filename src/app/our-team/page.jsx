@@ -28,9 +28,9 @@ const SocialIcons = {
 
 const teamMembers = [
   { name: 'Esther Howard', role: 'Engine Specialist', image: '/images/team/team-1.png', variant: 'blue' },
-  { name: 'Leslie Alexander', role: 'Diagnostics Expert', image: '/images/team/team-2.png', variant: 'orange' },
-  { name: 'Ralph Edwards', role: 'Bodywork Specialist', image: '/images/team/team-3.png', variant: 'green' },
-  { name: 'Kristin Watson', role: 'Transmission Expert', image: '/images/team/team-4.png', variant: 'purple' },
+  { name: 'Leslie Alexander', role: 'Diagnostics Expert', image: '/images/team/team-2.jpg', variant: 'orange' },
+  { name: 'Ralph Edwards', role: 'Bodywork Specialist', image: '/images/team/team-3.jpg', variant: 'green' },
+  { name: 'Kristin Watson', role: 'Transmission Expert', image: '/images/team/team-4.jpg', variant: 'purple' },
 ];
 
 export default function TeamPage() {
