@@ -1,3 +1,4 @@
+// src\components\layout\Header.js
 'use client';
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
@@ -92,7 +93,8 @@ export default function Header() {
       key: 'blog',
       label: 'Blogs',
       href: '/blogs',
-      icon: ICONS.Blog},
+      icon: ICONS.Blog
+    },
     { key: 'contact', label: 'Contact Us', href: '/contact-us', icon: ICONS.Contact },
   ];
 
@@ -152,9 +154,13 @@ export default function Header() {
                 <button className="md-icon-btn md-ripple" onMouseDown={addRipple} onClick={() => setSearchOpen(true)} aria-label="Search">
                   <Icon path={ICONS.Search} size={20} />
                 </button>
-                <Link href="/login" className="md-icon-btn md-ripple d-none d-lg-flex" onMouseDown={addRipple} aria-label="Account">
-                  <Icon path={ICONS.User} size={20} />
+                
+                {/* Login Button added in header actions */}
+                <Link href="/auth/login" className="btn btn-danger btn-sm rounded-pill px-3 fw-bold d-none d-lg-flex align-items-center gap-1 shadow-sm" onMouseDown={addRipple} aria-label="Login">
+                  <Icon path={ICONS.Login} size={16} />
+                  <span>Login</span>
                 </Link>
+
                 <button className="md-icon-btn md-ripple d-lg-none" onMouseDown={addRipple} onClick={() => setDrawerOpen(true)} aria-label="Open menu">
                   {ICONS.Menu}
                 </button>
@@ -226,7 +232,7 @@ export default function Header() {
         </ul>
 
         <div className="md-drawer-footer">
-          <Link href="/login" className="md-btn-filled md-ripple w-100" onMouseDown={addRipple} onClick={closeDrawer}>
+          <Link href="/login" className="btn btn-danger w-100 rounded-pill fw-bold py-2 shadow-sm d-flex align-items-center justify-content-center gap-2" onMouseDown={addRipple} onClick={closeDrawer}>
             <Icon path={ICONS.Login} size={18} />
             <span>Log in</span>
           </Link>
@@ -246,7 +252,7 @@ export default function Header() {
         </button>
 
         <div className="md-nav-fab-slot">
-          <Link href="/book" className="md-fab md-ripple" onMouseDown={addRipple} aria-label="Book a service">
+          <Link href="/contact-us" className="md-fab md-ripple" onMouseDown={addRipple} aria-label="Book a service">
             <Icon path={ICONS.Plus} size={24} />
           </Link>
         </div>
