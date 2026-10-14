@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Wrench } from 'lucide-react';
+import { ArrowRight, ShieldAlert } from 'lucide-react';
 import { dbService } from '@/services/dbService';
 
 export default function ServiceGrid() {
@@ -28,7 +28,7 @@ export default function ServiceGrid() {
   }
 
   return (
-    <section className="services-grid py-5">
+    <section className="services-grid py-5" style={{ background: '#f8f9fa' }}>
       <div className="container">
         {liveServices.length === 0 ? (
           <div className="text-center py-5 text-muted card border-0 shadow-sm rounded-4 p-5">
@@ -41,9 +41,18 @@ export default function ServiceGrid() {
               const { id, title, desc, description, imageUrl, price } = service;
               const cardDesc = desc || description;
 
+              // Automatic Styling Pattern:
+              // 1. Agar image hai, toh image background card (kuch wide col-6, kuch col-3)
+              // 2. Agar image nahi hai, toh index ke mutabiq White, Dark, aur Yellow cards aayenge!
+              const hasImage = Boolean(imageUrl);
+              let theme = 'white';
               let colSpan = 3;
-              if (imageUrl) {
-                colSpan = index === 4 || index % 6 === 4 ? 6 : 3;
+
+              if (hasImage) {
+                colSpan = index === 1 || index % 4 === 1 ? 6 : 3; // Wide or normal image card
+              } else {
+                const nonImageThemes = ['white', 'dark', 'white', 'yellow', 'white'];
+                theme = nonImageThemes[index % nonImageThemes.length];
               }
 
               const animType = index % 2 === 0 ? 'fade-up' : 'zoom-in';
@@ -56,64 +65,64 @@ export default function ServiceGrid() {
                   data-aos-duration="800"
                 >
                   <div 
-                    className="card border-0 shadow-sm rounded-4 overflow-hidden position-relative h-100"
-                    style={{ minHeight: '300px', backgroundColor: imageUrl ? '#000' : '#fff' }}
+                    className={`mosaic-card rounded-4 shadow-sm p-4 h-100 position-relative overflow-hidden d-flex flex-column justify-content-between ${
+                      hasImage ? 'text-white' :
+                      theme === 'dark' ? 'bg-dark text-white' : 
+                      theme === 'yellow' ? 'bg-warning text-dark' : 
+                      'bg-white text-dark'
+                    }`}
+                    style={
+                      hasImage 
+                        ? { 
+                            backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.25), rgba(0,0,0,0.85)), url(${imageUrl})`, 
+                            backgroundSize: 'cover', 
+                            backgroundPosition: 'center', 
+                            minHeight: '320px' 
+                          } 
+                        : { 
+                            minHeight: '320px', 
+                            border: theme === 'white' ? '1px solid rgba(0,0,0,0.05)' : 'none' 
+                          }
+                    }
                   >
-                    {/* Background Image with Overlay if imageUrl exists */}
-                    {imageUrl && (
-                      <div 
-                        className="position-absolute top-0 start-0 w-100 h-100"
-                        style={{ 
-                          backgroundImage: `url(${imageUrl})`, 
-                          backgroundSize: 'cover', 
-                          backgroundPosition: 'center',
-                          opacity: '0.75'
-                        }}
-                      />
-                    )}
+                    <div>
+                      {!hasImage && (
+                        <div className={`mosaic-icon mb-3 p-2 rounded-circle d-inline-flex align-items-center justify-content-center ${
+                          theme === 'dark' ? 'bg-secondary bg-opacity-25 text-danger' : 
+                          theme === 'yellow' ? 'bg-dark bg-opacity-10 text-dark' : 
+                          'bg-danger bg-opacity-10 text-danger'
+                        }`} style={{ width: '42px', height: '42px' }}>
+                          <ShieldAlert size={20} strokeWidth={2} />
+                        </div>
+                      )}
+                      
+                      <h3 className={`mosaic-title fw-bold mb-2 fs-5 ${hasImage || theme === 'dark' ? 'text-white' : 'text-dark'}`}>
+                        {title}
+                      </h3>
+                      
+                      <p className={`mosaic-desc small mb-3 lh-base ${hasImage || theme === 'dark' ? 'text-light text-opacity-75' : 'text-muted'}`}>
+                        {cardDesc}
+                      </p>
+                    </div>
 
-                    {/* Dark gradient overlay for image cards so text is readable */}
-                    {imageUrl && (
-                      <div 
-                        className="position-absolute top-0 start-0 w-100 h-100"
-                        style={{ 
-                          background: 'linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 100%)' 
-                        }}
-                      />
-                    )}
+                    <div>
+                      {price && (
+                        <div className="fw-bold mb-2 text-danger fs-6">
+                          Price: ${price}
+                        </div>
+                      )}
 
-                    {/* Card Content */}
-                    <div className="card-body p-4 d-flex flex-column justify-content-between position-relative z-1 h-100">
-                      <div>
-                        {!imageUrl && (
-                          <div className="text-danger mb-3 bg-danger bg-opacity-10 p-2 rounded-circle d-inline-block">
-                            <Wrench size={22} strokeWidth={2} />
-                          </div>
-                        )}
-                        <h3 className={`fw-bold mb-2 fs-5 ${imageUrl ? 'text-white' : 'text-dark'}`}>
-                          {title}
-                        </h3>
-                        <p className={`small mb-3 ${imageUrl ? 'text-light opacity-88' : 'text-muted'}`}>
-                          {cardDesc}
-                        </p>
-                      </div>
-
-                      <div>
-                        {price && (
-                          <div className="text-danger fw-bold mb-2">
-                            Price: ${price}
-                          </div>
-                        )}
-
-                        <Link 
-                          href={`/services/${id || 'detail'}`} 
-                          className={`btn btn-sm rounded-pill px-3 fw-bold d-inline-flex align-items-center gap-1 ${
-                            imageUrl ? 'btn-light text-dark' : 'btn-outline-danger'
-                          }`}
-                        >
-                          DETAILS MORE <ArrowRight size={14} />
-                        </Link>
-                      </div>
+                      <Link 
+                        href={`/services/${id || 'detail'}`} 
+                        className={`mosaic-btn btn btn-sm rounded-pill px-4 fw-bold d-inline-flex align-items-center gap-2 shadow-sm ${
+                          hasImage || theme === 'dark' ? 'btn-danger text-white' : 
+                          theme === 'yellow' ? 'btn-dark text-white' : 
+                          'btn-dark text-white'
+                        }`}
+                        style={{ fontSize: '0.8rem', letterSpacing: '0.5px' }}
+                      >
+                        DETAILS MORE <ArrowRight size={14} />
+                      </Link>
                     </div>
                   </div>
                 </div>
