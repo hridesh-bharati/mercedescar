@@ -1,7 +1,9 @@
+// src/lib/cloudinary.js
+
 export async function uploadToCloudinary(file) {
   const formData = new FormData();
   formData.append("file", file);
-  formData.append("upload_preset", "your_upload_preset");
+  formData.append("upload_preset", "ml_default"); 
 
   try {
     const res = await fetch(
@@ -22,6 +24,9 @@ export async function uploadToCloudinary(file) {
     };
   } catch (error) {
     console.error("Cloudinary upload error:", error);
-    return { success: false, error: error.message };
+    return {
+      success: false,
+      error: error.message,
+    };
   }
 }
