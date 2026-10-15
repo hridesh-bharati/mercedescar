@@ -1,3 +1,4 @@
+// src/app/contact/page.jsx
 'use client';
 
 import { useState } from 'react';
@@ -12,6 +13,7 @@ import {
 } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import { dbService } from '@/services/dbService';
 import './ContactUs.css';
 
 export default function ContactUs() {
@@ -28,15 +30,27 @@ export default function ContactUs() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setFormStatus({ submitted: false, loading: true });
-    
-    // Simulate API submission
-    setTimeout(() => {
+
+    // Payload to save in Firebase database under 'bookings' or 'contacts'
+    const payload = {
+      ...formData,
+      type: 'Contact Inquiry',
+      date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+      timestamp: Date.now()
+    };
+
+    const res = await dbService.create('bookings', payload);
+
+    if (res.success) {
       setFormStatus({ submitted: true, loading: false });
       setFormData({ name: '', phone: '', email: '', service: 'General Diagnosis', message: '' });
-    }, 1200);
+    } else {
+      alert('Failed to submit inquiry. Please try again.');
+      setFormStatus({ submitted: false, loading: false });
+    }
   };
 
   return (
@@ -71,13 +85,12 @@ export default function ContactUs() {
 
         {/* ============ MAIN CONTACT SECTION ============ */}
         <section className="contact-section py-4 py-md-5 position-relative overflow-hidden">
-          {/* Ambient Glow Effects */}
           <div className="contact-glow contact-glow-blue"></div>
           <div className="contact-glow contact-glow-pink"></div>
 
           <div className="container position-relative z-2">
             
-            {/* Top Cards Info Grid (Left Aligned) */}
+            {/* Top Cards Info Grid */}
             <div className="row g-4 mb-4">
               
               {/* Phone Card */}
@@ -155,7 +168,7 @@ export default function ContactUs() {
                     <div className="alert alert-success d-flex align-items-center gap-2 border-0 shadow-sm rounded-4 mb-3 py-2 small" role="alert">
                       <CheckCircle2 size={18} className="text-success flex-shrink-0" />
                       <div>
-                        <strong>Thank you!</strong> Your message has been sent successfully.
+                        <strong>Thank you!</strong> Your inquiry has been submitted and sent to the admin panel successfully.
                       </div>
                     </div>
                   )}
@@ -238,7 +251,7 @@ export default function ContactUs() {
                         {formStatus.loading ? (
                           <>
                             <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                            Sending...
+                            Sending to Admin...
                           </>
                         ) : (
                           <>
@@ -292,7 +305,6 @@ export default function ContactUs() {
                       loading="lazy"
                       referrerPolicy="no-referrer-when-downgrade"
                     ></iframe>
- 
                   </div>
 
                 </div>

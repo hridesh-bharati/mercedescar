@@ -1,19 +1,20 @@
+// src/app/dashboard/adminpanel/page.jsx
 'use client';
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { auth, database } from '@/lib/firebase';
+import { auth } from '@/lib/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
-import { ref, get } from 'firebase/database';
 import { authService } from '@/services/authService';
 import { dbService } from '@/services/dbService';
-import { LayoutDashboard, Wrench, FileText, CalendarCheck, Users, LogOut, Menu, X, Home } from 'lucide-react';
+import { LayoutDashboard, Wrench, FileText, CalendarCheck, Users, MessageSquare, LogOut, Menu, X, Home } from 'lucide-react';
 
 import ServicesManager from './services-manager';
 import BlogsManager from './blogs-manager';
 import BookingsManager from './bookings-manager';
 import UsersManager from './users-manager';
+import CommentsManager from './comments-manager';
 
 export default function AdminPanel() {
   const [loading, setLoading] = useState(true);
@@ -21,8 +22,7 @@ export default function AdminPanel() {
   const [activeTab, setActiveTab] = useState('overview');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
-  // Stats state
-  const [stats, setStats] = useState({ services: 0, blogs: 0, bookings: 0, users: 0 });
+  const [stats, setStats] = useState({ services: 0, blogs: 0, bookings: 0, users: 0, comments: 0 });
   const router = useRouter();
 
   useEffect(() => {
@@ -43,12 +43,14 @@ export default function AdminPanel() {
     const bRes = await dbService.getAll('blogs');
     const bookRes = await dbService.getAll('bookings');
     const uRes = await dbService.getAll('users');
+    const cRes = await dbService.getAll('comments');
 
     setStats({
       services: sRes.success ? sRes.data.length : 0,
       blogs: bRes.success ? bRes.data.length : 0,
       bookings: bookRes.success ? bookRes.data.length : 0,
       users: uRes.success ? uRes.data.length : 0,
+      comments: cRes.success ? cRes.data.length : 0,
     });
   };
 
@@ -59,6 +61,7 @@ export default function AdminPanel() {
     { key: 'overview', label: 'Overview', icon: LayoutDashboard },
     { key: 'services', label: 'Manage Services', icon: Wrench },
     { key: 'blogs', label: 'Manage Blogs', icon: FileText },
+    { key: 'comments', label: 'Blog Comments', icon: MessageSquare },
     { key: 'bookings', label: 'Bookings / Leads', icon: CalendarCheck },
     { key: 'users', label: 'Users List', icon: Users },
   ];
@@ -66,7 +69,7 @@ export default function AdminPanel() {
   return (
     <div className="container-fluid bg-light min-vh-100 py-4">
       
-      {/* Mobile Top Navbar Bar */}
+      {/* Mobile Top Navbar */}
       <div className="d-lg-none card border-0 shadow-sm rounded-4 p-3 bg-white mb-4 d-flex flex-row justify-content-between align-items-center">
         <h5 className="fw-bold text-dark m-0">Admin <span className="text-danger">Panel</span></h5>
         <div className="d-flex align-items-center gap-2">
@@ -82,7 +85,7 @@ export default function AdminPanel() {
         </div>
       </div>
 
-      {/* Mobile Dropdown Menu */}
+      {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="d-lg-none card border-0 shadow-sm rounded-4 p-3 bg-white mb-4">
           <div className="nav flex-column gap-2">
@@ -113,7 +116,7 @@ export default function AdminPanel() {
 
       <div className="row">
         
-        {/* Desktop Sidebar Navigation */}
+        {/* Desktop Sidebar */}
         <div className="col-lg-2 d-none d-lg-block">
           <div className="card border-0 shadow-sm rounded-4 p-3 bg-white sticky-top" style={{ top: '20px' }}>
             <h5 className="fw-bold text-dark px-2 mb-4">Admin <span className="text-danger">Panel</span></h5>
@@ -151,19 +154,17 @@ export default function AdminPanel() {
         {/* Main Content Area */}
         <div className="col-lg-10">
           
-          {/* Top Bar Header */}
           <div className="card border-0 shadow-sm rounded-4 p-4 bg-white mb-4 d-flex flex-row justify-content-between align-items-center">
             <div>
-              <h3 className="fw-bold text-dark mb-1 fs-5 fs-md-3">Welcome back, Admin (Hridesh) 👋</h3>
+              <h3 className="fw-bold text-dark mb-1 fs-5">Welcome back, Admin (Hridesh) 👋</h3>
               <p className="text-secondary small mb-0 d-none d-sm-block">Here is what is happening with your car service business today.</p>
             </div>
             <span className="badge bg-danger bg-opacity-10 text-danger px-3 py-2 rounded-pill fw-bold">Super Admin</span>
           </div>
 
-          {/* Tab 1: Overview Dashboard */}
+          {/* Overview Tab */}
           {activeTab === 'overview' && (
             <div>
-              {/* Stats Grid */}
               <div className="row g-4 mb-4">
                 <div className="col-6 col-md-3">
                   <div className="card border-0 shadow-sm rounded-4 p-4 bg-white border-start border-danger border-4">
@@ -179,19 +180,18 @@ export default function AdminPanel() {
                 </div>
                 <div className="col-6 col-md-3">
                   <div className="card border-0 shadow-sm rounded-4 p-4 bg-white border-start border-success border-4">
-                    <span className="text-muted small fw-bold">BOOKINGS</span>
-                    <h2 className="fw-bold text-dark mt-2 mb-0">{stats.bookings}</h2>
+                    <span className="text-muted small fw-bold">COMMENTS</span>
+                    <h2 className="fw-bold text-dark mt-2 mb-0">{stats.comments}</h2>
                   </div>
                 </div>
                 <div className="col-6 col-md-3">
                   <div className="card border-0 shadow-sm rounded-4 p-4 bg-white border-start border-warning border-4">
-                    <span className="text-muted small fw-bold">USERS</span>
-                    <h2 className="fw-bold text-dark mt-2 mb-0">{stats.users}</h2>
+                    <span className="text-muted small fw-bold">BOOKINGS / LEADS</span>
+                    <h2 className="fw-bold text-dark mt-2 mb-0">{stats.bookings}</h2>
                   </div>
                 </div>
               </div>
 
-              {/* Quick Actions Card */}
               <div className="card border-0 shadow-sm rounded-4 p-4 bg-white">
                 <h5 className="fw-bold text-dark mb-3">Quick Navigation</h5>
                 <div className="d-flex flex-wrap gap-3">
@@ -203,16 +203,10 @@ export default function AdminPanel() {
             </div>
           )}
 
-          {/* Tab 2: Services Manager */}
           {activeTab === 'services' && <ServicesManager />}
-
-          {/* Tab 3: Blogs Manager */}
           {activeTab === 'blogs' && <BlogsManager />}
-
-          {/* Tab 4: Bookings Manager */}
+          {activeTab === 'comments' && <CommentsManager />}
           {activeTab === 'bookings' && <BookingsManager />}
-
-          {/* Tab 5: Users Manager */}
           {activeTab === 'users' && <UsersManager />}
 
         </div>
