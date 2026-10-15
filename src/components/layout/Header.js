@@ -232,7 +232,7 @@ export default function Header() {
         </ul>
 
         <div className="md-drawer-footer">
-          <Link href="/login" className="btn btn-danger w-100 rounded-pill fw-bold py-2 shadow-sm d-flex align-items-center justify-content-center gap-2" onMouseDown={addRipple} onClick={closeDrawer}>
+          <Link href="/auth/login" className="btn btn-danger w-100 rounded-pill fw-bold py-2 shadow-sm d-flex align-items-center justify-content-center gap-2" onMouseDown={addRipple} onClick={closeDrawer}>
             <Icon path={ICONS.Login} size={18} />
             <span>Log in</span>
           </Link>
@@ -262,7 +262,7 @@ export default function Header() {
           <span className="md-nav-label">Contact</span>
         </Link>
 
-        <Link href="/login" className={`md-nav-dest md-ripple ${activeTab === 'account' ? 'is-active' : ''}`} onMouseDown={addRipple} onClick={() => setActiveTab('account')}>
+        <Link href="/auth/login" className={`md-nav-dest md-ripple ${activeTab === 'account' ? 'is-active' : ''}`} onMouseDown={addRipple} onClick={() => setActiveTab('account')}>
           <span className="md-nav-indicator"><Icon path={ICONS.User} size={20} /></span>
           <span className="md-nav-label">Account</span>
         </Link>
