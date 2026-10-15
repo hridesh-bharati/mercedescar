@@ -8,13 +8,15 @@ import { auth } from '@/lib/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { authService } from '@/services/authService';
 import { dbService } from '@/services/dbService';
-import { LayoutDashboard, Wrench, FileText, CalendarCheck, Users, MessageSquare, LogOut, Menu, X, Home } from 'lucide-react';
+import { LayoutDashboard, Wrench, FileText, Inbox, Users, MessageSquare, Briefcase, Image as ImageIcon, LogOut, Menu, X, Home } from 'lucide-react';
 
 import ServicesManager from './services-manager';
 import BlogsManager from './blogs-manager';
-import BookingsManager from './bookings-manager';
+import InboxManager from './inbox-manager';
 import UsersManager from './users-manager';
 import CommentsManager from './comments-manager';
+import CasesManager from './cases-manager';
+import GalleryManager from './gallery-manager';
 
 export default function AdminPanel() {
   const [loading, setLoading] = useState(true);
@@ -22,7 +24,7 @@ export default function AdminPanel() {
   const [activeTab, setActiveTab] = useState('overview');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
-  const [stats, setStats] = useState({ services: 0, blogs: 0, bookings: 0, users: 0, comments: 0 });
+  const [stats, setStats] = useState({ services: 0, blogs: 0, inbox: 0, users: 0, comments: 0, cases: 0, gallery: 0 });
   const router = useRouter();
 
   useEffect(() => {
@@ -44,13 +46,17 @@ export default function AdminPanel() {
     const bookRes = await dbService.getAll('bookings');
     const uRes = await dbService.getAll('users');
     const cRes = await dbService.getAll('comments');
+    const caseRes = await dbService.getAll('cases');
+    const gRes = await dbService.getAll('gallery');
 
     setStats({
       services: sRes.success ? sRes.data.length : 0,
       blogs: bRes.success ? bRes.data.length : 0,
-      bookings: bookRes.success ? bookRes.data.length : 0,
+      inbox: bookRes.success ? bookRes.data.length : 0,
       users: uRes.success ? uRes.data.length : 0,
       comments: cRes.success ? cRes.data.length : 0,
+      cases: caseRes.success ? caseRes.data.length : 0,
+      gallery: gRes.success ? gRes.data.length : 0,
     });
   };
 
@@ -62,7 +68,9 @@ export default function AdminPanel() {
     { key: 'services', label: 'Manage Services', icon: Wrench },
     { key: 'blogs', label: 'Manage Blogs', icon: FileText },
     { key: 'comments', label: 'Blog Comments', icon: MessageSquare },
-    { key: 'bookings', label: 'Bookings / Leads', icon: CalendarCheck },
+    { key: 'cases', label: 'Manage Cases', icon: Briefcase },
+    { key: 'gallery', label: 'Manage Gallery', icon: ImageIcon },
+    { key: 'inbox', label: 'Contact / Inbox', icon: Inbox },
     { key: 'users', label: 'Users List', icon: Users },
   ];
 
@@ -186,8 +194,20 @@ export default function AdminPanel() {
                 </div>
                 <div className="col-6 col-md-3">
                   <div className="card border-0 shadow-sm rounded-4 p-4 bg-white border-start border-warning border-4">
-                    <span className="text-muted small fw-bold">BOOKINGS / LEADS</span>
-                    <h2 className="fw-bold text-dark mt-2 mb-0">{stats.bookings}</h2>
+                    <span className="text-muted small fw-bold">INBOX / MESSAGES</span>
+                    <h2 className="fw-bold text-dark mt-2 mb-0">{stats.inbox}</h2>
+                  </div>
+                </div>
+                <div className="col-6 col-md-3">
+                  <div className="card border-0 shadow-sm rounded-4 p-4 bg-white border-start border-info border-4">
+                    <span className="text-muted small fw-bold">CASES</span>
+                    <h2 className="fw-bold text-dark mt-2 mb-0">{stats.cases}</h2>
+                  </div>
+                </div>
+                <div className="col-6 col-md-3">
+                  <div className="card border-0 shadow-sm rounded-4 p-4 bg-white border-start border-dark border-4">
+                    <span className="text-muted small fw-bold">GALLERY</span>
+                    <h2 className="fw-bold text-dark mt-2 mb-0">{stats.gallery}</h2>
                   </div>
                 </div>
               </div>
@@ -197,7 +217,9 @@ export default function AdminPanel() {
                 <div className="d-flex flex-wrap gap-3">
                   <button className="btn btn-dark rounded-pill px-4 fw-semibold" onClick={() => setActiveTab('services')}>Manage Services</button>
                   <button className="btn btn-outline-dark rounded-pill px-4 fw-semibold" onClick={() => setActiveTab('blogs')}>Manage Blogs</button>
-                  <button className="btn btn-outline-dark rounded-pill px-4 fw-semibold" onClick={() => setActiveTab('bookings')}>View Bookings</button>
+                  <button className="btn btn-outline-dark rounded-pill px-4 fw-semibold" onClick={() => setActiveTab('cases')}>Manage Cases</button>
+                  <button className="btn btn-outline-dark rounded-pill px-4 fw-semibold" onClick={() => setActiveTab('gallery')}>Manage Gallery</button>
+                  <button className="btn btn-outline-dark rounded-pill px-4 fw-semibold" onClick={() => setActiveTab('inbox')}>View Contact Inbox</button>
                 </div>
               </div>
             </div>
@@ -206,7 +228,9 @@ export default function AdminPanel() {
           {activeTab === 'services' && <ServicesManager />}
           {activeTab === 'blogs' && <BlogsManager />}
           {activeTab === 'comments' && <CommentsManager />}
-          {activeTab === 'bookings' && <BookingsManager />}
+          {activeTab === 'cases' && <CasesManager />}
+          {activeTab === 'gallery' && <GalleryManager />}
+          {activeTab === 'inbox' && <InboxManager />}
           {activeTab === 'users' && <UsersManager />}
 
         </div>

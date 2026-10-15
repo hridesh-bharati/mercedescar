@@ -81,7 +81,7 @@ export default function Header() {
       icon: ICONS.Blog,
       subItems: [
         { label: 'Our Team', href: '/our-team' },
-        { label: 'Case Single', href: '/case' },
+        { label: 'Case Single', href: '/case' }, 
         { label: 'Work Process', href: '/work-process' },
         { label: 'Testimonials', href: '/testimonials' },
         { label: 'Pricing Plan', href: '/pricing-plan' },
