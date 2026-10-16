@@ -9,14 +9,14 @@ import { CheckCircle2 } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { dbService } from '@/services/dbService';
-import GallerySection from '@/components/Gallery/GallerySection';
+import GallerySection from '@/components/Gallery';
 
 export default function CaseDetailPage({ params }) {
   const unwrappedParams = use(params);
   const caseId = unwrappedParams.id;
 
   const [caseData, setCaseData] = useState(null);
-  const [galleryImages, setGalleryImages] = useState([]);
+  const [galleryAlbums, setGalleryAlbums] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -31,10 +31,10 @@ export default function CaseDetailPage({ params }) {
       if (current) setCaseData(current);
     }
 
-    // Fetch gallery images to display in project gallery
+    // Fetch all gallery albums stably without random shuffling
     const gRes = await dbService.getAll('gallery');
     if (gRes.success && gRes.data) {
-      setGalleryImages(gRes.data.map(g => g.imageUrl));
+      setGalleryAlbums(gRes.data);
     }
 
     setLoading(false);
@@ -48,7 +48,7 @@ export default function CaseDetailPage({ params }) {
     return (
       <div className="container py-5 text-center">
         <h3 className="fw-bold text-dark mb-3">Case Study Not Found</h3>
-        <Link href="/" className="btn btn-danger rounded-pill px-4 fw-bold">Back to Home</Link>
+        <Link href="/case" className="btn btn-danger rounded-pill px-4 fw-bold">Back to Cases</Link>
       </div>
     );
   }
@@ -132,8 +132,8 @@ export default function CaseDetailPage({ params }) {
             </p>
           </div>
 
-          {/* Imported Gallery Section Component */}
-          <GallerySection images={galleryImages.length > 0 ? galleryImages : [mainImage]} />
+          {/* Project Gallery Albums Section */}
+          <GallerySection albums={galleryAlbums.length > 0 ? galleryAlbums : [{ id: '1', title: caseData.title, images: [mainImage], coverImage: mainImage }]} />
 
         </div>
       </main>

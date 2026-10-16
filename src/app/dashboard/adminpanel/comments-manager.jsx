@@ -9,9 +9,7 @@ export default function CommentsManager() {
   const [comments, setComments] = useState([]);
   const [blogs, setBlogs] = useState([]);
 
-  useEffect(() => {
-    loadData();
-  }, []);
+  useEffect(() => { loadData(); }, []);
 
   const loadData = async () => {
     const cRes = await dbService.getAll('comments');
@@ -20,10 +18,7 @@ export default function CommentsManager() {
     if (bRes.success) setBlogs(bRes.data);
   };
 
-  const getBlogTitle = (blogId) => {
-    const blog = blogs.find((b) => b.id === blogId);
-    return blog ? blog.title : 'General / Unknown Blog';
-  };
+  const getBlogTitle = (blogId) => blogs.find((b) => b.id === blogId)?.title || 'General';
 
   const handleDelete = async (id) => {
     if (confirm('Delete this comment?')) {
@@ -33,49 +28,37 @@ export default function CommentsManager() {
   };
 
   return (
-    <div className="card border-0 shadow-sm rounded-4 p-4 bg-white">
-      <h4 className="fw-bold text-dark mb-4">Manage Blog Comments</h4>
+    <div className="card border-0 shadow-sm rounded-4 p-3 p-md-4 bg-white text-start">
+      <h4 className="fw-bold text-dark mb-3 fs-5">Manage Blog Comments</h4>
 
-      <div className="table-responsive">
-        <table className="table align-middle">
-          <thead className="table-light">
-            <tr>
-              <th>Blog Post</th>
-              <th>User Name</th>
-              <th>Email</th>
-              <th>Message</th>
-              <th>Date</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {comments.length === 0 ? (
-              <tr>
-                <td colSpan="6" className="text-center py-4 text-muted">No comments found.</td>
-              </tr>
-            ) : (
-              comments.map((c) => (
-                <tr key={c.id}>
-                  <td>
-                    <span className="badge bg-secondary bg-opacity-10 text-dark fw-bold text-truncate d-inline-block" style={{ maxWidth: '180px' }}>
-                      {getBlogTitle(c.blogId)}
-                    </span>
-                  </td>
-                  <td className="fw-bold">{c.name}</td>
-                  <td className="text-muted small">{c.email}</td>
-                  <td className="text-secondary small" style={{ maxWidth: '220px' }}>{c.message}</td>
-                  <td className="text-muted small">{c.date}</td>
-                  <td>
-                    <button className="btn btn-sm btn-outline-danger rounded-circle p-2" onClick={() => handleDelete(c.id)}>
-                      <Trash2 size={14} />
-                    </button>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+      {comments.length === 0 ? (
+        <p className="text-muted small text-center py-3">No comments found.</p>
+      ) : (
+        <div className="row g-3">
+          {comments.map((c) => (
+            <div key={c.id} className="col-12 col-md-6">
+              <div className="card border-0 bg-light p-3 rounded-4 shadow-sm h-100 position-relative">
+                <div className="d-flex justify-content-between align-items-center mb-1 gap-2">
+                  <span className="badge bg-danger bg-opacity-10 text-danger text-truncate" style={{ maxWidth: '80%' }}>
+                    {getBlogTitle(c.blogId)}
+                  </span>
+                  <button 
+                    className="btn btn-sm btn-outline-danger rounded-circle p-0 d-flex align-items-center justify-content-center flex-shrink-0" 
+                    style={{ width: '26px', height: '26px' }} 
+                    onClick={() => handleDelete(c.id)}
+                    title="Delete"
+                  >
+                    <Trash2 size={12} />
+                  </button>
+                </div>
+                <h6 className="fw-bold text-dark mb-1 small">{c.name} <span className="text-muted fw-normal" style={{fontSize: '0.75rem'}}>{c.email}</span></h6>
+                <p className="text-secondary small mb-1">{c.message}</p>
+                <span className="text-muted" style={{ fontSize: '0.7rem' }}>{c.date || 'Recent'}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

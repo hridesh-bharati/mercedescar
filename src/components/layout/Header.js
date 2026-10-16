@@ -1,4 +1,4 @@
-// src\components\layout\Header.js
+// src/components/layout/Header.jsx
 'use client';
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
@@ -27,6 +27,7 @@ const ICONS = {
   Location: 'M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z M12 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z',
   Blog: 'M4 4h16v16H4z M8 8h8 M8 12h8 M8 16h5',
   Shop: 'M6 2l1.5 5h9L18 2 M4 7h16l-1.5 13a2 2 0 0 1-2 1.8H7.5a2 2 0 0 1-2-1.8z M9 11v4 M15 11v4',
+  Gallery: 'M21 19V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z M8.5 10a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M21 15l-5-5L5 21',
 };
 
 function addRipple(e) {
@@ -74,6 +75,7 @@ export default function Header() {
     { key: 'home', label: 'Home', href: '/', icon: ICONS.Home },
     { key: 'services', label: 'Services', href: '/services', icon: ICONS.Wrench },
     { key: 'about', label: 'About Us', href: '/about-us', icon: ICONS.User },
+    { key: 'gallery', label: 'Gallery', href: '/gallery', icon: ICONS.Gallery },
     {
       key: 'pages',
       label: 'Pages',

@@ -8,7 +8,8 @@ import { auth } from '@/lib/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { authService } from '@/services/authService';
 import { dbService } from '@/services/dbService';
-import { LayoutDashboard, Wrench, FileText, Inbox, Users, MessageSquare, Briefcase, Image as ImageIcon, LogOut, Menu, X, Home } from 'lucide-react';
+import { LayoutDashboard, Wrench, FileText, Inbox, Users, MessageSquare, Briefcase, Image as ImageIcon, LogOut, Menu, X, Home, TrendingUp, Layers, Activity, ShieldCheck } from 'lucide-react';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 
 import ServicesManager from './services-manager';
 import BlogsManager from './blogs-manager';
@@ -74,18 +75,34 @@ export default function AdminPanel() {
     { key: 'users', label: 'Users List', icon: Users },
   ];
 
+  const chartData = [
+    { name: 'Services', count: stats.services, color: '#6610f2' },
+    { name: 'Blogs', count: stats.blogs, color: '#0d6efd' },
+    { name: 'Comments', count: stats.comments, color: '#198754' },
+    { name: 'Inbox', count: stats.inbox, color: '#ffc107' },
+    { name: 'Cases', count: stats.cases, color: '#0dcaf0' },
+    { name: 'Gallery', count: stats.gallery, color: '#d63384' },
+  ];
+
+  const currentDate = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
   return (
-    <div className="container-fluid bg-light min-vh-100 py-4">
+    <div className="container-fluid min-vh-100 py-4" style={{ background: '#f4f6f9' }}>
       
       {/* Mobile Top Navbar */}
-      <div className="d-lg-none card border-0 shadow-sm rounded-4 p-3 bg-white mb-4 d-flex flex-row justify-content-between align-items-center">
-        <h5 className="fw-bold text-dark m-0">Admin <span className="text-danger">Panel</span></h5>
+      <div className="d-lg-none rounded-4 p-3 mb-4 d-flex flex-row justify-content-between align-items-center bg-white shadow-sm" style={{ backdropFilter: 'blur(10px)', border: '1px solid rgba(0, 0, 0, 0.04)' }}>
+        <div className="d-flex align-items-center gap-2">
+          <div className="bg-primary text-white rounded-circle p-2 d-flex align-items-center justify-content-center shadow-sm">
+            <ShieldCheck size={20} />
+          </div>
+          <h5 className="fw-bold text-dark m-0">Admin <span className="text-primary">Panel</span></h5>
+        </div>
         <div className="d-flex align-items-center gap-2">
           <Link href="/" className="btn btn-dark btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center text-white" title="Go to Home">
             <Home size={18} />
           </Link>
           <button 
-            className="btn btn-danger btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center"
+            className="btn btn-primary btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center text-white"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
@@ -95,7 +112,7 @@ export default function AdminPanel() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="d-lg-none card border-0 shadow-sm rounded-4 p-3 bg-white mb-4">
+        <div className="d-lg-none rounded-4 p-3 mb-4 bg-white shadow-lg" style={{ backdropFilter: 'blur(10px)', border: '1px solid rgba(0, 0, 0, 0.05)' }}>
           <div className="nav flex-column gap-2">
             <Link href="/" className="btn btn-light text-secondary text-start d-flex align-items-center gap-2 rounded-pill px-3 py-2 fw-semibold text-decoration-none">
               <Home size={18} /> Go to Home
@@ -105,7 +122,7 @@ export default function AdminPanel() {
               return (
                 <button 
                   key={item.key}
-                  className={`btn text-start d-flex align-items-center gap-2 rounded-pill px-3 py-2 fw-semibold ${activeTab === item.key ? 'btn-danger text-white shadow-sm' : 'btn-light text-secondary'}`}
+                  className={`btn text-start d-flex align-items-center gap-2 rounded-pill px-3 py-2 fw-semibold transition-all ${activeTab === item.key ? 'btn-primary text-white shadow' : 'btn-light text-secondary'}`}
                   onClick={() => { setActiveTab(item.key); setMobileMenuOpen(false); }}
                 >
                   <IconComponent size={18} /> {item.label}
@@ -122,104 +139,167 @@ export default function AdminPanel() {
         </div>
       )}
 
-      <div className="row">
+      <div className="row g-4">
         
-        {/* Desktop Sidebar */}
-        <div className="col-lg-2 d-none d-lg-block">
-          <div className="card border-0 shadow-sm rounded-4 p-3 bg-white sticky-top" style={{ top: '20px' }}>
-            <h5 className="fw-bold text-dark px-2 mb-4">Admin <span className="text-danger">Panel</span></h5>
-            
-            <div className="nav flex-column gap-2">
-              <Link href="/" className="btn btn-dark text-start d-flex align-items-center gap-2 rounded-pill px-3 py-2 fw-semibold text-decoration-none shadow-sm mb-2">
-                <Home size={18} /> Go to Home
-              </Link>
+        {/* Pro Desktop Sidebar */}
+        <div className="col-lg-3 col-xl-2 d-none d-lg-block">
+          <div className="rounded-4 p-3 sticky-top d-flex flex-column justify-content-between bg-white shadow-sm" style={{ top: '20px', minHeight: '91vh', backdropFilter: 'blur(10px)', border: '1px solid rgba(0, 0, 0, 0.04)' }}>
+            <div>
+              <div className="d-flex align-items-center gap-2 px-2 mb-4 pt-2">
+                <div className="bg-primary text-white rounded-3 p-2 shadow-sm">
+                  <ShieldCheck size={22} />
+                </div>
+                <div>
+                  <h6 className="fw-bold text-dark m-0 lh-1">Admin</h6>
+                  <span className="text-primary small fw-bold" style={{ fontSize: '0.7rem' }}>CONSOLE</span>
+                </div>
+              </div>
               
-              {menuItems.map((item) => {
-                const IconComponent = item.icon;
-                return (
-                  <button 
-                    key={item.key}
-                    className={`btn text-start d-flex align-items-center gap-2 rounded-pill px-3 py-2 fw-semibold ${activeTab === item.key ? 'btn-danger text-white shadow-sm' : 'btn-light text-secondary'}`}
-                    onClick={() => setActiveTab(item.key)}
-                  >
-                    <IconComponent size={18} /> {item.label}
-                  </button>
-                );
-              })}
+              <div className="nav flex-column gap-1 mb-3">
+                <Link href="/" className="btn btn-dark text-start d-flex align-items-center gap-2 rounded-pill px-3 py-2 fw-semibold text-decoration-none shadow-sm mb-3">
+                  <Home size={16} /> Go to Home
+                </Link>
+                
+                <span className="text-muted fw-bold px-3 mb-2" style={{ fontSize: '0.65rem', letterSpacing: '1px' }}>NAVIGATION</span>
+
+                {menuItems.map((item) => {
+                  const IconComponent = item.icon;
+                  const isActive = activeTab === item.key;
+                  return (
+                    <button 
+                      key={item.key}
+                      className={`btn text-start d-flex align-items-center gap-2 rounded-pill px-3 py-2 fw-semibold transition-all ${isActive ? 'btn-primary text-white shadow-sm' : 'btn-light text-secondary bg-transparent border-0'}`}
+                      onClick={() => setActiveTab(item.key)}
+                    >
+                      <IconComponent size={16} className={isActive ? 'text-white' : 'text-muted'} /> 
+                      <span className="small">{item.label}</span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
 
-            <hr className="my-4 text-muted" />
-
-            <button 
-              onClick={async () => { await authService.logout(); router.push('/auth/login'); }}
-              className="btn btn-outline-danger rounded-pill fw-bold py-2 d-flex align-items-center justify-content-center gap-2 shadow-sm"
-            >
-              <LogOut size={16} /> Logout
-            </button>
+            <div>
+              <hr className="text-muted opacity-25 my-3" />
+              <button 
+                onClick={async () => { await authService.logout(); router.push('/auth/login'); }}
+                className="btn btn-outline-danger w-100 rounded-pill fw-bold py-2 d-flex align-items-center justify-content-center gap-2 shadow-sm small"
+              >
+                <LogOut size={15} /> Logout
+              </button>
+            </div>
           </div>
         </div>
 
         {/* Main Content Area */}
-        <div className="col-lg-10">
+        <div className="col-lg-9 col-xl-10">
           
-          <div className="card border-0 shadow-sm rounded-4 p-4 bg-white mb-4 d-flex flex-row justify-content-between align-items-center">
-            <div>
-              <h3 className="fw-bold text-dark mb-1 fs-5">Welcome back, Admin (Hridesh) 👋</h3>
-              <p className="text-secondary small mb-0 d-none d-sm-block">Here is what is happening with your car service business today.</p>
+          {/* Pro Top Banner */}
+          <div className="rounded-4 p-4 text-white mb-4 position-relative overflow-hidden shadow" style={{ background: 'linear-gradient(135deg, #6f42c1 0%, #4e73df 100%)' }}>
+            <div className="d-flex justify-content-between align-items-center flex-wrap gap-3">
+              <div>
+                <div className="d-flex align-items-center gap-2 mb-1">
+                  <Activity size={24} className="text-warning" />
+                  <h3 className="fw-bold mb-0">Admin Dashboard</h3>
+                </div>
+                <span className="text-white-50 small">Manage your platform modules • {currentDate}</span>
+              </div>
+              <span className="badge bg-white text-dark px-3 py-2 rounded-pill fw-bold shadow-sm d-flex align-items-center gap-1">
+                <span className="spinner-grow spinner-grow-sm text-success" role="status"></span> SYSTEM LIVE
+              </span>
             </div>
-            <span className="badge bg-danger bg-opacity-10 text-danger px-3 py-2 rounded-pill fw-bold">Super Admin</span>
           </div>
 
           {/* Overview Tab */}
           {activeTab === 'overview' && (
             <div>
-              <div className="row g-4 mb-4">
-                <div className="col-6 col-md-3">
-                  <div className="card border-0 shadow-sm rounded-4 p-4 bg-white border-start border-danger border-4">
-                    <span className="text-muted small fw-bold">SERVICES</span>
-                    <h2 className="fw-bold text-dark mt-2 mb-0">{stats.services}</h2>
+              {/* Colorful Frosted Glass Metric Cards */}
+              <div className="row g-3 mb-4">
+                <div className="col-6 col-md-4 col-lg-2">
+                  <div className="card rounded-4 p-3 text-white h-100 shadow-sm border-0" style={{ background: 'linear-gradient(135deg, rgba(102, 16, 242, 0.95) 0%, rgba(133, 64, 245, 0.95) 100%)', backdropFilter: 'blur(8px)' }}>
+                    <Wrench size={22} className="mb-2 opacity-75" />
+                    <h3 className="fw-bold mb-0">{stats.services}</h3>
+                    <span className="small opacity-75 fw-semibold">Services</span>
                   </div>
                 </div>
-                <div className="col-6 col-md-3">
-                  <div className="card border-0 shadow-sm rounded-4 p-4 bg-white border-start border-primary border-4">
-                    <span className="text-muted small fw-bold">BLOGS</span>
-                    <h2 className="fw-bold text-dark mt-2 mb-0">{stats.blogs}</h2>
+                <div className="col-6 col-md-4 col-lg-2">
+                  <div className="card rounded-4 p-3 text-white h-100 shadow-sm border-0" style={{ background: 'linear-gradient(135deg, rgba(13, 110, 253, 0.95) 0%, rgba(61, 139, 253, 0.95) 100%)', backdropFilter: 'blur(8px)' }}>
+                    <FileText size={22} className="mb-2 opacity-75" />
+                    <h3 className="fw-bold mb-0">{stats.blogs}</h3>
+                    <span className="small opacity-75 fw-semibold">Blogs</span>
                   </div>
                 </div>
-                <div className="col-6 col-md-3">
-                  <div className="card border-0 shadow-sm rounded-4 p-4 bg-white border-start border-success border-4">
-                    <span className="text-muted small fw-bold">COMMENTS</span>
-                    <h2 className="fw-bold text-dark mt-2 mb-0">{stats.comments}</h2>
+                <div className="col-6 col-md-4 col-lg-2">
+                  <div className="card rounded-4 p-3 text-white h-100 shadow-sm border-0" style={{ background: 'linear-gradient(135deg, rgba(25, 135, 84, 0.95) 0%, rgba(32, 201, 151, 0.95) 100%)', backdropFilter: 'blur(8px)' }}>
+                    <MessageSquare size={22} className="mb-2 opacity-75" />
+                    <h3 className="fw-bold mb-0">{stats.comments}</h3>
+                    <span className="small opacity-75 fw-semibold">Comments</span>
                   </div>
                 </div>
-                <div className="col-6 col-md-3">
-                  <div className="card border-0 shadow-sm rounded-4 p-4 bg-white border-start border-warning border-4">
-                    <span className="text-muted small fw-bold">INBOX / MESSAGES</span>
-                    <h2 className="fw-bold text-dark mt-2 mb-0">{stats.inbox}</h2>
+                <div className="col-6 col-md-4 col-lg-2">
+                  <div className="card rounded-4 p-3 text-dark h-100 shadow-sm border-0" style={{ background: 'linear-gradient(135deg, rgba(255, 193, 7, 0.95) 0%, rgba(255, 202, 44, 0.95) 100%)', backdropFilter: 'blur(8px)' }}>
+                    <Inbox size={22} className="mb-2 opacity-75" />
+                    <h3 className="fw-bold mb-0">{stats.inbox}</h3>
+                    <span className="small opacity-75 fw-semibold">Inbox</span>
                   </div>
                 </div>
-                <div className="col-6 col-md-3">
-                  <div className="card border-0 shadow-sm rounded-4 p-4 bg-white border-start border-info border-4">
-                    <span className="text-muted small fw-bold">CASES</span>
-                    <h2 className="fw-bold text-dark mt-2 mb-0">{stats.cases}</h2>
+                <div className="col-6 col-md-4 col-lg-2">
+                  <div className="card rounded-4 p-3 text-dark h-100 shadow-sm border-0" style={{ background: 'linear-gradient(135deg, rgba(13, 202, 240, 0.95) 0%, rgba(49, 210, 242, 0.95) 100%)', backdropFilter: 'blur(8px)' }}>
+                    <Briefcase size={22} className="mb-2 opacity-75" />
+                    <h3 className="fw-bold mb-0">{stats.cases}</h3>
+                    <span className="small opacity-75 fw-semibold">Cases</span>
                   </div>
                 </div>
-                <div className="col-6 col-md-3">
-                  <div className="card border-0 shadow-sm rounded-4 p-4 bg-white border-start border-dark border-4">
-                    <span className="text-muted small fw-bold">GALLERY</span>
-                    <h2 className="fw-bold text-dark mt-2 mb-0">{stats.gallery}</h2>
+                <div className="col-6 col-md-4 col-lg-2">
+                  <div className="card rounded-4 p-3 text-white h-100 shadow-sm border-0" style={{ background: 'linear-gradient(135deg, rgba(214, 51, 132, 0.95) 0%, rgba(232, 62, 140, 0.95) 100%)', backdropFilter: 'blur(8px)' }}>
+                    <ImageIcon size={22} className="mb-2 opacity-75" />
+                    <h3 className="fw-bold mb-0">{stats.gallery}</h3>
+                    <span className="small opacity-75 fw-semibold">Gallery</span>
                   </div>
                 </div>
               </div>
 
-              <div className="card border-0 shadow-sm rounded-4 p-4 bg-white">
-                <h5 className="fw-bold text-dark mb-3">Quick Navigation</h5>
-                <div className="d-flex flex-wrap gap-3">
-                  <button className="btn btn-dark rounded-pill px-4 fw-semibold" onClick={() => setActiveTab('services')}>Manage Services</button>
-                  <button className="btn btn-outline-dark rounded-pill px-4 fw-semibold" onClick={() => setActiveTab('blogs')}>Manage Blogs</button>
-                  <button className="btn btn-outline-dark rounded-pill px-4 fw-semibold" onClick={() => setActiveTab('cases')}>Manage Cases</button>
-                  <button className="btn btn-outline-dark rounded-pill px-4 fw-semibold" onClick={() => setActiveTab('gallery')}>Manage Gallery</button>
-                  <button className="btn btn-outline-dark rounded-pill px-4 fw-semibold" onClick={() => setActiveTab('inbox')}>View Contact Inbox</button>
+              {/* Charts Section with Clean Glassmorphism Cards */}
+              <div className="row g-4 mb-4">
+                <div className="col-12 col-lg-7">
+                  <div className="rounded-4 p-4 h-100 bg-white shadow-sm" style={{ backdropFilter: 'blur(10px)', border: '1px solid rgba(0, 0, 0, 0.04)' }}>
+                    <div className="d-flex align-items-center gap-2 mb-3">
+                      <TrendingUp size={20} className="text-primary" />
+                      <h5 className="fw-bold text-dark mb-0 fs-6">Business Metrics Overview</h5>
+                    </div>
+                    <div style={{ width: '100%', height: '280px' }}>
+                      <ResponsiveContainer>
+                        <BarChart data={chartData}>
+                          <XAxis dataKey="name" stroke="#6c757d" fontSize={12} />
+                          <YAxis stroke="#6c757d" fontSize={12} allowDecimals={false} />
+                          <Tooltip contentStyle={{ backgroundColor: '#fff', borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} />
+                          <Bar dataKey="count" fill="#4e73df" radius={[8, 8, 0, 0]} />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="col-12 col-lg-5">
+                  <div className="rounded-4 p-4 h-100 bg-white shadow-sm" style={{ backdropFilter: 'blur(10px)', border: '1px solid rgba(0, 0, 0, 0.04)' }}>
+                    <div className="d-flex align-items-center gap-2 mb-3">
+                      <Layers size={20} className="text-danger" />
+                      <h5 className="fw-bold text-dark mb-0 fs-6">Distribution Ratio</h5>
+                    </div>
+                    <div style={{ width: '100%', height: '280px' }}>
+                      <ResponsiveContainer>
+                        <PieChart>
+                          <Pie data={chartData} dataKey="count" nameKey="name" cx="50%"{...{cy: "50%"}} outerRadius={85} innerRadius={45} label>
+                            {chartData.map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={entry.color} />
+                            ))}
+                          </Pie>
+                          <Tooltip contentStyle={{ backgroundColor: '#fff', borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} />
+                          <Legend wrapperStyle={{ fontSize: '11px' }} />
+                        </PieChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
