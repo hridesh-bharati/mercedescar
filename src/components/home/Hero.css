@@ -8,7 +8,6 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* Mobile ke liye flexible height aur PC ke liye 100vh */
   min-height: 520px;
   height: 90vh;
   overflow: hidden;
@@ -92,7 +91,7 @@
   max-width: 600px;
 }
 
-/* Badge with proper top gap */
+/* Badge */
 .enterprise-badge {
   display: flex;
   align-items: center;
@@ -113,7 +112,7 @@
   background: var(--hero-red);
 }
 
-/* Heading with clean vertical spacing */
+/* Heading */
 .enterprise-heading {
   display: flex;
   flex-direction: column;
@@ -136,7 +135,7 @@
   color: var(--hero-red);
 }
 
-/* Description with proper gap */
+/* Description */
 .enterprise-desc {
   max-width: 460px;
   margin: 0 0 24px;
@@ -145,7 +144,7 @@
   line-height: 1.6;
 }
 
-/* Action Buttons with comfortable spacing */
+/* Action Buttons */
 .enterprise-actions {
   display: flex;
   flex-wrap: wrap;
@@ -225,7 +224,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-top: 22px;
+  margin-top: 28px;
 }
 
 .hero-indicator {
@@ -285,16 +284,22 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Mobile responsive adjustments */
+/* Mobile responsive adjustments - buttons aur indicators ko niche shift karne ke liye */
 @media (max-width: 768px) {
   .enterprise-hero {
     height: auto;
-    min-height: 500px;
-    padding-top: 30px;
-    padding-bottom: 40px;
+    min-height: 560px;
+    padding-top: 40px;
+    padding-bottom: 60px;
   }
   .enterprise-container {
-    padding-right: 18px;
-    padding-left: 18px;
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+  .enterprise-actions {
+    margin-bottom: 10px;
+  }
+  .hero-carousel-indicators {
+    margin-top: 32px;
   }
 }
