@@ -14,7 +14,7 @@ const slides = [
       'Advanced diagnostics, expert servicing and genuine parts for luxury and performance vehicles in Al Quoz, Dubai.',
   },
   {
-    image: '/images/home.png',
+    image: '/images/home1.png',
     badge: 'ADVANCED WORKSHOP SOLUTIONS',
     titleMain: 'Complete Auto',
     titleHighlight: 'Repair Solutions',
