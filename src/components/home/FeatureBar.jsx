@@ -70,7 +70,7 @@ export default function FeatureBar() {
 
               <div className="feature-text">
                 <h3 className="feature-title">{feature.title}</h3>
-                <p className="feature-subtitle">{feature.subtitle}</p>
+                <p className="feature-subtitle d-none d-lg-block">{feature.subtitle}</p>
               </div>
             </div>
           ))}
