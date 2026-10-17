@@ -2,6 +2,9 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { auth, database } from '@/lib/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { ref, get } from 'firebase/database';
 import './Header.css';
 
 const Icon = ({ path, size = 20, fill = 'none' }) => (
@@ -11,7 +14,7 @@ const Icon = ({ path, size = 20, fill = 'none' }) => (
 );
 
 const ICONS = {
-  Menu: <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 5H3"/><path d="M21 12H9"/><path d="M21 19H7"/></svg>,
+  Menu: <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 5H3" /><path d="M21 12H9" /><path d="M21 19H7" /></svg>,
   Back: 'M19 12H5 M12 19l-7-7 7-7',
   Search: 'M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16z M21 21l-4.3-4.3',
   Close: 'M18 6L6 18 M6 6l12 12',
@@ -26,7 +29,6 @@ const ICONS = {
   Email: 'M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M22 6l-10 7L2 6',
   Location: 'M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z M12 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z',
   Blog: 'M4 4h16v16H4z M8 8h8 M8 12h8 M8 16h5',
-  Shop: 'M6 2l1.5 5h9L18 2 M4 7h16l-1.5 13a2 2 0 0 1-2 1.8H7.5a2 2 0 0 1-2-1.8z M9 11v4 M15 11v4',
   Gallery: 'M21 19V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z M8.5 10a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M21 15l-5-5L5 21',
 };
 
@@ -52,7 +54,38 @@ export default function Header() {
   const [query, setQuery] = useState('');
   const [elevated, setElevated] = useState(false);
   const [activeTab, setActiveTab] = useState('home');
+  const [userData, setUserData] = useState(null);
   const searchRef = useRef(null);
+
+  // Optimized auth session listener to prevent unnecessary re-logins
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        try {
+          const userRef = ref(database, `users/${currentUser.uid}`);
+          const snapshot = await get(userRef);
+          let profilePic = currentUser.photoURL || '';
+          if (snapshot.exists()) {
+            profilePic = snapshot.val().profilePic || profilePic;
+          }
+          setUserData({
+            email: currentUser.email,
+            profilePic,
+            isAdmin: currentUser.email?.toLowerCase() === 'hridesh027@gmail.com'.toLowerCase()
+          });
+        } catch (err) {
+          setUserData({
+            email: currentUser.email,
+            profilePic: currentUser.photoURL || '',
+            isAdmin: currentUser.email?.toLowerCase() === 'hridesh027@gmail.com'.toLowerCase()
+          });
+        }
+      } else {
+        setUserData(null);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     const original = document.body.style.overflow;
@@ -66,11 +99,6 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  useEffect(() => {
-    if (searchOpen) setTimeout(() => searchRef.current?.focus(), 80);
-    else setQuery('');
-  }, [searchOpen]);
-
   const navItems = [
     { key: 'home', label: 'Home', href: '/', icon: ICONS.Home },
     { key: 'services', label: 'Services', href: '/services', icon: ICONS.Wrench },
@@ -83,7 +111,7 @@ export default function Header() {
       icon: ICONS.Blog,
       subItems: [
         { label: 'Our Team', href: '/our-team' },
-        { label: 'Case Single', href: '/case' }, 
+        { label: 'Case Single', href: '/case' },
         { label: 'Work Process', href: '/work-process' },
         { label: 'Testimonials', href: '/testimonials' },
         { label: 'Pricing Plan', href: '/pricing-plan' },
@@ -91,12 +119,7 @@ export default function Header() {
         { label: 'Shop Cart', href: '/cart' },
       ]
     },
-    {
-      key: 'blog',
-      label: 'Blogs',
-      href: '/blogs',
-      icon: ICONS.Blog
-    },
+    { key: 'blog', label: 'Blogs', href: '/blogs', icon: ICONS.Blog },
     { key: 'contact', label: 'Contact Us', href: '/contact-us', icon: ICONS.Contact },
   ];
 
@@ -104,9 +127,11 @@ export default function Header() {
 
   const filtered = query.trim()
     ? navItems
-        .map((i) => ({ ...i, subItems: i.subItems?.filter((s) => s.label.toLowerCase().includes(query.toLowerCase())) }))
-        .filter((i) => i.label.toLowerCase().includes(query.toLowerCase()) || (i.subItems && i.subItems.length > 0))
+      .map((i) => ({ ...i, subItems: i.subItems?.filter((s) => s.label.toLowerCase().includes(query.toLowerCase())) }))
+      .filter((i) => i.label.toLowerCase().includes(query.toLowerCase()) || (i.subItems && i.subItems.length > 0))
     : navItems;
+
+  const dashboardUrl = userData?.isAdmin ? '/dashboard/adminpanel' : '/dashboard/userpanel';
 
   return (
     <>
@@ -156,11 +181,23 @@ export default function Header() {
                 <button className="md-icon-btn md-ripple" onMouseDown={addRipple} onClick={() => setSearchOpen(true)} aria-label="Search">
                   <Icon path={ICONS.Search} size={20} />
                 </button>
-                
-                <Link href="/auth/login" className="btn btn-danger btn-sm rounded-pill px-3 fw-bold d-none d-lg-flex align-items-center gap-1 shadow-sm" onMouseDown={addRipple} aria-label="Login">
-                  <Icon path={ICONS.Login} size={16} />
-                  <span>Login</span>
-                </Link>
+
+                {userData ? (
+                  <Link href={dashboardUrl} className="rounded-circle p-0 overflow-hidden shadow-sm d-none d-lg-flex align-items-center justify-content-center border border-2 border-danger" style={{ width: '36px', height: '36px' }} onMouseDown={addRipple} title="Go to Dashboard">
+                    {userData.profilePic ? (
+                      <img src={userData.profilePic} alt="Profile" className="w-100 h-100 object-fit-cover" />
+                    ) : (
+                      <div className="bg-danger text-white w-100 h-100 d-flex align-items-center justify-content-center fw-bold small">
+                        {userData.email ? userData.email.charAt(0).toUpperCase() : 'A'}
+                      </div>
+                    )}
+                  </Link>
+                ) : (
+                  <Link href="/auth/login" className="btn btn-danger btn-sm rounded-pill px-3 fw-bold d-none d-lg-flex align-items-center gap-1 shadow-sm" onMouseDown={addRipple} aria-label="Login">
+                    <Icon path={ICONS.Login} size={16} />
+                    <span>Login</span>
+                  </Link>
+                )}
 
                 <button className="md-icon-btn md-ripple d-lg-none" onMouseDown={addRipple} onClick={() => setDrawerOpen(true)} aria-label="Open menu">
                   {ICONS.Menu}
@@ -202,15 +239,15 @@ export default function Header() {
         </div>
 
         <ul className="md-drawer-list">
-          {filtered.map((item, idx) => (
-            <li key={item.key} className="md-drawer-item" style={{ '--d': `${idx * 0.03}s` }}>
+          {filtered.map((item) => (
+            <li key={item.key} className="md-drawer-item">
               <div
                 className={`md-drawer-row md-ripple ${activeTab === item.key ? 'is-active' : ''}`}
                 onMouseDown={addRipple}
                 onClick={() => item.subItems ? setExpanded(expanded === item.key ? null : item.key) : (setActiveTab(item.key), closeDrawer())}
               >
                 <span className="md-drawer-icon"><Icon path={item.icon} size={20} /></span>
-                <Link href={item.href} className="md-drawer-label" onClick={(e) => { if (item.subItems) e.preventDefault(); else closeDrawer(); }}>
+                <Link href={item.href} className="md-drawer-label text-decoration-none text-dark" onClick={(e) => { if (item.subItems) e.preventDefault(); else closeDrawer(); }}>
                   {item.label}
                 </Link>
                 {item.subItems && (
@@ -221,10 +258,10 @@ export default function Header() {
               </div>
 
               {item.subItems && (
-                <ul className="md-drawer-submenu" style={{ maxHeight: expanded === item.key ? `${item.subItems.length * 40 + 8}px` : '0px' }}>
+                <ul className="md-drawer-submenu" style={{ maxHeight: expanded === item.key ? `${item.subItems.length * 40 + 8}px` : '0px', overflow: 'hidden', transition: 'max-height 0.3s ease' }}>
                   {item.subItems.map((s, i) => (
                     <li key={i}>
-                      <Link href={s.href} className="md-drawer-sublink md-ripple" onMouseDown={addRipple} onClick={closeDrawer}>
+                      <Link href={s.href} className="md-drawer-sublink md-ripple text-decoration-none text-muted" onMouseDown={addRipple} onClick={closeDrawer}>
                         {s.label}
                       </Link>
                     </li>
@@ -236,28 +273,35 @@ export default function Header() {
         </ul>
 
         <div className="md-drawer-footer">
-          <Link href="/auth/login" className="btn btn-danger w-100 rounded-pill fw-bold py-2 shadow-sm d-flex align-items-center justify-content-center gap-2" onMouseDown={addRipple} onClick={closeDrawer}>
-            <Icon path={ICONS.Login} size={18} />
-            <span>Log in</span>
-          </Link>
+          {userData ? (
+            <Link href={dashboardUrl} className="btn btn-dark w-100 rounded-pill fw-bold py-2 shadow-sm d-flex align-items-center justify-content-center gap-2" onMouseDown={addRipple} onClick={closeDrawer}>
+              <span>Go to Dashboard</span>
+            </Link>
+          ) : (
+            <Link href="/auth/login" className="btn btn-danger w-100 rounded-pill fw-bold py-2 shadow-sm d-flex align-items-center justify-content-center gap-2" onMouseDown={addRipple} onClick={closeDrawer}>
+              <Icon path={ICONS.Login} size={18} />
+              <span>Log in</span>
+            </Link>
+          )}
         </div>
       </aside>
 
-      {/* Bottom Nav (Mobile) */}
+      {/* Bottom Nav (Mobile) - Fixed Services Routing */}
       <nav className="md-navbar d-lg-none">
         <Link href="/" className={`md-nav-dest md-ripple ${activeTab === 'home' ? 'is-active' : ''}`} onMouseDown={addRipple} onClick={() => setActiveTab('home')}>
           <span className="md-nav-indicator"><Icon path={ICONS.Home} size={20} /></span>
           <span className="md-nav-label">Home</span>
         </Link>
 
-        <button className={`md-nav-dest md-ripple ${activeTab === 'categories' ? 'is-active' : ''}`} onMouseDown={addRipple} onClick={() => { setActiveTab('categories'); setDrawerOpen(true); }}>
+        {/* Fixed: Services button now correctly routes to /services instead of opening sidebar */}
+        <Link href="/services" className={`md-nav-dest md-ripple ${activeTab === 'services' ? 'is-active' : ''}`} onMouseDown={addRipple} onClick={() => setActiveTab('services')}>
           <span className="md-nav-indicator"><Icon path={ICONS.Wrench} size={20} /></span>
           <span className="md-nav-label">Services</span>
-        </button>
+        </Link>
 
         <div className="md-nav-fab-slot">
-          <Link href="/contact-us" className="md-fab md-ripple" onMouseDown={addRipple} aria-label="Book a service">
-            <Icon path={ICONS.Plus} size={24} />
+          <Link href="/gallery" className="md-fab md-ripple d-flex align-items-center justify-content-center text-white" onMouseDown={addRipple} aria-label="Gallery">
+            <Icon path={ICONS.Gallery} size={24} />
           </Link>
         </div>
 
@@ -266,10 +310,23 @@ export default function Header() {
           <span className="md-nav-label">Contact</span>
         </Link>
 
-        <Link href="/auth/login" className={`md-nav-dest md-ripple ${activeTab === 'account' ? 'is-active' : ''}`} onMouseDown={addRipple} onClick={() => setActiveTab('account')}>
-          <span className="md-nav-indicator"><Icon path={ICONS.User} size={20} /></span>
-          <span className="md-nav-label">Account</span>
-        </Link>
+        {userData ? (
+          <Link href={dashboardUrl} className={`md-nav-dest md-ripple ${activeTab === 'account' ? 'is-active' : ''}`} onMouseDown={addRipple} onClick={() => setActiveTab('account')}>
+            <span className="md-nav-indicator">
+              {userData.profilePic ? (
+                <img src={userData.profilePic} alt="Profile" className="rounded-circle object-fit-cover border border-danger" style={{ width: '22px', height: '22px' }} />
+              ) : (
+                <Icon path={ICONS.User} size={20} />
+              )}
+            </span>
+            <span className="md-nav-label">Account</span>
+          </Link>
+        ) : (
+          <Link href="/auth/login" className={`md-nav-dest md-ripple ${activeTab === 'account' ? 'is-active' : ''}`} onMouseDown={addRipple} onClick={() => setActiveTab('account')}>
+            <span className="md-nav-indicator"><Icon path={ICONS.User} size={20} /></span>
+            <span className="md-nav-label">Account</span>
+          </Link>
+        )}
       </nav>
     </>
   );

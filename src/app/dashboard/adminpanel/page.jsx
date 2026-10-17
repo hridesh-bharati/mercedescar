@@ -8,7 +8,7 @@ import { auth } from '@/lib/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { authService } from '@/services/authService';
 import { dbService } from '@/services/dbService';
-import { LayoutDashboard, Wrench, FileText, Inbox, Users, MessageSquare, Briefcase, Image as ImageIcon, LogOut, Menu, X, Home, TrendingUp, Layers, Activity, ShieldCheck } from 'lucide-react';
+import { LayoutDashboard, Wrench, FileText, Inbox, Users, MessageSquare, Briefcase, Image as ImageIcon, LogOut, Menu, X, Home, TrendingUp, Layers, Activity, ShieldCheck, UserCircle } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 
 import ServicesManager from './services-manager';
@@ -18,13 +18,14 @@ import UsersManager from './users-manager';
 import CommentsManager from './comments-manager';
 import CasesManager from './cases-manager';
 import GalleryManager from './gallery-manager';
+import ProfileManager from './profile-manager'; // ProfileManager imported here
 
 export default function AdminPanel() {
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  
+
   const [stats, setStats] = useState({ services: 0, blogs: 0, inbox: 0, users: 0, comments: 0, cases: 0, gallery: 0 });
   const router = useRouter();
 
@@ -73,6 +74,7 @@ export default function AdminPanel() {
     { key: 'gallery', label: 'Manage Gallery', icon: ImageIcon },
     { key: 'inbox', label: 'Contact / Inbox', icon: Inbox },
     { key: 'users', label: 'Users List', icon: Users },
+    { key: 'profile', label: 'Admin Profile', icon: UserCircle },
   ];
 
   const chartData = [
@@ -90,7 +92,7 @@ export default function AdminPanel() {
     <div className="container-fluid min-vh-100 py-4" style={{ background: '#f4f6f9' }}>
       
       {/* Mobile Top Navbar */}
-      <div className="d-lg-none rounded-4 p-3 mb-4 d-flex flex-row justify-content-between align-items-center bg-white shadow-sm" style={{ backdropFilter: 'blur(10px)', border: '1px solid rgba(0, 0, 0, 0.04)' }}>
+      <div className="d-lg-none border-0 shadow-sm rounded-4 p-3 bg-white mb-4 d-flex flex-row justify-content-between align-items-center">
         <div className="d-flex align-items-center gap-2">
           <div className="bg-primary text-white rounded-circle p-2 d-flex align-items-center justify-content-center shadow-sm">
             <ShieldCheck size={20} />
@@ -112,7 +114,7 @@ export default function AdminPanel() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="d-lg-none rounded-4 p-3 mb-4 bg-white shadow-lg" style={{ backdropFilter: 'blur(10px)', border: '1px solid rgba(0, 0, 0, 0.05)' }}>
+        <div className="d-lg-none border-0 shadow-lg rounded-4 p-3 bg-white mb-4">
           <div className="nav flex-column gap-2">
             <Link href="/" className="btn btn-light text-secondary text-start d-flex align-items-center gap-2 rounded-pill px-3 py-2 fw-semibold text-decoration-none">
               <Home size={18} /> Go to Home
@@ -143,7 +145,7 @@ export default function AdminPanel() {
         
         {/* Pro Desktop Sidebar */}
         <div className="col-lg-3 col-xl-2 d-none d-lg-block">
-          <div className="rounded-4 p-3 sticky-top d-flex flex-column justify-content-between bg-white shadow-sm" style={{ top: '20px', minHeight: '91vh', backdropFilter: 'blur(10px)', border: '1px solid rgba(0, 0, 0, 0.04)' }}>
+          <div className="border-0 shadow-sm rounded-4 p-3 bg-white sticky-top d-flex flex-column justify-content-between" style={{ top: '20px', minHeight: '91vh' }}>
             <div>
               <div className="d-flex align-items-center gap-2 px-2 mb-4 pt-2">
                 <div className="bg-primary text-white rounded-3 p-2 shadow-sm">
@@ -195,7 +197,7 @@ export default function AdminPanel() {
         <div className="col-lg-9 col-xl-10">
           
           {/* Pro Top Banner */}
-          <div className="rounded-4 p-4 text-white mb-4 position-relative overflow-hidden shadow" style={{ background: 'linear-gradient(135deg, #6f42c1 0%, #4e73df 100%)' }}>
+          <div className="border-0 shadow rounded-4 p-4 text-white mb-4 position-relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #6f42c1 0%, #4e73df 100%)' }}>
             <div className="d-flex justify-content-between align-items-center flex-wrap gap-3">
               <div>
                 <div className="d-flex align-items-center gap-2 mb-1">
@@ -213,45 +215,44 @@ export default function AdminPanel() {
           {/* Overview Tab */}
           {activeTab === 'overview' && (
             <div>
-              {/* Colorful Frosted Glass Metric Cards */}
               <div className="row g-3 mb-4">
                 <div className="col-6 col-md-4 col-lg-2">
-                  <div className="card rounded-4 p-3 text-white h-100 shadow-sm border-0" style={{ background: 'linear-gradient(135deg, rgba(102, 16, 242, 0.95) 0%, rgba(133, 64, 245, 0.95) 100%)', backdropFilter: 'blur(8px)' }}>
+                  <div className="card border-0 shadow-sm rounded-4 p-3 text-white h-100" style={{ background: 'linear-gradient(135deg, #6610f2 0%, #8540f5 100%)' }}>
                     <Wrench size={22} className="mb-2 opacity-75" />
                     <h3 className="fw-bold mb-0">{stats.services}</h3>
                     <span className="small opacity-75 fw-semibold">Services</span>
                   </div>
                 </div>
                 <div className="col-6 col-md-4 col-lg-2">
-                  <div className="card rounded-4 p-3 text-white h-100 shadow-sm border-0" style={{ background: 'linear-gradient(135deg, rgba(13, 110, 253, 0.95) 0%, rgba(61, 139, 253, 0.95) 100%)', backdropFilter: 'blur(8px)' }}>
+                  <div className="card border-0 shadow-sm rounded-4 p-3 text-white h-100" style={{ background: 'linear-gradient(135deg, #0d6efd 0%, #3d8bfd 100%)' }}>
                     <FileText size={22} className="mb-2 opacity-75" />
                     <h3 className="fw-bold mb-0">{stats.blogs}</h3>
                     <span className="small opacity-75 fw-semibold">Blogs</span>
                   </div>
                 </div>
                 <div className="col-6 col-md-4 col-lg-2">
-                  <div className="card rounded-4 p-3 text-white h-100 shadow-sm border-0" style={{ background: 'linear-gradient(135deg, rgba(25, 135, 84, 0.95) 0%, rgba(32, 201, 151, 0.95) 100%)', backdropFilter: 'blur(8px)' }}>
+                  <div className="card border-0 shadow-sm rounded-4 p-3 text-white h-100" style={{ background: 'linear-gradient(135deg, #198754 0%, #20c997 100%)' }}>
                     <MessageSquare size={22} className="mb-2 opacity-75" />
                     <h3 className="fw-bold mb-0">{stats.comments}</h3>
                     <span className="small opacity-75 fw-semibold">Comments</span>
                   </div>
                 </div>
                 <div className="col-6 col-md-4 col-lg-2">
-                  <div className="card rounded-4 p-3 text-dark h-100 shadow-sm border-0" style={{ background: 'linear-gradient(135deg, rgba(255, 193, 7, 0.95) 0%, rgba(255, 202, 44, 0.95) 100%)', backdropFilter: 'blur(8px)' }}>
+                  <div className="card border-0 shadow-sm rounded-4 p-3 text-dark h-100" style={{ background: 'linear-gradient(135deg, #ffc107 0%, #ffca2c 100%)' }}>
                     <Inbox size={22} className="mb-2 opacity-75" />
                     <h3 className="fw-bold mb-0">{stats.inbox}</h3>
                     <span className="small opacity-75 fw-semibold">Inbox</span>
                   </div>
                 </div>
                 <div className="col-6 col-md-4 col-lg-2">
-                  <div className="card rounded-4 p-3 text-dark h-100 shadow-sm border-0" style={{ background: 'linear-gradient(135deg, rgba(13, 202, 240, 0.95) 0%, rgba(49, 210, 242, 0.95) 100%)', backdropFilter: 'blur(8px)' }}>
+                  <div className="card border-0 shadow-sm rounded-4 p-3 text-dark h-100" style={{ background: 'linear-gradient(135deg, #0dcaf0 0%, #31d2f2 100%)' }}>
                     <Briefcase size={22} className="mb-2 opacity-75" />
                     <h3 className="fw-bold mb-0">{stats.cases}</h3>
                     <span className="small opacity-75 fw-semibold">Cases</span>
                   </div>
                 </div>
                 <div className="col-6 col-md-4 col-lg-2">
-                  <div className="card rounded-4 p-3 text-white h-100 shadow-sm border-0" style={{ background: 'linear-gradient(135deg, rgba(214, 51, 132, 0.95) 0%, rgba(232, 62, 140, 0.95) 100%)', backdropFilter: 'blur(8px)' }}>
+                  <div className="card border-0 shadow-sm rounded-4 p-3 text-white h-100" style={{ background: 'linear-gradient(135deg, #d63384 0%, #e83e8c 100%)' }}>
                     <ImageIcon size={22} className="mb-2 opacity-75" />
                     <h3 className="fw-bold mb-0">{stats.gallery}</h3>
                     <span className="small opacity-75 fw-semibold">Gallery</span>
@@ -259,10 +260,10 @@ export default function AdminPanel() {
                 </div>
               </div>
 
-              {/* Charts Section with Clean Glassmorphism Cards */}
+              {/* Charts Section */}
               <div className="row g-4 mb-4">
                 <div className="col-12 col-lg-7">
-                  <div className="rounded-4 p-4 h-100 bg-white shadow-sm" style={{ backdropFilter: 'blur(10px)', border: '1px solid rgba(0, 0, 0, 0.04)' }}>
+                  <div className="card border-0 shadow-sm rounded-4 p-4 bg-white h-100">
                     <div className="d-flex align-items-center gap-2 mb-3">
                       <TrendingUp size={20} className="text-primary" />
                       <h5 className="fw-bold text-dark mb-0 fs-6">Business Metrics Overview</h5>
@@ -281,7 +282,7 @@ export default function AdminPanel() {
                 </div>
 
                 <div className="col-12 col-lg-5">
-                  <div className="rounded-4 p-4 h-100 bg-white shadow-sm" style={{ backdropFilter: 'blur(10px)', border: '1px solid rgba(0, 0, 0, 0.04)' }}>
+                  <div className="card border-0 shadow-sm rounded-4 p-4 bg-white h-100">
                     <div className="d-flex align-items-center gap-2 mb-3">
                       <Layers size={20} className="text-danger" />
                       <h5 className="fw-bold text-dark mb-0 fs-6">Distribution Ratio</h5>
@@ -304,6 +305,9 @@ export default function AdminPanel() {
               </div>
             </div>
           )}
+
+          {/* Profile Tab Component Render */}
+          {activeTab === 'profile' && <ProfileManager />}
 
           {activeTab === 'services' && <ServicesManager />}
           {activeTab === 'blogs' && <BlogsManager />}

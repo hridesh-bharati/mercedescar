@@ -1,3 +1,4 @@
+// src\app\api\[resource]\route.js
 import { dbService } from "@/services/dbService";
 import { NextResponse } from "next/server";
 
