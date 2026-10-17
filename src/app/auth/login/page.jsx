@@ -1,8 +1,11 @@
+// src/app/auth/login/page.jsx
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { authService } from '@/services/authService';
+import { auth } from '@/lib/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 import Link from 'next/link';
 
 export default function LoginPage() {
@@ -10,7 +13,24 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [checkingAuth, setCheckingAuth] = useState(true);
   const router = useRouter();
+
+  // Check if user is already logged in to prevent repeating login
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        if (user.email.toLowerCase() === 'hridesh027@gmail.com'.toLowerCase()) {
+          router.push('/dashboard/adminpanel');
+        } else {
+          router.push('/dashboard/userpanel');
+        }
+      } else {
+        setCheckingAuth(false);
+      }
+    });
+    return () => unsubscribe();
+  }, [router]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -21,8 +41,7 @@ export default function LoginPage() {
     setLoading(false);
 
     if (res.success) {
-      // Role-based redirection
-      if (res.user.role === 'admin') {
+      if (res.user.email.toLowerCase() === 'hridesh027@gmail.com'.toLowerCase()) {
         router.push('/dashboard/adminpanel');
       } else {
         router.push('/dashboard/userpanel');
@@ -32,9 +51,13 @@ export default function LoginPage() {
     }
   };
 
+  if (checkingAuth) {
+    return <div className="text-center py-5 fw-bold text-danger">Checking session...</div>;
+  }
+
   return (
     <div className="container d-flex justify-content-center align-items-center min-vh-100">
-      <div className="card p-4 shadow-sm rounded-4" style={{ width: '400px' }}>
+      <div className="card p-4 shadow-sm rounded-4 border-0 bg-white" style={{ width: '400px' }}>
         <h3 className="fw-bold text-center mb-4">Login to <span className="text-danger">German Auto</span></h3>
         
         {error && <div className="alert alert-danger small py-2">{error}</div>}

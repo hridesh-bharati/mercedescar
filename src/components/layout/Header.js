@@ -194,11 +194,11 @@ export default function Header() {
 
       {/* Mobile Drawer */}
       <aside className={`md-drawer ${drawerOpen ? 'open' : ''}`} aria-hidden={!drawerOpen}>
-        <div className="md-drawer-header d-flex align-items-center justify-content-between px-4 pt-4 pb-2">
-          <span className="fw-bold fs-5 text-dark">Menu</span>
+        <div className="md-drawer-header d-flex align-items-center justify-content-between px-4 py-3 border-bottom">
           <button className="md-icon-btn md-ripple" onMouseDown={addRipple} onClick={closeDrawer} aria-label="Close menu">
             <Icon path={ICONS.Back} size={22} />
           </button>
+          <span className="fw-bold fs-5 text-dark m-0">Menu</span>
         </div>
 
         <ul className="md-drawer-list">
