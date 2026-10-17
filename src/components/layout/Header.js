@@ -134,7 +134,7 @@ export default function Header() {
           {!searchOpen ? (
             <>
               <Link href="/" className="md-appbar-brand" onClick={closeDrawer}>
-                <img src="/images/logo.jpg" alt="Mercedes Garage Dubai" className="md-logo-img rounded-3" />
+                <img src="/images/logo.png" alt="Mercedes Garage Dubai" className="md-logo-img rounded-3" />
               </Link>
 
               <nav className="md-desktop-nav d-none d-lg-flex align-items-center gap-1 m-0">
@@ -196,7 +196,7 @@ export default function Header() {
       {/* Mobile Drawer */}
       <aside className={`md-drawer ${drawerOpen ? 'open' : ''}`} aria-hidden={!drawerOpen}>
         <div className="md-drawer-header">
-          <img src="/images/logo.jpg" alt="Mercedes Garage Dubai" className="md-logo-img-drawer" />
+          <img src="/images/logo.png" alt="Mercedes Garage Dubai" className="md-logo-img-drawer" />
         </div>
 
         <ul className="md-drawer-list">
