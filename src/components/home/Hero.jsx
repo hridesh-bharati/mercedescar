@@ -12,7 +12,6 @@ const slides = [
     titleHighlight: 'Elite Auto Care',
     description:
       'Advanced diagnostics, expert servicing and genuine parts for luxury and performance vehicles in Al Quoz, Dubai.',
-    features: ['OEM Diagnostics', 'Certified Technicians', 'Genuine Parts'],
   },
   {
     image: '/images/home.png',
@@ -21,7 +20,6 @@ const slides = [
     titleHighlight: 'Repair Solutions',
     description:
       'Professional engine diagnostics, brake servicing and maintenance for luxury vehicles with reliable workmanship.',
-    features: ['Engine Diagnostics', 'Brake & Suspension', 'AC Service'],
   },
 ];
 
@@ -137,16 +135,6 @@ export default function Hero() {
                         {slide.description}
                       </p>
 
-                      {/* Features hidden on mobile for clean look, visible on desktop */}
-                      <div className="enterprise-features hero-paragraph-animate d-none d-md-flex">
-                        {slide.features.map((feature) => (
-                          <div className="feature-pill" key={feature}>
-                            <span className="feature-check">✓</span>
-                            <span>{feature}</span>
-                          </div>
-                        ))}
-                      </div>
-
                       <div className="enterprise-actions hero-paragraph-animate">
                         <Link
                           href="/book-service"
@@ -216,18 +204,6 @@ export default function Hero() {
                 ))}
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="enterprise-bottom-bar">
-        <div className="container d-flex justify-content-between align-items-center">
-          <div className="bottom-meta-item">
-            <span className="meta-dot" />
-            <span>Al Quoz, Dubai</span>
-          </div>
-          <div className="bottom-meta-item bottom-meta-right">
-            <span>Certified Workshop Care</span>
           </div>
         </div>
       </div>
