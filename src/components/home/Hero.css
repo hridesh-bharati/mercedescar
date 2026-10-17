@@ -288,7 +288,7 @@
 @media (max-width: 768px) {
   .enterprise-hero {
     height: auto;
-    min-height: 560px;
+    min-height: 300px;
     padding-top: 40px;
     padding-bottom: 60px;
   }
