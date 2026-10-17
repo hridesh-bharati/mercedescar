@@ -9,6 +9,7 @@ import IntroSection from './components/IntroSection';
 import ServiceGrid from './components/ServiceGrid';
 import CTASection from './components/CTASection';
 import './services.css';
+import Footer from '@/components/layout/Footer';
 
 export default function ServicesPage() {
   useEffect(() => {
@@ -26,6 +27,7 @@ export default function ServicesPage() {
       <IntroSection />
       <ServiceGrid />
       <CTASection />
+      <Footer />
     </>
   );
 }

@@ -18,7 +18,14 @@ import UsersManager from './users-manager';
 import CommentsManager from './comments-manager';
 import CasesManager from './cases-manager';
 import GalleryManager from './gallery-manager';
-import ProfileManager from './profile-manager'; // ProfileManager imported here
+import ProfileManager from './profile-manager';  
+
+// In-memory cache for ultra-fast loading across tab switches
+let dashboardCache = {
+  stats: null,
+  timestamp: 0,
+};
+const CACHE_DURATION = 60 * 1000; // 1 Minute
 
 export default function AdminPanel() {
   const [loading, setLoading] = useState(true);
@@ -43,23 +50,20 @@ export default function AdminPanel() {
   }, [router]);
 
   const fetchStats = async () => {
-    const sRes = await dbService.getAll('services');
-    const bRes = await dbService.getAll('blogs');
-    const bookRes = await dbService.getAll('bookings');
-    const uRes = await dbService.getAll('users');
-    const cRes = await dbService.getAll('comments');
-    const caseRes = await dbService.getAll('cases');
-    const gRes = await dbService.getAll('gallery');
+    const now = Date.now();
+    if (dashboardCache.stats && (now - dashboardCache.timestamp < CACHE_DURATION)) {
+      setStats(dashboardCache.stats);
+      return;
+    }
 
-    setStats({
-      services: sRes.success ? sRes.data.length : 0,
-      blogs: bRes.success ? bRes.data.length : 0,
-      inbox: bookRes.success ? bookRes.data.length : 0,
-      users: uRes.success ? uRes.data.length : 0,
-      comments: cRes.success ? cRes.data.length : 0,
-      cases: caseRes.success ? caseRes.data.length : 0,
-      gallery: gRes.success ? gRes.data.length : 0,
-    });
+    const res = await dbService.getDashboardStats();
+    if (res.success) {
+      dashboardCache = {
+        stats: res.data,
+        timestamp: now,
+      };
+      setStats(res.data);
+    }
   };
 
   if (loading) return <div className="text-center py-5 fw-bold text-danger">Loading Admin Dashboard...</div>;

@@ -1,4 +1,4 @@
-// src\services\dbService.js
+// src/services/dbService.js
 import { database } from "@/lib/firebase";
 import { ref, set, get, push, update, remove, child } from "firebase/database";
 
@@ -77,4 +77,35 @@ export const dbService = {
       return { success: false, error: error.message };
     }
   },
+
+  // 5. Fetch all Dashboard Stats in parallel for blazing fast performance
+  async getDashboardStats() {
+    try {
+      const [sRes, bRes, bookRes, uRes, cRes, caseRes, gRes] = await Promise.all([
+        this.getAll('services'),
+        this.getAll('blogs'),
+        this.getAll('bookings'),
+        this.getAll('users'),
+        this.getAll('comments'),
+        this.getAll('cases'),
+        this.getAll('gallery')
+      ]);
+
+      return {
+        success: true,
+        data: {
+          services: sRes.success ? sRes.data.length : 0,
+          blogs: bRes.success ? bRes.data.length : 0,
+          inbox: bookRes.success ? bookRes.data.length : 0,
+          users: uRes.success ? uRes.data.length : 0,
+          comments: cRes.success ? cRes.data.length : 0,
+          cases: caseRes.success ? caseRes.data.length : 0,
+          gallery: gRes.success ? gRes.data.length : 0,
+        }
+      };
+    } catch (error) {
+      console.error(`[DB Dashboard Stats Error]:`, error);
+      return { success: false, error: error.message };
+    }
+  }
 };
