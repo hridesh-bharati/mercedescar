@@ -56,9 +56,7 @@ export default function Hero() {
       };
 
       element.addEventListener('slid.bs.carousel', handleSlide);
-
       element._heroSlideHandler = handleSlide;
-
       instance.cycle();
     };
 
@@ -66,7 +64,6 @@ export default function Hero() {
 
     return () => {
       disposed = true;
-
       if (element) {
         if (element._heroSlideHandler) {
           element.removeEventListener(
@@ -75,7 +72,6 @@ export default function Hero() {
           );
           delete element._heroSlideHandler;
         }
-
         instance?.dispose();
       }
     };
@@ -85,9 +81,7 @@ export default function Hero() {
     const { default: Carousel } = await import(
       'bootstrap/js/dist/carousel'
     );
-
     if (!carouselRef.current) return;
-
     Carousel.getOrCreateInstance(carouselRef.current).to(index);
   };
 
@@ -105,13 +99,12 @@ export default function Hero() {
             fetchPriority={index === 0 ? 'high' : 'auto'}
           />
         ))}
-
         <div className="hero-gradient-overlay" />
       </div>
 
       <div className="container enterprise-container">
         <div className="row align-items-center enterprise-hero-row">
-          <div className="col-lg-7 hero-content-col">
+          <div className="col-12 col-lg-7 hero-content-col">
             <div
               id="heroBootstrapCarousel"
               ref={carouselRef}
@@ -135,7 +128,6 @@ export default function Hero() {
                         <span className="heading-main hero-heading-animate">
                           {slide.titleMain}
                         </span>
-
                         <span className="heading-highlight hero-heading-animate">
                           {slide.titleHighlight}
                         </span>
@@ -145,7 +137,8 @@ export default function Hero() {
                         {slide.description}
                       </p>
 
-                      <div className="enterprise-features hero-paragraph-animate">
+                      {/* Features hidden on mobile for clean look, visible on desktop */}
+                      <div className="enterprise-features hero-paragraph-animate d-none d-md-flex">
                         {slide.features.map((feature) => (
                           <div className="feature-pill" key={feature}>
                             <span className="feature-check">✓</span>
@@ -159,10 +152,10 @@ export default function Hero() {
                           href="/book-service"
                           className="btn-enterprise-primary"
                         >
-                          Book Service Now
+                          Book Service
                           <svg
-                            width="18"
-                            height="18"
+                            width="14"
+                            height="14"
                             viewBox="0 0 24 24"
                             fill="none"
                             stroke="currentColor"
@@ -182,8 +175,8 @@ export default function Hero() {
                         >
                           <span className="phone-icon-wrap">
                             <svg
-                              width="19"
-                              height="19"
+                              width="15"
+                              height="15"
                               viewBox="0 0 24 24"
                               fill="none"
                               stroke="currentColor"
@@ -195,11 +188,8 @@ export default function Hero() {
                               <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.12 4.2 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.96.36 1.9.7 2.8a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.84.58 2.8.7a2 2 0 0 1 1.73 2.03Z" />
                             </svg>
                           </span>
-
                           <span className="phone-text">
-                            <span className="phone-label">
-                              Call Our Experts
-                            </span>
+                            <span className="phone-label">Call Experts</span>
                             <span className="phone-number">
                               +971 56 788 8808
                             </span>
@@ -227,8 +217,6 @@ export default function Hero() {
               </div>
             </div>
           </div>
-
-          <div className="col-lg-5 hero-empty-col" aria-hidden="true" />
         </div>
       </div>
 
@@ -236,11 +224,10 @@ export default function Hero() {
         <div className="container d-flex justify-content-between align-items-center">
           <div className="bottom-meta-item">
             <span className="meta-dot" />
-            <span>Premium Workshop Care</span>
+            <span>Al Quoz, Dubai</span>
           </div>
-
           <div className="bottom-meta-item bottom-meta-right">
-            <span>Al Quoz Industrial Area 2, Dubai</span>
+            <span>Certified Workshop Care</span>
           </div>
         </div>
       </div>
