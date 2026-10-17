@@ -18,7 +18,7 @@ export const metadata = {
     siteName: 'Mercedes Garage Dubai',
     images: [
       {
-        url: 'https://mercedesgaragedubai.com/images/og-banner.jpg',
+        url: 'https://mercedesgaragedubai.com/images/og-banner.png',
         width: 1200,
         height: 630,
         alt: 'Mercedes Garage Dubai Workshop',
@@ -31,7 +31,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'Mercedes Garage Dubai | Luxury Car Repair',
     description: 'Expert luxury car service and repair in Al Quoz, Dubai.',
-    images: ['https://mercedesgaragedubai.com/images/og-banner.jpg'],
+    images: ['https://mercedesgaragedubai.com/images/og-banner.png'],
   },
 };
 
