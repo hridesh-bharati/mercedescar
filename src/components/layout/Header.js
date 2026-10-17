@@ -157,7 +157,6 @@ export default function Header() {
                   <Icon path={ICONS.Search} size={20} />
                 </button>
                 
-                {/* Login Button added in header actions */}
                 <Link href="/auth/login" className="btn btn-danger btn-sm rounded-pill px-3 fw-bold d-none d-lg-flex align-items-center gap-1 shadow-sm" onMouseDown={addRipple} aria-label="Login">
                   <Icon path={ICONS.Login} size={16} />
                   <span>Login</span>
@@ -169,7 +168,7 @@ export default function Header() {
               </div>
             </>
           ) : (
-            <div className="md-search-row w-100">
+            <div className="md-search-row w-100 d-flex align-items-center gap-2">
               <button className="md-icon-btn md-ripple" onMouseDown={addRipple} onClick={() => setSearchOpen(false)} aria-label="Close search">
                 <Icon path={ICONS.Back} size={20} />
               </button>
@@ -195,8 +194,11 @@ export default function Header() {
 
       {/* Mobile Drawer */}
       <aside className={`md-drawer ${drawerOpen ? 'open' : ''}`} aria-hidden={!drawerOpen}>
-        <div className="md-drawer-header">
-          <img src="/images/logo.png" alt="Mercedes Garage Dubai" className="md-logo-img-drawer" />
+        <div className="md-drawer-header d-flex align-items-center justify-content-between px-4 pt-4 pb-2">
+          <span className="fw-bold fs-5 text-dark">Menu</span>
+          <button className="md-icon-btn md-ripple" onMouseDown={addRipple} onClick={closeDrawer} aria-label="Close menu">
+            <Icon path={ICONS.Back} size={22} />
+          </button>
         </div>
 
         <ul className="md-drawer-list">
