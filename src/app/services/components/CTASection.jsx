@@ -1,3 +1,5 @@
+// src/app/services/components/CTASection.jsx
+'use client';
 import { PhoneCall } from 'lucide-react';
 
 export default function CTASection() {

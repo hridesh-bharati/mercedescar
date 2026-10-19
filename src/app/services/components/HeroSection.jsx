@@ -1,3 +1,4 @@
+// src/app/services/components/HeroSection.jsx
 'use client';
 import Link from 'next/link';
 import { Sparkles } from 'lucide-react';
