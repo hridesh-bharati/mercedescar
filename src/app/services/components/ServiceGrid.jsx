@@ -4,7 +4,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { ArrowRight, Search, SlidersHorizontal, Car, Star, ShieldCheck, Wrench, Zap, Layers } from 'lucide-react';
+import { ArrowRight, Search, Car, Layers } from 'lucide-react';
 import { dbService } from '@/services/dbService';
 import { mercedesModels } from '../mercedesModels';
 
@@ -15,295 +15,225 @@ export default function ServiceGrid() {
   const [liveServices, setLiveServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedFilter, setSelectedFilter] = useState('All Services');
+  const [selectedFilter, setSelectedFilter] = useState('All');
   const [modelSearch, setModelSearch] = useState('');
-
-  const filterCategories = [
-    { label: 'All Services', icon: Zap },
-    { label: 'G-Class', icon: Star },
-    { label: 'S-Class', icon: ShieldCheck },
-    { label: 'AMG', icon: Zap },
-    { label: 'C-Class', icon: Car },
-    { label: 'GLE', icon: Car },
-    { label: 'GLC', icon: Car },
-    { label: 'Engine', icon: Wrench },
-    { label: 'Brakes', icon: ShieldCheck },
-  ];
 
   useEffect(() => {
     async function fetchServices() {
       const res = await dbService.getAll('services');
-      if (res.success && res.data) {
-        setLiveServices(res.data);
-      } else {
-        setLiveServices([]);
-      }
+      setLiveServices(res.success && res.data ? res.data : []);
       setLoading(false);
     }
     fetchServices();
-
-    // Agar URL mein ?model=XYZ diya hai, toh usko active filter set kar do
-    if (modelParam) {
-      setSelectedFilter(modelParam);
-    }
+    if (modelParam) setSelectedFilter(modelParam);
   }, [modelParam]);
 
-  // Robust Filter Logic
-  const filteredServices = liveServices.filter((service) => {
-    const titleText = (service.title || '').toLowerCase();
-    const modelText = (service.model || '').toLowerCase();
-    const descText = (service.desc || service.description || '').toLowerCase();
+  const quickFilters = ['All', 'G-Class', 'S-Class', 'AMG', 'C-Class', 'GLE', 'GLC'];
 
-    const query = searchQuery.toLowerCase();
-    const matchesSearch = 
-      !query || titleText.includes(query) || modelText.includes(query) || descText.includes(query);
+  const filteredServices = liveServices.filter((s) => {
+    const title = (s.title || '').toLowerCase();
+    const model = (s.model || '').toLowerCase();
+    const desc = (s.desc || s.description || '').toLowerCase();
+    const q = searchQuery.toLowerCase();
 
-    if (selectedFilter === 'All Services') return matchesSearch;
+    const matchSearch = !q || title.includes(q) || model.includes(q) || desc.includes(q);
+    if (selectedFilter === 'All') return matchSearch;
 
-    const filterKey = selectedFilter.toLowerCase();
-    const matchesCategory = titleText.includes(filterKey) || modelText.includes(filterKey) || descText.includes(filterKey);
-
-    return matchesSearch && matchesCategory;
+    const key = selectedFilter.toLowerCase();
+    return matchSearch && (title.includes(key) || model.includes(key) || desc.includes(key));
   });
 
-  // Filter 127 Mercedes Models for Modal
-  const filteredModels = mercedesModels.filter((item) =>
-    item.model.toLowerCase().includes(modelSearch.toLowerCase()) ||
-    item.maker.toLowerCase().includes(modelSearch.toLowerCase())
+  const filteredModels = mercedesModels.filter(
+    (m) =>
+      m.model.toLowerCase().includes(modelSearch.toLowerCase()) ||
+      m.maker.toLowerCase().includes(modelSearch.toLowerCase())
   );
 
   if (loading) {
     return (
-      <div className="d-flex justify-content-center align-items-center py-5" style={{ minHeight: '400px' }}>
-        <div className="spinner-border text-danger" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
+      <div className="d-flex justify-content-center py-5">
+        <div className="spinner-border text-danger spinner-border-sm" role="status" />
       </div>
     );
   }
 
   return (
-    <section className="services-grid-section py-5">
-      <div className="container py-3">
-        
-        {/* SECTION 1: ACTUAL SERVICES GRID */}
-        <div className="mb-5">
-          <div className="text-center mb-4">
-            <h2 className="fw-bold text-dark display-6 mb-2">Our Professional Services</h2>
-            <p className="text-muted small">Expert multi-brand and Mercedes-Benz specialized repairs in Dubai.</p>
-          </div>
-
-          {/* Filter Bar */}
-          <div className="filter-bar-container mb-4">
-            <div className="d-flex align-items-center justify-content-between mb-3 px-1">
-              <span className="filter-bar-heading">Filter Repair Categories & Models</span>
-              <span className="badge bg-danger bg-opacity-10 text-danger px-3 py-2 rounded-pill fw-bold small">
-                {filteredServices.length} Services Found
+    <section className="py-3 bg-light">
+      <div className="container px-2 px-md-3">
+        {/* Sticky Search & Filters */}
+        <div className="sticky-top bg-white pt-2 pb-3 mb-3 shadow-sm rounded-3 px-3" style={{ zIndex: 10 }}>
+          <div className="d-flex gap-2 mb-2">
+            <div className="input-group bg-light rounded-pill overflow-hidden border">
+              <span className="input-group-text bg-transparent border-0 ps-3 text-muted">
+                <Search size={16} />
               </span>
+              <input
+                type="text"
+                className="form-control border-0 py-2 small shadow-none bg-transparent"
+                placeholder="Search services, models..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              {searchQuery && (
+                <button className="btn border-0 text-muted px-3 shadow-none" onClick={() => setSearchQuery('')}>
+                  ✕
+                </button>
+              )}
             </div>
-
-            <div className="filter-pills-wrapper d-flex align-items-center gap-2 overflow-auto pb-2 scrollbar-none">
-              {filterCategories.map((cat, idx) => {
-                const IconComponent = cat.icon;
-                const isActive = selectedFilter === cat.label;
-                return (
-                  <button
-                    key={idx}
-                    onClick={() => setSelectedFilter(cat.label)}
-                    className={`filter-pill-btn d-inline-flex align-items-center gap-2 ${isActive ? 'active' : ''}`}
-                  >
-                    <IconComponent size={15} className={isActive ? 'text-white' : 'text-danger'} />
-                    <span>{cat.label}</span>
-                  </button>
-                );
-              })}
-            </div>
+            <button
+              type="button"
+              className="btn btn-danger rounded-pill px-3 fw-bold d-flex align-items-center gap-1 flex-shrink-0 shadow-none"
+              data-bs-toggle="modal"
+              data-bs-target="#mercedesModelsModal"
+            >
+              <Layers size={16} />
+              <span className="d-none d-sm-inline small">Models</span>
+            </button>
           </div>
 
-          {/* Search Box & Modal Trigger Button */}
-          <div className="row g-3 mb-5 align-items-center">
-            <div className="col-12 col-md-6">
-              <div className="search-bar-box d-flex align-items-center bg-white shadow-sm">
-                <span className="search-icon-wrap ps-3 text-muted"><Search size={18} /></span>
-                <input 
-                  type="text" 
-                  className="form-control border-0 py-3 small shadow-none bg-transparent" 
-                  placeholder="Search Mercedes repair, engine, brakes..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                {searchQuery && (
-                  <button className="btn btn-link text-muted small pe-3 text-decoration-none" onClick={() => setSearchQuery('')}>Clear</button>
-                )}
-              </div>
-            </div>
-
-            <div className="col-12 col-md-6 text-md-end d-flex justify-content-md-end align-items-center gap-2 flex-wrap">
-              <div className="active-filter-badge d-inline-flex align-items-center gap-2">
-                <SlidersHorizontal size={14} className="text-danger" />
-                <span>Filter: <strong>{selectedFilter}</strong></span>
-              </div>
-
-              {/* Bootstrap Modal Trigger Button */}
-              <button 
-                type="button" 
-                className="btn btn-danger rounded-pill px-4 py-3 fw-bold shadow-sm d-inline-flex align-items-center gap-2 small"
-                data-bs-toggle="modal" 
-                data-bs-target="#mercedesModelsModal"
+          <div className="d-flex gap-2 overflow-auto scrollbar-none pb-1">
+            {quickFilters.map((f) => (
+              <button
+                key={f}
+                onClick={() => setSelectedFilter(f)}
+                className={`btn btn-sm rounded-pill px-3 fw-bold text-nowrap shadow-none ${
+                  selectedFilter === f ? 'btn-danger' : 'btn-outline-secondary bg-white text-dark border-0'
+                }`}
+                style={{ fontSize: '0.78rem' }}
               >
-                <Layers size={16} /> View All 127 Mercedes Models
+                {f}
               </button>
-            </div>
+            ))}
           </div>
-
-          {/* Services Cards Grid */}
-          {filteredServices.length === 0 ? (
-            <div className="text-center py-5 text-muted card border-0 shadow-sm rounded-4 p-5 bg-white">
-              <Car size={45} className="text-secondary opacity-50 mb-3 mx-auto" />
-              <h5 className="fw-bold text-dark mb-2">No Matching Services Found for "{selectedFilter}"</h5>
-              <p className="small text-muted mb-3">Try choosing another category or view all services.</p>
-              <button className="btn btn-dark btn-sm rounded-pill px-4 fw-bold w-fit mx-auto" onClick={() => { setSearchQuery(''); setSelectedFilter('All Services'); }}>
-                Reset Filters
-              </button>
-            </div>
-          ) : (
-            <div className="row g-4">
-              {filteredServices.map((service, index) => {
-                const { id, title, model, desc, description, imageUrl, imageUrls } = service;
-                const cardDesc = desc || description;
-                const pics = imageUrls && imageUrls.length > 0 ? imageUrls : (imageUrl ? [imageUrl] : []);
-                const mainImage = pics[0];
-                const formattedIndex = String(index + 1).padStart(2, '0');
-
-                return (
-                  <div className="col-lg-4 col-md-6 col-12" key={id || index}>
-                    <div className="pro-service-card h-100 bg-white rounded-4 overflow-hidden position-relative d-flex flex-column shadow-sm">
-                      {mainImage && (
-                        <div className="service-card-img-wrap position-relative overflow-hidden m-3 rounded-3" style={{ height: '240px' }}>
-                          <img src={mainImage} alt={title} className="w-100 h-100 object-fit-cover" />
-                          {pics.length > 1 && (
-                            <span className="position-absolute top-0 end-0 m-3 badge bg-dark bg-opacity-75 text-white px-2 py-1 rounded-pill small shadow-sm">
-                              📷 {pics.length} Photos
-                            </span>
-                          )}
-                        </div>
-                      )}
-                      <div className="card-body p-4 pt-2 d-flex flex-column flex-grow-1 justify-content-between">
-                        <div>
-                          <div className="d-flex align-items-center justify-content-between mb-2">
-                            <span className="service-index-badge">{formattedIndex}</span>
-                            {model && <span className="service-model-badge">{model}</span>}
-                          </div>
-                          <h3 className="service-card-title">{title}</h3>
-                          <p className="service-card-desc">{cardDesc}</p>
-                        </div>
-                        <div className="pt-3 border-top border-light d-flex align-items-center justify-content-between mt-auto">
-                          <Link href={`/services/${id}`} className="service-detail-link d-inline-flex align-items-center gap-2 text-decoration-none">
-                            <span>VIEW DETAILS & GALLERY</span>
-                            <div className="arrow-circle-icon d-flex align-items-center justify-content-center"><ArrowRight size={13} /></div>
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
         </div>
 
-        {/* BOOTSTRAP MODAL FOR ALL 127 MERCEDES MODELS */}
-        <div className="modal fade" id="mercedesModelsModal" tabIndex="-1" aria-labelledby="mercedesModelsModalLabel" aria-hidden="true">
-          <div className="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
-            <div className="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
-              
-              <div className="modal-header bg-dark text-white px-4 py-3">
-                <div className="d-flex align-items-center gap-2">
-                  <div className="bg-danger text-white rounded-3 p-2">
-                    <Car size={18} />
-                  </div>
-                  <div>
-                    <h5 className="modal-title fw-bold m-0 fs-6" id="mercedesModelsModalLabel">Select Your Mercedes-Benz Model</h5>
-                    <small className="text-white-50" style={{ fontSize: '0.75rem' }}>Click any model to filter services instantly</small>
-                  </div>
-                </div>
-                <button type="button" className="btn-close btn-close-white shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
+        {/* Services List */}
+        {filteredServices.length === 0 ? (
+          <div className="text-center py-5 bg-white rounded-3 shadow-sm p-4 border">
+            <Car size={40} className="text-secondary opacity-50 mb-2 mx-auto" />
+            <h6 className="fw-bold mb-1">No Services Found</h6>
+            <p className="small text-muted mb-3">Try a different search or filter.</p>
+            <button
+              className="btn btn-dark btn-sm rounded-pill px-4 fw-bold shadow-none"
+              onClick={() => {
+                setSearchQuery('');
+                setSelectedFilter('All');
+              }}
+            >
+              Reset
+            </button>
+          </div>
+        ) : (
+          <div className="row g-2 g-md-3">
+            {filteredServices.map((service, index) => {
+              const { id, title, model, desc, description, imageUrl, imageUrls } = service;
+              const cardDesc = desc || description;
+              const pics = imageUrls?.length > 0 ? imageUrls : imageUrl ? [imageUrl] : [];
+              const mainImage = pics[0];
 
-              <div className="modal-body p-4 bg-light">
-                <div className="row justify-content-center mb-3">
-                  <div className="col-12">
-                    <div className="search-bar-box d-flex align-items-center bg-white shadow-sm border">
-                      <span className="search-icon-wrap ps-3 text-muted"><Search size={16} /></span>
-                      <input 
-                        type="text" 
-                        className="form-control border-0 py-2 small shadow-none bg-transparent" 
-                        placeholder="Search model (e.g. G63, S500, GLC, C43)..."
-                        value={modelSearch}
-                        onChange={(e) => setModelSearch(e.target.value)}
-                      />
-                      {modelSearch && (
-                        <button className="btn btn-link text-muted small pe-3 text-decoration-none" onClick={() => setModelSearch('')}>Clear</button>
+              return (
+                <div className="col-6 col-lg-4 col-md-6" key={id || index}>
+                  <Link
+                    href={`/services/${id}`}
+                    className="card h-100 bg-white rounded-3 overflow-hidden text-decoration-none border shadow-sm service-card"
+                  >
+                    {mainImage ? (
+                      <div className="position-relative bg-light" style={{ height: '140px' }}>
+                        <img src={mainImage} alt={title} className="w-100 h-100 object-fit-cover" loading="lazy" />
+                        {pics.length > 1 && (
+                          <span className="position-absolute top-0 end-0 m-1 bg-dark bg-opacity-75 text-white px-2 py-1 rounded-pill" style={{ fontSize: '9px' }}>
+                            📷 {pics.length}
+                          </span>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="bg-light d-flex align-items-center justify-content-center" style={{ height: '140px' }}>
+                        <Car size={28} className="text-danger opacity-50" />
+                      </div>
+                    )}
+                    <div className="card-body p-2 p-md-3 d-flex flex-column">
+                      {model && (
+                        <span className="badge bg-danger bg-opacity-10 text-danger fw-bold mb-1 align-self-start" style={{ fontSize: '0.65rem' }}>
+                          {model}
+                        </span>
                       )}
+                      <h3 className="fw-bold text-dark mb-1 text-truncate-2" style={{ fontSize: '0.85rem' }}>{title}</h3>
+                      <p className="text-muted mb-2 text-truncate-2" style={{ fontSize: '0.72rem', lineHeight: '1.4' }}>{cardDesc}</p>
+                      <div className="text-danger fw-bold d-flex align-items-center gap-1 mt-auto" style={{ fontSize: '0.7rem' }}>
+                        <span>View Details</span>
+                        <ArrowRight size={12} />
+                      </div>
                     </div>
-                  </div>
+                  </Link>
                 </div>
+              );
+            })}
+          </div>
+        )}
 
-                <div className="d-flex justify-content-between align-items-center mb-3 px-1">
-                  <span className="fw-bold text-secondary small uppercase" style={{ fontSize: '0.75rem' }}>Directory List</span>
-                  <span className="badge bg-danger bg-opacity-10 text-danger px-3 py-1 rounded-pill small fw-bold">
-                    Showing {filteredModels.length} of 127 Models
+        {/* Models Modal */}
+        <div className="modal fade" id="mercedesModelsModal" tabIndex="-1" aria-hidden="true">
+          <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+            <div className="modal-content border-0 rounded-4 overflow-hidden">
+              <div className="modal-header bg-dark text-white px-3 py-2">
+                <h5 className="modal-title fw-bold m-0 small">Select Model</h5>
+                <button type="button" className="btn-close btn-close-white shadow-none" data-bs-dismiss="modal" />
+              </div>
+              <div className="modal-body p-3 bg-light">
+                <div className="input-group bg-white rounded-pill overflow-hidden border mb-3">
+                  <span className="input-group-text bg-transparent border-0 ps-3 text-muted">
+                    <Search size={15} />
                   </span>
+                  <input
+                    type="text"
+                    className="form-control border-0 py-2 small shadow-none bg-transparent"
+                    placeholder="Search model..."
+                    value={modelSearch}
+                    onChange={(e) => setModelSearch(e.target.value)}
+                  />
                 </div>
-
                 <div className="row g-2">
                   {filteredModels.map((car) => (
-                    <div className="col-6 col-md-3" key={car.id}>
-                      <button 
+                    <div className="col-6 col-md-4 col-lg-3" key={car.id}>
+                      <button
                         type="button"
                         onClick={() => setSelectedFilter(car.model)}
                         data-bs-dismiss="modal"
-                        className="w-100 d-flex align-items-center justify-content-between px-3 py-2 rounded-pill bg-white text-dark model-pill-btn border shadow-sm text-start"
+                        className="btn btn-outline-secondary bg-white text-dark border w-100 text-start py-2 px-3 rounded-2 fw-bold shadow-sm model-btn"
+                        style={{ fontSize: '0.72rem' }}
                       >
-                        <span className="fw-bold text-dark text-truncate small" style={{ fontSize: '0.8rem' }}>{car.model}</span>
-                        <span className="text-danger flex-shrink-0 ms-1">
-                          <ArrowRight size={12} />
-                        </span>
+                        {car.model}
                       </button>
                     </div>
                   ))}
                 </div>
-
               </div>
-
-              <div className="modal-footer bg-white px-4 py-2 border-top">
-                <button type="button" className="btn btn-dark btn-sm rounded-pill px-4 fw-bold small" data-bs-dismiss="modal">Close</button>
-              </div>
-
             </div>
           </div>
         </div>
-
       </div>
 
       <style jsx global>{`
-        .model-pill-btn {
-          transition: all 0.2s ease;
-          border-color: #e2e8f0 !important;
-          cursor: pointer;
-        }
-        .model-pill-btn:hover {
-          background-color: #e11d48 !important;
-          color: #ffffff !important;
-          border-color: #e11d48 !important;
-          transform: translateY(-2px);
-          box-shadow: 0 4px 12px rgba(225, 29, 72, 0.2);
-        }
-        .model-pill-btn:hover .text-danger {
-          color: #ffffff !important;
-        }
         .scrollbar-none::-webkit-scrollbar { display: none; }
         .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+        .text-truncate-2 {
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+        .service-card {
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .service-card:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 8px 20px rgba(0,0,0,0.08) !important;
+        }
+        .model-btn:hover {
+          background-color: #e11d48 !important;
+          border-color: #e11d48 !important;
+          color: #fff !important;
+        }
       `}</style>
     </section>
   );

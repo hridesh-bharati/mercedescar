@@ -6,7 +6,6 @@ import 'aos/dist/aos.css';
 
 import Header from "@/components/layout/Header";
 import HeroSection from './components/HeroSection';
-import IntroSection from './components/IntroSection';
 import ServiceGrid from './components/ServiceGrid';
 import CTASection from './components/CTASection';
 import './services.css';
@@ -25,7 +24,6 @@ export default function ServicesPage() {
     <>
       <Header />
       <HeroSection />
-      <IntroSection />
       <Suspense fallback={
         <div className="d-flex justify-content-center align-items-center py-5" style={{ minHeight: '400px' }}>
           <div className="spinner-border text-danger" role="status">
