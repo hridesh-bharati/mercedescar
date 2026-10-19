@@ -1,10 +1,11 @@
+
+
 'use client';
 // src/app/services/components/ServiceGrid.jsx
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowRight, Wrench } from 'lucide-react';
-import { dbService } from '@/services/dbService';
-import { servicesData } from '../data/servicesData';
+import { dbService } from '@/services/dbService'; 
 
 export default function ServiceGrid() {
   const [liveServices, setLiveServices] = useState([]);
@@ -17,7 +18,7 @@ export default function ServiceGrid() {
         setLiveServices(res.data);
       } else {
         // Fallback to static data if firebase is empty
-        setLiveServices(servicesData);
+       
       }
       setLoading(false);
     }
@@ -76,3 +77,5 @@ export default function ServiceGrid() {
     </section>
   );
 }
+
+

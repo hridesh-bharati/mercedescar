@@ -103,7 +103,7 @@ export default function Header() {
     { key: 'home', label: 'Home', href: '/', icon: ICONS.Home },
     { key: 'services', label: 'Services', href: '/services', icon: ICONS.Wrench },
     { key: 'about', label: 'About Us', href: '/about-us', icon: ICONS.User },
-    { key: 'gallery', label: 'Gallery', href: '/gallery', icon: ICONS.Gallery },
+    { key: 'models', label: 'Car Models', href: '/models', icon: ICONS.Gallery },
     {
       key: 'pages',
       label: 'Pages',

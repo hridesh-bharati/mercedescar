@@ -8,7 +8,7 @@ import { auth } from '@/lib/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { authService } from '@/services/authService';
 import { dbService } from '@/services/dbService';
-import { LayoutDashboard, Wrench, FileText, Inbox, Users, MessageSquare, Briefcase, Image as ImageIcon, LogOut, Menu, X, Home, TrendingUp, Layers, Activity, ShieldCheck, UserCircle } from 'lucide-react';
+import { LayoutDashboard, Wrench, FileText, Inbox, Users, MessageSquare, Briefcase, Image as ImageIcon, LogOut, Menu, X, Home, TrendingUp, Layers, Activity, ShieldCheck, UserCircle, Car } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 
 import ServicesManager from './services-manager';
@@ -19,6 +19,7 @@ import CommentsManager from './comments-manager';
 import CasesManager from './cases-manager';
 import GalleryManager from './gallery-manager';
 import ProfileManager from './profile-manager';  
+import CarModelsManager from './car-models-manager'; 
 
 // In-memory cache for ultra-fast loading across tab switches
 let dashboardCache = {
@@ -33,7 +34,7 @@ export default function AdminPanel() {
   const [activeTab, setActiveTab] = useState('overview');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const [stats, setStats] = useState({ services: 0, blogs: 0, inbox: 0, users: 0, comments: 0, cases: 0, gallery: 0 });
+  const [stats, setStats] = useState({ services: 0, blogs: 0, inbox: 0, users: 0, comments: 0, cases: 0, gallery: 0, car_models: 0 });
   const router = useRouter();
 
   useEffect(() => {
@@ -57,12 +58,19 @@ export default function AdminPanel() {
     }
 
     const res = await dbService.getDashboardStats();
+    // Also fetch car models count if needed
+    const modelsRes = await dbService.getAll('car_models');
+
     if (res.success) {
+      const updatedStats = {
+        ...res.data,
+        car_models: modelsRes.success ? modelsRes.data.length : 0
+      };
       dashboardCache = {
-        stats: res.data,
+        stats: updatedStats,
         timestamp: now,
       };
-      setStats(res.data);
+      setStats(updatedStats);
     }
   };
 
@@ -72,6 +80,7 @@ export default function AdminPanel() {
   const menuItems = [
     { key: 'overview', label: 'Overview', icon: LayoutDashboard },
     { key: 'services', label: 'Manage Services', icon: Wrench },
+    { key: 'car-models', label: 'Car Models DB', icon: Car }, // New Menu Item
     { key: 'blogs', label: 'Manage Blogs', icon: FileText },
     { key: 'comments', label: 'Blog Comments', icon: MessageSquare },
     { key: 'cases', label: 'Manage Cases', icon: Briefcase },
@@ -83,6 +92,7 @@ export default function AdminPanel() {
 
   const chartData = [
     { name: 'Services', count: stats.services, color: '#6610f2' },
+    { name: 'Models', count: stats.car_models, color: '#ff5722' },
     { name: 'Blogs', count: stats.blogs, color: '#0d6efd' },
     { name: 'Comments', count: stats.comments, color: '#198754' },
     { name: 'Inbox', count: stats.inbox, color: '#ffc107' },
@@ -228,6 +238,13 @@ export default function AdminPanel() {
                   </div>
                 </div>
                 <div className="col-6 col-md-4 col-lg-2">
+                  <div className="card border-0 shadow-sm rounded-4 p-3 text-white h-100" style={{ background: 'linear-gradient(135deg, #ff5722 0%, #ff7043 100%)' }}>
+                    <Car size={22} className="mb-2 opacity-75" />
+                    <h3 className="fw-bold mb-0">{stats.car_models}</h3>
+                    <span className="small opacity-75 fw-semibold">Car Models</span>
+                  </div>
+                </div>
+                <div className="col-6 col-md-4 col-lg-2">
                   <div className="card border-0 shadow-sm rounded-4 p-3 text-white h-100" style={{ background: 'linear-gradient(135deg, #0d6efd 0%, #3d8bfd 100%)' }}>
                     <FileText size={22} className="mb-2 opacity-75" />
                     <h3 className="fw-bold mb-0">{stats.blogs}</h3>
@@ -246,13 +263,6 @@ export default function AdminPanel() {
                     <Inbox size={22} className="mb-2 opacity-75" />
                     <h3 className="fw-bold mb-0">{stats.inbox}</h3>
                     <span className="small opacity-75 fw-semibold">Inbox</span>
-                  </div>
-                </div>
-                <div className="col-6 col-md-4 col-lg-2">
-                  <div className="card border-0 shadow-sm rounded-4 p-3 text-dark h-100" style={{ background: 'linear-gradient(135deg, #0dcaf0 0%, #31d2f2 100%)' }}>
-                    <Briefcase size={22} className="mb-2 opacity-75" />
-                    <h3 className="fw-bold mb-0">{stats.cases}</h3>
-                    <span className="small opacity-75 fw-semibold">Cases</span>
                   </div>
                 </div>
                 <div className="col-6 col-md-4 col-lg-2">
@@ -314,6 +324,7 @@ export default function AdminPanel() {
           {activeTab === 'profile' && <ProfileManager />}
 
           {activeTab === 'services' && <ServicesManager />}
+          {activeTab === 'car-models' && <CarModelsManager />} 
           {activeTab === 'blogs' && <BlogsManager />}
           {activeTab === 'comments' && <CommentsManager />}
           {activeTab === 'cases' && <CasesManager />}

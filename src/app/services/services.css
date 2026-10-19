@@ -326,3 +326,166 @@ html, body {
   .services-hero { min-height: 380px; padding: 60px 16px; }
   .services-cta { margin: 20px 12px 50px; }
 }
+
+/* ================= PROFESSIONAL SERVICES GRID & FILTER STYLES ================= */
+
+.services-grid-section {
+  background-color: #f8fafc;
+}
+
+/* Filter Bar */
+.filter-bar-container {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.filter-bar-heading {
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.filter-pill-btn {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: #334155;
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.filter-pill-btn:hover {
+  background: #e2e8f0;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+.filter-pill-btn.active {
+  background: #e11d48 !important;
+  border-color: #e11d48 !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 15px rgba(225, 29, 72, 0.3);
+}
+
+/* Search Bar Box */
+.search-bar-box {
+  border-radius: 50px;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.search-bar-box:focus-within {
+  border-color: #e11d48;
+  box-shadow: 0 0 0 4px rgba(225, 29, 72, 0.1);
+}
+
+.active-filter-badge {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  color: #334155;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.02);
+}
+
+/* Pro Service Card */
+.pro-service-card {
+  border: 1px solid rgba(226, 232, 240, 0.8) !important;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.pro-service-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.1) !important;
+  border-color: rgba(225, 29, 72, 0.3) !important;
+}
+
+.pro-service-card:hover .service-card-img-wrap img {
+  transform: scale(1.05);
+}
+
+.service-card-img-wrap img {
+  transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.service-index-badge {
+  background: rgba(225, 29, 72, 0.1);
+  color: #e11d48;
+  font-weight: 800;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+}
+
+.service-model-badge {
+  background: #f1f5f9;
+  color: #0f172a;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+}
+
+.service-card-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.4;
+}
+
+.service-card-desc {
+  font-size: 0.85rem;
+  color: #64748b;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.6;
+}
+
+.service-detail-link {
+  color: #e11d48;
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  transition: color 0.2s ease;
+}
+
+.service-detail-link:hover {
+  color: #be123c;
+}
+
+.arrow-circle-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(225, 29, 72, 0.1);
+  color: #e11d48;
+  transition: all 0.2s ease;
+}
+
+.pro-service-card:hover .arrow-circle-icon {
+  background: #e11d48;
+  color: #ffffff;
+  transform: translateX(3px);
+}
+
+/* Scrollbar Utility */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
