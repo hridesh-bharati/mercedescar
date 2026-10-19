@@ -1,5 +1,6 @@
+// src/app/services/page.jsx
 'use client';
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
@@ -25,7 +26,15 @@ export default function ServicesPage() {
       <Header />
       <HeroSection />
       <IntroSection />
-      <ServiceGrid />
+      <Suspense fallback={
+        <div className="d-flex justify-content-center align-items-center py-5" style={{ minHeight: '400px' }}>
+          <div className="spinner-border text-danger" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      }>
+        <ServiceGrid />
+      </Suspense>
       <CTASection />
       <Footer />
     </>
