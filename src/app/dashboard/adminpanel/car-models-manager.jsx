@@ -5,7 +5,6 @@ import { useState, useEffect, useRef } from 'react';
 import { dbService } from '@/services/dbService';
 import { uploadToCloudinary } from '@/lib/cloudinary';
 import { Trash2, Edit, Car, Camera, Save, X, UploadCloud } from 'lucide-react';
-import { mercedesModels } from '../mercedesModels';
 
 export default function CarModelsManager() {
   const [modelsList, setModelsList] = useState([]);
@@ -18,6 +17,7 @@ export default function CarModelsManager() {
   const [importingJson, setImportingJson] = useState(false);
   const [editId, setEditId] = useState(null);
   const fileInputRef = useRef(null);
+  const jsonInputRef = useRef(null);
 
   useEffect(() => {
     loadModels();
@@ -28,30 +28,49 @@ export default function CarModelsManager() {
     if (res.success) setModelsList(res.data);
   };
 
-  // Bulk Import all 127 models from JSON/Static file into Firebase DB
-  const handleBulkImportJson = async () => {
-    if (!confirm(`Are you sure you want to import all ${mercedesModels.length} Mercedes models into the database?`)) return;
+  // Handler to upload and import external JSON file containing models
+  const handleJsonFileUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
 
-    setImportingJson(true);
-    let successCount = 0;
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      try {
+        const jsonData = JSON.parse(event.target.result);
+        if (!Array.isArray(jsonData)) {
+          alert("Invalid JSON format. Expected an array of models.");
+          return;
+        }
 
-    for (const item of mercedesModels) {
-      const payload = {
-        maker: item.maker || 'Mercedes',
-        modelName: item.model,
-        desc: `Professional Mercedes-Benz ${item.model} maintenance, engine diagnostics, and repair services in Dubai.`,
-        imageUrl: ''
-      };
+        if (!confirm(`Are you sure you want to import ${jsonData.length} models into the database?`)) return;
 
-      const res = await dbService.create('car_models', payload);
-      if (res.success) {
-        successCount++;
+        setImportingJson(true);
+        let successCount = 0;
+
+        for (const item of jsonData) {
+          const payload = {
+            maker: item.maker || 'Mercedes',
+            modelName: item.modelName || item.model || 'Unknown',
+            desc: item.desc || `Professional Mercedes-Benz maintenance and repair services in Dubai.`,
+            imageUrl: item.imageUrl || ''
+          };
+
+          const res = await dbService.create('car_models', payload);
+          if (res.success) {
+            successCount++;
+          }
+        }
+
+        alert(`Successfully imported ${successCount} models from JSON!`);
+        setImportingJson(false);
+        loadModels();
+        if (jsonInputRef.current) jsonInputRef.current.value = '';
+      } catch (err) {
+        alert("Failed to parse JSON file: " + err.message);
+        setImportingJson(false);
       }
-    }
-
-    alert(`Successfully imported ${successCount} models into the database!`);
-    setImportingJson(false);
-    loadModels();
+    };
+    reader.readAsText(file);
   };
 
   const handleImageChange = async (e) => {
@@ -127,15 +146,24 @@ export default function CarModelsManager() {
           <h4 className="fw-bold text-dark mb-0 fs-5">Manage Car Models Database</h4>
         </div>
 
-        {/* Bulk JSON Import Button */}
-        <button 
-          type="button" 
-          className="btn btn-dark btn-sm rounded-pill px-4 fw-bold shadow-sm d-flex align-items-center gap-2"
-          onClick={handleBulkImportJson}
-          disabled={importingJson}
-        >
-          <UploadCloud size={16} /> {importingJson ? 'Importing 127 Models...' : 'Import All 127 Models (JSON)'}
-        </button>
+        {/* Hidden JSON file input & Upload Button */}
+        <div>
+          <input 
+            ref={jsonInputRef}
+            type="file" 
+            accept=".json" 
+            className="d-none" 
+            onChange={handleJsonFileUpload} 
+          />
+          <button 
+            type="button" 
+            className="btn btn-dark btn-sm rounded-pill px-4 fw-bold shadow-sm d-flex align-items-center gap-2"
+            onClick={() => jsonInputRef.current?.click()}
+            disabled={importingJson}
+          >
+            <UploadCloud size={16} /> {importingJson ? 'Importing JSON...' : 'Upload JSON File'}
+          </button>
+        </div>
       </div>
 
       {/* Add / Edit Form */}
@@ -222,7 +250,7 @@ export default function CarModelsManager() {
       <h5 className="fw-bold text-dark fs-6 mb-3">All Car Models ({modelsList.length})</h5>
 
       {modelsList.length === 0 ? (
-        <div className="text-center py-4 text-muted small card border-0 bg-light rounded-4">No car models found in database. Click "Import All 127 Models" above to load data instantly.</div>
+        <div className="text-center py-4 text-muted small card border-0 bg-light rounded-4">No car models found in database. Click "Upload JSON File" above to import data.</div>
       ) : (
         <div className="table-responsive">
           <table className="table align-middle">
