@@ -297,11 +297,12 @@ export default function AdminPanel() {
                     <Activity size={18} className="text-warning  " />
                     <h4 className="fw-bold mb-0 fs-6 fs-md-4">Admin Dashboard</h4>
                   </div>
-                  <span className="text-white-50   small">Manage your platform modules • {currentDate}</span>
+                  <span className="text-white-50   small">Manage your platform modules </span>
                 </div>
                 {/* Slim Inline System Live Badge */}
                 <span className="badge px-2 py-1 px-md-3 py-md-2 rounded-pill fw-bold shadow-sm d-flex align-items-center gap-1 gap-md-2" style={{ background: 'rgba(255, 255, 255, 0.2)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.3)', fontSize: '0.65rem' }}>
-                  <span className="spinner-grow spinner-grow-sm text-success" role="status" style={{ width: '8px', height: '8px' }}></span> SYSTEM LIVE
+                  <span className="spinner-grow spinner-grow-sm text-success" role="status" style={{ width: '8px', height: '8px' }}></span> SYSTEM LIVE <br />
+                 • {currentDate}
                 </span>
               </div>
             </div>
@@ -338,8 +339,10 @@ export default function AdminPanel() {
                           <stat.icon size={90} className={stat.textColor} strokeWidth={1.5} />
                         </div>
 
-                        <stat.icon size={22} className={`mb-2 ${stat.textColor} opacity-75 position-relative`} style={{ zIndex: 1 }} />
+                       <div className="d-flex justify-content-start align-items-center gap-2">
+                         <stat.icon size={22} className={`mb-2 ${stat.textColor} opacity-75 position-relative`} style={{ zIndex: 1 }} />
                         <h3 className={`fw-bold mb-0 position-relative ${stat.textColor}`} style={{ zIndex: 1 }}>{stat.count}</h3>
+                       </div>
                         <span className={`small fw-semibold position-relative ${stat.textColor} opacity-75`} style={{ zIndex: 1 }}>{stat.label}</span>
                       </div>
                     </div>
