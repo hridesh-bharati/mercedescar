@@ -36,7 +36,6 @@ export default function AdminPanel() {
   const [stats, setStats] = useState({ services: 0, blogs: 0, inbox: 0, users: 0, comments: 0, cases: 0, gallery: 0, car_models: 0 });
   const router = useRouter();
 
-  // Prevent background scrolling when mobile menu is open
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -83,7 +82,7 @@ export default function AdminPanel() {
   };
 
   if (loading) return (
-    <div className="d-flex justify-content-center align-items-center vh-100" style={{ background: 'linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%)' }}>
+    <div className="d-flex justify-content-center align-items-center vh-100" style={{ background: 'linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)' }}>
       <div className="spinner-border text-primary" role="status" style={{ width: '3rem', height: '3rem' }}>
         <span className="visually-hidden">Loading...</span>
       </div>
@@ -117,50 +116,43 @@ export default function AdminPanel() {
 
   const currentDate = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 
-  // Enhanced Glass Style for that "Chatkha" look
+  // Ultra-Modern Blue Glass Style
   const glassStyle = {
-    background: 'rgba(255, 255, 255, 0.7)',
-    backdropFilter: 'blur(20px)',
-    WebkitBackdropFilter: 'blur(20px)',
-    border: '1px solid rgba(255, 255, 255, 0.9)',
+    background: 'rgba(255, 255, 255, 0.45)',
+    backdropFilter: 'blur(24px)',
+    WebkitBackdropFilter: 'blur(24px)',
+    border: '1px solid rgba(255, 255, 255, 0.6)',
     boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.1)'
   };
 
   return (
     <div className="container-fluid min-vh-100 py-4 position-relative overflow-hidden" style={{ 
-      // Extra Chatkha Background
-      background: 'linear-gradient(135deg, #a18cd1 0%, #fbc2eb 50%, #8fd3f4 100%)', 
+      // Modern Frosted Blue Background
+      background: 'linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 50%, #e0c3fc 100%)', 
       fontFamily: "'Inter', sans-serif"
     }}>
       
-      {/* Decorative Background Blobs for vibrant look */}
-      <div className="position-absolute rounded-circle" style={{ top: '-10%', left: '-5%', width: '400px', height: '400px', background: 'rgba(255, 154, 158, 0.6)', filter: 'blur(90px)', zIndex: 0 }}></div>
-      <div className="position-absolute rounded-circle" style={{ bottom: '-10%', right: '-5%', width: '500px', height: '500px', background: 'rgba(161, 196, 253, 0.6)', filter: 'blur(90px)', zIndex: 0 }}></div>
-      <div className="position-absolute rounded-circle" style={{ top: '40%', left: '30%', width: '300px', height: '300px', background: 'rgba(255, 236, 210, 0.5)', filter: 'blur(80px)', zIndex: 0 }}></div>
+      {/* Frosted Background Highlights */}
+      <div className="position-absolute rounded-circle" style={{ top: '-15%', left: '-10%', width: '600px', height: '600px', background: 'rgba(255, 255, 255, 0.4)', filter: 'blur(100px)', zIndex: 0 }}></div>
+      <div className="position-absolute rounded-circle" style={{ bottom: '-15%', right: '-10%', width: '500px', height: '500px', background: 'rgba(142, 197, 252, 0.5)', filter: 'blur(100px)', zIndex: 0 }}></div>
 
       <div className="position-relative" style={{ zIndex: 1 }}>
         
         {/* Mobile Top Navbar */}
-        <div className="d-lg-none p-3 mb-4 d-flex flex-row justify-content-between align-items-center" style={{ ...glassStyle, borderRadius: '28px' }}>
+        <div className="d-lg-none p-3 mb-4 d-flex flex-row justify-content-between align-items-center" style={{ ...glassStyle, borderRadius: '24px' }}>
           <div className="d-flex align-items-center gap-2">
-            <div className="text-white rounded-circle p-2 d-flex align-items-center justify-content-center shadow-sm" style={{ background: 'linear-gradient(45deg, #667eea, #764ba2)' }}>
+            <div className="text-white rounded-circle p-2 d-flex align-items-center justify-content-center shadow-sm" style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
               <ShieldCheck size={20} />
             </div>
             <h5 className="fw-bold text-dark m-0">Admin <span style={{ color: '#764ba2' }}>Panel</span></h5>
           </div>
           <div className="d-flex align-items-center gap-2">
-            <Link href="/" className="btn btn-light btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center shadow-sm border-0" title="Go to Home">
+            <Link href="/" className="btn btn-light btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center shadow-sm border-0">
               <Home size={18} className="text-primary" />
             </Link>
-            
-            {/* SMOOTH & PERFECT CIRCULAR MENU BUTTON */}
             <button 
               className="btn text-white btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center shadow-sm border-0"
-              style={{ 
-                width: '38px', 
-                height: '38px', 
-                background: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%)' 
-              }}
+              style={{ width: '38px', height: '38px', background: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)' }}
               onClick={() => setMobileMenuOpen(true)}
             >
               <Menu size={20} />
@@ -169,12 +161,11 @@ export default function AdminPanel() {
         </div>
 
         {/* --- SLIM & SMOOTH MOBILE SIDEBAR DRAWER --- */}
-        {/* Overlay */}
         <div 
           className="d-lg-none position-fixed top-0 start-0 w-100 h-100"
           style={{ 
-            backgroundColor: 'rgba(0,0,0,0.3)', 
-            backdropFilter: 'blur(3px)',
+            backgroundColor: 'rgba(0,0,0,0.25)', 
+            backdropFilter: 'blur(8px)',
             zIndex: 1040,
             opacity: mobileMenuOpen ? 1 : 0,
             visibility: mobileMenuOpen ? 'visible' : 'hidden',
@@ -183,25 +174,22 @@ export default function AdminPanel() {
           onClick={() => setMobileMenuOpen(false)}
         />
 
-        {/* Sidebar Drawer */}
         <div 
           className="d-lg-none position-fixed top-0 end-0 h-100 d-flex flex-column"
           style={{ 
-            width: '55vw', // Thoda adjust kiya taaki icons aur text fit ho jaye
+            width: '65vw',
             zIndex: 1050,
-            background: 'rgba(255, 255, 255, 0.85)',
-            backdropFilter: 'blur(25px)',
-            WebkitBackdropFilter: 'blur(25px)',
-            // Top-right corner se patla curve
+            background: 'rgba(255, 255, 255, 0.65)',
+            backdropFilter: 'blur(30px)',
+            WebkitBackdropFilter: 'blur(30px)',
             borderTopLeftRadius: '40px',
             borderBottomLeftRadius: '40px',
-            boxShadow: '-10px 0 30px rgba(0,0,0,0.1)',
+            boxShadow: '-10px 0 40px rgba(0,0,0,0.1)',
             transform: mobileMenuOpen ? 'translateX(0)' : 'translateX(100%)',
-            transition: 'transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)', // Smooth slide
+            transition: 'transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)',
             overflowY: 'auto'
           }}
         >
-          {/* Drawer Header */}
           <div className="p-4 pt-5 d-flex justify-content-between align-items-center">
              <span className="fw-bold text-dark fs-5">Menu</span>
              <button 
@@ -212,7 +200,6 @@ export default function AdminPanel() {
              </button>
           </div>
 
-          {/* Drawer Content */}
           <div className="px-3 pb-3 flex-grow-1 d-flex flex-column gap-2">
             <Link href="/" className="btn btn-light text-start d-flex align-items-center gap-3 rounded-4 px-3 py-3 fw-semibold text-decoration-none shadow-sm border-0 mb-2">
               <Home size={18} className="text-primary" /> Go to Home
@@ -225,7 +212,7 @@ export default function AdminPanel() {
                 <button 
                   key={item.key}
                   className={`btn text-start d-flex align-items-center gap-3 rounded-4 px-3 py-3 fw-semibold transition-all border-0 ${isActive ? 'text-white shadow' : 'text-secondary bg-white bg-opacity-50'}`}
-                  style={isActive ? { background: 'linear-gradient(45deg, #667eea, #764ba2)' } : {}}
+                  style={isActive ? { background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' } : {}}
                   onClick={() => { setActiveTab(item.key); setMobileMenuOpen(false); }}
                 >
                   <IconComponent size={20} /> <span style={{ fontSize: '0.9rem' }}>{item.label}</span>
@@ -234,7 +221,6 @@ export default function AdminPanel() {
             })}
           </div>
 
-          {/* Drawer Footer (Logout) */}
           <div className="p-4 mt-auto">
             <button 
               onClick={async () => { await authService.logout(); router.push('/auth/login'); }}
@@ -248,12 +234,12 @@ export default function AdminPanel() {
 
         <div className="row g-4">
           
-          {/* Pro Desktop Sidebar */}
+          {/* Desktop Sidebar */}
           <div className="col-lg-3 col-xl-2 d-none d-lg-block">
-            <div className="p-3 sticky-top d-flex flex-column justify-content-between" style={{ ...glassStyle, top: '20px', minHeight: '91vh', borderRadius: '28px' }}>
+            <div className="p-3 sticky-top d-flex flex-column justify-content-between" style={{ ...glassStyle, top: '20px', minHeight: '91vh', borderRadius: '30px' }}>
               <div>
                 <div className="d-flex align-items-center gap-2 px-2 mb-4 pt-2">
-                  <div className="text-white rounded-3 p-2 shadow-sm" style={{ background: 'linear-gradient(45deg, #667eea, #764ba2)' }}>
+                  <div className="text-white rounded-3 p-2 shadow-sm" style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>
                     <ShieldCheck size={22} />
                   </div>
                   <div>
@@ -263,7 +249,7 @@ export default function AdminPanel() {
                 </div>
                 
                 <div className="nav flex-column gap-1 mb-3">
-                  <Link href="/" className="btn text-start d-flex align-items-center gap-2 rounded-pill px-3 py-2 fw-semibold text-decoration-none shadow-sm mb-3 border-0 text-white" style={{ background: 'linear-gradient(45deg, #434343, #000000)' }}>
+                  <Link href="/" className="btn text-start d-flex align-items-center gap-2 rounded-pill px-3 py-2 fw-semibold text-decoration-none shadow-sm mb-3 border-0 text-white" style={{ background: 'linear-gradient(135deg, #232526 0%, #414345 100%)' }}>
                     <Home size={16} /> Go to Home
                   </Link>
                   
@@ -276,7 +262,7 @@ export default function AdminPanel() {
                       <button 
                         key={item.key}
                         className={`btn text-start d-flex align-items-center gap-2 rounded-pill px-3 py-2 fw-semibold transition-all border-0 ${isActive ? 'text-white shadow' : 'bg-transparent text-secondary'}`}
-                        style={isActive ? { background: 'linear-gradient(45deg, #667eea, #764ba2)' } : {}}
+                        style={isActive ? { background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' } : {}}
                         onClick={() => setActiveTab(item.key)}
                       >
                         <IconComponent size={16} className={isActive ? 'text-white' : 'text-muted'} /> 
@@ -302,10 +288,10 @@ export default function AdminPanel() {
           {/* Main Content Area */}
           <div className="col-lg-9 col-xl-10">
             
-            {/* Pro Top Banner */}
+            {/* Top Banner */}
             <div className="p-4 text-white mb-4 position-relative overflow-hidden" style={{ 
               background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
-              borderRadius: '28px',
+              borderRadius: '30px',
               boxShadow: '0 10px 30px rgba(118, 75, 162, 0.3)'
             }}>
               <div className="d-flex justify-content-between align-items-center flex-wrap gap-3 position-relative" style={{ zIndex: 1 }}>
@@ -335,14 +321,14 @@ export default function AdminPanel() {
                     { label: 'Gallery', count: stats.gallery, icon: ImageIcon, gradient: 'linear-gradient(135deg, #d63384 0%, #e83e8c 100%)', textColor: 'text-white' }
                   ].map((stat, idx) => (
                     <div className="col-6 col-md-4 col-lg-2" key={idx}>
-                      <div className="card border-0 shadow-sm rounded-4 p-3 h-100 position-relative overflow-hidden" style={{ 
+                      <div className="card border-0 shadow-sm p-3 h-100 position-relative overflow-hidden" style={{ 
                         background: stat.gradient,
                         transition: 'transform 0.2s',
                         cursor: 'pointer',
-                        borderRadius: '22px' // Smoother corners for cards
+                        borderRadius: '24px'
                       }} onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
                         
-                        <div className="position-absolute" style={{ right: '-15px', bottom: '-15px', opacity: 0.08, pointerEvents: 'none' }}>
+                        <div className="position-absolute" style={{ right: '-15px', bottom: '-15px', opacity: 0.1, pointerEvents: 'none' }}>
                           <stat.icon size={90} className={stat.textColor} strokeWidth={1.5} />
                         </div>
 
@@ -357,9 +343,9 @@ export default function AdminPanel() {
                 {/* Charts Section */}
                 <div className="row g-4 mb-4">
                   <div className="col-12 col-lg-7">
-                    <div className="p-4 h-100" style={{ ...glassStyle, borderRadius: '28px' }}>
+                    <div className="p-4 h-100" style={{ ...glassStyle, borderRadius: '30px' }}>
                       <div className="d-flex align-items-center gap-2 mb-4">
-                        <div className="p-2 rounded-circle bg-primary bg-opacity-10 text-primary">
+                        <div className="p-2 rounded-circle bg-white bg-opacity-50 text-primary shadow-sm">
                           <TrendingUp size={20} />
                         </div>
                         <h5 className="fw-bold text-dark mb-0 fs-6">Business Metrics Overview</h5>
@@ -369,7 +355,7 @@ export default function AdminPanel() {
                           <BarChart data={chartData}>
                             <XAxis dataKey="name" stroke="#6c757d" fontSize={12} tickLine={false} axisLine={false} />
                             <YAxis stroke="#6c757d" fontSize={12} allowDecimals={false} tickLine={false} axisLine={false} />
-                            <Tooltip cursor={{fill: 'rgba(0,0,0,0.05)'}} contentStyle={{ backgroundColor: 'rgba(255,255,255,0.9)', borderRadius: '16px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', backdropFilter: 'blur(10px)' }} />
+                            <Tooltip cursor={{fill: 'rgba(255,255,255,0.2)'}} contentStyle={{ backgroundColor: 'rgba(255,255,255,0.9)', borderRadius: '16px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', backdropFilter: 'blur(10px)' }} />
                             <Bar dataKey="count" radius={[6, 6, 0, 0]}>
                               {chartData.map((entry, index) => (
                                 <Cell key={`cell-${index}`} fill={entry.color} />
@@ -382,9 +368,9 @@ export default function AdminPanel() {
                   </div>
 
                   <div className="col-12 col-lg-5">
-                    <div className="p-4 h-100" style={{ ...glassStyle, borderRadius: '28px' }}>
+                    <div className="p-4 h-100" style={{ ...glassStyle, borderRadius: '30px' }}>
                       <div className="d-flex align-items-center gap-2 mb-4">
-                        <div className="p-2 rounded-circle bg-danger bg-opacity-10 text-danger">
+                        <div className="p-2 rounded-circle bg-white bg-opacity-50 text-danger shadow-sm">
                           <Layers size={20} />
                         </div>
                         <h5 className="fw-bold text-dark mb-0 fs-6">Distribution Ratio</h5>
@@ -410,7 +396,7 @@ export default function AdminPanel() {
 
             {/* Render Active Components in Glass Container */}
             {activeTab !== 'overview' && (
-               <div className="p-4" style={{ ...glassStyle, borderRadius: '28px', minHeight: '60vh' }}>
+               <div className="p-4" style={{ ...glassStyle, borderRadius: '30px', minHeight: '60vh' }}>
                   {activeTab === 'profile' && <ProfileManager />}
                   {activeTab === 'services' && <ServicesManager />}
                   {activeTab === 'car-models' && <CarModelsManager />} 
