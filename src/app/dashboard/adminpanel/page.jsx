@@ -21,12 +21,11 @@ import GalleryManager from './gallery-manager';
 import ProfileManager from './profile-manager';  
 import CarModelsManager from './car-models-manager'; 
 
-// In-memory cache for ultra-fast loading across tab switches
 let dashboardCache = {
   stats: null,
   timestamp: 0,
 };
-const CACHE_DURATION = 60 * 1000; // 1 Minute
+const CACHE_DURATION = 60 * 1000;
 
 export default function AdminPanel() {
   const [loading, setLoading] = useState(true);
@@ -36,6 +35,16 @@ export default function AdminPanel() {
 
   const [stats, setStats] = useState({ services: 0, blogs: 0, inbox: 0, users: 0, comments: 0, cases: 0, gallery: 0, car_models: 0 });
   const router = useRouter();
+
+  // Prevent background scrolling when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [mobileMenuOpen]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -85,15 +94,15 @@ export default function AdminPanel() {
 
   const menuItems = [
     { key: 'overview', label: 'Overview', icon: LayoutDashboard },
-    { key: 'services', label: 'Services', icon: Wrench },
-    { key: 'car-models', label: 'Car Models', icon: Car }, 
-    { key: 'blogs', label: 'Blogs', icon: FileText },
+    { key: 'services', label: 'Manage Services', icon: Wrench },
+    { key: 'car-models', label: 'Car Models DB', icon: Car }, 
+    { key: 'blogs', label: 'Manage Blogs', icon: FileText },
     { key: 'comments', label: 'Blog Comments', icon: MessageSquare },
-    { key: 'cases', label: 'Cases', icon: Briefcase },
-    { key: 'gallery', label: 'Gallery', icon: ImageIcon },
-    { key: 'inbox', label: 'Inbox', icon: Inbox },
-    { key: 'users', label: 'Users', icon: Users },
-    { key: 'profile', label: 'Profile', icon: UserCircle },
+    { key: 'cases', label: 'Manage Cases', icon: Briefcase },
+    { key: 'gallery', label: 'Manage Gallery', icon: ImageIcon },
+    { key: 'inbox', label: 'Contact / Inbox', icon: Inbox },
+    { key: 'users', label: 'Users List', icon: Users },
+    { key: 'profile', label: 'Admin Profile', icon: UserCircle },
   ];
 
   const chartData = [
@@ -108,29 +117,31 @@ export default function AdminPanel() {
 
   const currentDate = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 
-  // Common Glass Style Classes
+  // Enhanced Glass Style for that "Chatkha" look
   const glassStyle = {
-    background: 'rgba(255, 255, 255, 0.65)',
-    backdropFilter: 'blur(16px)',
-    WebkitBackdropFilter: 'blur(16px)',
-    border: '1px solid rgba(255, 255, 255, 0.8)',
-    boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.07)'
+    background: 'rgba(255, 255, 255, 0.7)',
+    backdropFilter: 'blur(20px)',
+    WebkitBackdropFilter: 'blur(20px)',
+    border: '1px solid rgba(255, 255, 255, 0.9)',
+    boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.1)'
   };
 
   return (
     <div className="container-fluid min-vh-100 py-4 position-relative overflow-hidden" style={{ 
-      background: 'linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)', 
+      // Extra Chatkha Background
+      background: 'linear-gradient(135deg, #a18cd1 0%, #fbc2eb 50%, #8fd3f4 100%)', 
       fontFamily: "'Inter', sans-serif"
     }}>
       
-      {/* Decorative Background Blobs */}
-      <div className="position-absolute rounded-circle" style={{ top: '-10%', left: '-5%', width: '400px', height: '400px', background: 'rgba(255, 154, 158, 0.4)', filter: 'blur(80px)', zIndex: 0 }}></div>
-      <div className="position-absolute rounded-circle" style={{ bottom: '-10%', right: '-5%', width: '500px', height: '500px', background: 'rgba(161, 196, 253, 0.4)', filter: 'blur(80px)', zIndex: 0 }}></div>
+      {/* Decorative Background Blobs for vibrant look */}
+      <div className="position-absolute rounded-circle" style={{ top: '-10%', left: '-5%', width: '400px', height: '400px', background: 'rgba(255, 154, 158, 0.6)', filter: 'blur(90px)', zIndex: 0 }}></div>
+      <div className="position-absolute rounded-circle" style={{ bottom: '-10%', right: '-5%', width: '500px', height: '500px', background: 'rgba(161, 196, 253, 0.6)', filter: 'blur(90px)', zIndex: 0 }}></div>
+      <div className="position-absolute rounded-circle" style={{ top: '40%', left: '30%', width: '300px', height: '300px', background: 'rgba(255, 236, 210, 0.5)', filter: 'blur(80px)', zIndex: 0 }}></div>
 
       <div className="position-relative" style={{ zIndex: 1 }}>
         
         {/* Mobile Top Navbar */}
-        <div className="d-lg-none p-3 mb-4 d-flex flex-row justify-content-between align-items-center" style={{ ...glassStyle, borderRadius: '20px' }}>
+        <div className="d-lg-none p-3 mb-4 d-flex flex-row justify-content-between align-items-center" style={{ ...glassStyle, borderRadius: '28px' }}>
           <div className="d-flex align-items-center gap-2">
             <div className="text-white rounded-circle p-2 d-flex align-items-center justify-content-center shadow-sm" style={{ background: 'linear-gradient(45deg, #667eea, #764ba2)' }}>
               <ShieldCheck size={20} />
@@ -141,52 +152,105 @@ export default function AdminPanel() {
             <Link href="/" className="btn btn-light btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center shadow-sm border-0" title="Go to Home">
               <Home size={18} className="text-primary" />
             </Link>
+            
+            {/* SMOOTH & PERFECT CIRCULAR MENU BUTTON */}
             <button 
-              className="btn text-white btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center shadow-sm border-0"
-              style={{ background: 'linear-gradient(45deg, #ff9a9e, #fecfef)' }}
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="btn text-white btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center shadow-sm border-0"
+              style={{ 
+                width: '38px', 
+                height: '38px', 
+                background: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%)' 
+              }}
+              onClick={() => setMobileMenuOpen(true)}
             >
-              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              <Menu size={20} />
             </button>
           </div>
         </div>
 
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="d-lg-none p-3 mb-4" style={{ ...glassStyle, borderRadius: '20px' }}>
-            <div className="nav flex-column gap-2">
-              <Link href="/" className="btn btn-light text-start d-flex align-items-center gap-2 rounded-pill px-3 py-2 fw-semibold text-decoration-none shadow-sm border-0">
-                <Home size={18} className="text-primary" /> Go to Home
-              </Link>
-              {menuItems.map((item) => {
-                const IconComponent = item.icon;
-                const isActive = activeTab === item.key;
-                return (
-                  <button 
-                    key={item.key}
-                    className={`btn text-start d-flex align-items-center gap-2 rounded-pill px-3 py-2 fw-semibold transition-all border-0 ${isActive ? 'text-white shadow' : 'text-secondary bg-white bg-opacity-50'}`}
-                    style={isActive ? { background: 'linear-gradient(45deg, #667eea, #764ba2)' } : {}}
-                    onClick={() => { setActiveTab(item.key); setMobileMenuOpen(false); }}
-                  >
-                    <IconComponent size={18} /> {item.label}
-                  </button>
-                );
-              })}
-              <button 
-                onClick={async () => { await authService.logout(); router.push('/auth/login'); }}
-                className="btn btn-outline-danger rounded-pill fw-bold py-2 mt-2 d-flex align-items-center justify-content-center gap-2 bg-white bg-opacity-50"
-              >
-                <LogOut size={16} /> Logout
-              </button>
-            </div>
+        {/* --- SLIM & SMOOTH MOBILE SIDEBAR DRAWER --- */}
+        {/* Overlay */}
+        <div 
+          className="d-lg-none position-fixed top-0 start-0 w-100 h-100"
+          style={{ 
+            backgroundColor: 'rgba(0,0,0,0.3)', 
+            backdropFilter: 'blur(3px)',
+            zIndex: 1040,
+            opacity: mobileMenuOpen ? 1 : 0,
+            visibility: mobileMenuOpen ? 'visible' : 'hidden',
+            transition: 'opacity 0.3s ease, visibility 0.3s ease'
+          }}
+          onClick={() => setMobileMenuOpen(false)}
+        />
+
+        {/* Sidebar Drawer */}
+        <div 
+          className="d-lg-none position-fixed top-0 end-0 h-100 d-flex flex-column"
+          style={{ 
+            width: '55vw', // Thoda adjust kiya taaki icons aur text fit ho jaye
+            zIndex: 1050,
+            background: 'rgba(255, 255, 255, 0.85)',
+            backdropFilter: 'blur(25px)',
+            WebkitBackdropFilter: 'blur(25px)',
+            // Top-right corner se patla curve
+            borderTopLeftRadius: '40px',
+            borderBottomLeftRadius: '40px',
+            boxShadow: '-10px 0 30px rgba(0,0,0,0.1)',
+            transform: mobileMenuOpen ? 'translateX(0)' : 'translateX(100%)',
+            transition: 'transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)', // Smooth slide
+            overflowY: 'auto'
+          }}
+        >
+          {/* Drawer Header */}
+          <div className="p-4 pt-5 d-flex justify-content-between align-items-center">
+             <span className="fw-bold text-dark fs-5">Menu</span>
+             <button 
+               className="btn btn-light btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center border-0 shadow-sm"
+               onClick={() => setMobileMenuOpen(false)}
+             >
+               <X size={18} className="text-danger" />
+             </button>
           </div>
-        )}
+
+          {/* Drawer Content */}
+          <div className="px-3 pb-3 flex-grow-1 d-flex flex-column gap-2">
+            <Link href="/" className="btn btn-light text-start d-flex align-items-center gap-3 rounded-4 px-3 py-3 fw-semibold text-decoration-none shadow-sm border-0 mb-2">
+              <Home size={18} className="text-primary" /> Go to Home
+            </Link>
+            
+            {menuItems.map((item) => {
+              const IconComponent = item.icon;
+              const isActive = activeTab === item.key;
+              return (
+                <button 
+                  key={item.key}
+                  className={`btn text-start d-flex align-items-center gap-3 rounded-4 px-3 py-3 fw-semibold transition-all border-0 ${isActive ? 'text-white shadow' : 'text-secondary bg-white bg-opacity-50'}`}
+                  style={isActive ? { background: 'linear-gradient(45deg, #667eea, #764ba2)' } : {}}
+                  onClick={() => { setActiveTab(item.key); setMobileMenuOpen(false); }}
+                >
+                  <IconComponent size={20} /> <span style={{ fontSize: '0.9rem' }}>{item.label}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Drawer Footer (Logout) */}
+          <div className="p-4 mt-auto">
+            <button 
+              onClick={async () => { await authService.logout(); router.push('/auth/login'); }}
+              className="btn btn-outline-danger w-100 rounded-4 fw-bold py-3 d-flex align-items-center justify-content-center gap-2 bg-white shadow-sm"
+            >
+              <LogOut size={18} /> Logout
+            </button>
+          </div>
+        </div>
+        {/* --- END MOBILE SIDEBAR DRAWER --- */}
 
         <div className="row g-4">
           
           {/* Pro Desktop Sidebar */}
           <div className="col-lg-3 col-xl-2 d-none d-lg-block">
-            <div className="p-3 sticky-top d-flex flex-column justify-content-between" style={{ ...glassStyle, top: '20px', minHeight: '91vh', borderRadius: '24px' }}>
+            <div className="p-3 sticky-top d-flex flex-column justify-content-between" style={{ ...glassStyle, top: '20px', minHeight: '91vh', borderRadius: '28px' }}>
               <div>
                 <div className="d-flex align-items-center gap-2 px-2 mb-4 pt-2">
                   <div className="text-white rounded-3 p-2 shadow-sm" style={{ background: 'linear-gradient(45deg, #667eea, #764ba2)' }}>
@@ -241,7 +305,7 @@ export default function AdminPanel() {
             {/* Pro Top Banner */}
             <div className="p-4 text-white mb-4 position-relative overflow-hidden" style={{ 
               background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
-              borderRadius: '24px',
+              borderRadius: '28px',
               boxShadow: '0 10px 30px rgba(118, 75, 162, 0.3)'
             }}>
               <div className="d-flex justify-content-between align-items-center flex-wrap gap-3 position-relative" style={{ zIndex: 1 }}>
@@ -262,7 +326,6 @@ export default function AdminPanel() {
             {activeTab === 'overview' && (
               <div>
                 <div className="row g-3 mb-4">
-                  {/* UPDATED: Solid Vibrant Colorful Stat Cards with low opacity watermark */}
                   {[
                     { label: 'Services', count: stats.services, icon: Wrench, gradient: 'linear-gradient(135deg, #6610f2 0%, #8540f5 100%)', textColor: 'text-white' },
                     { label: 'Car Models', count: stats.car_models, icon: Car, gradient: 'linear-gradient(135deg, #ff5722 0%, #ff7043 100%)', textColor: 'text-white' },
@@ -273,12 +336,12 @@ export default function AdminPanel() {
                   ].map((stat, idx) => (
                     <div className="col-6 col-md-4 col-lg-2" key={idx}>
                       <div className="card border-0 shadow-sm rounded-4 p-3 h-100 position-relative overflow-hidden" style={{ 
-                        background: stat.gradient, // Solid Vibrant Color Back
+                        background: stat.gradient,
                         transition: 'transform 0.2s',
-                        cursor: 'pointer'
+                        cursor: 'pointer',
+                        borderRadius: '22px' // Smoother corners for cards
                       }} onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
                         
-                        {/* Watermark Icon with VERY LOW OPACITY to keep text readable */}
                         <div className="position-absolute" style={{ right: '-15px', bottom: '-15px', opacity: 0.08, pointerEvents: 'none' }}>
                           <stat.icon size={90} className={stat.textColor} strokeWidth={1.5} />
                         </div>
@@ -294,7 +357,7 @@ export default function AdminPanel() {
                 {/* Charts Section */}
                 <div className="row g-4 mb-4">
                   <div className="col-12 col-lg-7">
-                    <div className="p-4 h-100" style={{ ...glassStyle, borderRadius: '24px' }}>
+                    <div className="p-4 h-100" style={{ ...glassStyle, borderRadius: '28px' }}>
                       <div className="d-flex align-items-center gap-2 mb-4">
                         <div className="p-2 rounded-circle bg-primary bg-opacity-10 text-primary">
                           <TrendingUp size={20} />
@@ -306,7 +369,7 @@ export default function AdminPanel() {
                           <BarChart data={chartData}>
                             <XAxis dataKey="name" stroke="#6c757d" fontSize={12} tickLine={false} axisLine={false} />
                             <YAxis stroke="#6c757d" fontSize={12} allowDecimals={false} tickLine={false} axisLine={false} />
-                            <Tooltip cursor={{fill: 'rgba(0,0,0,0.05)'}} contentStyle={{ backgroundColor: 'rgba(255,255,255,0.9)', borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', backdropFilter: 'blur(10px)' }} />
+                            <Tooltip cursor={{fill: 'rgba(0,0,0,0.05)'}} contentStyle={{ backgroundColor: 'rgba(255,255,255,0.9)', borderRadius: '16px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', backdropFilter: 'blur(10px)' }} />
                             <Bar dataKey="count" radius={[6, 6, 0, 0]}>
                               {chartData.map((entry, index) => (
                                 <Cell key={`cell-${index}`} fill={entry.color} />
@@ -319,7 +382,7 @@ export default function AdminPanel() {
                   </div>
 
                   <div className="col-12 col-lg-5">
-                    <div className="p-4 h-100" style={{ ...glassStyle, borderRadius: '24px' }}>
+                    <div className="p-4 h-100" style={{ ...glassStyle, borderRadius: '28px' }}>
                       <div className="d-flex align-items-center gap-2 mb-4">
                         <div className="p-2 rounded-circle bg-danger bg-opacity-10 text-danger">
                           <Layers size={20} />
@@ -334,7 +397,7 @@ export default function AdminPanel() {
                                 <Cell key={`cell-${index}`} fill={entry.color} />
                               ))}
                             </Pie>
-                            <Tooltip contentStyle={{ backgroundColor: 'rgba(255,255,255,0.9)', borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', backdropFilter: 'blur(10px)' }} />
+                            <Tooltip contentStyle={{ backgroundColor: 'rgba(255,255,255,0.9)', borderRadius: '16px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', backdropFilter: 'blur(10px)' }} />
                             <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} iconType="circle" />
                           </PieChart>
                         </ResponsiveContainer>
@@ -347,7 +410,7 @@ export default function AdminPanel() {
 
             {/* Render Active Components in Glass Container */}
             {activeTab !== 'overview' && (
-               <div className="p-4" style={{ ...glassStyle, borderRadius: '24px', minHeight: '60vh' }}>
+               <div className="p-4" style={{ ...glassStyle, borderRadius: '28px', minHeight: '60vh' }}>
                   {activeTab === 'profile' && <ProfileManager />}
                   {activeTab === 'services' && <ServicesManager />}
                   {activeTab === 'car-models' && <CarModelsManager />} 
@@ -361,7 +424,6 @@ export default function AdminPanel() {
             )}
 
           </div>
-
         </div>
       </div>
     </div>
