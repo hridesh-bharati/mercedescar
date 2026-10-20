@@ -15,7 +15,7 @@ export default function BlogsManager() {
   const [loading, setLoading] = useState(false);
   const [editId, setEditId] = useState(null);
   
-  // Toggle state for Form vs List view
+  // Single toggle state for Form vs List view
   const [showList, setShowList] = useState(false);
   
   const fileInputRef = useRef(null);
@@ -60,7 +60,7 @@ export default function BlogsManager() {
     if (fileInputRef.current) fileInputRef.current.value = '';
     setLoading(false);
     loadBlogs();
-    setShowList(true); // Switch to list view after publishing/updating
+    setShowList(true); // Switch back to list view after publishing/updating
   };
 
   const handleEdit = (blog) => {
@@ -96,7 +96,7 @@ export default function BlogsManager() {
           <h4 className="fw-bold text-dark mb-0 fs-5">Manage Blog Posts</h4>
         </div>
 
-        {/* Toggle View Button */}
+        {/* Single Unified Toggle Button */}
         <button 
           type="button" 
           className="btn btn-outline-dark btn-sm rounded-pill px-4 fw-bold shadow-sm d-flex align-items-center gap-2"
@@ -119,16 +119,11 @@ export default function BlogsManager() {
         <form onSubmit={handleSubmit} className="row g-3 mb-4 bg-light p-3 p-md-4 rounded-4">
           <div className="d-flex justify-content-between align-items-center">
             <h6 className="fw-bold mb-0">{editId ? 'Edit Blog Post' : 'Add New Blog Post'}</h6>
-            <div className="d-flex gap-2">
-              <button type="button" className="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" onClick={() => setShowList(true)}>
-                <List size={14} /> View All Blogs
+            {editId && (
+              <button type="button" className="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" onClick={handleCancel}>
+                Cancel
               </button>
-              {editId && (
-                <button type="button" className="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" onClick={handleCancel}>
-                  Cancel
-                </button>
-              )}
-            </div>
+            )}
           </div>
           <div className="col-12 col-md-6">
             <label className="form-label small fw-bold">Blog Title</label>
@@ -155,18 +150,7 @@ export default function BlogsManager() {
       ) : (
         /* List View */
         <div>
-          <div className="d-flex align-items-center justify-content-between mb-3">
-            <h5 className="fw-bold text-dark fs-6 mb-0">All Blogs ({blogs.length})</h5>
-            <button 
-              className="btn btn-danger btn-sm rounded-pill px-3 fw-bold d-flex align-items-center gap-1"
-              onClick={() => {
-                handleCancel();
-                setShowList(false);
-              }}
-            >
-              <PlusCircle size={14} /> Add Blog
-            </button>
-          </div>
+          <h5 className="fw-bold text-dark fs-6 mb-3">All Blogs ({blogs.length})</h5>
 
           {blogs.length === 0 ? (
             <div className="text-center py-4 text-muted small card border-0 bg-light rounded-4">No blogs found.</div>
@@ -195,7 +179,7 @@ export default function BlogsManager() {
                             <Edit size={13} /> Edit
                           </button>
                           <button className="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 small d-flex align-items-center gap-1" onClick={() => handleDelete(b.id)}>
-                            <Trash2 size={13} /> Delete
+                            <Trash2 size={13} /> 
                           </button>
                         </div>
                       </div>
