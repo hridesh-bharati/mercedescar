@@ -403,7 +403,7 @@ export default function AdminPanel() {
 
             {/* Render Active Components in Glass Container */}
             {activeTab !== 'overview' && (
-               <div className="p-4" style={{ ...glassStyle, borderRadius: '30px', minHeight: '60vh' }}>
+               <div className="p-0" style={{ ...glassStyle, borderRadius: '30px', minHeight: '60vh' }}>
                   {activeTab === 'profile' && <ProfileManager />}
                   {activeTab === 'services' && <ServicesManager />}
                   {activeTab === 'car-models' && <CarModelsManager />} 
