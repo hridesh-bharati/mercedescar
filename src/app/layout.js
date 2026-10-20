@@ -1,20 +1,22 @@
 // src/app/layout.jsx
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'aos/dist/aos.css'; 
+import 'aos/dist/aos.css';
 import Script from 'next/script';
 import './globals.css';
-import CursorFollower from '@/components/layout/CursorFollower'; 
-import AOSInitializer from '@/components/layout/AOSInitializer'; 
+import CursorFollower from '@/components/layout/CursorFollower';
+import AOSInitializer from '@/components/layout/AOSInitializer';
 import PreLoader from '@/components/layout/PreLoader';
 
-// Enhanced Dynamic Metadata & Open Graph Tags for Top SEO Ranking
 export const metadata = {
   title: 'Mercedes Garage Dubai | Luxury Car Repair & Maintenance',
-  description: 'Expert luxury car service, repair, diagnostics, and maintenance in Al Quoz, Dubai. Certified mechanics and genuine parts.',
-  keywords: 'Mercedes repair Dubai, Mercedes garage Al Quoz, luxury car service Dubai, auto workshop Dubai',
+  description:
+    'Expert luxury car service, repair, diagnostics, and maintenance in Al Quoz, Dubai. Certified mechanics and genuine parts.',
+  keywords:
+    'Mercedes repair Dubai, Mercedes garage Al Quoz, luxury car service Dubai, auto workshop Dubai',
   openGraph: {
     title: 'Mercedes Garage Dubai | Luxury Car Repair & Maintenance',
-    description: 'Expert Mercedes repair, engine diagnostics, and maintenance in Al Quoz, Dubai.',
+    description:
+      'Expert Mercedes repair, engine diagnostics, and maintenance in Al Quoz, Dubai.',
     url: 'https://mercedesgaragedubai.com',
     siteName: 'Mercedes Garage Dubai',
     images: [
@@ -37,65 +39,65 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  // JSON-LD Structured Data (Local Business Schema Markup for Google)
   const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "AutoRepair",
-    "name": "Mercedes Garage Dubai",
-    "image": "https://mercedesgaragedubai.com/images/logo.png",
-    "url": "https://mercedesgaragedubai.com",
-    "telephone": "+971567888808",
-    "email": "info@mercedesgaragedubai.com",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Warehouse #S2, Al Quoz 20C Street Industrial Area 2",
-      "addressLocality": "Dubai",
-      "addressRegion": "Dubai",
-      "addressCountry": "AE"
+    '@context': 'https://schema.org',
+    '@type': 'AutoRepair',
+    name: 'Mercedes Garage Dubai',
+    image: 'https://mercedesgaragedubai.com/images/logo.png',
+    url: 'https://mercedesgaragedubai.com',
+    telephone: '+971567888808',
+    email: 'info@mercedesgaragedubai.com',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Warehouse #S2, Al Quoz 20C Street Industrial Area 2',
+      addressLocality: 'Dubai',
+      addressRegion: 'Dubai',
+      addressCountry: 'AE',
     },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": 25.1321,
-      "longitude": 55.2352
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: 25.1321,
+      longitude: 55.2352,
     },
-    "openingHoursSpecification": {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-        "Sunday"
+    openingHoursSpecification: {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: [
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+        'Sunday',
       ],
-      "opens": "08:00",
-      "closes": "20:00"
+      opens: '08:00',
+      closes: '20:00',
     },
-    "priceRange": "$$"
+    priceRange: '$$',
   };
 
   return (
     <html lang="en">
       <head>
-        <meta name="google-site-verification" content="81DlaGd_JjkgQ3rqAKKiqknev76jOg2BovWV-qkUObk" />
+        <meta
+          name="google-site-verification"
+          content="81DlaGd_JjkgQ3rqAKKiqknev76jOg2BovWV-qkUObk"
+        />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        
-        {/* Injecting JSON-LD Schema Script */}
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
       <body suppressHydrationWarning={true}>
-        {/* Logo Animation Pre-loader */}
         <PreLoader />
-
-        {/* Global AOS Runner */}
         <AOSInitializer />
-        
-        <CursorFollower />      
+        <CursorFollower />
         {children}
 
         <Script
