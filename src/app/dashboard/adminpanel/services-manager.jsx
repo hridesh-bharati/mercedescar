@@ -4,7 +4,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { dbService } from '@/services/dbService';
 import { uploadToCloudinary } from '@/lib/cloudinary';
-import { Trash2, Edit, Wrench, X, UploadCloud, Save } from 'lucide-react';
+import { Trash2, Edit, Wrench, X, UploadCloud, Save, List, PlusCircle } from 'lucide-react';
 
 export default function ServicesManager() {
   const [services, setServices] = useState([]);
@@ -16,6 +16,10 @@ export default function ServicesManager() {
   const [loading, setLoading] = useState(false);
   const [importingJson, setImportingJson] = useState(false);
   const [editId, setEditId] = useState(null);
+  
+  // New state to toggle between Form view and Services List view
+  const [showList, setShowList] = useState(false);
+
   const fileInputRef = useRef(null);
   const jsonInputRef = useRef(null);
 
@@ -121,6 +125,7 @@ export default function ServicesManager() {
     if (fileInputRef.current) fileInputRef.current.value = '';
     setLoading(false);
     loadServices();
+    setShowList(true); // Switch to list view after submitting successfully
   };
 
   const handleDelete = async (id) => {
@@ -142,6 +147,7 @@ export default function ServicesManager() {
     } else {
       setImageUrls([]);
     }
+    setShowList(false); // Switch to form view when editing
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -151,6 +157,7 @@ export default function ServicesManager() {
     setModel('');
     setDesc('');
     setImageUrls([]);
+    setShowList(true);
   };
 
   return (
@@ -161,157 +168,200 @@ export default function ServicesManager() {
           <h4 className="fw-bold text-dark mb-0 fs-5">Manage Car Services & Gallery</h4>
         </div>
 
-        {/* JSON File Upload Button */}
-        <div>
-          <input 
-            ref={jsonInputRef}
-            type="file" 
-            accept=".json" 
-            className="d-none" 
-            onChange={handleJsonFileUpload} 
-          />
+        <div className="d-flex align-items-center gap-2 flex-wrap">
+          {/* Toggle View Button */}
           <button 
             type="button" 
-            className="btn btn-dark btn-sm rounded-pill px-4 fw-bold shadow-sm d-flex align-items-center gap-2"
-            onClick={() => jsonInputRef.current?.click()}
-            disabled={importingJson}
+            className="btn btn-outline-dark btn-sm rounded-pill px-4 fw-bold shadow-sm d-flex align-items-center gap-2"
+            onClick={() => setShowList(!showList)}
           >
-            <UploadCloud size={16} /> {importingJson ? 'Importing Services...' : 'Upload Services JSON'}
+            {showList ? (
+              <>
+                <PlusCircle size={16} /> Add New Service
+              </>
+            ) : (
+              <>
+                <List size={16} /> All Services ({services.length})
+              </>
+            )}
           </button>
+
+          {/* JSON File Upload Button */}
+          <div>
+            <input 
+              ref={jsonInputRef}
+              type="file" 
+              accept=".json" 
+              className="d-none" 
+              onChange={handleJsonFileUpload} 
+            />
+            <button 
+              type="button" 
+              className="btn btn-dark btn-sm rounded-pill px-4 fw-bold shadow-sm d-flex align-items-center gap-2"
+              onClick={() => jsonInputRef.current?.click()}
+              disabled={importingJson}
+            >
+              <UploadCloud size={16} /> {importingJson ? 'Importing...' : 'Upload JSON'}
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Add / Edit Form */}
-      <form onSubmit={handleSubmit} className="row g-3 mb-4 bg-light p-3 p-md-4 rounded-4">
-        <div className="d-flex justify-content-between align-items-center">
-          <h6 className="fw-bold mb-0">{editId ? 'Edit Service' : 'Add New Service'}</h6>
-          {editId && (
-            <button type="button" className="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" onClick={handleCancel}>
-              <X size={14} /> Cancel
+      {/* Conditionally Render Form or Table */}
+      {!showList ? (
+        /* Add / Edit Form */
+        <form onSubmit={handleSubmit} className="row g-3 mb-4 bg-light p-3 p-md-4 rounded-4">
+          <div className="d-flex justify-content-between align-items-center">
+            <h6 className="fw-bold mb-0">{editId ? 'Edit Service' : 'Add New Service'}</h6>
+            <div className="d-flex gap-2">
+              <button type="button" className="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" onClick={() => setShowList(true)}>
+                <List size={14} /> View All Services
+              </button>
+              {editId && (
+                <button type="button" className="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" onClick={handleCancel}>
+                  <X size={14} /> Cancel
+                </button>
+              )}
+            </div>
+          </div>
+
+          <div className="col-12 col-md-6">
+            <label className="form-label small fw-bold">Service Title</label>
+            <input 
+              type="text" 
+              className="form-control rounded-pill px-3 small bg-white" 
+              placeholder="e.g. Engine Repair" 
+              value={title} 
+              onChange={(e) => setTitle(e.target.value)} 
+              required 
+            />
+          </div>
+
+          <div className="col-12 col-md-6">
+            <label className="form-label small fw-bold">Model / Category Focus</label>
+            <input 
+              type="text" 
+              className="form-control rounded-pill px-3 small bg-white" 
+              placeholder="e.g. All Models / G63" 
+              value={model} 
+              onChange={(e) => setModel(e.target.value)} 
+              required 
+            />
+          </div>
+
+          <div className="col-12">
+            <label className="form-label small fw-bold">Upload Multiple Workshop Photos</label>
+            <input 
+              ref={fileInputRef} 
+              type="file" 
+              className="form-control rounded-pill px-3 small py-2 bg-white" 
+              accept="image/*" 
+              multiple 
+              onChange={handleMultipleImageUpload} 
+            />
+            {uploading && <div className="text-danger small mt-1">Uploading pictures...</div>}
+
+            {imageUrls.length > 0 && (
+              <div className="d-flex flex-wrap gap-2 mt-3">
+                {imageUrls.map((url, idx) => (
+                  <div key={idx} className="position-relative border rounded-3 p-1 bg-white shadow-sm" style={{ width: '60px', height: '60px' }}>
+                    <img src={url} alt="Preview" className="w-100 h-100 object-fit-cover rounded-2" />
+                    <button 
+                      type="button" 
+                      className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border-0 p-1"
+                      onClick={() => removeImage(idx)}
+                    >
+                      <X size={10} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="col-12">
+            <label className="form-label small fw-bold">Description</label>
+            <textarea 
+              className="form-control rounded-4 p-3 small bg-white" 
+              rows="3" 
+              placeholder="Write service specifications..." 
+              value={desc} 
+              onChange={(e) => setDesc(e.target.value)} 
+              required
+            ></textarea>
+          </div>
+
+          <div className="col-12 pt-2">
+            <button type="submit" className="btn btn-danger btn-sm rounded-pill px-4 fw-bold shadow-sm" disabled={loading || uploading}>
+              <Save size={15} /> {loading ? 'Processing...' : editId ? 'Update Service' : 'Add Service'}
             </button>
-          )}
-        </div>
+          </div>
+        </form>
+      ) : (
+        /* Services List View */
+        <div>
+          <div className="d-flex align-items-center justify-content-between mb-3">
+            <h5 className="fw-bold text-dark fs-6 mb-0">All Services ({services.length})</h5>
+            <button 
+              className="btn btn-danger btn-sm rounded-pill px-3 fw-bold d-flex align-items-center gap-1"
+              onClick={() => {
+                handleCancel();
+                setShowList(false);
+              }}
+            >
+              <PlusCircle size={14} /> Add Service
+            </button>
+          </div>
 
-        <div className="col-12 col-md-6">
-          <label className="form-label small fw-bold">Service Title</label>
-          <input 
-            type="text" 
-            className="form-control rounded-pill px-3 small bg-white" 
-            placeholder="e.g. Engine Repair" 
-            value={title} 
-            onChange={(e) => setTitle(e.target.value)} 
-            required 
-          />
-        </div>
-
-        <div className="col-12 col-md-6">
-          <label className="form-label small fw-bold">Model / Category Focus</label>
-          <input 
-            type="text" 
-            className="form-control rounded-pill px-3 small bg-white" 
-            placeholder="e.g. All Models / G63" 
-            value={model} 
-            onChange={(e) => setModel(e.target.value)} 
-            required 
-          />
-        </div>
-
-        <div className="col-12">
-          <label className="form-label small fw-bold">Upload Multiple Workshop Photos</label>
-          <input 
-            ref={fileInputRef} 
-            type="file" 
-            className="form-control rounded-pill px-3 small py-2 bg-white" 
-            accept="image/*" 
-            multiple 
-            onChange={handleMultipleImageUpload} 
-          />
-          {uploading && <div className="text-danger small mt-1">Uploading pictures...</div>}
-
-          {imageUrls.length > 0 && (
-            <div className="d-flex flex-wrap gap-2 mt-3">
-              {imageUrls.map((url, idx) => (
-                <div key={idx} className="position-relative border rounded-3 p-1 bg-white shadow-sm" style={{ width: '60px', height: '60px' }}>
-                  <img src={url} alt="Preview" className="w-100 h-100 object-fit-cover rounded-2" />
-                  <button 
-                    type="button" 
-                    className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border-0 p-1"
-                    onClick={() => removeImage(idx)}
-                  >
-                    <X size={10} />
-                  </button>
-                </div>
-              ))}
+          {services.length === 0 ? (
+            <div className="text-center py-4 text-muted small card border-0 bg-light rounded-4">
+              No services found. Click "Upload JSON" above or "Add Service" to create one.
+            </div>
+          ) : (
+            <div className="table-responsive">
+              <table className="table align-middle">
+                <thead className="table-light">
+                  <tr>
+                    <th>Photos</th>
+                    <th>Title</th>
+                    <th>Focus</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {services.map((item) => {
+                    const pics = item.imageUrls || (item.imageUrl ? [item.imageUrl] : []);
+                    return (
+                      <tr key={item.id}>
+                        <td>
+                          <div className="d-flex gap-1">
+                            {pics.length > 0 ? (
+                              pics.slice(0, 3).map((url, i) => (
+                                <img key={i} src={url} alt="" className="rounded-2 object-fit-cover shadow-sm" style={{ width: '35px', height: '35px' }} />
+                              ))
+                            ) : (
+                              <span className="text-muted small">No Img</span>
+                            )}
+                            {pics.length > 3 && <span className="small text-muted align-self-center">+{pics.length - 3}</span>}
+                          </div>
+                        </td>
+                        <td className="fw-bold text-dark">{item.title}</td>
+                        <td><span className="badge bg-danger bg-opacity-10 text-danger">{item.model || 'General'}</span></td>
+                        <td className="text-muted small text-truncate" style={{ maxWidth: '250px' }}>{item.desc}</td>
+                        <td>
+                          <div className="d-flex gap-2">
+                            <button className="btn btn-sm btn-outline-primary rounded-circle p-2" onClick={() => handleEdit(item)} title="Edit"><Edit size={14} /></button>
+                            <button className="btn btn-sm btn-outline-danger rounded-circle p-2" onClick={() => handleDelete(item.id)} title="Delete"><Trash2 size={14} /></button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
           )}
-        </div>
-
-        <div className="col-12">
-          <label className="form-label small fw-bold">Description</label>
-          <textarea 
-            className="form-control rounded-4 p-3 small bg-white" 
-            rows="3" 
-            placeholder="Write service specifications..." 
-            value={desc} 
-            onChange={(e) => setDesc(e.target.value)} 
-            required
-          ></textarea>
-        </div>
-
-        <div className="col-12 pt-2">
-          <button type="submit" className="btn btn-danger btn-sm rounded-pill px-4 fw-bold shadow-sm" disabled={loading || uploading}>
-            <Save size={15} /> {loading ? 'Processing...' : editId ? 'Update Service' : 'Add Service'}
-          </button>
-        </div>
-      </form>
-
-      <h5 className="fw-bold text-dark fs-6 mb-3">All Services ({services.length})</h5>
-
-      {services.length === 0 ? (
-        <div className="text-center py-4 text-muted small card border-0 bg-light rounded-4">No services found. Click "Upload Services JSON" above to import 30+ real services instantly.</div>
-      ) : (
-        <div className="table-responsive">
-          <table className="table align-middle">
-            <thead className="table-light">
-              <tr>
-                <th>Photos</th>
-                <th>Title</th>
-                <th>Focus</th>
-                <th>Description</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {services.map((item) => {
-                const pics = item.imageUrls || (item.imageUrl ? [item.imageUrl] : []);
-                return (
-                  <tr key={item.id}>
-                    <td>
-                      <div className="d-flex gap-1">
-                        {pics.length > 0 ? (
-                          pics.slice(0, 3).map((url, i) => (
-                            <img key={i} src={url} alt="" className="rounded-2 object-fit-cover shadow-sm" style={{ width: '35px', height: '35px' }} />
-                          ))
-                        ) : (
-                          <span className="text-muted small">No Img</span>
-                        )}
-                        {pics.length > 3 && <span className="small text-muted align-self-center">+{pics.length - 3}</span>}
-                      </div>
-                    </td>
-                    <td className="fw-bold text-dark">{item.title}</td>
-                    <td><span className="badge bg-danger bg-opacity-10 text-danger">{item.model || 'General'}</span></td>
-                    <td className="text-muted small text-truncate" style={{ maxWidth: '250px' }}>{item.desc}</td>
-                    <td>
-                      <div className="d-flex gap-2">
-                        <button className="btn btn-sm btn-outline-primary rounded-circle p-2" onClick={() => handleEdit(item)} title="Edit"><Edit size={14} /></button>
-                        <button className="btn btn-sm btn-outline-danger rounded-circle p-2" onClick={() => handleDelete(item.id)} title="Delete"><Trash2 size={14} /></button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
         </div>
       )}
     </div>

@@ -12,7 +12,7 @@ export default function ProfileManager() {
   const [loading, setLoading] = useState(false);
   const [uploadingPic, setUploadingPic] = useState(false);
   const [fetching, setFetching] = useState(true);
-  const [isEditing, setIsEditing] = useState(false); // Toggle for edit mode
+  const [isEditing, setIsEditing] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const fileInputRef = useRef(null);
@@ -129,7 +129,7 @@ export default function ProfileManager() {
             className="btn btn-outline-danger btn-sm rounded-pill px-3 fw-bold d-flex align-items-center gap-1 shadow-sm"
             onClick={() => setIsEditing(true)}
           >
-            <Edit3 size={15} /> Edit Profile
+            <Edit3 size={15} /> Edit
           </button>
         ) : (
           <button 
