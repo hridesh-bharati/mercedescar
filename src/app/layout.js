@@ -5,8 +5,9 @@ import Script from 'next/script';
 import './globals.css';
 import CursorFollower from '@/components/layout/CursorFollower'; 
 import AOSInitializer from '@/components/layout/AOSInitializer'; 
+import PreLoader from '@/components/layout/PreLoader';
 
-// STEP 1: Enhanced Dynamic Metadata & Open Graph Tags for Top SEO Ranking
+// Enhanced Dynamic Metadata & Open Graph Tags for Top SEO Ranking
 export const metadata = {
   title: 'Mercedes Garage Dubai | Luxury Car Repair & Maintenance',
   description: 'Expert luxury car service, repair, diagnostics, and maintenance in Al Quoz, Dubai. Certified mechanics and genuine parts.',
@@ -36,7 +37,7 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  // STEP 4: JSON-LD Structured Data (Local Business Schema Markup for Google)
+  // JSON-LD Structured Data (Local Business Schema Markup for Google)
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "AutoRepair",
@@ -81,13 +82,16 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         
-        {/* STEP 4: Injecting JSON-LD Schema Script */}
+        {/* Injecting JSON-LD Schema Script */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
       <body suppressHydrationWarning={true}>
+        {/* Logo Animation Pre-loader */}
+        <PreLoader />
+
         {/* Global AOS Runner */}
         <AOSInitializer />
         

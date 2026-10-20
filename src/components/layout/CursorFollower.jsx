@@ -22,7 +22,7 @@ export default function CursorFollower() {
     let ringY = -100;
     let rafId;
 
-    // Initial off-screen position (prevents flash at top-left)
+    // Initial off-screen position
     dot.style.transform = `translate(-100px, -100px)`;
     ring.style.transform = `translate(-100px, -100px)`;
 
@@ -34,10 +34,10 @@ export default function CursorFollower() {
       dot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
     };
 
-    // Smooth trailing ring
+    // Ultra-smooth lightweight trailing ring using lerp
     const animate = () => {
-      ringX += (mouseX - ringX) * 0.18;
-      ringY += (mouseY - ringY) * 0.18;
+      ringX += (mouseX - ringX) * 0.25; // Slightly faster and snappier
+      ringY += (mouseY - ringY) * 0.25;
       ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
       rafId = requestAnimationFrame(animate);
     };
@@ -46,7 +46,6 @@ export default function CursorFollower() {
     const onEnter = () => document.body.classList.remove('cursor-hidden');
     const onLeave = () => document.body.classList.add('cursor-hidden');
 
-    // Hover detection — broad selector
     const hoverSelector = [
       'a',
       'button',
@@ -66,8 +65,8 @@ export default function CursorFollower() {
       document.body.classList.toggle('cursor-hover', !!el);
     };
 
-    window.addEventListener('mousemove', onMove);
-    document.addEventListener('mouseover', onOver);
+    window.addEventListener('mousemove', onMove, { passive: true });
+    document.addEventListener('mouseover', onOver, { passive: true });
     document.addEventListener('mouseleave', onLeave);
     document.addEventListener('mouseenter', onEnter);
 
@@ -82,8 +81,18 @@ export default function CursorFollower() {
 
   return (
     <>
-      <div ref={dotRef} className="cursor-dot" aria-hidden="true" />
-      <div ref={ringRef} className="cursor-ring" aria-hidden="true" />
+      <div 
+        ref={dotRef} 
+        className="cursor-dot" 
+        aria-hidden="true" 
+        style={{ zIndex: 999999, willChange: 'transform', pointerEvents: 'none', position: 'fixed', top: 0, left: 0 }} 
+      />
+      <div 
+        ref={ringRef} 
+        className="cursor-ring" 
+        aria-hidden="true" 
+        style={{ zIndex: 999999, willChange: 'transform', pointerEvents: 'none', position: 'fixed', top: 0, left: 0 }} 
+      />
     </>
   );
 }
