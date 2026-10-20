@@ -4,7 +4,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { dbService } from '@/services/dbService';
 import { uploadToCloudinary } from '@/lib/cloudinary';
-import { Trash2, Edit, Wrench, X, Camera } from 'lucide-react';
+import { Trash2, Edit, Wrench, X, UploadCloud, Save } from 'lucide-react';
 
 export default function ServicesManager() {
   const [services, setServices] = useState([]);
@@ -14,8 +14,10 @@ export default function ServicesManager() {
   const [imageUrls, setImageUrls] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [importingJson, setImportingJson] = useState(false);
   const [editId, setEditId] = useState(null);
   const fileInputRef = useRef(null);
+  const jsonInputRef = useRef(null);
 
   useEffect(() => {
     loadServices();
@@ -24,6 +26,50 @@ export default function ServicesManager() {
   const loadServices = async () => {
     const res = await dbService.getAll('services');
     if (res.success) setServices(res.data);
+  };
+
+  // Bulk Import Services via JSON file upload
+  const handleJsonFileUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      try {
+        const jsonData = JSON.parse(event.target.result);
+        if (!Array.isArray(jsonData)) {
+          alert("Invalid JSON format. Expected an array of services.");
+          return;
+        }
+
+        if (!confirm(`Are you sure you want to import ${jsonData.length} services into the database?`)) return;
+
+        setImportingJson(true);
+        let successCount = 0;
+
+        for (const item of jsonData) {
+          const payload = {
+            title: item.title || 'Mercedes Repair Service',
+            model: item.model || 'All Models',
+            desc: item.desc || item.description || 'Professional Mercedes-Benz workshop services in Dubai.',
+            imageUrls: item.imageUrls || (item.imageUrl ? [item.imageUrl] : []),
+            imageUrl: item.imageUrl || (item.imageUrls?.[0] || '')
+          };
+
+          const res = await dbService.create('services', payload);
+          if (res.success) successCount++;
+        }
+
+        alert(`Successfully imported ${successCount} services!`);
+        setImportingJson(false);
+        loadServices();
+        if (jsonInputRef.current) jsonInputRef.current.value = '';
+      } catch (err) {
+        alert("Failed to parse JSON file: " + err.message);
+        setImportingJson(false);
+      }
+    };
+    reader.readAsText(file);
   };
 
   const handleMultipleImageUpload = async (e) => {
@@ -37,8 +83,6 @@ export default function ServicesManager() {
       const uploadRes = await uploadToCloudinary(file);
       if (uploadRes.success) {
         uploadedLinks.push(uploadRes.url);
-      } else {
-        alert("Image upload failed: " + uploadRes.error);
       }
     }
 
@@ -60,7 +104,7 @@ export default function ServicesManager() {
       model,
       desc, 
       imageUrls,
-      imageUrl: imageUrls[0] || '' // Primary fallback image
+      imageUrl: imageUrls[0] || '' 
     };
 
     if (editId) {
@@ -111,9 +155,30 @@ export default function ServicesManager() {
 
   return (
     <div className="card border-0 shadow-sm rounded-4 p-3 p-md-4 bg-white text-start">
-      <div className="d-flex align-items-center gap-2 mb-4">
-        <Wrench size={22} className="text-danger flex-shrink-0" />
-        <h4 className="fw-bold text-dark mb-0 fs-5">Manage Pro Services & Gallery</h4>
+      <div className="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
+        <div className="d-flex align-items-center gap-2">
+          <Wrench size={22} className="text-danger flex-shrink-0" />
+          <h4 className="fw-bold text-dark mb-0 fs-5">Manage Car Services & Gallery</h4>
+        </div>
+
+        {/* JSON File Upload Button */}
+        <div>
+          <input 
+            ref={jsonInputRef}
+            type="file" 
+            accept=".json" 
+            className="d-none" 
+            onChange={handleJsonFileUpload} 
+          />
+          <button 
+            type="button" 
+            className="btn btn-dark btn-sm rounded-pill px-4 fw-bold shadow-sm d-flex align-items-center gap-2"
+            onClick={() => jsonInputRef.current?.click()}
+            disabled={importingJson}
+          >
+            <UploadCloud size={16} /> {importingJson ? 'Importing Services...' : 'Upload Services JSON'}
+          </button>
+        </div>
       </div>
 
       {/* Add / Edit Form */}
@@ -128,7 +193,7 @@ export default function ServicesManager() {
         </div>
 
         <div className="col-12 col-md-6">
-          <label className="form-label small fw-bold">Service Title (e.g. Mercedes Engine Repair)</label>
+          <label className="form-label small fw-bold">Service Title</label>
           <input 
             type="text" 
             className="form-control rounded-pill px-3 small bg-white" 
@@ -140,11 +205,11 @@ export default function ServicesManager() {
         </div>
 
         <div className="col-12 col-md-6">
-          <label className="form-label small fw-bold">Category / Model Focus</label>
+          <label className="form-label small fw-bold">Model / Category Focus</label>
           <input 
             type="text" 
             className="form-control rounded-pill px-3 small bg-white" 
-            placeholder="e.g. All Models / G-Class / AMG" 
+            placeholder="e.g. All Models / G63" 
             value={model} 
             onChange={(e) => setModel(e.target.value)} 
             required 
@@ -152,7 +217,7 @@ export default function ServicesManager() {
         </div>
 
         <div className="col-12">
-          <label className="form-label small fw-bold">Upload Multiple Workshop Photos (Gallery for this service)</label>
+          <label className="form-label small fw-bold">Upload Multiple Workshop Photos</label>
           <input 
             ref={fileInputRef} 
             type="file" 
@@ -161,19 +226,17 @@ export default function ServicesManager() {
             multiple 
             onChange={handleMultipleImageUpload} 
           />
-          {uploading && <div className="text-danger small mt-1">Uploading pictures to Cloudinary...</div>}
+          {uploading && <div className="text-danger small mt-1">Uploading pictures...</div>}
 
-          {/* Previews */}
           {imageUrls.length > 0 && (
             <div className="d-flex flex-wrap gap-2 mt-3">
               {imageUrls.map((url, idx) => (
-                <div key={idx} className="position-relative border rounded-3 p-1 bg-white shadow-sm" style={{ width: '65px', height: '65px' }}>
+                <div key={idx} className="position-relative border rounded-3 p-1 bg-white shadow-sm" style={{ width: '60px', height: '60px' }}>
                   <img src={url} alt="Preview" className="w-100 h-100 object-fit-cover rounded-2" />
                   <button 
                     type="button" 
                     className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border-0 p-1"
                     onClick={() => removeImage(idx)}
-                    title="Remove image"
                   >
                     <X size={10} />
                   </button>
@@ -188,16 +251,16 @@ export default function ServicesManager() {
           <textarea 
             className="form-control rounded-4 p-3 small bg-white" 
             rows="3" 
-            placeholder="Write detailed service specifications..." 
+            placeholder="Write service specifications..." 
             value={desc} 
             onChange={(e) => setDesc(e.target.value)} 
             required
           ></textarea>
         </div>
 
-        <div className="col-12 d-flex flex-wrap gap-2 pt-2">
+        <div className="col-12 pt-2">
           <button type="submit" className="btn btn-danger btn-sm rounded-pill px-4 fw-bold shadow-sm" disabled={loading || uploading}>
-            {loading ? 'Processing...' : editId ? 'Update Service' : 'Add Service'}
+            <Save size={15} /> {loading ? 'Processing...' : editId ? 'Update Service' : 'Add Service'}
           </button>
         </div>
       </form>
@@ -205,7 +268,7 @@ export default function ServicesManager() {
       <h5 className="fw-bold text-dark fs-6 mb-3">All Services ({services.length})</h5>
 
       {services.length === 0 ? (
-        <div className="text-center py-4 text-muted small card border-0 bg-light rounded-4">No services found.</div>
+        <div className="text-center py-4 text-muted small card border-0 bg-light rounded-4">No services found. Click "Upload Services JSON" above to import 30+ real services instantly.</div>
       ) : (
         <div className="table-responsive">
           <table className="table align-middle">
