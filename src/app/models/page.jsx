@@ -1,6 +1,6 @@
 'use client';
 // src/app/models/page.jsx
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { dbService } from '@/services/dbService';
 import { Search, Car, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
@@ -8,18 +8,17 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import AOS from 'aos';
 
-// Skeleton Card Component for Loading State
+// Skeleton Card Component with Glassmorphism
 const SkeletonCard = () => (
   <div className="col-12 col-md-6 col-lg-4">
-    <div className="card border-0 shadow-sm rounded-4 h-100 bg-white overflow-hidden placeholder-glow">
-      <div className="bg-light placeholder" style={{ height: '230px' }}></div>
-      <div className="card-body p-4">
+    <div className="glass-card border-0 h-100 overflow-hidden placeholder-glow p-3">
+      <div className="bg-white placeholder rounded-4 mb-3" style={{ height: '210px' }}></div>
+      <div className="card-body p-2">
         <h4 className="placeholder col-6 mb-3 rounded"></h4>
         <p className="placeholder col-12 mb-2 rounded"></p>
-        <p className="placeholder col-10 mb-2 rounded"></p>
-        <p className="placeholder col-8 mb-4 rounded"></p>
-        <div className="pt-3 border-top">
-          <span className="placeholder col-4 py-2 rounded-pill"></span>
+        <p className="placeholder col-10 mb-3 rounded"></p>
+        <div className="pt-3 border-top border-white">
+          <span className="placeholder col-5 py-2 rounded-pill"></span>
         </div>
       </div>
     </div>
@@ -33,7 +32,6 @@ export default function CarModelsCatalog() {
   const [visibleCount, setVisibleCount] = useState(12);
   const [imageErrors, setImageErrors] = useState({});
 
-  // Infinite Scroll Observer Ref
   const observerTarget = useRef(null);
 
   useEffect(() => {
@@ -43,12 +41,11 @@ export default function CarModelsCatalog() {
         setModels(res.data);
       }
       setLoading(false);
-      AOS.refresh(); // Refresh AOS after data loads
+      AOS.refresh();
     }
     fetchModels();
   }, []);
 
-  // Filter models based on live search query
   const filteredModels = models.filter((item) => 
     item.modelName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
     item.maker?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -57,7 +54,6 @@ export default function CarModelsCatalog() {
 
   const displayedModels = filteredModels.slice(0, visibleCount);
 
-  // Infinite Scroll Logic using Intersection Observer
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -65,7 +61,7 @@ export default function CarModelsCatalog() {
           setVisibleCount((prev) => prev + 12);
         }
       },
-      { threshold: 0.5 } // Trigger when 50% of the element is visible
+      { threshold: 0.5 }
     );
 
     if (observerTarget.current) {
@@ -77,11 +73,11 @@ export default function CarModelsCatalog() {
     };
   }, [visibleCount, filteredModels.length]);
 
-  // Refresh AOS when visibleCount increases so new cards animate
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       AOS.refresh();
     }, 200);
+    return () => clearTimeout(timer);
   }, [visibleCount]);
 
   const handleImageError = (id) => {
@@ -91,8 +87,15 @@ export default function CarModelsCatalog() {
   return (
     <>
       <Header />
-      <main className="bg-light py-5 min-vh-100">
-        <div className="container">
+      
+      {/* Main Section with Colorful Gradient & Glow Effects */}
+      <main className="contact-main position-relative py-5 min-vh-100">
+        
+        {/* Ambient Background Colorful Glows */}
+        <div className="contact-glow contact-glow-blue"></div>
+        <div className="contact-glow contact-glow-pink"></div>
+
+        <div className="container position-relative" style={{ zIndex: 2 }}>
           
           {/* Header & Search Section */}
           <div className="text-center mb-5" data-aos="fade-down" data-aos-duration="800">
@@ -101,18 +104,19 @@ export default function CarModelsCatalog() {
             
             <div className="row justify-content-center mt-4">
               <div className="col-12 col-md-6">
-                <div className="input-group shadow-sm rounded-pill overflow-hidden border bg-white">
-                  <span className="input-group-text bg-white border-0 ps-4">
+                {/* Search input with Glassmorphism */}
+                <div className="input-group glass-card overflow-hidden p-1 shadow-sm">
+                  <span className="input-group-text bg-transparent border-0 ps-3">
                     <Search size={18} className="text-muted" />
                   </span>
                   <input 
                     type="text" 
-                    className="form-control border-0 py-3 small shadow-none bg-transparent text-dark" 
+                    className="form-control border-0 py-2 small shadow-none bg-transparent text-dark" 
                     placeholder="Search model (e.g. G63, S500, GLC)..."
                     value={searchQuery}
                     onChange={(e) => {
                       setSearchQuery(e.target.value);
-                      setVisibleCount(12); // Reset count on search
+                      setVisibleCount(12);
                     }}
                   />
                 </div>
@@ -122,15 +126,13 @@ export default function CarModelsCatalog() {
 
           {/* Grid Display */}
           {loading ? (
-            // Skeleton Loading State
             <div className="row g-4">
               {[...Array(6)].map((_, index) => (
                 <SkeletonCard key={index} />
               ))}
             </div>
           ) : filteredModels.length === 0 ? (
-            // No Results State
-            <div className="text-center py-5 card border-0 shadow-sm rounded-4 p-5 bg-white" data-aos="fade-up">
+            <div className="text-center py-5 glass-card border-0 p-5 mx-auto col-12 col-md-8 shadow-sm" data-aos="fade-up">
               <Car size={40} className="text-secondary opacity-50 mb-3 mx-auto" />
               <h6 className="fw-bold text-dark">No car models found</h6>
               <p className="small text-muted mb-0">Try searching with a different keyword or add models from admin panel.</p>
@@ -143,12 +145,13 @@ export default function CarModelsCatalog() {
 
                   return (
                     <div className="col-12 col-md-6 col-lg-4" key={item.id} data-aos="fade-up" data-aos-delay={(index % 3) * 100}>
-                      <div className="card border-0 shadow-sm rounded-4 h-100 bg-white overflow-hidden d-flex flex-column model-card">
+                      {/* Glass Card with 3D Effect */}
+                      <div className="glass-card h-100 d-flex flex-column overflow-hidden p-3">
                         
                         {/* Image Container */}
-                        <div className="position-relative p-2" style={{ height: '230px' }}>
+                        <div className="position-relative" style={{ height: '220px' }}>
                           {hasImage ? (
-                            <div className="w-100 h-100 rounded-3 overflow-hidden bg-light border">
+                            <div className="w-100 h-100 rounded-4 overflow-hidden bg-white border border-white">
                               <img 
                                 src={item.imageUrl} 
                                 alt={item.modelName} 
@@ -158,7 +161,7 @@ export default function CarModelsCatalog() {
                               />
                             </div>
                           ) : (
-                            <div className="w-100 h-100 rounded-3 bg-light border d-flex align-items-center justify-content-center text-muted">
+                            <div className="w-100 h-100 rounded-4 bg-white border border-white d-flex align-items-center justify-content-center text-muted">
                               <Car size={48} className="opacity-25 text-danger" />
                             </div>
                           )}
@@ -167,7 +170,8 @@ export default function CarModelsCatalog() {
                           </span>
                         </div>
 
-                        <div className="card-body p-4 d-flex flex-column justify-content-between">
+                        {/* Card Content */}
+                        <div className="card-body p-3 d-flex flex-column justify-content-between flex-grow-1">
                           <div>
                             <h4 className="fw-bold text-dark fs-5 mb-2">{item.modelName}</h4>
                             <p className="text-muted small mb-3 text-truncate-3" style={{ lineHeight: '1.6' }}>
@@ -175,22 +179,22 @@ export default function CarModelsCatalog() {
                             </p>
                           </div>
                           
-                          <div className="pt-3 border-top mt-auto">
+                          <div className="pt-3 border-top border-white mt-auto">
                             <Link href="/contact-us" className="btn btn-outline-danger btn-sm rounded-pill px-3 fw-bold d-inline-flex align-items-center gap-1 shadow-none">
                               Inquire Service <ArrowRight size={14} />
                             </Link>
                           </div>
                         </div>
+
                       </div>
                     </div>
                   );
                 })}
               </div>
 
-              {/* Infinite Scroll Trigger Element (Absorption Target) */}
+              {/* Infinite Scroll Trigger Element */}
               {visibleCount < filteredModels.length && (
                 <div ref={observerTarget} className="text-center mt-5 py-3">
-                  {/* Optional: You can add a small loader here to show it's fetching next items */}
                   <div className="spinner-border spinner-border-sm text-danger" role="status">
                     <span className="visually-hidden">Loading more...</span>
                   </div>
@@ -201,19 +205,60 @@ export default function CarModelsCatalog() {
           )}
         </div>
       </main>
+
       <Footer />
 
+      {/* Fully Combined Custom Glassmorphism Styles */}
       <style jsx global>{`
-        /* Card Hover Effect */
-        .model-card {
-          transition: transform 0.25s ease, box-shadow 0.25s ease;
-        }
-        .model-card:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 12px 30px rgba(0,0,0,0.1) !important;
+        .contact-main {
+          background: linear-gradient(135deg, #e8f0fe 0%, #fae8e0 50%, #f3e8ff 100%);
+          overflow-x: hidden;
+          position: relative;
         }
 
-        /* Text truncate */
+        /* Enhanced 3D Glass Card Styling */
+        .glass-card {
+          background: rgba(255, 255, 255, 0.72) !important;
+          backdrop-filter: blur(25px) saturate(200%);
+          -webkit-backdrop-filter: blur(25px) saturate(200%);
+          border: 1px solid rgba(255, 255, 255, 0.9) !important;
+          border-radius: 20px;
+          box-shadow: 0 20px 40px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 1);
+          transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .glass-card:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 25px 50px rgba(31, 38, 135, 0.14), inset 0 1px 0 rgba(255, 255, 255, 1);
+        }
+
+        /* Ambient Background Glows */
+        .contact-glow {
+          position: absolute;
+          border-radius: 50%;
+          filter: blur(120px);
+          opacity: 0.6;
+          z-index: 0;
+          pointer-events: none;
+        }
+
+        .contact-glow-blue {
+          width: 450px;
+          height: 450px;
+          background: #60a5fa;
+          top: 10%;
+          left: -100px;
+        }
+
+        .contact-glow-pink {
+          width: 450px;
+          height: 450px;
+          background: #f472b6;
+          bottom: 10%;
+          right: -100px;
+        }
+
+        /* Text Truncate Helper */
         .text-truncate-3 {
           display: -webkit-box;
           -webkit-line-clamp: 3;
