@@ -116,7 +116,6 @@ export default function AdminPanel() {
 
   const currentDate = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 
-  // Ultra-Modern Blue Glass Style
   const glassStyle = {
     background: 'rgba(255, 255, 255, 0.45)',
     backdropFilter: 'blur(24px)',
@@ -127,12 +126,10 @@ export default function AdminPanel() {
 
   return (
     <div className="container-fluid min-vh-100 py-4 position-relative overflow-hidden" style={{ 
-      // Modern Frosted Blue Background
       background: 'linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 50%, #e0c3fc 100%)', 
       fontFamily: "'Inter', sans-serif"
     }}>
       
-      {/* Frosted Background Highlights */}
       <div className="position-absolute rounded-circle" style={{ top: '-15%', left: '-10%', width: '600px', height: '600px', background: 'rgba(255, 255, 255, 0.4)', filter: 'blur(100px)', zIndex: 0 }}></div>
       <div className="position-absolute rounded-circle" style={{ bottom: '-15%', right: '-10%', width: '500px', height: '500px', background: 'rgba(142, 197, 252, 0.5)', filter: 'blur(100px)', zIndex: 0 }}></div>
 
@@ -160,7 +157,7 @@ export default function AdminPanel() {
           </div>
         </div>
 
-        {/* --- SLIM & SMOOTH MOBILE SIDEBAR DRAWER --- */}
+        {/* --- MOBILE SIDEBAR DRAWER (70vw) --- */}
         <div 
           className="d-lg-none position-fixed top-0 start-0 w-100 h-100"
           style={{ 
@@ -177,7 +174,7 @@ export default function AdminPanel() {
         <div 
           className="d-lg-none position-fixed top-0 end-0 h-100 d-flex flex-column"
           style={{ 
-            width: '65vw',
+            width: '70vw', // Updated to 70vw as requested
             zIndex: 1050,
             background: 'rgba(255, 255, 255, 0.65)',
             backdropFilter: 'blur(30px)',
@@ -288,22 +285,23 @@ export default function AdminPanel() {
           {/* Main Content Area */}
           <div className="col-lg-9 col-xl-10">
             
-            {/* Top Banner */}
-            <div className="p-4 text-white mb-4 position-relative overflow-hidden" style={{ 
+            {/* Top Banner (Updated to be Slim & Inline on Mobile) */}
+            <div className="p-3 px-md-4 text-white mb-4 position-relative overflow-hidden" style={{ 
               background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
               borderRadius: '30px',
               boxShadow: '0 10px 30px rgba(118, 75, 162, 0.3)'
             }}>
-              <div className="d-flex justify-content-between align-items-center flex-wrap gap-3 position-relative" style={{ zIndex: 1 }}>
+              <div className="d-flex justify-content-between align-items-center flex-row flex-nowrap gap-2 position-relative" style={{ zIndex: 1 }}>
                 <div>
-                  <div className="d-flex align-items-center gap-2 mb-1">
-                    <Activity size={24} className="text-warning" />
-                    <h3 className="fw-bold mb-0">Admin Dashboard</h3>
+                  <div className="d-flex align-items-center gap-2 mb-0 mb-md-1">
+                    <Activity size={18} className="text-warning  " />
+                    <h4 className="fw-bold mb-0 fs-6 fs-md-4">Admin Dashboard</h4>
                   </div>
-                  <span className="text-white-50 small">Manage your platform modules • {currentDate}</span>
+                  <span className="text-white-50   small">Manage your platform modules • {currentDate}</span>
                 </div>
-                <span className="badge px-3 py-2 rounded-pill fw-bold shadow-sm d-flex align-items-center gap-2" style={{ background: 'rgba(255, 255, 255, 0.2)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.3)' }}>
-                  <span className="spinner-grow spinner-grow-sm text-success" role="status"></span> SYSTEM LIVE
+                {/* Slim Inline System Live Badge */}
+                <span className="badge px-2 py-1 px-md-3 py-md-2 rounded-pill fw-bold shadow-sm d-flex align-items-center gap-1 gap-md-2" style={{ background: 'rgba(255, 255, 255, 0.2)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.3)', fontSize: '0.65rem' }}>
+                  <span className="spinner-grow spinner-grow-sm text-success" role="status" style={{ width: '8px', height: '8px' }}></span> SYSTEM LIVE
                 </span>
               </div>
             </div>
@@ -313,20 +311,28 @@ export default function AdminPanel() {
               <div>
                 <div className="row g-3 mb-4">
                   {[
-                    { label: 'Services', count: stats.services, icon: Wrench, gradient: 'linear-gradient(135deg, #6610f2 0%, #8540f5 100%)', textColor: 'text-white' },
-                    { label: 'Car Models', count: stats.car_models, icon: Car, gradient: 'linear-gradient(135deg, #ff5722 0%, #ff7043 100%)', textColor: 'text-white' },
-                    { label: 'Blogs', count: stats.blogs, icon: FileText, gradient: 'linear-gradient(135deg, #0d6efd 0%, #3d8bfd 100%)', textColor: 'text-white' },
-                    { label: 'Comments', count: stats.comments, icon: MessageSquare, gradient: 'linear-gradient(135deg, #198754 0%, #20c997 100%)', textColor: 'text-white' },
-                    { label: 'Inbox', count: stats.inbox, icon: Inbox, gradient: 'linear-gradient(135deg, #ffc107 0%, #ffca2c 100%)', textColor: 'text-dark' },
-                    { label: 'Gallery', count: stats.gallery, icon: ImageIcon, gradient: 'linear-gradient(135deg, #d63384 0%, #e83e8c 100%)', textColor: 'text-white' }
+                    { label: 'Services', count: stats.services, icon: Wrench, gradient: 'linear-gradient(135deg, #6610f2 0%, #8540f5 100%)', textColor: 'text-white', targetTab: 'services' },
+                    { label: 'Car Models', count: stats.car_models, icon: Car, gradient: 'linear-gradient(135deg, #ff5722 0%, #ff7043 100%)', textColor: 'text-white', targetTab: 'car-models' },
+                    { label: 'Blogs', count: stats.blogs, icon: FileText, gradient: 'linear-gradient(135deg, #0d6efd 0%, #3d8bfd 100%)', textColor: 'text-white', targetTab: 'blogs' },
+                    { label: 'Comments', count: stats.comments, icon: MessageSquare, gradient: 'linear-gradient(135deg, #198754 0%, #20c997 100%)', textColor: 'text-white', targetTab: 'comments' },
+                    { label: 'Inbox', count: stats.inbox, icon: Inbox, gradient: 'linear-gradient(135deg, #ffc107 0%, #ffca2c 100%)', textColor: 'text-dark', targetTab: 'inbox' },
+                    { label: 'Gallery', count: stats.gallery, icon: ImageIcon, gradient: 'linear-gradient(135deg, #d63384 0%, #e83e8c 100%)', textColor: 'text-white', targetTab: 'gallery' }
                   ].map((stat, idx) => (
                     <div className="col-6 col-md-4 col-lg-2" key={idx}>
-                      <div className="card border-0 shadow-sm p-3 h-100 position-relative overflow-hidden" style={{ 
-                        background: stat.gradient,
-                        transition: 'transform 0.2s',
-                        cursor: 'pointer',
-                        borderRadius: '24px'
-                      }} onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
+                      {/* Added onClick and role="button" to make it clickable */}
+                      <div 
+                        role="button"
+                        onClick={() => setActiveTab(stat.targetTab)}
+                        className="card border-0 shadow-sm p-3 h-100 position-relative overflow-hidden" 
+                        style={{ 
+                          background: stat.gradient,
+                          transition: 'transform 0.2s',
+                          cursor: 'pointer',
+                          borderRadius: '24px'
+                        }} 
+                        onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'} 
+                        onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+                      >
                         
                         <div className="position-absolute" style={{ right: '-15px', bottom: '-15px', opacity: 0.1, pointerEvents: 'none' }}>
                           <stat.icon size={90} className={stat.textColor} strokeWidth={1.5} />
