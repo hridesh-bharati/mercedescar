@@ -58,7 +58,6 @@ export default function AdminPanel() {
     }
 
     const res = await dbService.getDashboardStats();
-    // Also fetch car models count if needed
     const modelsRes = await dbService.getAll('car_models');
 
     if (res.success) {
@@ -74,266 +73,296 @@ export default function AdminPanel() {
     }
   };
 
-  if (loading) return <div className="text-center py-5 fw-bold text-danger">Loading Admin Dashboard...</div>;
+  if (loading) return (
+    <div className="d-flex justify-content-center align-items-center vh-100" style={{ background: 'linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%)' }}>
+      <div className="spinner-border text-primary" role="status" style={{ width: '3rem', height: '3rem' }}>
+        <span className="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  );
+  
   if (!isAdmin) return null;
 
   const menuItems = [
     { key: 'overview', label: 'Overview', icon: LayoutDashboard },
-    { key: 'services', label: 'Manage Services', icon: Wrench },
-    { key: 'car-models', label: 'Car Models DB', icon: Car }, 
-    { key: 'blogs', label: 'Manage Blogs', icon: FileText },
+    { key: 'services', label: 'Services', icon: Wrench },
+    { key: 'car-models', label: 'Car Models', icon: Car }, 
+    { key: 'blogs', label: 'Blogs', icon: FileText },
     { key: 'comments', label: 'Blog Comments', icon: MessageSquare },
-    { key: 'cases', label: 'Manage Cases', icon: Briefcase },
-    { key: 'gallery', label: 'Manage Gallery', icon: ImageIcon },
-    { key: 'inbox', label: 'Contact / Inbox', icon: Inbox },
-    { key: 'users', label: 'Users List', icon: Users },
-    { key: 'profile', label: 'Admin Profile', icon: UserCircle },
+    { key: 'cases', label: 'Cases', icon: Briefcase },
+    { key: 'gallery', label: 'Gallery', icon: ImageIcon },
+    { key: 'inbox', label: 'Inbox', icon: Inbox },
+    { key: 'users', label: 'Users', icon: Users },
+    { key: 'profile', label: 'Profile', icon: UserCircle },
   ];
 
   const chartData = [
-    { name: 'Services', count: stats.services, color: '#6610f2' },
-    { name: 'Models', count: stats.car_models, color: '#ff5722' },
-    { name: 'Blogs', count: stats.blogs, color: '#0d6efd' },
-    { name: 'Comments', count: stats.comments, color: '#198754' },
-    { name: 'Inbox', count: stats.inbox, color: '#ffc107' },
-    { name: 'Cases', count: stats.cases, color: '#0dcaf0' },
-    { name: 'Gallery', count: stats.gallery, color: '#d63384' },
+    { name: 'Services', count: stats.services, color: '#8b5cf6' },
+    { name: 'Models', count: stats.car_models, color: '#f97316' },
+    { name: 'Blogs', count: stats.blogs, color: '#3b82f6' },
+    { name: 'Comments', count: stats.comments, color: '#10b981' },
+    { name: 'Inbox', count: stats.inbox, color: '#eab308' },
+    { name: 'Cases', count: stats.cases, color: '#06b6d4' },
+    { name: 'Gallery', count: stats.gallery, color: '#ec4899' },
   ];
 
   const currentDate = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 
-  return (
-    <div className="container-fluid min-vh-100 py-4" style={{ background: '#f4f6f9' }}>
-      
-      {/* Mobile Top Navbar */}
-      <div className="d-lg-none border-0 shadow-sm rounded-4 p-3 bg-white mb-4 d-flex flex-row justify-content-between align-items-center">
-        <div className="d-flex align-items-center gap-2">
-          <div className="bg-primary text-white rounded-circle p-2 d-flex align-items-center justify-content-center shadow-sm">
-            <ShieldCheck size={20} />
-          </div>
-          <h5 className="fw-bold text-dark m-0">Admin <span className="text-primary">Panel</span></h5>
-        </div>
-        <div className="d-flex align-items-center gap-2">
-          <Link href="/" className="btn btn-dark btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center text-white" title="Go to Home">
-            <Home size={18} />
-          </Link>
-          <button 
-            className="btn btn-primary btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center text-white"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
-        </div>
-      </div>
+  // Common Glass Style Classes
+  const glassStyle = {
+    background: 'rgba(255, 255, 255, 0.65)',
+    backdropFilter: 'blur(16px)',
+    WebkitBackdropFilter: 'blur(16px)',
+    border: '1px solid rgba(255, 255, 255, 0.8)',
+    boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.07)'
+  };
 
-      {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="d-lg-none border-0 shadow-lg rounded-4 p-3 bg-white mb-4">
-          <div className="nav flex-column gap-2">
-            <Link href="/" className="btn btn-light text-secondary text-start d-flex align-items-center gap-2 rounded-pill px-3 py-2 fw-semibold text-decoration-none">
-              <Home size={18} /> Go to Home
+  return (
+    <div className="container-fluid min-vh-100 py-4 position-relative overflow-hidden" style={{ 
+      background: 'linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)', 
+      fontFamily: "'Inter', sans-serif"
+    }}>
+      
+      {/* Decorative Background Blobs */}
+      <div className="position-absolute rounded-circle" style={{ top: '-10%', left: '-5%', width: '400px', height: '400px', background: 'rgba(255, 154, 158, 0.4)', filter: 'blur(80px)', zIndex: 0 }}></div>
+      <div className="position-absolute rounded-circle" style={{ bottom: '-10%', right: '-5%', width: '500px', height: '500px', background: 'rgba(161, 196, 253, 0.4)', filter: 'blur(80px)', zIndex: 0 }}></div>
+
+      <div className="position-relative" style={{ zIndex: 1 }}>
+        
+        {/* Mobile Top Navbar */}
+        <div className="d-lg-none p-3 mb-4 d-flex flex-row justify-content-between align-items-center" style={{ ...glassStyle, borderRadius: '20px' }}>
+          <div className="d-flex align-items-center gap-2">
+            <div className="text-white rounded-circle p-2 d-flex align-items-center justify-content-center shadow-sm" style={{ background: 'linear-gradient(45deg, #667eea, #764ba2)' }}>
+              <ShieldCheck size={20} />
+            </div>
+            <h5 className="fw-bold text-dark m-0">Admin <span style={{ color: '#764ba2' }}>Panel</span></h5>
+          </div>
+          <div className="d-flex align-items-center gap-2">
+            <Link href="/" className="btn btn-light btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center shadow-sm border-0" title="Go to Home">
+              <Home size={18} className="text-primary" />
             </Link>
-            {menuItems.map((item) => {
-              const IconComponent = item.icon;
-              return (
-                <button 
-                  key={item.key}
-                  className={`btn text-start d-flex align-items-center gap-2 rounded-pill px-3 py-2 fw-semibold transition-all ${activeTab === item.key ? 'btn-primary text-white shadow' : 'btn-light text-secondary'}`}
-                  onClick={() => { setActiveTab(item.key); setMobileMenuOpen(false); }}
-                >
-                  <IconComponent size={18} /> {item.label}
-                </button>
-              );
-            })}
             <button 
-              onClick={async () => { await authService.logout(); router.push('/auth/login'); }}
-              className="btn btn-outline-danger rounded-pill fw-bold py-2 mt-2 d-flex align-items-center justify-content-center gap-2"
+              className="btn text-white btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center shadow-sm border-0"
+              style={{ background: 'linear-gradient(45deg, #ff9a9e, #fecfef)' }}
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
-              <LogOut size={16} /> Logout
+              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
-      )}
 
-      <div className="row g-4">
-        
-        {/* Pro Desktop Sidebar */}
-        <div className="col-lg-3 col-xl-2 d-none d-lg-block">
-          <div className="border-0 shadow-sm rounded-4 p-3 bg-white sticky-top d-flex flex-column justify-content-between" style={{ top: '20px', minHeight: '91vh' }}>
-            <div>
-              <div className="d-flex align-items-center gap-2 px-2 mb-4 pt-2">
-                <div className="bg-primary text-white rounded-3 p-2 shadow-sm">
-                  <ShieldCheck size={22} />
-                </div>
-                <div>
-                  <h6 className="fw-bold text-dark m-0 lh-1">Admin</h6>
-                  <span className="text-primary small fw-bold" style={{ fontSize: '0.7rem' }}>CONSOLE</span>
-                </div>
-              </div>
-              
-              <div className="nav flex-column gap-1 mb-3">
-                <Link href="/" className="btn btn-dark text-start d-flex align-items-center gap-2 rounded-pill px-3 py-2 fw-semibold text-decoration-none shadow-sm mb-3">
-                  <Home size={16} /> Go to Home
-                </Link>
-                
-                <span className="text-muted fw-bold px-3 mb-2" style={{ fontSize: '0.65rem', letterSpacing: '1px' }}>NAVIGATION</span>
-
-                {menuItems.map((item) => {
-                  const IconComponent = item.icon;
-                  const isActive = activeTab === item.key;
-                  return (
-                    <button 
-                      key={item.key}
-                      className={`btn text-start d-flex align-items-center gap-2 rounded-pill px-3 py-2 fw-semibold transition-all ${isActive ? 'btn-primary text-white shadow-sm' : 'btn-light text-secondary bg-transparent border-0'}`}
-                      onClick={() => setActiveTab(item.key)}
-                    >
-                      <IconComponent size={16} className={isActive ? 'text-white' : 'text-muted'} /> 
-                      <span className="small">{item.label}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div>
-              <hr className="text-muted opacity-25 my-3" />
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="d-lg-none p-3 mb-4" style={{ ...glassStyle, borderRadius: '20px' }}>
+            <div className="nav flex-column gap-2">
+              <Link href="/" className="btn btn-light text-start d-flex align-items-center gap-2 rounded-pill px-3 py-2 fw-semibold text-decoration-none shadow-sm border-0">
+                <Home size={18} className="text-primary" /> Go to Home
+              </Link>
+              {menuItems.map((item) => {
+                const IconComponent = item.icon;
+                const isActive = activeTab === item.key;
+                return (
+                  <button 
+                    key={item.key}
+                    className={`btn text-start d-flex align-items-center gap-2 rounded-pill px-3 py-2 fw-semibold transition-all border-0 ${isActive ? 'text-white shadow' : 'text-secondary bg-white bg-opacity-50'}`}
+                    style={isActive ? { background: 'linear-gradient(45deg, #667eea, #764ba2)' } : {}}
+                    onClick={() => { setActiveTab(item.key); setMobileMenuOpen(false); }}
+                  >
+                    <IconComponent size={18} /> {item.label}
+                  </button>
+                );
+              })}
               <button 
                 onClick={async () => { await authService.logout(); router.push('/auth/login'); }}
-                className="btn btn-outline-danger w-100 rounded-pill fw-bold py-2 d-flex align-items-center justify-content-center gap-2 shadow-sm small"
+                className="btn btn-outline-danger rounded-pill fw-bold py-2 mt-2 d-flex align-items-center justify-content-center gap-2 bg-white bg-opacity-50"
               >
-                <LogOut size={15} /> Logout
+                <LogOut size={16} /> Logout
               </button>
             </div>
           </div>
-        </div>
+        )}
 
-        {/* Main Content Area */}
-        <div className="col-lg-9 col-xl-10">
+        <div className="row g-4">
           
-          {/* Pro Top Banner */}
-          <div className="border-0 shadow rounded-4 p-4 text-white mb-4 position-relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #6f42c1 0%, #4e73df 100%)' }}>
-            <div className="d-flex justify-content-between align-items-center flex-wrap gap-3">
+          {/* Pro Desktop Sidebar */}
+          <div className="col-lg-3 col-xl-2 d-none d-lg-block">
+            <div className="p-3 sticky-top d-flex flex-column justify-content-between" style={{ ...glassStyle, top: '20px', minHeight: '91vh', borderRadius: '24px' }}>
               <div>
-                <div className="d-flex align-items-center gap-2 mb-1">
-                  <Activity size={24} className="text-warning" />
-                  <h3 className="fw-bold mb-0">Admin Dashboard</h3>
+                <div className="d-flex align-items-center gap-2 px-2 mb-4 pt-2">
+                  <div className="text-white rounded-3 p-2 shadow-sm" style={{ background: 'linear-gradient(45deg, #667eea, #764ba2)' }}>
+                    <ShieldCheck size={22} />
+                  </div>
+                  <div>
+                    <h6 className="fw-bold text-dark m-0 lh-1">Admin</h6>
+                    <span className="small fw-bold" style={{ fontSize: '0.7rem', color: '#764ba2' }}>CONSOLE</span>
+                  </div>
                 </div>
-                <span className="text-white-50 small">Manage your platform modules • {currentDate}</span>
+                
+                <div className="nav flex-column gap-1 mb-3">
+                  <Link href="/" className="btn text-start d-flex align-items-center gap-2 rounded-pill px-3 py-2 fw-semibold text-decoration-none shadow-sm mb-3 border-0 text-white" style={{ background: 'linear-gradient(45deg, #434343, #000000)' }}>
+                    <Home size={16} /> Go to Home
+                  </Link>
+                  
+                  <span className="text-muted fw-bold px-3 mb-2" style={{ fontSize: '0.65rem', letterSpacing: '1px' }}>NAVIGATION</span>
+
+                  {menuItems.map((item) => {
+                    const IconComponent = item.icon;
+                    const isActive = activeTab === item.key;
+                    return (
+                      <button 
+                        key={item.key}
+                        className={`btn text-start d-flex align-items-center gap-2 rounded-pill px-3 py-2 fw-semibold transition-all border-0 ${isActive ? 'text-white shadow' : 'bg-transparent text-secondary'}`}
+                        style={isActive ? { background: 'linear-gradient(45deg, #667eea, #764ba2)' } : {}}
+                        onClick={() => setActiveTab(item.key)}
+                      >
+                        <IconComponent size={16} className={isActive ? 'text-white' : 'text-muted'} /> 
+                        <span className="small">{item.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
-              <span className="badge bg-white text-dark px-3 py-2 rounded-pill fw-bold shadow-sm d-flex align-items-center gap-1">
-                <span className="spinner-grow spinner-grow-sm text-success" role="status"></span> SYSTEM LIVE
-              </span>
+
+              <div>
+                <hr className="text-muted opacity-25 my-3" />
+                <button 
+                  onClick={async () => { await authService.logout(); router.push('/auth/login'); }}
+                  className="btn w-100 rounded-pill fw-bold py-2 d-flex align-items-center justify-content-center gap-2 shadow-sm small text-danger bg-white bg-opacity-50 border-0"
+                >
+                  <LogOut size={15} /> Logout
+                </button>
+              </div>
             </div>
           </div>
 
-          {/* Overview Tab */}
-          {activeTab === 'overview' && (
-            <div>
-              <div className="row g-3 mb-4">
-                <div className="col-6 col-md-4 col-lg-2">
-                  <div className="card border-0 shadow-sm rounded-4 p-3 text-white h-100" style={{ background: 'linear-gradient(135deg, #6610f2 0%, #8540f5 100%)' }}>
-                    <Wrench size={22} className="mb-2 opacity-75" />
-                    <h3 className="fw-bold mb-0">{stats.services}</h3>
-                    <span className="small opacity-75 fw-semibold">Services</span>
+          {/* Main Content Area */}
+          <div className="col-lg-9 col-xl-10">
+            
+            {/* Pro Top Banner */}
+            <div className="p-4 text-white mb-4 position-relative overflow-hidden" style={{ 
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
+              borderRadius: '24px',
+              boxShadow: '0 10px 30px rgba(118, 75, 162, 0.3)'
+            }}>
+              <div className="d-flex justify-content-between align-items-center flex-wrap gap-3 position-relative" style={{ zIndex: 1 }}>
+                <div>
+                  <div className="d-flex align-items-center gap-2 mb-1">
+                    <Activity size={24} className="text-warning" />
+                    <h3 className="fw-bold mb-0">Admin Dashboard</h3>
                   </div>
+                  <span className="text-white-50 small">Manage your platform modules • {currentDate}</span>
                 </div>
-                <div className="col-6 col-md-4 col-lg-2">
-                  <div className="card border-0 shadow-sm rounded-4 p-3 text-white h-100" style={{ background: 'linear-gradient(135deg, #ff5722 0%, #ff7043 100%)' }}>
-                    <Car size={22} className="mb-2 opacity-75" />
-                    <h3 className="fw-bold mb-0">{stats.car_models}</h3>
-                    <span className="small opacity-75 fw-semibold">Car Models</span>
-                  </div>
-                </div>
-                <div className="col-6 col-md-4 col-lg-2">
-                  <div className="card border-0 shadow-sm rounded-4 p-3 text-white h-100" style={{ background: 'linear-gradient(135deg, #0d6efd 0%, #3d8bfd 100%)' }}>
-                    <FileText size={22} className="mb-2 opacity-75" />
-                    <h3 className="fw-bold mb-0">{stats.blogs}</h3>
-                    <span className="small opacity-75 fw-semibold">Blogs</span>
-                  </div>
-                </div>
-                <div className="col-6 col-md-4 col-lg-2">
-                  <div className="card border-0 shadow-sm rounded-4 p-3 text-white h-100" style={{ background: 'linear-gradient(135deg, #198754 0%, #20c997 100%)' }}>
-                    <MessageSquare size={22} className="mb-2 opacity-75" />
-                    <h3 className="fw-bold mb-0">{stats.comments}</h3>
-                    <span className="small opacity-75 fw-semibold">Comments</span>
-                  </div>
-                </div>
-                <div className="col-6 col-md-4 col-lg-2">
-                  <div className="card border-0 shadow-sm rounded-4 p-3 text-dark h-100" style={{ background: 'linear-gradient(135deg, #ffc107 0%, #ffca2c 100%)' }}>
-                    <Inbox size={22} className="mb-2 opacity-75" />
-                    <h3 className="fw-bold mb-0">{stats.inbox}</h3>
-                    <span className="small opacity-75 fw-semibold">Inbox</span>
-                  </div>
-                </div>
-                <div className="col-6 col-md-4 col-lg-2">
-                  <div className="card border-0 shadow-sm rounded-4 p-3 text-white h-100" style={{ background: 'linear-gradient(135deg, #d63384 0%, #e83e8c 100%)' }}>
-                    <ImageIcon size={22} className="mb-2 opacity-75" />
-                    <h3 className="fw-bold mb-0">{stats.gallery}</h3>
-                    <span className="small opacity-75 fw-semibold">Gallery</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Charts Section */}
-              <div className="row g-4 mb-4">
-                <div className="col-12 col-lg-7">
-                  <div className="card border-0 shadow-sm rounded-4 p-4 bg-white h-100">
-                    <div className="d-flex align-items-center gap-2 mb-3">
-                      <TrendingUp size={20} className="text-primary" />
-                      <h5 className="fw-bold text-dark mb-0 fs-6">Business Metrics Overview</h5>
-                    </div>
-                    <div style={{ width: '100%', height: '280px' }}>
-                      <ResponsiveContainer>
-                        <BarChart data={chartData}>
-                          <XAxis dataKey="name" stroke="#6c757d" fontSize={12} />
-                          <YAxis stroke="#6c757d" fontSize={12} allowDecimals={false} />
-                          <Tooltip contentStyle={{ backgroundColor: '#fff', borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} />
-                          <Bar dataKey="count" fill="#4e73df" radius={[8, 8, 0, 0]} />
-                        </BarChart>
-                      </ResponsiveContainer>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-12 col-lg-5">
-                  <div className="card border-0 shadow-sm rounded-4 p-4 bg-white h-100">
-                    <div className="d-flex align-items-center gap-2 mb-3">
-                      <Layers size={20} className="text-danger" />
-                      <h5 className="fw-bold text-dark mb-0 fs-6">Distribution Ratio</h5>
-                    </div>
-                    <div style={{ width: '100%', height: '280px' }}>
-                      <ResponsiveContainer>
-                        <PieChart>
-                          <Pie data={chartData} dataKey="count" nameKey="name" cx="50%"{...{cy: "50%"}} outerRadius={85} innerRadius={45} label>
-                            {chartData.map((entry, index) => (
-                              <Cell key={`cell-${index}`} fill={entry.color} />
-                            ))}
-                          </Pie>
-                          <Tooltip contentStyle={{ backgroundColor: '#fff', borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }} />
-                          <Legend wrapperStyle={{ fontSize: '11px' }} />
-                        </PieChart>
-                      </ResponsiveContainer>
-                    </div>
-                  </div>
-                </div>
+                <span className="badge px-3 py-2 rounded-pill fw-bold shadow-sm d-flex align-items-center gap-2" style={{ background: 'rgba(255, 255, 255, 0.2)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.3)' }}>
+                  <span className="spinner-grow spinner-grow-sm text-success" role="status"></span> SYSTEM LIVE
+                </span>
               </div>
             </div>
-          )}
 
-          {/* Profile Tab Component Render */}
-          {activeTab === 'profile' && <ProfileManager />}
+            {/* Overview Tab */}
+            {activeTab === 'overview' && (
+              <div>
+                <div className="row g-3 mb-4">
+                  {/* UPDATED: Solid Vibrant Colorful Stat Cards with low opacity watermark */}
+                  {[
+                    { label: 'Services', count: stats.services, icon: Wrench, gradient: 'linear-gradient(135deg, #6610f2 0%, #8540f5 100%)', textColor: 'text-white' },
+                    { label: 'Car Models', count: stats.car_models, icon: Car, gradient: 'linear-gradient(135deg, #ff5722 0%, #ff7043 100%)', textColor: 'text-white' },
+                    { label: 'Blogs', count: stats.blogs, icon: FileText, gradient: 'linear-gradient(135deg, #0d6efd 0%, #3d8bfd 100%)', textColor: 'text-white' },
+                    { label: 'Comments', count: stats.comments, icon: MessageSquare, gradient: 'linear-gradient(135deg, #198754 0%, #20c997 100%)', textColor: 'text-white' },
+                    { label: 'Inbox', count: stats.inbox, icon: Inbox, gradient: 'linear-gradient(135deg, #ffc107 0%, #ffca2c 100%)', textColor: 'text-dark' },
+                    { label: 'Gallery', count: stats.gallery, icon: ImageIcon, gradient: 'linear-gradient(135deg, #d63384 0%, #e83e8c 100%)', textColor: 'text-white' }
+                  ].map((stat, idx) => (
+                    <div className="col-6 col-md-4 col-lg-2" key={idx}>
+                      <div className="card border-0 shadow-sm rounded-4 p-3 h-100 position-relative overflow-hidden" style={{ 
+                        background: stat.gradient, // Solid Vibrant Color Back
+                        transition: 'transform 0.2s',
+                        cursor: 'pointer'
+                      }} onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'} onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
+                        
+                        {/* Watermark Icon with VERY LOW OPACITY to keep text readable */}
+                        <div className="position-absolute" style={{ right: '-15px', bottom: '-15px', opacity: 0.08, pointerEvents: 'none' }}>
+                          <stat.icon size={90} className={stat.textColor} strokeWidth={1.5} />
+                        </div>
 
-          {activeTab === 'services' && <ServicesManager />}
-          {activeTab === 'car-models' && <CarModelsManager />} 
-          {activeTab === 'blogs' && <BlogsManager />}
-          {activeTab === 'comments' && <CommentsManager />}
-          {activeTab === 'cases' && <CasesManager />}
-          {activeTab === 'gallery' && <GalleryManager />}
-          {activeTab === 'inbox' && <InboxManager />}
-          {activeTab === 'users' && <UsersManager />}
+                        <stat.icon size={22} className={`mb-2 ${stat.textColor} opacity-75 position-relative`} style={{ zIndex: 1 }} />
+                        <h3 className={`fw-bold mb-0 position-relative ${stat.textColor}`} style={{ zIndex: 1 }}>{stat.count}</h3>
+                        <span className={`small fw-semibold position-relative ${stat.textColor} opacity-75`} style={{ zIndex: 1 }}>{stat.label}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Charts Section */}
+                <div className="row g-4 mb-4">
+                  <div className="col-12 col-lg-7">
+                    <div className="p-4 h-100" style={{ ...glassStyle, borderRadius: '24px' }}>
+                      <div className="d-flex align-items-center gap-2 mb-4">
+                        <div className="p-2 rounded-circle bg-primary bg-opacity-10 text-primary">
+                          <TrendingUp size={20} />
+                        </div>
+                        <h5 className="fw-bold text-dark mb-0 fs-6">Business Metrics Overview</h5>
+                      </div>
+                      <div style={{ width: '100%', height: '280px' }}>
+                        <ResponsiveContainer>
+                          <BarChart data={chartData}>
+                            <XAxis dataKey="name" stroke="#6c757d" fontSize={12} tickLine={false} axisLine={false} />
+                            <YAxis stroke="#6c757d" fontSize={12} allowDecimals={false} tickLine={false} axisLine={false} />
+                            <Tooltip cursor={{fill: 'rgba(0,0,0,0.05)'}} contentStyle={{ backgroundColor: 'rgba(255,255,255,0.9)', borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', backdropFilter: 'blur(10px)' }} />
+                            <Bar dataKey="count" radius={[6, 6, 0, 0]}>
+                              {chartData.map((entry, index) => (
+                                <Cell key={`cell-${index}`} fill={entry.color} />
+                              ))}
+                            </Bar>
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="col-12 col-lg-5">
+                    <div className="p-4 h-100" style={{ ...glassStyle, borderRadius: '24px' }}>
+                      <div className="d-flex align-items-center gap-2 mb-4">
+                        <div className="p-2 rounded-circle bg-danger bg-opacity-10 text-danger">
+                          <Layers size={20} />
+                        </div>
+                        <h5 className="fw-bold text-dark mb-0 fs-6">Distribution Ratio</h5>
+                      </div>
+                      <div style={{ width: '100%', height: '280px' }}>
+                        <ResponsiveContainer>
+                          <PieChart>
+                            <Pie data={chartData} dataKey="count" nameKey="name" cx="50%" cy="50%" outerRadius={85} innerRadius={45} label={({name, percent}) => `${(percent * 100).toFixed(0)}%`} labelLine={false}>
+                              {chartData.map((entry, index) => (
+                                <Cell key={`cell-${index}`} fill={entry.color} />
+                              ))}
+                            </Pie>
+                            <Tooltip contentStyle={{ backgroundColor: 'rgba(255,255,255,0.9)', borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', backdropFilter: 'blur(10px)' }} />
+                            <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} iconType="circle" />
+                          </PieChart>
+                        </ResponsiveContainer>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Render Active Components in Glass Container */}
+            {activeTab !== 'overview' && (
+               <div className="p-4" style={{ ...glassStyle, borderRadius: '24px', minHeight: '60vh' }}>
+                  {activeTab === 'profile' && <ProfileManager />}
+                  {activeTab === 'services' && <ServicesManager />}
+                  {activeTab === 'car-models' && <CarModelsManager />} 
+                  {activeTab === 'blogs' && <BlogsManager />}
+                  {activeTab === 'comments' && <CommentsManager />}
+                  {activeTab === 'cases' && <CasesManager />}
+                  {activeTab === 'gallery' && <GalleryManager />}
+                  {activeTab === 'inbox' && <InboxManager />}
+                  {activeTab === 'users' && <UsersManager />}
+               </div>
+            )}
+
+          </div>
 
         </div>
-
       </div>
     </div>
   );
