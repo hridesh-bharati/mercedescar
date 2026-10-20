@@ -1,10 +1,12 @@
 // src/components/layout/Header.jsx
 'use client';
+
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { auth, database } from '@/lib/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { ref, get } from 'firebase/database';
+import SearchModal from './SearchModal';
 import './Header.css';
 
 const Icon = ({ path, size = 20, fill = 'none' }) => (
@@ -55,9 +57,8 @@ export default function Header() {
   const [elevated, setElevated] = useState(false);
   const [activeTab, setActiveTab] = useState('home');
   const [userData, setUserData] = useState(null);
-  const searchRef = useRef(null);
 
-  // Optimized auth session listener to prevent unnecessary re-logins
+  // Optimized auth session listener
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
@@ -114,9 +115,7 @@ export default function Header() {
         { label: 'Case Single', href: '/case' },
         { label: 'Work Process', href: '/work-process' },
         { label: 'Testimonials', href: '/testimonials' },
-        { label: 'Pricing Plan', href: '/pricing-plan' },
         { label: 'FAQs', href: '/faqs' },
-        { label: 'Shop Cart', href: '/cart' },
       ]
     },
     { key: 'blog', label: 'Blogs', href: '/blogs', icon: ICONS.Blog },
@@ -156,76 +155,56 @@ export default function Header() {
       {/* Main App Bar */}
       <header className={`md-appbar ${elevated ? 'md-appbar--elevated' : ''}`}>
         <div className="container d-flex align-items-center justify-content-between md-appbar-row">
-          {!searchOpen ? (
-            <>
-              <Link href="/" className="md-appbar-brand" onClick={closeDrawer}>
-                <img src="/images/logo.png" alt="Mercedes Garage Dubai" className="md-logo-img rounded-3" />
-              </Link>
+          <Link href="/" className="md-appbar-brand" onClick={closeDrawer}>
+            <img src="/images/logo.png" alt="Mercedes Garage Dubai" className="md-logo-img rounded-3" />
+          </Link>
 
-              <nav className="md-desktop-nav d-none d-lg-flex align-items-center gap-1 m-0">
-                {navItems.map((item) => (
-                  <div key={item.key} className="md-desktop-item">
-                    <Link href={item.href} className="md-desktop-link">{item.label}</Link>
-                    {item.subItems && (
-                      <div className="md-desktop-menu">
-                        {item.subItems.map((s, i) => (
-                          <Link key={i} href={s.href} className="md-desktop-menu-item">{s.label}</Link>
-                        ))}
-                      </div>
-                    )}
+          <nav className="md-desktop-nav d-none d-lg-flex align-items-center gap-1 m-0">
+            {navItems.map((item) => (
+              <div key={item.key} className="md-desktop-item">
+                <Link href={item.href} className="md-desktop-link">{item.label}</Link>
+                {item.subItems && (
+                  <div className="md-desktop-menu">
+                    {item.subItems.map((s, i) => (
+                      <Link key={i} href={s.href} className="md-desktop-menu-item">{s.label}</Link>
+                    ))}
                   </div>
-                ))}
-              </nav>
-
-              <div className="md-appbar-actions d-flex align-items-center gap-2">
-                <button className="md-icon-btn md-ripple" onMouseDown={addRipple} onClick={() => setSearchOpen(true)} aria-label="Search">
-                  <Icon path={ICONS.Search} size={20} />
-                </button>
-
-                {userData ? (
-                  <Link href={dashboardUrl} className="rounded-circle p-0 overflow-hidden shadow-sm d-none d-lg-flex align-items-center justify-content-center border border-2 border-danger" style={{ width: '36px', height: '36px' }} onMouseDown={addRipple} title="Go to Dashboard">
-                    {userData.profilePic ? (
-                      <img src={userData.profilePic} alt="Profile" className="w-100 h-100 object-fit-cover" />
-                    ) : (
-                      <div className="bg-danger text-white w-100 h-100 d-flex align-items-center justify-content-center fw-bold small">
-                        {userData.email ? userData.email.charAt(0).toUpperCase() : 'A'}
-                      </div>
-                    )}
-                  </Link>
-                ) : (
-                  <Link href="/auth/login" className="btn btn-danger btn-sm rounded-pill px-3 fw-bold d-none d-lg-flex align-items-center gap-1 shadow-sm" onMouseDown={addRipple} aria-label="Login">
-                    <Icon path={ICONS.Login} size={16} />
-                    <span>Login</span>
-                  </Link>
                 )}
-
-                <button className="md-icon-btn md-ripple d-lg-none" onMouseDown={addRipple} onClick={() => setDrawerOpen(true)} aria-label="Open menu">
-                  {ICONS.Menu}
-                </button>
               </div>
-            </>
-          ) : (
-            <div className="md-search-row w-100 d-flex align-items-center gap-2">
-              <button className="md-icon-btn md-ripple" onMouseDown={addRipple} onClick={() => setSearchOpen(false)} aria-label="Close search">
-                <Icon path={ICONS.Back} size={20} />
-              </button>
-              <input
-                ref={searchRef}
-                className="md-search-field"
-                type="text"
-                placeholder="Search brand or service..."
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-              />
-              {query && (
-                <button className="md-icon-btn md-ripple" onMouseDown={addRipple} onClick={() => setQuery('')} aria-label="Clear">
-                  <Icon path={ICONS.Close} size={18} />
-                </button>
-              )}
-            </div>
-          )}
+            ))}
+          </nav>
+
+          <div className="md-appbar-actions d-flex align-items-center gap-2">
+            <button className="md-icon-btn md-ripple" onMouseDown={addRipple} onClick={() => setSearchOpen(true)} aria-label="Search">
+              <Icon path={ICONS.Search} size={20} />
+            </button>
+
+            {userData ? (
+              <Link href={dashboardUrl} className="rounded-circle p-0 overflow-hidden shadow-sm d-none d-lg-flex align-items-center justify-content-center border border-2 border-danger" style={{ width: '36px', height: '36px' }} onMouseDown={addRipple} title="Go to Dashboard">
+                {userData.profilePic ? (
+                  <img src={userData.profilePic} alt="Profile" className="w-100 h-100 object-fit-cover" />
+                ) : (
+                  <div className="bg-danger text-white w-100 h-100 d-flex align-items-center justify-content-center fw-bold small">
+                    {userData.email ? userData.email.charAt(0).toUpperCase() : 'A'}
+                  </div>
+                )}
+              </Link>
+            ) : (
+              <Link href="/auth/login" className="btn btn-danger btn-sm rounded-pill px-3 fw-bold d-none d-lg-flex align-items-center gap-1 shadow-sm" onMouseDown={addRipple} aria-label="Login">
+                <Icon path={ICONS.Login} size={16} />
+                <span>Login</span>
+              </Link>
+            )}
+
+            <button className="md-icon-btn md-ripple d-lg-none" onMouseDown={addRipple} onClick={() => setDrawerOpen(true)} aria-label="Open menu">
+              {ICONS.Menu}
+            </button>
+          </div>
         </div>
       </header>
+
+      {/* Fullscreen Live Search Modal Component */}
+      <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
 
       <div className={`md-scrim ${drawerOpen ? 'show' : ''}`} onClick={closeDrawer} aria-hidden="true" />
 
@@ -286,14 +265,13 @@ export default function Header() {
         </div>
       </aside>
 
-      {/* Bottom Nav (Mobile) - Fixed Services Routing */}
+      {/* Bottom Nav (Mobile) */}
       <nav className="md-navbar d-lg-none">
         <Link href="/" className={`md-nav-dest md-ripple ${activeTab === 'home' ? 'is-active' : ''}`} onMouseDown={addRipple} onClick={() => setActiveTab('home')}>
           <span className="md-nav-indicator"><Icon path={ICONS.Home} size={20} /></span>
           <span className="md-nav-label">Home</span>
         </Link>
 
-        {/* Fixed: Services button now correctly routes to /services instead of opening sidebar */}
         <Link href="/services" className={`md-nav-dest md-ripple ${activeTab === 'services' ? 'is-active' : ''}`} onMouseDown={addRipple} onClick={() => setActiveTab('services')}>
           <span className="md-nav-indicator"><Icon path={ICONS.Wrench} size={20} /></span>
           <span className="md-nav-label">Services</span>

@@ -46,7 +46,7 @@ export default function ServiceGrid() {
     if (modelParam) setSelectedFilter(modelParam);
   }, [modelParam]);
 
-  // Priority & Exact Match Filtering Logic
+  // Robust Smart Filtering with Keyword Grouping
   const filteredServices = liveServices.filter((service) => {
     if (selectedFilter === 'All Services') return true;
 
@@ -55,7 +55,25 @@ export default function ServiceGrid() {
     const modelText = (service.model || '').toLowerCase();
     const descText = (service.desc || service.description || '').toLowerCase();
 
-    // Specific mapping for categories
+    // Smart mapping for filter categories and modal models
+    if (filterKey.includes('g-class') || filterKey.includes('g63') || filterKey.includes('g500')) {
+      return titleText.includes('g-class') || titleText.includes('g63') || modelText.includes('g-class') || modelText.includes('g63') || titleText.includes('engine');
+    }
+    if (filterKey.includes('s-class') || filterKey.includes('s500') || filterKey.includes('s580')) {
+      return titleText.includes('s-class') || titleText.includes('s500') || modelText.includes('s-class') || titleText.includes('airmatic');
+    }
+    if (filterKey.includes('amg')) {
+      return titleText.includes('amg') || modelText.includes('amg') || titleText.includes('performance');
+    }
+    if (filterKey.includes('c-class') || filterKey.includes('c300') || filterKey.includes('c200')) {
+      return titleText.includes('c-class') || modelText.includes('c-class') || titleText.includes('transmission');
+    }
+    if (filterKey.includes('gle')) {
+      return titleText.includes('gle') || modelText.includes('gle');
+    }
+    if (filterKey.includes('glc')) {
+      return titleText.includes('glc') || modelText.includes('glc');
+    }
     if (filterKey === 'engine') {
       return titleText.includes('engine') || descText.includes('engine') || titleText.includes('timing') || titleText.includes('compressor');
     }
@@ -63,11 +81,11 @@ export default function ServiceGrid() {
       return titleText.includes('brake') || descText.includes('brake') || titleText.includes('rotor') || titleText.includes('abs');
     }
 
-    // Match exact model focus (e.g. G-Class, S-Class, AMG, C-Class, GLE, GLC)
-    return modelText.includes(filterKey) || titleText.includes(filterKey) || descText.includes(filterKey);
+    // Default fallback search match
+    return modelText.includes(filterKey) || titleText.includes(filterKey) || descText.includes(filterKey) || modelText.includes('all models');
   });
 
-  // Sort services so that exact matches come first, and general "All Models" come later
+  // Priority Sorting (Exact matches first)
   const sortedServices = [...filteredServices].sort((a, b) => {
     if (selectedFilter === 'All Services') return 0;
     const filterKey = selectedFilter.toLowerCase();
@@ -101,7 +119,7 @@ export default function ServiceGrid() {
     return () => { if (currentRef) observer.unobserve(currentRef); };
   }, [visibleCount, sortedServices.length, isFetchingMore]);
 
-  // Filter 127 Models for Modal
+  // Filter Models for Modal Search
   const filteredModels = mercedesModels.filter((item) =>
     item.model.toLowerCase().includes(modelSearch.toLowerCase())
   );
@@ -123,7 +141,7 @@ export default function ServiceGrid() {
             data-bs-toggle="modal" 
             data-bs-target="#mercedesModelsModal"
           >
-            <Layers size={16} /> View All 127 Mercedes Models
+            <Layers size={16} /> View All Mercedes Models
           </button>
         </div>
 
