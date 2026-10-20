@@ -339,10 +339,8 @@ export default function AdminPanel() {
                           <stat.icon size={90} className={stat.textColor} strokeWidth={1.5} />
                         </div>
 
-                       <div className="d-flex justify-content-start align-items-center gap-2">
-                         <stat.icon size={22} className={`mb-2 ${stat.textColor} opacity-75 position-relative`} style={{ zIndex: 1 }} />
+                        <stat.icon size={22} className={`mb-2 ${stat.textColor} opacity-75 position-relative`} style={{ zIndex: 1 }} />
                         <h3 className={`fw-bold mb-0 position-relative ${stat.textColor}`} style={{ zIndex: 1 }}>{stat.count}</h3>
-                       </div>
                         <span className={`small fw-semibold position-relative ${stat.textColor} opacity-75`} style={{ zIndex: 1 }}>{stat.label}</span>
                       </div>
                     </div>
