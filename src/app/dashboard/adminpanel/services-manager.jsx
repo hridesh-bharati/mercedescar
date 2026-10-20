@@ -161,7 +161,7 @@ export default function ServicesManager() {
   };
 
   return (
-    <div className="card border-0 shadow-sm rounded-4 p-3 p-md-4 bg-white text-start">
+    <div className="card border-0 shadow-sm rounded-4 p-2 p-md-4 bg-white text-start">
       <div className="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
         <div className="d-flex align-items-center gap-2">
           <Wrench size={22} className="text-danger flex-shrink-0" />
@@ -214,12 +214,9 @@ export default function ServicesManager() {
           <div className="d-flex justify-content-between align-items-center">
             <h6 className="fw-bold mb-0">{editId ? 'Edit Service' : 'Add New Service'}</h6>
             <div className="d-flex gap-2">
-              <button type="button" className="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" onClick={() => setShowList(true)}>
-                <List size={14} /> View All Services
-              </button>
               {editId && (
                 <button type="button" className="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" onClick={handleCancel}>
-                  <X size={14} /> Cancel
+                  <X size={14} />Cancel
                 </button>
               )}
             </div>

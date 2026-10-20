@@ -199,12 +199,9 @@ export default function CarModelsManager() {
           <div className="d-flex justify-content-between align-items-center mb-3">
             <h6 className="fw-bold mb-0 text-dark">{editId ? 'Edit Car Model' : 'Add New Car Model'}</h6>
             <div className="d-flex gap-2">
-              <button type="button" className="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" onClick={() => setShowList(true)}>
-                <List size={14} /> View All Models
-              </button>
               {editId && (
                 <button type="button" className="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" onClick={handleCancel}>
-                  <X size={14} /> Cancel
+                  <X size={14} />Cancel
                 </button>
               )}
             </div>
@@ -291,7 +288,6 @@ export default function CarModelsManager() {
                 setShowList(false);
               }}
             >
-              <PlusCircle size={14} /> Add Model
             </button>
           </div>
 
