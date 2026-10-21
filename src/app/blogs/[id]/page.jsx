@@ -138,7 +138,7 @@ export default function BlogDetailPage({ params }) {
     );
   }
 
-  const blogImage = blog.imageUrl || blog.image || '/images/servicesman.webp';
+  const blogImage = blog.imageUrl || blog.image || '/images/servicesman.avif';
   const mainComments = comments.filter((c) => !c.parentId);
   const getRepliesForComment = (commentId) => comments.filter((c) => c.parentId === commentId);
 

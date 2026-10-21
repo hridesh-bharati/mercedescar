@@ -86,7 +86,7 @@ export default function Welcome() {
               <div className="image-frame-glow" aria-hidden="true"></div>
               <div className="welcome-image-box">
                 <img
-                  src="/images/mechanic-car.jpg"
+                  src="/images/mechanic-car.avif"
                   alt="Mechanic working on car"
                   className="welcome-img"
                 />

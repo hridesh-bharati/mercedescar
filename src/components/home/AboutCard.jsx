@@ -29,8 +29,8 @@ export default function AboutCard() {
   const countersStarted = useRef(false);
 
   const slides = [
-    { image: '/images/about-mechanic1.png', badge: 'Expert Care', caption: 'For Your Auto' },
-    { image: '/images/about-mechanic2.png', badge: 'Precision Service', caption: 'Built On Trust' },
+    { image: '/images/about-mechanic1.avif', badge: 'Expert Care', caption: 'For Your Auto' },
+    { image: '/images/about-mechanic2.avif', badge: 'Precision Service', caption: 'Built On Trust' },
   ];
 
   useEffect(() => {

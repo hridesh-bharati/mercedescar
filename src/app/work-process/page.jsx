@@ -12,25 +12,25 @@ const steps = [
     num: '01',
     title: 'Inspection & Diagnosis',
     desc: 'We begin by thoroughly inspecting your vehicle using advanced XENTRY diagnostic scanners to identify any issues and determine the root cause of the problem.',
-    image: '/images/work-process/image-cr1.webp',
+    image: '/images/work-process/image-cr1.avif',
   },
   {
     num: '02',
     title: 'Estimate & Approval',
     desc: 'Once we\'ve diagnosed the problem, we provide a detailed estimate for the repairs. Your approval is required before any work begins.',
-    image: '/images/work-process/image-cr2.webp',
+    image: '/images/work-process/image-cr2.avif',
   },
   {
     num: '03',
     title: 'Quality Control Check',
     desc: 'After repairs, the vehicle undergoes a thorough quality check to ensure everything is functioning properly and up to Mercedes factory standards.',
-    image: '/images/work-process/image-cr3.webp',
+    image: '/images/work-process/image-cr3.avif',
   },
   {
     num: '04',
     title: 'Final Testing & Delivery',
     desc: 'We perform a final road test and inspection before handing your luxury vehicle back to you in showroom-ready condition.',
-    image: '/images/work-process/image-cr4.webp',
+    image: '/images/work-process/image-cr4.avif',
   },
 ];
 

@@ -179,7 +179,7 @@ export default function CasesManager() {
                     <div className="card border-0 shadow-sm rounded-4 p-3 bg-white">
                       <div className="d-flex gap-3 align-items-center mb-3">
                         <img 
-                          src={item.imageUrl || '/images/servicesman.webp'} 
+                          src={item.imageUrl || '/images/servicesman.avif'} 
                           alt="Thumbnail" 
                           className="rounded-3 object-fit-cover shadow-sm flex-shrink-0" 
                           style={{ width: '60px', height: '60px' }} 
@@ -224,7 +224,7 @@ export default function CasesManager() {
                       <tr key={item.id}>
                         <td>
                           <img 
-                            src={item.imageUrl || '/images/servicesman.webp'} 
+                            src={item.imageUrl || '/images/servicesman.avif'} 
                             alt="Thumbnail" 
                             className="rounded-3 object-fit-cover shadow-sm" 
                             style={{ width: '45px', height: '40px' }} 

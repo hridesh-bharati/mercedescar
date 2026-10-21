@@ -6,7 +6,7 @@ import './Hero.css';
 
 const slides = [
   {
-    image: '/images/hero-car.png',
+    image: '/images/home-page-pic1.avif',
     badge: 'DUBAI’S PREMIER AUTO HUB',
     titleMain: 'Precision Engineering',
     titleHighlight: 'Elite Auto Care',
@@ -14,7 +14,7 @@ const slides = [
       'Advanced diagnostics, expert servicing and genuine parts for luxury and performance vehicles in Al Quoz, Dubai.',
   },
   {
-    image: '/images/home1.png',
+    image: '/images/home-page-pic2.avif',
     badge: 'ADVANCED WORKSHOP SOLUTIONS',
     titleMain: 'Complete Auto',
     titleHighlight: 'Repair Solutions',

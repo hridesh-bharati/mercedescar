@@ -112,7 +112,7 @@ export default function Header() {
       href: '#',
       icon: ICONS.Blog,
       subItems: [
-        { label: 'Our Team', href: '/our-team' },
+        // { label: 'Our Team', href: '/our-team' },
         { label: 'Case Single', href: '/case' },
         { label: 'Work Process', href: '/work-process' },
         { label: 'Testimonials', href: '/testimonials' },

@@ -94,7 +94,7 @@ function BlogsContent() {
               <div className="row g-4">
                 {filteredBlogs.map((blog, index) => {
                   const { id, title, category, date, imageUrl, image, content } = blog;
-                  const blogImage = imageUrl || image || '/images/servicesman.webp';
+                  const blogImage = imageUrl || image || '/images/servicesman.avif';
                   const blogSnippet = content ? content.slice(0, 100) + '...' : '';
 
                   return (

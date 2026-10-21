@@ -74,7 +74,7 @@ export default function CasesPage() {
           ) : (
             <div className="row g-4 text-start">
               {cases.map((item, index) => {
-                const imgUrl = item.imageUrl || item.image || '/images/servicesman.webp';
+                const imgUrl = item.imageUrl || item.image || '/images/servicesman.avif';
                 const snippet = item.description ? item.description.slice(0, 95) + '...' : '';
 
                 return (

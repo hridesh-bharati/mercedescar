@@ -53,7 +53,7 @@ export default function CaseDetailPage({ params }) {
     );
   }
 
-  const mainImage = caseData.imageUrl || caseData.image || '/images/servicesman.webp';
+  const mainImage = caseData.imageUrl || caseData.image || '/images/servicesman.avif';
 
   return (
     <>

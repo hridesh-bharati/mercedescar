@@ -60,7 +60,7 @@ export default function Gallery() {
           ) : (
             <div className="row g-4">
               {albums.map((album) => {
-                const coverImg = album.coverImage || (album.images && album.images[0]) || '/images/servicesman.webp';
+                const coverImg = album.coverImage || (album.images && album.images[0]) || '/images/servicesman.avif';
                 const totalPhotos = album.images ? album.images.length : 1;
 
                 return (
