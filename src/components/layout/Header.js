@@ -8,6 +8,8 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { ref, get } from 'firebase/database';
 import SearchModal from './SearchModal';
 import './Header.css';
+import GoogleTranslateButton from './LanguageTranslator';
+
 
 const Icon = ({ path, size = 20, fill = 'none' }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill={fill} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -58,7 +60,6 @@ export default function Header() {
   const [activeTab, setActiveTab] = useState('home');
   const [userData, setUserData] = useState(null);
 
-  // Optimized auth session listener
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
@@ -126,8 +127,8 @@ export default function Header() {
 
   const filtered = query.trim()
     ? navItems
-      .map((i) => ({ ...i, subItems: i.subItems?.filter((s) => s.label.toLowerCase().includes(query.toLowerCase())) }))
-      .filter((i) => i.label.toLowerCase().includes(query.toLowerCase()) || (i.subItems && i.subItems.length > 0))
+        .map((i) => ({ ...i, subItems: i.subItems?.filter((s) => s.label.toLowerCase().includes(query.toLowerCase())) }))
+        .filter((i) => i.label.toLowerCase().includes(query.toLowerCase()) || (i.subItems && i.subItems.length > 0))
     : navItems;
 
   const dashboardUrl = userData?.isAdmin ? '/dashboard/adminpanel' : '/dashboard/userpanel';
@@ -175,6 +176,9 @@ export default function Header() {
           </nav>
 
           <div className="md-appbar-actions d-flex align-items-center gap-2">
+            {/* Desktop & Mobile dono jagah GoogleTranslateButton pehle set kiya hai */}
+            <GoogleTranslateButton />
+            
             <button className="md-icon-btn md-ripple" onMouseDown={addRipple} onClick={() => setSearchOpen(true)} aria-label="Search">
               <Icon path={ICONS.Search} size={20} />
             </button>

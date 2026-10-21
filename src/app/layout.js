@@ -6,23 +6,38 @@ import './globals.css';
 import CursorFollower from '@/components/layout/CursorFollower';
 
 export const metadata = {
-  title: 'Mercedes Garage Dubai | Luxury Car Repair & Maintenance',
+  title: 'German Auto Expert | Luxury Car Repair & Maintenance Dubai',
   description:
-    'Expert luxury car service, repair, diagnostics, and maintenance in Al Quoz, Dubai. Certified mechanics and genuine parts.',
-  keywords:
-    'Mercedes repair Dubai, Mercedes garage Al Quoz, luxury car service Dubai, auto workshop Dubai',
+    'Expert luxury car service, repair, diagnostics, and maintenance in Al Quoz, Dubai. Certified mechanics and genuine parts for German vehicles.',
+  keywords: [
+    'German Auto Expert',
+    'Mercedes repair Dubai',
+    'BMW repair Dubai',
+    'Audi service Dubai',
+    'luxury car workshop Al Quoz',
+  ],
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'GERMAN AUTO EXPERT',
+  },
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-icon.png',
+  },
   openGraph: {
-    title: 'Mercedes Garage Dubai | Luxury Car Repair & Maintenance',
+    title: 'German Auto Expert | Luxury Car Repair & Maintenance',
     description:
-      'Expert Mercedes repair, engine diagnostics, and maintenance in Al Quoz, Dubai.',
+      'Expert luxury car service, engine diagnostics, and maintenance in Al Quoz, Dubai.',
     url: 'https://mercedesgaragedubai.com',
-    siteName: 'Mercedes Garage Dubai',
+    siteName: 'German Auto Expert',
     images: [
       {
         url: 'https://mercedesgaragedubai.com/images/og-banner.png',
         width: 1200,
         height: 630,
-        alt: 'Mercedes Garage Dubai Workshop',
+        alt: 'German Auto Expert Workshop Dubai',
       },
     ],
     locale: 'en_US',
@@ -30,9 +45,12 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Mercedes Garage Dubai | Luxury Car Repair',
+    title: 'German Auto Expert | Luxury Car Repair',
     description: 'Expert luxury car service and repair in Al Quoz, Dubai.',
     images: ['https://mercedesgaragedubai.com/images/og-banner.png'],
+  },
+  verification: {
+    google: '81DlaGd_JjkgQ3rqAKKiqknev76jOg2BovWV-qkUObk',
   },
 };
 
@@ -40,7 +58,7 @@ export default function RootLayout({ children }) {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'AutoRepair',
-    name: 'Mercedes Garage Dubai',
+    name: 'German Auto Expert',
     image: 'https://mercedesgaragedubai.com/images/logo.png',
     url: 'https://mercedesgaragedubai.com',
     telephone: '+971567888808',
@@ -77,10 +95,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <meta
-          name="google-site-verification"
-          content="81DlaGd_JjkgQ3rqAKKiqknev76jOg2BovWV-qkUObk"
-        />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"

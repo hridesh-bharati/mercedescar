@@ -55,14 +55,14 @@ export default function LoginPage() {
   // Forgot Password Handler
   const handleForgotPassword = async () => {
     if (!email) {
-      setError('Pehle upar email address enter karein, phir Forgot Password par click karein.');
+      setError('Please enter your email address above before clicking Forgot Password.');
       return;
     }
     try {
       setError('');
       setMessage('');
       await sendPasswordResetEmail(auth, email);
-      setMessage('Password reset email bhej di gayi hai! Kripya apna inbox check karein.');
+      setMessage('Password reset email sent successfully! Please check your inbox.');
     } catch (err) {
       setError(err.message);
     }
@@ -76,38 +76,38 @@ export default function LoginPage() {
     <div className="auth-bg container-fluid d-flex justify-content-center align-items-center min-vh-100">
       <div className="card p-4 rounded-4 glass-card" style={{ width: '400px' }}>
         <h3 className="fw-bold text-center mb-4 text-dark">Login to <span className="text-danger">German Auto</span></h3>
-        
+
         {error && <div className="alert alert-danger small py-2">{error}</div>}
         {message && <div className="alert alert-success small py-2">{message}</div>}
 
         <form onSubmit={handleLogin}>
           <div className="mb-3">
             <label className="form-label small fw-bold text-secondary">Email Address</label>
-            <input 
-              type="email" 
-              className="form-control rounded-pill px-3 py-2 glass-input" 
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
-              required 
+            <input
+              type="email"
+              className="form-control rounded-pill px-3 py-2 glass-input"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
 
           <div className="mb-2">
             <label className="form-label small fw-bold text-secondary">Password</label>
-            <input 
-              type="password" 
-              className="form-control rounded-pill px-3 py-2 glass-input" 
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)} 
-              required 
+            <input
+              type="password"
+              className="form-control rounded-pill px-3 py-2 glass-input"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
             />
           </div>
 
           {/* Forgot Password Link */}
           <div className="text-end mb-3">
-            <button 
-              type="button" 
-              onClick={handleForgotPassword} 
+            <button
+              type="button"
+              onClick={handleForgotPassword}
               className="btn btn-link p-0 small text-danger text-decoration-none fw-bold"
             >
               Forgot Password?
