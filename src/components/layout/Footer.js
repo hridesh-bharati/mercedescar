@@ -256,17 +256,18 @@ return (
           </li>
         ))}
       </ul>
-
-      <p className="footer-copy mb-0">
-        Developed by:{' '}
-        <a
-          href="https://www.pixsymedia.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Pixsy Media
-        </a>
-      </p>
+<p className="footer-copy mb-0">
+  Developed by:{' '}
+  <a
+    href="https://www.pixsymedia.com/"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-warning"
+    style={{ textDecoration: 'none' }}
+  >
+    Pixsy Media
+  </a>
+</p>
     </div>
   </div>
 </footer>
