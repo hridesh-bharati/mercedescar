@@ -1,6 +1,5 @@
 // src/components/layout/PreLoader.jsx
 'use client';
-
 import { useState, useEffect, useRef } from 'react';
 
 export default function PreLoader() {
