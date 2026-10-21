@@ -17,16 +17,15 @@ export default function PreLoader() {
       });
     }
 
-    // Har fresh load ya refresh par loader chalega aur max 3 seconds me ya video khatam hone par band hoga
     const maxTimer = setTimeout(() => {
       triggerFadeOut();
-    }, 3000); // 3 seconds max time
+    }, 3000);
 
     function triggerFadeOut() {
       setFadeAnim(true);
       setTimeout(() => {
         setLoading(false);
-      }, 400); // Smooth fade out duration
+      }, 400);
     }
 
     return () => clearTimeout(maxTimer);
@@ -41,14 +40,12 @@ export default function PreLoader() {
         zIndex: 9999999,
         transition: 'opacity 0.4s ease-in-out',
         pointerEvents: fadeAnim ? 'none' : 'auto',
-        background: '#050510',
+        background: '#000000', // Pure pitch black background
         overflow: 'hidden',
       }}
     >
-      {/* Background Layers */}
+      {/* Subtle background ring for minimal premium look without boxes */}
       <div className="preloader-bg-3d">
-        <div className="orb orb-1" />
-        <div className="orb orb-2" />
         <div className="ring ring-1" />
       </div>
 
@@ -70,14 +67,16 @@ export default function PreLoader() {
             height: 'auto',
             objectFit: 'contain',
             borderRadius: '16px',
-            filter: 'drop-shadow(0 0 30px rgba(0, 200, 255, 0.3))',
+            background: '#000000', // Ensures video element itself has black base
+            // Drop shadow ko remove ya subtle red/dark kar diya hai taki box border match ho
+            filter: 'drop-shadow(0 0 20px rgba(255, 0, 0, 0.15))', 
           }}
         />
 
         {/* Loading text */}
         <div
           className="mt-4 fw-bold small tracking-widest d-flex align-items-center gap-1"
-          style={{ fontSize: '0.8rem', letterSpacing: '3px', color: '#a5c8ff' }}
+          style={{ fontSize: '0.8rem', letterSpacing: '3px', color: '#777777' }}
         >
           <span>LOADING LUXURY EXPERIENCE</span>
         </div>
@@ -91,36 +90,19 @@ export default function PreLoader() {
           pointer-events: none;
         }
 
-        .orb {
-          position: absolute;
-          border-radius: 50%;
-          filter: blur(50px);
-          opacity: 0.4;
-        }
-        .orb-1 {
-          width: 300px; height: 300px;
-          background: radial-gradient(circle, #00c8ff 0%, transparent 70%);
-          top: -10%; left: -5%;
-        }
-        .orb-2 {
-          width: 350px; height: 350px;
-          background: radial-gradient(circle, #7a00ff 0%, transparent 70%);
-          bottom: -15%; right: -10%;
-        }
-
         .ring {
           position: absolute;
           top: 50%; left: 50%;
           width: 500px; height: 500px;
           margin: -250px 0 0 -250px;
           border-radius: 50%;
-          border: 1px solid rgba(0, 200, 255, 0.15);
-          animation: ringSpin 15s linear infinite;
+          border: 1px solid rgba(255, 255, 255, 0.05); /* Extremely subtle ring */
+          animation: ringSpin 20s linear infinite;
         }
 
         @keyframes ringSpin {
           0% { transform: rotate(0deg); }
-          100% { transform: rotate(365deg); }
+          100% { transform: rotate(360deg); }
         }
       `}</style>
     </div>
