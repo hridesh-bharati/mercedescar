@@ -1,10 +1,10 @@
-// src/app/auth/signup/page.jsx
 'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { authService } from '@/services/authService';
+import '../auth.css';
 
 export default function SignupPage() {
   const [email, setEmail] = useState('');
@@ -28,8 +28,8 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="container py-5 d-flex justify-content-center align-items-center min-vh-100">
-      <div className="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white" style={{ maxWidth: '450px', width: '100%' }}>
+    <div className="auth-bg container-fluid py-5 d-flex justify-content-center align-items-center min-vh-100">
+      <div className="card rounded-4 p-4 p-md-5 glass-card" style={{ maxWidth: '450px', width: '100%' }}>
         <h3 className="fw-bold text-dark mb-1">Create Account</h3>
         <p className="text-muted small mb-4">Sign up to access your dashboard.</p>
 
@@ -37,10 +37,10 @@ export default function SignupPage() {
 
         <form onSubmit={handleSignup} className="d-flex flex-column gap-3">
           <div>
-            <label className="form-label small fw-bold">Email Address</label>
+            <label className="form-label small fw-bold text-secondary">Email Address</label>
             <input 
               type="email" 
-              className="form-control rounded-pill px-3" 
+              className="form-control rounded-pill px-3 glass-input" 
               value={email} 
               onChange={(e) => setEmail(e.target.value)} 
               required 
@@ -48,10 +48,10 @@ export default function SignupPage() {
           </div>
 
           <div>
-            <label className="form-label small fw-bold">Password</label>
+            <label className="form-label small fw-bold text-secondary">Password</label>
             <input 
               type="password" 
-              className="form-control rounded-pill px-3" 
+              className="form-control rounded-pill px-3 glass-input" 
               value={password} 
               onChange={(e) => setPassword(e.target.value)} 
               required 

@@ -156,7 +156,7 @@ export default function Header() {
       <header className={`md-appbar ${elevated ? 'md-appbar--elevated' : ''}`}>
         <div className="container d-flex align-items-center justify-content-between md-appbar-row">
           <Link href="/" className="md-appbar-brand" onClick={closeDrawer}>
-            <img src="/images/logo.png" alt="Mercedes Garage Dubai" className="md-logo-img rounded-3" />
+            <img src="/images/logo.avif" alt="Mercedes Garage Dubai" className="md-logo-img rounded-3" />
           </Link>
 
           <nav className="md-desktop-nav d-none d-lg-flex align-items-center gap-1 m-0">

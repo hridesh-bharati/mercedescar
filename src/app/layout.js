@@ -4,8 +4,6 @@ import 'aos/dist/aos.css';
 import Script from 'next/script';
 import './globals.css';
 import CursorFollower from '@/components/layout/CursorFollower';
-import AOSInitializer from '@/components/layout/AOSInitializer';
-import PreLoader from '@/components/layout/PreLoader';
 
 export const metadata = {
   title: 'Mercedes Garage Dubai | Luxury Car Repair & Maintenance',
@@ -95,8 +93,6 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body suppressHydrationWarning={true}>
-        <PreLoader />
-        <AOSInitializer />
         <CursorFollower />
         {children}
 

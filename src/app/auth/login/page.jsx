@@ -1,4 +1,3 @@
-// src/app/auth/login/page.jsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -7,6 +6,7 @@ import { authService } from '@/services/authService';
 import { auth } from '@/lib/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import Link from 'next/link';
+import '../auth.css';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -16,7 +16,6 @@ export default function LoginPage() {
   const [checkingAuth, setCheckingAuth] = useState(true);
   const router = useRouter();
 
-  // Check if user is already logged in to prevent repeating login
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -52,22 +51,22 @@ export default function LoginPage() {
   };
 
   if (checkingAuth) {
-    return <div className="text-center py-5 fw-bold text-danger">Checking session...</div>;
+    return <div className="auth-bg d-flex justify-content-center align-items-center text-center fw-bold text-danger">Checking session...</div>;
   }
 
   return (
-    <div className="container d-flex justify-content-center align-items-center min-vh-100">
-      <div className="card p-4 shadow-sm rounded-4 border-0 bg-white" style={{ width: '400px' }}>
-        <h3 className="fw-bold text-center mb-4">Login to <span className="text-danger">German Auto</span></h3>
+    <div className="auth-bg container-fluid d-flex justify-content-center align-items-center min-vh-100">
+      <div className="card p-4 rounded-4 glass-card" style={{ width: '400px' }}>
+        <h3 className="fw-bold text-center mb-4 text-dark">Login to <span className="text-danger">German Auto</span></h3>
         
         {error && <div className="alert alert-danger small py-2">{error}</div>}
 
         <form onSubmit={handleLogin}>
           <div className="mb-3">
-            <label className="form-label small fw-bold">Email Address</label>
+            <label className="form-label small fw-bold text-secondary">Email Address</label>
             <input 
               type="email" 
-              className="form-control rounded-pill px-3 py-2" 
+              className="form-control rounded-pill px-3 py-2 glass-input" 
               value={email} 
               onChange={(e) => setEmail(e.target.value)} 
               required 
@@ -75,10 +74,10 @@ export default function LoginPage() {
           </div>
 
           <div className="mb-4">
-            <label className="form-label small fw-bold">Password</label>
+            <label className="form-label small fw-bold text-secondary">Password</label>
             <input 
               type="password" 
-              className="form-control rounded-pill px-3 py-2" 
+              className="form-control rounded-pill px-3 py-2 glass-input" 
               value={password} 
               onChange={(e) => setPassword(e.target.value)} 
               required 
@@ -90,7 +89,7 @@ export default function LoginPage() {
           </button>
         </form>
 
-        <div className="text-center mt-3 small">
+        <div className="text-center mt-3 small text-secondary">
           Don&apos;t have an account? <Link href="/auth/signup" className="text-danger fw-bold text-decoration-none">Signup</Link>
         </div>
       </div>

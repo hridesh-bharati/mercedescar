@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import Link from 'next/link';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import './Footer.css';
@@ -65,9 +66,9 @@ export default function Footer() {
   ];
 
   const bottomLinks = [
-    { label: 'Privacy Policy', href: '#' },
-    { label: 'Terms of Service', href: '#' },
-    { label: 'Cookie Settings', href: '#' },
+    { label: 'Privacy Policy', href: '/privacy' },
+    { label: 'Terms of Service', href: '/terms' },
+    { label: 'Cookie Settings', href: '/cookies' },
   ];
 
   return (
@@ -77,51 +78,53 @@ export default function Footer() {
       <div className="footer-glow footer-glow-1" aria-hidden="true"></div>
       <div className="footer-glow footer-glow-2" aria-hidden="true"></div>
 
-      <div className="footer-container">
-
+      <div className="container footer-container">
         {/* ============ Top: Brand + Newsletter ============ */}
-        <div className="footer-top" data-aos="fade-up">
-          <div className="footer-brand">
-            <div className="footer-logo">
-              <span className="footer-logo-mark">M</span>
-              <div className="footer-logo-text">
-                <strong>Mercedes</strong>
-                <span>Garage Dubai</span>
+        <div className="footer-top row align-items-center" data-aos="fade-up">
+          <div className="col-lg-7 mb-4 mb-lg-0">
+            <div className="footer-brand">
+              <div className="footer-logo">
+                <span className="footer-logo-mark">M</span>
+                <div className="footer-logo-text">
+                  <strong>Mercedes</strong>
+                  <span>Garage Dubai</span>
+                </div>
               </div>
+              <p className="footer-tagline">
+                Experience the art of automotive perfection. Premium diagnostics,
+                maintenance, and repair services for your luxury vehicle in Dubai.
+              </p>
             </div>
-            <p className="footer-tagline">
-              Experience the art of automotive perfection. Premium diagnostics,
-              maintenance, and repair services for your luxury vehicle in Dubai.
-            </p>
           </div>
 
-          <div className="footer-newsletter">
-            <h5 className="footer-newsletter-title">Stay in the loop</h5>
-            <p className="footer-newsletter-sub">
-              Service tips, exclusive offers &amp; updates — delivered monthly.
-            </p>
-            <form className="footer-newsletter-form" onSubmit={(e) => e.preventDefault()}>
-              <input
-                type="email"
-                placeholder="your@email.com"
-                aria-label="Email address"
-                required
-              />
-              <button type="submit" aria-label="Subscribe">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                  <polyline points="12 5 19 12 12 19" />
-                </svg>
-              </button>
-            </form>
+          <div className="col-lg-5">
+            <div className="footer-newsletter">
+              <h5 className="footer-newsletter-title">Stay in the loop</h5>
+              <p className="footer-newsletter-sub">
+                Service tips, exclusive offers &amp; updates — delivered monthly.
+              </p>
+              <form className="footer-newsletter-form" onSubmit={(e) => e.preventDefault()}>
+                <input
+                  type="email"
+                  placeholder="your@email.com"
+                  aria-label="Email address"
+                  required
+                />
+                <button type="submit" aria-label="Subscribe">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </svg>
+                </button>
+              </form>
+            </div>
           </div>
         </div>
 
         {/* ============ Middle: 4 Column Grid ============ */}
-        <div className="footer-grid">
-
+        <div className="footer-grid row">
           {/* Col 1: About */}
-          <div className="footer-col" data-aos="fade-up" data-aos-delay="0">
+          <div className="col-lg-3 col-md-6 mb-4 mb-lg-0 footer-col" data-aos="fade-up" data-aos-delay="0">
             <h6 className="footer-col-title">About</h6>
             <p className="footer-col-text">
               Dubai&apos;s trusted luxury vehicle specialists.
@@ -135,26 +138,26 @@ export default function Footer() {
           </div>
 
           {/* Col 2: Quick Links */}
-          <div className="footer-col" data-aos="fade-up" data-aos-delay="80">
+          <div className="col-lg-3 col-md-6 mb-4 mb-lg-0 footer-col" data-aos="fade-up" data-aos-delay="80">
             <h6 className="footer-col-title">Quick Links</h6>
             <ul className="footer-links">
               {quickLinks.map((link, idx) => (
                 <li key={idx}>
-                  <a href={link.href} className="footer-link">
+                  <Link href={link.href} className="footer-link">
                     <span className="footer-link-dot" aria-hidden="true"></span>
                     <span>{link.label}</span>
                     <svg className="footer-link-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
                       <line x1="5" y1="12" x2="19" y2="12" />
                       <polyline points="12 5 19 12 12 19" />
                     </svg>
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
           {/* Col 3: Contact */}
-          <div className="footer-col" data-aos="fade-up" data-aos-delay="160">
+          <div className="col-lg-3 col-md-6 mb-4 mb-md-0 footer-col" data-aos="fade-up" data-aos-delay="160">
             <h6 className="footer-col-title">Get in Touch</h6>
             <ul className="footer-contact">
               <li>
@@ -198,7 +201,7 @@ export default function Footer() {
           </div>
 
           {/* Col 4: Social + Hours */}
-          <div className="footer-col" data-aos="fade-up" data-aos-delay="240">
+          <div className="col-lg-3 col-md-6 footer-col" data-aos="fade-up" data-aos-delay="240">
             <h6 className="footer-col-title">Follow Us</h6>
             <p className="footer-col-text">
               Connect with us for updates, maintenance tips, and special service packages.
@@ -223,7 +226,7 @@ export default function Footer() {
               <div>
                 <strong>Need Immediate Help?</strong>
                 <a href="https://wa.me/971567888808" target="_blank" rel="noopener noreferrer" className="footer-cta-mini-link">
-                  Chat on WhatsApp →
+                  Chat on WhatsApp &rarr;
                 </a>
               </div>
             </div>
@@ -231,14 +234,14 @@ export default function Footer() {
         </div>
 
         {/* ============ Bottom Bar ============ */}
-        <div className="footer-bottom">
-          <p className="footer-copy">
-            © {new Date().getFullYear()} Mercedes Garage Dubai. All rights reserved.
+        <div className="footer-bottom d-flex align-items-center justify-content-between flex-wrap">
+          <p className="footer-copy mb-0">
+            &copy; {new Date().getFullYear()} Mercedes Garage Dubai. All rights reserved.
           </p>
-          <ul className="footer-bottom-links">
+          <ul className="footer-bottom-links mb-0">
             {bottomLinks.map((link) => (
               <li key={link.label}>
-                <a href={link.href}>{link.label}</a>
+                <Link href={link.href}>{link.label}</Link>
               </li>
             ))}
           </ul>
