@@ -94,14 +94,14 @@ export default function AdminPanel() {
   const menuItems = [
     { key: 'overview', label: 'Overview', icon: LayoutDashboard },
     { key: 'services', label: 'Manage Services', icon: Wrench },
-    { key: 'car-models', label: 'Car Models DB', icon: Car }, 
+    { key: 'car-models', label: 'Car Models', icon: Car }, 
     { key: 'blogs', label: 'Manage Blogs', icon: FileText },
     { key: 'comments', label: 'Blog Comments', icon: MessageSquare },
     { key: 'cases', label: 'Manage Cases', icon: Briefcase },
     { key: 'gallery', label: 'Manage Gallery', icon: ImageIcon },
-    { key: 'inbox', label: 'Contact / Inbox', icon: Inbox },
+    { key: 'inbox', label: 'Inbox', icon: Inbox },
     { key: 'users', label: 'Users List', icon: Users },
-    { key: 'profile', label: 'Admin Profile', icon: UserCircle },
+    { key: 'profile', label: 'Profile', icon: UserCircle },
   ];
 
   const chartData = [
