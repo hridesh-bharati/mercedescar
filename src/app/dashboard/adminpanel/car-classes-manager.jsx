@@ -8,8 +8,7 @@ import { Trash2, Edit, Car, X, UploadCloud, Save, List, PlusCircle } from 'lucid
 
 export default function CarClassesManager() {
   const [carClasses, setCarClasses] = useState([]);
-  const [modelName, setModelName] = useState('');
-  const [maker, setMaker] = useState('Mercedes-Benz');
+  const [className, setClassName] = useState('');
   const [tagline, setTagline] = useState('');
   const [desc, setDesc] = useState('');
   const [imageUrls, setImageUrls] = useState([]);
@@ -29,7 +28,7 @@ export default function CarClassesManager() {
   }, []);
 
   const loadCarClasses = async () => {
-    const res = await dbService.getAll('car_models');
+    const res = await dbService.getAll('car_classes');
     if (res.success && res.data) {
       setCarClasses(res.data);
     }
@@ -45,30 +44,29 @@ export default function CarClassesManager() {
       try {
         const jsonData = JSON.parse(event.target.result);
         if (!Array.isArray(jsonData)) {
-          alert("Invalid JSON format. Expected an array of car models.");
+          alert("Invalid JSON format. Expected an array of car classes.");
           return;
         }
 
-        if (!confirm(`Are you sure you want to import ${jsonData.length} car models into the database?`)) return;
+        if (!confirm(`Are you sure you want to import ${jsonData.length} car classes into the database?`)) return;
 
         setImportingJson(true);
         let successCount = 0;
 
         for (const item of jsonData) {
           const payload = {
-            modelName: item.modelName || item.title || 'Mercedes Model',
-            maker: item.maker || 'Mercedes-Benz',
+            className: item.className || item.modelName || 'G-Class',
             tagline: item.tagline || 'Expert Service & Repair',
             desc: item.desc || item.description || 'Specialized workshop services in Dubai.',
             imageUrls: item.imageUrls || (item.imageUrl ? [item.imageUrl] : []),
             imageUrl: item.imageUrl || (item.imageUrls?.[0] || '')
           };
 
-          const res = await dbService.create('car_models', payload);
+          const res = await dbService.create('car_classes', payload);
           if (res.success) successCount++;
         }
 
-        alert(`Successfully imported ${successCount} car models!`);
+        alert(`Successfully imported ${successCount} car classes!`);
         setImportingJson(false);
         loadCarClasses();
         if (jsonInputRef.current) jsonInputRef.current.value = '';
@@ -108,8 +106,7 @@ export default function CarClassesManager() {
     setLoading(true);
 
     const payload = { 
-      modelName, 
-      maker,
+      className, 
       tagline,
       desc, 
       imageUrls,
@@ -117,34 +114,32 @@ export default function CarClassesManager() {
     };
 
     if (editId) {
-      await dbService.update('car_models', editId, payload);
+      await dbService.update('car_classes', editId, payload);
       setEditId(null);
     } else {
-      await dbService.create('car_models', payload);
+      await dbService.create('car_classes', payload);
     }
 
-    setModelName('');
-    setMaker('Mercedes-Benz');
+    setClassName('');
     setTagline('');
     setDesc('');
     setImageUrls([]);
     if (fileInputRef.current) fileInputRef.current.value = '';
     setLoading(false);
     loadCarClasses();
-    setShowList(true); // Switch to list view after submitting successfully
+    setShowList(true);
   };
 
   const handleDelete = async (id) => {
-    if (confirm('Are you sure you want to delete this car model?')) {
-      await dbService.remove('car_models', id);
+    if (confirm('Are you sure you want to delete this car class?')) {
+      await dbService.remove('car_classes', id);
       loadCarClasses();
     }
   };
 
   const handleEdit = (item) => {
     setEditId(item.id);
-    setModelName(item.modelName || '');
-    setMaker(item.maker || 'Mercedes-Benz');
+    setClassName(item.className || '');
     setTagline(item.tagline || '');
     setDesc(item.desc || '');
     if (item.imageUrls && Array.isArray(item.imageUrls)) {
@@ -154,14 +149,13 @@ export default function CarClassesManager() {
     } else {
       setImageUrls([]);
     }
-    setShowList(false); // Switch to form view when editing
+    setShowList(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleCancel = () => {
     setEditId(null);
-    setModelName('');
-    setMaker('Mercedes-Benz');
+    setClassName('');
     setTagline('');
     setDesc('');
     setImageUrls([]);
@@ -173,11 +167,10 @@ export default function CarClassesManager() {
       <div className="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
         <div className="d-flex align-items-center gap-2">
           <Car size={22} className="text-danger flex-shrink-0" />
-          <h4 className="fw-bold text-dark mb-0 fs-5">Manage Car Classes & Models</h4>
+          <h4 className="fw-bold text-dark mb-0 fs-5">Manage Car Classes</h4>
         </div>
 
         <div className="d-flex align-items-center gap-2 flex-wrap">
-          {/* Toggle View Button */}
           <button 
             type="button" 
             className="btn btn-outline-dark btn-sm rounded-pill px-4 fw-bold shadow-sm d-flex align-items-center gap-2"
@@ -189,12 +182,11 @@ export default function CarClassesManager() {
               </>
             ) : (
               <>
-                <List size={16} /> All Car Models ({carClasses.length})
+                <List size={16} /> All Car Classes ({carClasses.length})
               </>
             )}
           </button>
 
-          {/* JSON File Upload Button */}
           <div>
             <input 
               ref={jsonInputRef}
@@ -215,9 +207,7 @@ export default function CarClassesManager() {
         </div>
       </div>
 
-      {/* Conditionally Render Form or Table */}
       {!showList ? (
-        /* Add / Edit Form */
         <form onSubmit={handleSubmit} className="row g-3 mb-4 bg-light p-3 p-md-4 rounded-4">
           <div className="d-flex justify-content-between align-items-center">
             <h6 className="fw-bold mb-0">{editId ? 'Edit Car Class' : 'Add New Car Class'}</h6>
@@ -230,26 +220,14 @@ export default function CarClassesManager() {
             </div>
           </div>
 
-          <div className="col-12 col-md-6">
-            <label className="form-label small fw-bold">Model Name / Class</label>
+          <div className="col-12">
+            <label className="form-label small fw-bold">Car Class Name</label>
             <input 
               type="text" 
               className="form-control rounded-pill px-3 small bg-white" 
-              placeholder="e.g. G-Class, S-Class" 
-              value={modelName} 
-              onChange={(e) => setModelName(e.target.value)} 
-              required 
-            />
-          </div>
-
-          <div className="col-12 col-md-6">
-            <label className="form-label small fw-bold">Maker / Brand</label>
-            <input 
-              type="text" 
-              className="form-control rounded-pill px-3 small bg-white" 
-              placeholder="e.g. Mercedes-Benz" 
-              value={maker} 
-              onChange={(e) => setMaker(e.target.value)} 
+              placeholder="e.g. G-Class, S-Class, C-Class, AMG Series" 
+              value={className} 
+              onChange={(e) => setClassName(e.target.value)} 
               required 
             />
           </div>
@@ -266,7 +244,7 @@ export default function CarClassesManager() {
           </div>
 
           <div className="col-12">
-            <label className="form-label small fw-bold">Upload Workshop & Car Photos</label>
+            <label className="form-label small fw-bold">Upload Hero & Workshop Photos</label>
             <input 
               ref={fileInputRef} 
               type="file" 
@@ -314,10 +292,9 @@ export default function CarClassesManager() {
           </div>
         </form>
       ) : (
-        /* Car Classes List View */
         <div>
           <div className="d-flex align-items-center justify-content-between mb-3">
-            <h5 className="fw-bold text-dark fs-6 mb-0">All Car Models ({carClasses.length})</h5>
+            <h5 className="fw-bold text-dark fs-6 mb-0">All Car Classes ({carClasses.length})</h5>
             <button 
               className="btn btn-danger btn-sm rounded-pill px-3 fw-bold d-flex align-items-center gap-1"
               onClick={() => {
@@ -331,7 +308,7 @@ export default function CarClassesManager() {
 
           {carClasses.length === 0 ? (
             <div className="text-center py-4 text-muted small card border-0 bg-light rounded-4">
-              No car models found. Click "Upload JSON" above or "Add Car Class" to create one.
+              No car classes found. Click "Add Car Class" to create one.
             </div>
           ) : (
             <div className="table-responsive">
@@ -339,8 +316,7 @@ export default function CarClassesManager() {
                 <thead className="table-light">
                   <tr>
                     <th>Photos</th>
-                    <th>Model Name</th>
-                    <th>Maker</th>
+                    <th>Car Class</th>
                     <th>Tagline</th>
                     <th>Actions</th>
                   </tr>
@@ -359,12 +335,10 @@ export default function CarClassesManager() {
                             ) : (
                               <span className="text-muted small">No Img</span>
                             )}
-                            {pics.length > 3 && <span className="small text-muted align-self-center">+{pics.length - 3}</span>}
                           </div>
                         </td>
-                        <td className="fw-bold text-dark">{item.modelName}</td>
-                        <td><span className="badge bg-secondary bg-opacity-10 text-dark">{item.maker || 'Mercedes-Benz'}</span></td>
-                        <td className="text-muted small text-truncate" style={{ maxWidth: '250px' }}>{item.tagline || item.desc}</td>
+                        <td className="fw-bold text-dark">{item.className}</td>
+                        <td className="text-muted small text-truncate" style={{ maxWidth: '300px' }}>{item.tagline || item.desc}</td>
                         <td>
                           <div className="d-flex gap-2">
                             <button className="btn btn-sm btn-outline-primary rounded-circle p-2" onClick={() => handleEdit(item)} title="Edit"><Edit size={14} /></button>
