@@ -108,7 +108,7 @@ export default function Footer() {
       <div className="footer-glow footer-glow-1" aria-hidden="true"></div>
       <div className="footer-glow footer-glow-2" aria-hidden="true"></div>
 
-      <div className="container footer-container">
+      <div className="container footer-container  mb-4 pb-4 mb-lg-0 pb-lg-0">
         {/* Top: Brand + Newsletter */}
         <div className="footer-top row align-items-center" data-aos="fade-up">
           <div className="col-lg-7 mb-4 mb-lg-0">
