@@ -6,7 +6,7 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import {
     Wrench, ShieldCheck, Cpu, Phone, Mail, MapPin,
-    CheckCircle2, ArrowRight, Disc, Settings, Wind, Shield, AlertTriangle, Sparkles, Car
+    CheckCircle2, ArrowRight, Disc, Settings, Wind, Shield, AlertTriangle, Sparkles, Car, Calendar
 } from 'lucide-react';
 import { dbService } from '@/services/dbService';
 import Header from '@/components/layout/Header';
@@ -132,12 +132,13 @@ export default function CarClassDynamicPage() {
                             <div className="row g-4">
                                 {allClasses.map((item, idx) => {
                                     const slug = (item.className || 'model').toLowerCase().replace(/\s+/g, '-');
+                                    const cardImg = item.imageUrl || item.imageUrls?.[0] || '/images/car-class.png';
                                     return (
                                         <div className="col-12 col-md-6 col-lg-4" key={item.id || idx} data-aos="fade-up" data-aos-delay={idx * 50}>
                                             <div className="card border-0 shadow-sm rounded-4 overflow-hidden h-100 bg-white hover-shadow transition">
                                                 <div style={{ height: '220px' }} className="overflow-hidden bg-light position-relative">
                                                     <img
-                                                        src={'/images/car-class.png'}
+                                                        src={cardImg}
                                                         alt={item.className}
                                                         className="w-100 h-100 object-fit-cover"
                                                     />
@@ -148,13 +149,18 @@ export default function CarClassDynamicPage() {
                                                 <div className="card-body p-4 d-flex flex-column justify-content-between">
                                                     <div>
                                                         <h3 className="fw-bold text-dark fs-4 mb-2">{item.className}</h3>
-                                                        <p className="text-muted small mb-3 text-truncate-3" style={{ lineHeight: '1.6' }}>
+                                                        <p className="text-muted small mb-3" style={{ lineHeight: '1.6', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                                                             {item.tagline || item.desc}
                                                         </p>
                                                     </div>
-                                                    <Link href={`/car-class/${slug}`} className="btn btn-outline-danger btn-sm rounded-pill px-4 fw-bold d-inline-flex align-items-center gap-1 mt-auto" style={{ width: 'fit-content' }}>
-                                                        View Services <ArrowRight size={14} />
-                                                    </Link>
+                                                    <div className="d-flex align-items-center gap-2 mt-auto">
+                                                        <Link href={`/car-class/${slug}`} className="btn btn-outline-dark btn-sm rounded-pill px-3 fw-bold d-inline-flex align-items-center gap-1">
+                                                            View Details <ArrowRight size={14} />
+                                                        </Link>
+                                                        <Link href={`/car-class/${slug}#booking-form`} className="btn btn-danger btn-sm rounded-pill px-3 fw-bold d-inline-flex align-items-center gap-1">
+                                                            <Calendar size={14} /> Book Service
+                                                        </Link>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -201,9 +207,12 @@ export default function CarClassDynamicPage() {
                                 </span>
                                 <h1 className="display-3 fw-bold mb-3 text-white">{classNameFormatted}</h1>
                                 <p className="fs-5 fw-semibold text-white mb-2">{modelData?.tagline || `Expert Service & Repair for Your Mercedes ${classNameFormatted}`}</p>
-                                <p className="text-white-50 mb-0" style={{ maxWidth: '650px', lineHeight: '1.7' }}>
+                                <p className="text-white-50 mb-4" style={{ maxWidth: '650px', lineHeight: '1.7' }}>
                                     {modelData?.desc || `Your ${classNameFormatted} deserves the absolute best care. We provide specialized factory-grade servicing, diagnostics, and genuine repairs in Dubai.`}
                                 </p>
+                                <a href="#booking-form" className="btn btn-danger btn-lg rounded-pill px-5 fw-bold shadow-sm d-inline-flex align-items-center gap-2">
+                                    <Calendar size={18} /> Book Your Service Now
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -264,7 +273,8 @@ export default function CarClassDynamicPage() {
                                                             {srv.icon}
                                                         </div>
                                                         <h5 className="fw-bold text-dark mb-2 fs-6">{srv.title}</h5>
-                                                        <p className="text-muted small mb-0">{srv.desc}</p>
+                                                        <p className="text-muted small mb-3">{srv.desc}</p>
+                                                        <a href="#booking-form" className="btn btn-outline-danger btn-sm rounded-pill px-3 fw-bold mt-auto">Book Service</a>
                                                     </div>
                                                 </div>
                                             ))}
@@ -278,7 +288,7 @@ export default function CarClassDynamicPage() {
                                     <h3 className="fw-bold text-dark mb-4">Comprehensive Workshop Services</h3>
                                     <div className="list-group list-group-flush gap-3">
                                         {servicesList.map((s, i) => (
-                                            <div key={i} className="list-group-item border rounded-4 p-4 d-flex align-items-center justify-content-between bg-light">
+                                            <div key={i} className="list-group-item border rounded-4 p-4 d-flex flex-wrap align-items-center justify-content-between gap-3 bg-light">
                                                 <div className="d-flex align-items-center gap-3">
                                                     <div className="bg-danger text-white p-3 rounded-3">{s.icon}</div>
                                                     <div>
@@ -286,7 +296,7 @@ export default function CarClassDynamicPage() {
                                                         <p className="text-muted small mb-0">{s.desc}</p>
                                                     </div>
                                                 </div>
-                                                <a href="#booking-form" className="btn btn-dark btn-sm rounded-pill px-3">Book Service</a>
+                                                <a href="#booking-form" className="btn btn-danger btn-sm rounded-pill px-4 fw-bold">Book Service</a>
                                             </div>
                                         ))}
                                     </div>
@@ -338,7 +348,7 @@ export default function CarClassDynamicPage() {
 
                         {/* RIGHT COLUMN: Booking & Info Sidebar */}
                         <div className="col-12 col-lg-4" id="booking-form">
-                            <div className="sticky-top d-flex flex-column gap-4" style={{ top: '130px' }}>
+                            <div className="sticky-top d-flex flex-column gap-4" style={{ top: '100px' }}>
 
                                 <div className="card border-0 shadow-sm rounded-4 p-4 bg-white border">
                                     <h4 className="fw-bold mb-2 fs-5 text-danger">Book Your Service</h4>

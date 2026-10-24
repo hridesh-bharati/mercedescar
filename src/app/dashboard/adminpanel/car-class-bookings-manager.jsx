@@ -17,7 +17,6 @@ export default function CarClassBookingsManager() {
     setLoading(true);
     const res = await dbService.getAll('service_bookings');
     if (res.success && res.data) {
-      // Agar data object ki form mein hai ya array ki form mein, handle accordingly
       const dataArray = Array.isArray(res.data) 
         ? res.data 
         : Object.keys(res.data).map(key => ({ id: key, ...res.data[key] }));
@@ -40,7 +39,7 @@ export default function CarClassBookingsManager() {
   };
 
   return (
-    <div className="card border-0 shadow-sm rounded-4 p-3 p-md-4 bg-white text-start">
+    <div id="bookings-manager-area" className="card border-0 shadow-sm rounded-4 p-3 p-md-4 bg-white text-start mt-4">
       <div className="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
         <div className="d-flex align-items-center gap-2">
           <Calendar size={22} className="text-danger flex-shrink-0" />
@@ -61,7 +60,7 @@ export default function CarClassBookingsManager() {
         </div>
       ) : bookings.length === 0 ? (
         <div className="text-center py-5 text-muted small card border-0 bg-light rounded-4">
-          No service bookings found yet.
+          No service bookings found yet. Users booking from car classes will appear here!
         </div>
       ) : (
         <div className="table-responsive">

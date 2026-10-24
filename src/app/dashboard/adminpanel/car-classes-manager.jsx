@@ -6,7 +6,7 @@ import { dbService } from '@/services/dbService';
 import { uploadToCloudinary } from '@/lib/cloudinary';
 import { Trash2, Edit, Car, X, UploadCloud, Save, List, PlusCircle, Calendar } from 'lucide-react';
 
-export default function CarClassesManager({ onViewBookings }) {
+export default function CarClassesManager() {
   const [carClasses, setCarClasses] = useState([]);
   const [className, setClassName] = useState('');
   const [tagline, setTagline] = useState('');
@@ -171,16 +171,20 @@ export default function CarClassesManager({ onViewBookings }) {
         </div>
 
         <div className="d-flex align-items-center gap-2 flex-wrap">
-          {/* Button to View Bookings */}
-          {onViewBookings && (
-            <button 
-              type="button" 
-              className="btn btn-danger btn-sm rounded-pill px-4 fw-bold shadow-sm d-flex align-items-center gap-2"
-              onClick={onViewBookings}
-            >
-              <Calendar size={16} /> View Bookings
-            </button>
-          )}
+          {/* Quick Button to go/switch to bookings */}
+          <a 
+            href="#bookings-section" 
+            onClick={(e) => {
+              const bookingElement = document.getElementById('bookings-manager-area');
+              if (bookingElement) {
+                e.preventDefault();
+                bookingElement.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
+            className="btn btn-outline-danger btn-sm rounded-pill px-3 fw-bold shadow-sm d-flex align-items-center gap-1 text-decoration-none"
+          >
+            <Calendar size={15} />Bookings
+          </a>
 
           <button 
             type="button" 
@@ -306,15 +310,17 @@ export default function CarClassesManager({ onViewBookings }) {
         <div>
           <div className="d-flex align-items-center justify-content-between mb-3">
             <h5 className="fw-bold text-dark fs-6 mb-0">All Car Classes ({carClasses.length})</h5>
-            <button 
-              className="btn btn-danger btn-sm rounded-pill px-3 fw-bold d-flex align-items-center gap-1"
-              onClick={() => {
-                handleCancel();
-                setShowList(false);
-              }}
-            >
-              <PlusCircle size={14} /> Add Car Class
-            </button>
+            <div className="d-flex gap-2">
+              <button 
+                className="btn btn-danger btn-sm rounded-pill px-3 fw-bold d-flex align-items-center gap-1"
+                onClick={() => {
+                  handleCancel();
+                  setShowList(false);
+                }}
+              >
+                <PlusCircle size={14} /> Add Car Class
+              </button>
+            </div>
           </div>
 
           {carClasses.length === 0 ? (
@@ -352,6 +358,9 @@ export default function CarClassesManager({ onViewBookings }) {
                         <td className="text-muted small text-truncate" style={{ maxWidth: '300px' }}>{item.tagline || item.desc}</td>
                         <td>
                           <div className="d-flex gap-2">
+                            <a href={`/car-class/${(item.className || '').toLowerCase().replace(/\s+/g, '-')}`} target="_blank" className="btn btn-sm btn-outline-dark rounded-circle p-2" title="View Public Page">
+                              <Car size={14} />
+                            </a>
                             <button className="btn btn-sm btn-outline-primary rounded-circle p-2" onClick={() => handleEdit(item)} title="Edit"><Edit size={14} /></button>
                             <button className="btn btn-sm btn-outline-danger rounded-circle p-2" onClick={() => handleDelete(item.id)} title="Delete"><Trash2 size={14} /></button>
                           </div>
