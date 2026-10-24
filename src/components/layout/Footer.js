@@ -102,7 +102,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="footer-section">
+    <footer className="footer-section mb-4 pb-4 mb-lg-0 pb-lg-0">
       {/* Ambient background layers */}
       <div className="footer-pattern" aria-hidden="true"></div>
       <div className="footer-glow footer-glow-1" aria-hidden="true"></div>
