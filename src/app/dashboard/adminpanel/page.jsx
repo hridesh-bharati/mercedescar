@@ -8,7 +8,7 @@ import { auth } from '@/lib/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { authService } from '@/services/authService';
 import { dbService } from '@/services/dbService';
-import { LayoutDashboard, Wrench, FileText, Inbox, Users, MessageSquare, Briefcase, Image as ImageIcon, LogOut, Menu, X, Home, TrendingUp, Layers, Activity, ShieldCheck, UserCircle, Car } from 'lucide-react';
+import { LayoutDashboard, Wrench, FileText, Inbox, Users, MessageSquare, Briefcase, Image as ImageIcon, LogOut, Menu, X, Home, TrendingUp, Layers, Activity, ShieldCheck, UserCircle, Car, Cpu } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 
 import ServicesManager from './services-manager';
@@ -20,6 +20,7 @@ import CasesManager from './cases-manager';
 import GalleryManager from './gallery-manager';
 import ProfileManager from './profile-manager';  
 import CarModelsManager from './car-models-manager'; 
+import CarClassesManager from './car-classes-manager';
 
 let dashboardCache = {
   stats: null,
@@ -33,7 +34,7 @@ export default function AdminPanel() {
   const [activeTab, setActiveTab] = useState('overview');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const [stats, setStats] = useState({ services: 0, blogs: 0, inbox: 0, users: 0, comments: 0, cases: 0, gallery: 0, car_models: 0 });
+  const [stats, setStats] = useState({ services: 0, blogs: 0, inbox: 0, users: 0, comments: 0, cases: 0, gallery: 0, car_models: 0, car_classes: 0 });
   const router = useRouter();
 
   useEffect(() => {
@@ -67,11 +68,13 @@ export default function AdminPanel() {
 
     const res = await dbService.getDashboardStats();
     const modelsRes = await dbService.getAll('car_models');
+    const classesRes = await dbService.getAll('car_classes');
 
     if (res.success) {
       const updatedStats = {
         ...res.data,
-        car_models: modelsRes.success ? modelsRes.data.length : 0
+        car_models: modelsRes.success ? modelsRes.data.length : 0,
+        car_classes: classesRes.success ? classesRes.data.length : 0
       };
       dashboardCache = {
         stats: updatedStats,
@@ -95,6 +98,7 @@ export default function AdminPanel() {
     { key: 'overview', label: 'Overview', icon: LayoutDashboard },
     { key: 'services', label: 'Manage Services', icon: Wrench },
     { key: 'car-models', label: 'Car Models', icon: Car }, 
+    { key: 'car-classes', label: 'Car Classes', icon: Cpu }, 
     { key: 'blogs', label: 'Manage Blogs', icon: FileText },
     { key: 'comments', label: 'Blog Comments', icon: MessageSquare },
     { key: 'cases', label: 'Manage Cases', icon: Briefcase },
@@ -107,6 +111,7 @@ export default function AdminPanel() {
   const chartData = [
     { name: 'Services', count: stats.services, color: '#8b5cf6' },
     { name: 'Models', count: stats.car_models, color: '#f97316' },
+    { name: 'Classes', count: stats.car_classes, color: '#0ea5e9' },
     { name: 'Blogs', count: stats.blogs, color: '#3b82f6' },
     { name: 'Comments', count: stats.comments, color: '#10b981' },
     { name: 'Inbox', count: stats.inbox, color: '#eab308' },
@@ -174,7 +179,7 @@ export default function AdminPanel() {
         <div 
           className="d-lg-none position-fixed top-0 end-0 h-100 d-flex flex-column"
           style={{ 
-            width: '70vw', // Updated to 70vw as requested
+            width: '70vw',
             zIndex: 1050,
             background: 'rgba(255, 255, 255, 0.65)',
             backdropFilter: 'blur(30px)',
@@ -285,7 +290,7 @@ export default function AdminPanel() {
           {/* Main Content Area */}
           <div className="col-lg-9 col-xl-10">
             
-            {/* Top Banner (Updated to be Slim & Inline on Mobile) */}
+            {/* Top Banner */}
             <div className="p-3 px-md-4 text-white mb-4 position-relative overflow-hidden" style={{ 
               background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
               borderRadius: '30px',
@@ -302,7 +307,7 @@ export default function AdminPanel() {
                 {/* Slim Inline System Live Badge */}
                 <span className="badge px-2 py-1 px-md-3 py-md-2 rounded-pill fw-bold shadow-sm d-flex align-items-center gap-1 gap-md-2" style={{ background: 'rgba(255, 255, 255, 0.2)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.3)', fontSize: '0.65rem' }}>
                   <span className="spinner-grow spinner-grow-sm text-success" role="status" style={{ width: '8px', height: '8px' }}></span> SYSTEM LIVE <br />
-                 • {currentDate}
+                  • {currentDate}
                 </span>
               </div>
             </div>
@@ -314,13 +319,13 @@ export default function AdminPanel() {
                   {[
                     { label: 'Services', count: stats.services, icon: Wrench, gradient: 'linear-gradient(135deg, #6610f2 0%, #8540f5 100%)', textColor: 'text-white', targetTab: 'services' },
                     { label: 'Car Models', count: stats.car_models, icon: Car, gradient: 'linear-gradient(135deg, #ff5722 0%, #ff7043 100%)', textColor: 'text-white', targetTab: 'car-models' },
+                    { label: 'Car Classes', count: stats.car_classes, icon: Cpu, gradient: 'linear-gradient(135deg, #0ea5e9 0%, #38bdf8 100%)', textColor: 'text-white', targetTab: 'car-classes' },
                     { label: 'Blogs', count: stats.blogs, icon: FileText, gradient: 'linear-gradient(135deg, #0d6efd 0%, #3d8bfd 100%)', textColor: 'text-white', targetTab: 'blogs' },
                     { label: 'Comments', count: stats.comments, icon: MessageSquare, gradient: 'linear-gradient(135deg, #198754 0%, #20c997 100%)', textColor: 'text-white', targetTab: 'comments' },
                     { label: 'Inbox', count: stats.inbox, icon: Inbox, gradient: 'linear-gradient(135deg, #ffc107 0%, #ffca2c 100%)', textColor: 'text-dark', targetTab: 'inbox' },
                     { label: 'Gallery', count: stats.gallery, icon: ImageIcon, gradient: 'linear-gradient(135deg, #d63384 0%, #e83e8c 100%)', textColor: 'text-white', targetTab: 'gallery' }
                   ].map((stat, idx) => (
-                    <div className="col-6 col-md-4 col-lg-2" key={idx}>
-                      {/* Added onClick and role="button" to make it clickable */}
+                    <div className="col-6 col-md-4 col-lg-3" key={idx}>
                       <div 
                         role="button"
                         onClick={() => setActiveTab(stat.targetTab)}
@@ -334,7 +339,6 @@ export default function AdminPanel() {
                         onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'} 
                         onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
                       >
-                        
                         <div className="position-absolute" style={{ right: '-15px', bottom: '-15px', opacity: 0.1, pointerEvents: 'none' }}>
                           <stat.icon size={90} className={stat.textColor} strokeWidth={1.5} />
                         </div>
@@ -407,6 +411,7 @@ export default function AdminPanel() {
                   {activeTab === 'profile' && <ProfileManager />}
                   {activeTab === 'services' && <ServicesManager />}
                   {activeTab === 'car-models' && <CarModelsManager />} 
+                  {activeTab === 'car-classes' && <CarClassesManager />} 
                   {activeTab === 'blogs' && <BlogsManager />}
                   {activeTab === 'comments' && <CommentsManager />}
                   {activeTab === 'cases' && <CasesManager />}
