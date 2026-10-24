@@ -1,7 +1,9 @@
+// src/components/home/Hero.jsx
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image'; // 👈 Next.js Image import kiya
 import './Hero.css';
 
 const slides = [
@@ -87,14 +89,18 @@ export default function Hero() {
     <section className="enterprise-hero" aria-label="Auto Service Centre">
       <div className="hero-bg-wrapper" aria-hidden="true">
         {slides.map((slide, index) => (
-          <img
+          <Image
             key={slide.image}
             src={slide.image}
-            alt=""
+            alt="" 
+            fill 
+            priority={index === 0} 
+            fetchPriority={index === 0 ? 'high' : 'low'}
+            sizes="100vw"
             className={`hero-bg-image ${
               currentSlide === index ? 'hero-image-active' : ''
             }`}
-            fetchPriority={index === 0 ? 'high' : 'auto'}
+            style={{ objectFit: 'cover' }}
           />
         ))}
         <div className="hero-gradient-overlay" />
@@ -103,6 +109,12 @@ export default function Hero() {
       <div className="container enterprise-container">
         <div className="row align-items-center enterprise-hero-row">
           <div className="col-12 col-lg-7 hero-content-col">
+            
+            {/* SEO FIX: Google ke liye ek main H1 tag */}
+            <h1 className="visually-hidden"> 
+               Luxury Car Repair & Maintenance in Dubai - German Auto Expert
+            </h1>
+
             <div
               id="heroBootstrapCarousel"
               ref={carouselRef}
@@ -122,14 +134,15 @@ export default function Hero() {
                         <span>{slide.badge}</span>
                       </div>
 
-                      <h1 className="enterprise-heading">
+                      {/* H1 ki jagah H2 use kiya for visual headings */}
+                      <h2 className="enterprise-heading">
                         <span className="heading-main hero-heading-animate">
                           {slide.titleMain}
                         </span>
                         <span className="heading-highlight hero-heading-animate">
                           {slide.titleHighlight}
                         </span>
-                      </h1>
+                      </h2>
 
                       <p className="enterprise-desc hero-paragraph-animate">
                         {slide.description}
@@ -139,6 +152,7 @@ export default function Hero() {
                         <Link
                           href="/book-service"
                           className="btn-enterprise-primary"
+                          aria-label="Book a car service appointment online"
                         >
                           Book Service
                           <svg
@@ -160,6 +174,7 @@ export default function Hero() {
                         <a
                           href="tel:+971567888808"
                           className="btn-enterprise-secondary"
+                          aria-label="Call German Auto Expert at plus 971 56 788 8808"
                         >
                           <span className="phone-icon-wrap">
                             <svg
@@ -198,8 +213,8 @@ export default function Hero() {
                       currentSlide === index ? 'active' : ''
                     }`}
                     onClick={() => goToSlide(index)}
-                    aria-label={`Show slide ${index + 1}`}
-                    aria-pressed={currentSlide === index}
+                    aria-label={`Go to slide ${index + 1}: ${slide.badge}`}
+                    aria-current={currentSlide === index ? 'true' : 'false'} 
                   />
                 ))}
               </div>
