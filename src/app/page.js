@@ -12,12 +12,12 @@ import FeatureBar from '@/components/home/FeatureBar';
 import AboutCard from '@/components/home/AboutCard';
 import RecentPosts from '@/components/recent-post/RecentPost';
 import Welcome from '@/components/home/Welcome';
-import Preloader from '@/components/layout/PreLoader'; // <-- Preloader Import kiya
+import Preloader from '@/components/layout/PreLoader';
 
 export default function Home() {
   return (
     <div className="min-vh-100">
-      <Preloader /> {/* <-- Yahan Preloader add kar diya */}
+      <Preloader />  
       <Header />
       <Hero />
       <FeatureBar />

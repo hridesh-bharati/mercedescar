@@ -3,7 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'aos/dist/aos.css';
 import Script from 'next/script';
 import './globals.css';
-import CursorFollower from '@/components/layout/CursorFollower';
 
 export const metadata = {
   title: 'German Auto Expert | Luxury Car Repair & Maintenance Dubai',
@@ -107,7 +106,6 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body suppressHydrationWarning={true}>
-        <CursorFollower />
         {children}
 
         <Script
