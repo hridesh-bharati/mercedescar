@@ -6,7 +6,7 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { 
   Wrench, ShieldCheck, Cpu, Phone, Mail, MapPin, 
-  CheckCircle2, ArrowRight, Disc, Settings, Wind, Shield, AlertTriangle, Sparkles 
+  CheckCircle2, ArrowRight, Disc, Settings, Wind, Shield, AlertTriangle, Sparkles, Car 
 } from 'lucide-react';
 import { dbService } from '@/services/dbService';
 import Header from '@/components/layout/Header';
@@ -18,10 +18,11 @@ export default function CarClassDynamicPage() {
   const params = useParams();
   const rawSlug = params?.className || 'g-class';
   const isAll = rawSlug.toLowerCase() === 'all';
-  const classNameFormatted = isAll ? 'All Mercedes Models' : rawSlug.replace(/-/g, ' ').toUpperCase();
+  const classNameFormatted = isAll ? 'All Mercedes Classes' : rawSlug.replace(/-/g, ' ').toUpperCase();
 
   const [activeTab, setActiveTab] = useState('overview');
   const [modelData, setModelData] = useState(null);
+  const [allClasses, setAllClasses] = useState([]);
   const [loading, setLoading] = useState(true);
 
   // Backend Booking Form State
@@ -37,13 +38,15 @@ export default function CarClassDynamicPage() {
 
   useEffect(() => {
     AOS.init({ duration: 800, once: true });
-    async function fetchModelDetails() {
+    async function fetchData() {
       setLoading(true);
-      if (!isAll) {
-        const res = await dbService.getAll('car_models');
-        if (res.success && res.data) {
+      const res = await dbService.getAll('car_classes');
+      if (res.success && res.data) {
+        if (isAll) {
+          setAllClasses(res.data);
+        } else {
           const found = res.data.find(
-            item => item.modelName?.toLowerCase().replace(/\s+/g, '-') === rawSlug.toLowerCase() ||
+            item => item.className?.toLowerCase().replace(/\s+/g, '-') === rawSlug.toLowerCase() ||
                     item.id?.toLowerCase() === rawSlug.toLowerCase()
           );
           if (found) {
@@ -53,7 +56,7 @@ export default function CarClassDynamicPage() {
       }
       setLoading(false);
     }
-    fetchModelDetails();
+    fetchData();
   }, [rawSlug, isAll]);
 
   const handleBookingSubmit = async (e) => {
@@ -79,7 +82,7 @@ export default function CarClassDynamicPage() {
   };
 
   const servicesList = [
-    { title: 'Routine Servicing', desc: `Keep your ${classNameFormatted} in perfect condition.`, icon: <Wrench size={24} className="text-danger" /> },
+    { title: 'Routine Servicing', desc: `Keep your vehicle in perfect condition.`, icon: <Wrench size={24} className="text-danger" /> },
     { title: 'Engine Diagnostics', desc: 'Advanced scanning & error code analysis.', icon: <Cpu size={24} className="text-danger" /> },
     { title: 'Brake Service', desc: 'Safe braking, maximum control.', icon: <Disc size={24} className="text-danger" /> },
     { title: 'Suspension & Steering', desc: 'Smooth ride, precise handling.', icon: <Settings size={24} className="text-danger" /> },
@@ -95,13 +98,78 @@ export default function CarClassDynamicPage() {
         <Header />
         <div className="min-vh-100 d-flex align-items-center justify-content-center bg-white">
           <div className="spinner-border text-danger" role="status"></div>
-          <span className="ms-2 fw-bold text-dark">Loading {classNameFormatted} Details...</span>
+          <span className="ms-2 fw-bold text-dark">Loading...</span>
         </div>
         <Footer />
       </>
     );
   }
 
+  // ================= IF 'ALL CLASSES' IS SELECTED =================
+  if (isAll) {
+    return (
+      <>
+        <Header />
+        <main className="bg-light pb-5 min-vh-100">
+          <section className="position-relative text-white py-5 overflow-hidden" style={{ background: '#0a0a0a', minHeight: '320px' }}>
+            <div className="container position-relative py-4 text-center" style={{ zIndex: 2 }}>
+              <span className="text-danger fw-bold small text-uppercase tracking-widest d-block mb-1">Mercedes-Benz Dubai</span>
+              <h1 className="display-4 fw-bold mb-3 text-white">All Mercedes Car Classes</h1>
+              <p className="text-white-50 mx-auto" style={{ maxWidth: '600px' }}>
+                Explore our specialized workshop service divisions tailored for every Mercedes-Benz luxury class.
+              </p>
+            </div>
+          </section>
+
+          <div className="container py-5">
+            {allClasses.length === 0 ? (
+              <div className="text-center py-5 bg-white rounded-4 shadow-sm border p-5">
+                <Car size={48} className="text-muted opacity-50 mb-3" />
+                <h5 className="fw-bold text-dark">No Car Classes Found</h5>
+                <p className="text-muted small">Please add car classes from the Admin Panel.</p>
+              </div>
+            ) : (
+              <div className="row g-4">
+                {allClasses.map((item, idx) => {
+                  const slug = (item.className || 'model').toLowerCase().replace(/\s+/g, '-');
+                  return (
+                    <div className="col-12 col-md-6 col-lg-4" key={item.id || idx} data-aos="fade-up" data-aos-delay={idx * 50}>
+                      <div className="card border-0 shadow-sm rounded-4 overflow-hidden h-100 bg-white hover-shadow transition">
+                        <div style={{ height: '220px' }} className="overflow-hidden bg-light position-relative">
+                          <img 
+                            src={item.imageUrl || item.imageUrls?.[0] || '/images/car-class.png'} 
+                            alt={item.className} 
+                            className="w-100 h-100 object-fit-cover"
+                          />
+                          <span className="position-absolute top-0 end-0 m-3 badge bg-dark text-white px-3 py-2 rounded-pill small">
+                            Certified Care
+                          </span>
+                        </div>
+                        <div className="card-body p-4 d-flex flex-column justify-content-between">
+                          <div>
+                            <h3 className="fw-bold text-dark fs-4 mb-2">{item.className}</h3>
+                            <p className="text-muted small mb-3 text-truncate-3" style={{ lineHeight: '1.6' }}>
+                              {item.tagline || item.desc}
+                            </p>
+                          </div>
+                          <Link href={`/car-class/${slug}`} className="btn btn-outline-danger btn-sm rounded-pill px-4 fw-bold d-inline-flex align-items-center gap-1 mt-auto" style={{ width: 'fit-content' }}>
+                            View Services <ArrowRight size={14} />
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </main>
+        <Footer />
+      </>
+    );
+  }
+
+  // ================= SINGLE CAR CLASS VIEW =================
   return (
     <>
       <Header />
@@ -112,7 +180,7 @@ export default function CarClassDynamicPage() {
         <section className="position-relative text-white py-5 overflow-hidden" style={{ background: '#0a0a0a', minHeight: '420px' }}>
           <div className="position-absolute top-0 start-0 w-100 h-100 opacity-50" style={{ pointerEvents: 'none' }}>
             <img 
-              src={modelData?.imageUrl || '/images/car-class.avif'} 
+              src={modelData?.imageUrl || modelData?.imageUrls?.[0] || '/images/car-class.png'} 
               alt={`${classNameFormatted} Repair Dubai`} 
               className="w-100 h-100 object-fit-cover" 
             />
@@ -121,7 +189,7 @@ export default function CarClassDynamicPage() {
             <nav aria-label="breadcrumb" data-aos="fade-down">
               <ol className="breadcrumb mb-3 small text-white-50">
                 <li className="breadcrumb-item"><Link href="/" className="text-white text-decoration-none">Home</Link></li>
-                <li className="breadcrumb-item"><Link href="/models" className="text-white text-decoration-none">Pages</Link></li>
+                <li className="breadcrumb-item"><Link href="/car-class/all" className="text-white text-decoration-none">Car Classes</Link></li>
                 <li className="breadcrumb-item active text-danger fw-bold" aria-current="page">{classNameFormatted}</li>
               </ol>
             </nav>
@@ -132,7 +200,7 @@ export default function CarClassDynamicPage() {
                   Mercedes-Benz Service Al Quoz
                 </span>
                 <h1 className="display-3 fw-bold mb-3 text-white">{classNameFormatted}</h1>
-                <p className="fs-5 fw-semibold text-white mb-2">Expert Service & Repair for Your Mercedes {classNameFormatted}</p>
+                <p className="fs-5 fw-semibold text-white mb-2">{modelData?.tagline || `Expert Service & Repair for Your Mercedes ${classNameFormatted}`}</p>
                 <p className="text-white-50 mb-0" style={{ maxWidth: '650px', lineHeight: '1.7' }}>
                   {modelData?.desc || `Your ${classNameFormatted} deserves the absolute best care. We provide specialized factory-grade servicing, diagnostics, and genuine repairs in Dubai.`}
                 </p>
@@ -179,10 +247,10 @@ export default function CarClassDynamicPage() {
                   <div className="bg-white rounded-4 p-4 p-md-5 shadow-sm border mb-5">
                     <h2 className="fw-bold text-danger mb-4">About Mercedes {classNameFormatted}</h2>
                     <p className="text-secondary mb-4" style={{ lineHeight: '1.8' }}>
-                      The Mercedes-Benz {classNameFormatted} stands as a pinnacle of power, luxury, and precise engineering. Whether navigating city roads or tackling rough terrains, our specialized workshop in Al Quoz, Dubai ensures your vehicle runs at ultimate performance.
+                      {modelData?.desc || `The Mercedes-Benz ${classNameFormatted} stands as a pinnacle of power, luxury, and precise engineering. Whether navigating city roads or tackling rough terrains, our specialized workshop in Al Quoz, Dubai ensures your vehicle runs at ultimate performance.`}
                     </p>
                     <div className="rounded-4 overflow-hidden shadow-sm" style={{ height: '340px' }}>
-                      <img src="/images/car-class.avif" alt={`${classNameFormatted} maintenance workshop Dubai`} className="w-100 h-100 object-fit-cover" />
+                      <img src={modelData?.imageUrl || '/images/car-class.png'} alt={`${classNameFormatted} maintenance workshop Dubai`} className="w-100 h-100 object-fit-cover" />
                     </div>
                   </div>
 
@@ -268,11 +336,10 @@ export default function CarClassDynamicPage() {
 
             </div>
 
-            {/* RIGHT COLUMN: Booking & Info Sidebar (Clean White Background, No Solid Black) */}
+            {/* RIGHT COLUMN: Booking & Info Sidebar */}
             <div className="col-12 col-lg-4" id="booking-form">
               <div className="sticky-top d-flex flex-column gap-4" style={{ top: '130px' }}>
                 
-                {/* 1. Book Your Service Card (Clean Professional White/Light Look) */}
                 <div className="card border-0 shadow-sm rounded-4 p-4 bg-white border">
                   <h4 className="fw-bold mb-2 fs-5 text-danger">Book Your Service</h4>
                   <p className="text-muted small mb-4">Get expert care for your Mercedes {classNameFormatted} from our certified technicians.</p>
@@ -347,7 +414,6 @@ export default function CarClassDynamicPage() {
                   </div>
                 </div>
 
-                {/* 2. Mercedes-Benz Standard Checklist Card */}
                 <div className="card border-0 shadow-sm rounded-4 p-4 bg-white border">
                   <div className="d-flex align-items-center gap-2 mb-3">
                     <span className="text-dark fw-bold fs-6">Mercedes-Benz</span>
@@ -361,7 +427,6 @@ export default function CarClassDynamicPage() {
                   </ul>
                 </div>
 
-                {/* 3. Keep Your Car at Its Best Banner Card */}
                 <div className="card border-0 shadow-sm rounded-4 p-4 bg-dark text-white position-relative overflow-hidden">
                   <h5 className="fw-bold mb-1 fs-6">Keep Your {classNameFormatted} at Its Best</h5>
                   <p className="text-white-50 small mb-3">Luxury. Power. Performance.</p>
