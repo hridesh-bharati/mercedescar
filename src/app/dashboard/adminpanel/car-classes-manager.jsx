@@ -4,9 +4,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { dbService } from '@/services/dbService';
 import { uploadToCloudinary } from '@/lib/cloudinary';
-import { Trash2, Edit, Car, X, UploadCloud, Save, List, PlusCircle } from 'lucide-react';
+import { Trash2, Edit, Car, X, UploadCloud, Save, List, PlusCircle, Calendar } from 'lucide-react';
 
-export default function CarClassesManager() {
+export default function CarClassesManager({ onViewBookings }) {
   const [carClasses, setCarClasses] = useState([]);
   const [className, setClassName] = useState('');
   const [tagline, setTagline] = useState('');
@@ -171,6 +171,17 @@ export default function CarClassesManager() {
         </div>
 
         <div className="d-flex align-items-center gap-2 flex-wrap">
+          {/* Button to View Bookings */}
+          {onViewBookings && (
+            <button 
+              type="button" 
+              className="btn btn-danger btn-sm rounded-pill px-4 fw-bold shadow-sm d-flex align-items-center gap-2"
+              onClick={onViewBookings}
+            >
+              <Calendar size={16} /> View Bookings
+            </button>
+          )}
+
           <button 
             type="button" 
             className="btn btn-outline-dark btn-sm rounded-pill px-4 fw-bold shadow-sm d-flex align-items-center gap-2"
