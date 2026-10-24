@@ -10,7 +10,6 @@ import SearchModal from './SearchModal';
 import './Header.css';
 import GoogleTranslateButton from './LanguageTranslator';
 
-
 const Icon = ({ path, size = 20, fill = 'none' }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill={fill} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d={path} />
@@ -105,6 +104,20 @@ export default function Header() {
     { key: 'home', label: 'Home', href: '/', icon: ICONS.Home },
     { key: 'services', label: 'Services', href: '/services', icon: ICONS.Wrench },
     { key: 'about', label: 'About Us', href: '/about-us', icon: ICONS.User },
+    { 
+      key: 'car-classes', 
+      label: 'Car Classes', 
+      href: '/car-class/g-class', 
+      icon: ICONS.Gallery,
+      subItems: [
+        { label: 'All Classes', href: '/car-class/all' },
+        { label: 'G-Class', href: '/car-class/g-class' },
+        { label: 'C-Class', href: '/car-class/c-class' },
+        { label: 'S-Class', href: '/car-class/s-class' },
+        { label: 'E-Class', href: '/car-class/e-class' },
+        { label: 'AMG Series', href: '/car-class/amg-series' },
+      ]
+    },
     { key: 'models', label: 'Car Models', href: '/models', icon: ICONS.Gallery },
     {
       key: 'pages',
@@ -112,7 +125,6 @@ export default function Header() {
       href: '#',
       icon: ICONS.Blog,
       subItems: [
-        // { label: 'Our Team', href: '/our-team' },
         { label: 'Case Single', href: '/case' },
         { label: 'Work Process', href: '/work-process' },
         { label: 'Testimonials', href: '/testimonials' },
@@ -140,7 +152,7 @@ export default function Header() {
         <div className="container d-flex justify-content-between align-items-center py-2">
           <div className="d-flex align-items-center gap-2 text-white">
             <Icon path={ICONS.Location} size={14} />
-            <span>Warehouse #S2, Al Qouz 20C Street Industrial Area 2, Dubai, UAE</span>
+            <span>Warehouse #S2, Al Quoz 20C Street Industrial Area 2, Dubai, UAE</span>
           </div>
           <div className="d-flex align-items-center gap-4">
             <a href="tel:+971567888808" className="text-decoration-none text-white d-flex align-items-center gap-1">
@@ -155,7 +167,7 @@ export default function Header() {
 
       {/* Main App Bar */}
       <header className={`md-appbar ${elevated ? 'md-appbar--elevated' : ''}`}>
-        <div className="container d-flex align-items-center justify-content-between md-appbar-row">
+        <div className="container-fluid d-flex align-items-center justify-content-between md-appbar-row">
           <Link href="/" className="md-appbar-brand" onClick={closeDrawer}>
             <img src="/images/logo.avif" alt="Mercedes Garage Dubai" className="md-logo-img rounded-3" />
           </Link>
@@ -176,7 +188,6 @@ export default function Header() {
           </nav>
 
           <div className="md-appbar-actions d-flex align-items-center gap-2">
-            {/* Desktop & Mobile dono jagah GoogleTranslateButton pehle set kiya hai */}
             <GoogleTranslateButton />
             
             <button className="md-icon-btn md-ripple" onMouseDown={addRipple} onClick={() => setSearchOpen(true)} aria-label="Search">
