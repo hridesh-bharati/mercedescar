@@ -8,6 +8,8 @@ import { onAuthStateChanged, sendPasswordResetEmail } from 'firebase/auth';
 import Link from 'next/link';
 import '../auth.css';
 
+const ADMIN_EMAIL = (process.env.NEXT_PUBLIC_ADMIN_EMAIL || '').toLowerCase();
+
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -20,7 +22,7 @@ export default function LoginPage() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        if (user.email.toLowerCase() === 'hridesh027@gmail.com'.toLowerCase()) {
+        if (ADMIN_EMAIL && user.email.toLowerCase() === ADMIN_EMAIL) {
           router.push('/dashboard/adminpanel');
         } else {
           router.push('/dashboard/userpanel');
@@ -42,7 +44,7 @@ export default function LoginPage() {
     setLoading(false);
 
     if (res.success) {
-      if (res.user.email.toLowerCase() === 'hridesh027@gmail.com'.toLowerCase()) {
+      if (ADMIN_EMAIL && res.user.email.toLowerCase() === ADMIN_EMAIL) {
         router.push('/dashboard/adminpanel');
       } else {
         router.push('/dashboard/userpanel');

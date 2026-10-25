@@ -18,8 +18,8 @@ import UsersManager from './users-manager';
 import CommentsManager from './comments-manager';
 import CasesManager from './cases-manager';
 import GalleryManager from './gallery-manager';
-import ProfileManager from './profile-manager';  
-import CarModelsManager from './car-models-manager'; 
+import ProfileManager from './profile-manager';
+import CarModelsManager from './car-models-manager';
 import CarClassesManager from './car-classes-manager';
 
 let dashboardCache = {
@@ -46,9 +46,11 @@ export default function AdminPanel() {
     return () => { document.body.style.overflow = 'unset'; };
   }, [mobileMenuOpen]);
 
+  const ADMIN_EMAIL = (process.env.NEXT_PUBLIC_ADMIN_EMAIL || '').toLowerCase();
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (!user || user.email.toLowerCase() !== 'hridesh027@gmail.com'.toLowerCase()) {
+      if (!user || !ADMIN_EMAIL || user.email.toLowerCase() !== ADMIN_EMAIL) {
         router.push('/auth/login');
       } else {
         setIsAdmin(true);
@@ -91,14 +93,14 @@ export default function AdminPanel() {
       </div>
     </div>
   );
-  
+
   if (!isAdmin) return null;
 
   const menuItems = [
     { key: 'overview', label: 'Overview', icon: LayoutDashboard },
     { key: 'services', label: 'Manage Services', icon: Wrench },
-    { key: 'car-models', label: 'Car Models', icon: Car }, 
-    { key: 'car-classes', label: 'Car Classes', icon: Cpu }, 
+    { key: 'car-models', label: 'Car Models', icon: Car },
+    { key: 'car-classes', label: 'Car Classes', icon: Cpu },
     { key: 'blogs', label: 'Manage Blogs', icon: FileText },
     { key: 'comments', label: 'Blog Comments', icon: MessageSquare },
     { key: 'cases', label: 'Manage Cases', icon: Briefcase },
@@ -130,16 +132,16 @@ export default function AdminPanel() {
   };
 
   return (
-    <div className="container-fluid min-vh-100 py-4 position-relative overflow-hidden" style={{ 
-      background: 'linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 50%, #e0c3fc 100%)', 
+    <div className="container-fluid min-vh-100 py-4 position-relative overflow-hidden" style={{
+      background: 'linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 50%, #e0c3fc 100%)',
       fontFamily: "'Inter', sans-serif"
     }}>
-      
+
       <div className="position-absolute rounded-circle" style={{ top: '-15%', left: '-10%', width: '600px', height: '600px', background: 'rgba(255, 255, 255, 0.4)', filter: 'blur(100px)', zIndex: 0 }}></div>
       <div className="position-absolute rounded-circle" style={{ bottom: '-15%', right: '-10%', width: '500px', height: '500px', background: 'rgba(142, 197, 252, 0.5)', filter: 'blur(100px)', zIndex: 0 }}></div>
 
       <div className="position-relative" style={{ zIndex: 1 }}>
-        
+
         {/* Mobile Top Navbar */}
         <div className="d-lg-none p-3 mb-4 d-flex flex-row justify-content-between align-items-center" style={{ ...glassStyle, borderRadius: '24px' }}>
           <div className="d-flex align-items-center gap-2">
@@ -152,7 +154,7 @@ export default function AdminPanel() {
             <Link href="/" className="btn btn-light btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center shadow-sm border-0">
               <Home size={18} className="text-primary" />
             </Link>
-            <button 
+            <button
               className="btn text-white btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center shadow-sm border-0"
               style={{ width: '38px', height: '38px', background: 'linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)' }}
               onClick={() => setMobileMenuOpen(true)}
@@ -163,10 +165,10 @@ export default function AdminPanel() {
         </div>
 
         {/* --- MOBILE SIDEBAR DRAWER (70vw) --- */}
-        <div 
+        <div
           className="d-lg-none position-fixed top-0 start-0 w-100 h-100"
-          style={{ 
-            backgroundColor: 'rgba(0,0,0,0.25)', 
+          style={{
+            backgroundColor: 'rgba(0,0,0,0.25)',
             backdropFilter: 'blur(8px)',
             zIndex: 1040,
             opacity: mobileMenuOpen ? 1 : 0,
@@ -176,9 +178,9 @@ export default function AdminPanel() {
           onClick={() => setMobileMenuOpen(false)}
         />
 
-        <div 
+        <div
           className="d-lg-none position-fixed top-0 end-0 h-100 d-flex flex-column"
-          style={{ 
+          style={{
             width: '70vw',
             zIndex: 1050,
             background: 'rgba(255, 255, 255, 0.65)',
@@ -193,25 +195,25 @@ export default function AdminPanel() {
           }}
         >
           <div className="p-4 pt-5 d-flex justify-content-between align-items-center">
-             <span className="fw-bold text-dark fs-5">Menu</span>
-             <button 
-               className="btn btn-light btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center border-0 shadow-sm"
-               onClick={() => setMobileMenuOpen(false)}
-             >
-               <X size={18} className="text-danger" />
-             </button>
+            <span className="fw-bold text-dark fs-5">Menu</span>
+            <button
+              className="btn btn-light btn-sm rounded-circle p-2 d-flex align-items-center justify-content-center border-0 shadow-sm"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <X size={18} className="text-danger" />
+            </button>
           </div>
 
           <div className="px-3 pb-3 flex-grow-1 d-flex flex-column gap-2">
             <Link href="/" className="btn btn-light text-start d-flex align-items-center gap-3 rounded-4 px-3 py-3 fw-semibold text-decoration-none shadow-sm border-0 mb-2">
               <Home size={18} className="text-primary" /> Go to Home
             </Link>
-            
+
             {menuItems.map((item) => {
               const IconComponent = item.icon;
               const isActive = activeTab === item.key;
               return (
-                <button 
+                <button
                   key={item.key}
                   className={`btn text-start d-flex align-items-center gap-3 rounded-4 px-3 py-3 fw-semibold transition-all border-0 ${isActive ? 'text-white shadow' : 'text-secondary bg-white bg-opacity-50'}`}
                   style={isActive ? { background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' } : {}}
@@ -224,7 +226,7 @@ export default function AdminPanel() {
           </div>
 
           <div className="p-4 mt-auto">
-            <button 
+            <button
               onClick={async () => { await authService.logout(); router.push('/auth/login'); }}
               className="btn btn-outline-danger w-100 rounded-4 fw-bold py-3 d-flex align-items-center justify-content-center gap-2 bg-white shadow-sm"
             >
@@ -235,7 +237,7 @@ export default function AdminPanel() {
         {/* --- END MOBILE SIDEBAR DRAWER --- */}
 
         <div className="row g-4">
-          
+
           {/* Desktop Sidebar */}
           <div className="col-lg-3 col-xl-2 d-none d-lg-block">
             <div className="p-3 sticky-top d-flex flex-column justify-content-between" style={{ ...glassStyle, top: '20px', minHeight: '91vh', borderRadius: '30px' }}>
@@ -249,25 +251,25 @@ export default function AdminPanel() {
                     <span className="small fw-bold" style={{ fontSize: '0.7rem', color: '#764ba2' }}>CONSOLE</span>
                   </div>
                 </div>
-                
+
                 <div className="nav flex-column gap-1 mb-3">
                   <Link href="/" className="btn text-start d-flex align-items-center gap-2 rounded-pill px-3 py-2 fw-semibold text-decoration-none shadow-sm mb-3 border-0 text-white" style={{ background: 'linear-gradient(135deg, #232526 0%, #414345 100%)' }}>
                     <Home size={16} /> Go to Home
                   </Link>
-                  
+
                   <span className="text-muted fw-bold px-3 mb-2" style={{ fontSize: '0.65rem', letterSpacing: '1px' }}>NAVIGATION</span>
 
                   {menuItems.map((item) => {
                     const IconComponent = item.icon;
                     const isActive = activeTab === item.key;
                     return (
-                      <button 
+                      <button
                         key={item.key}
                         className={`btn text-start d-flex align-items-center gap-2 rounded-pill px-3 py-2 fw-semibold transition-all border-0 ${isActive ? 'text-white shadow' : 'bg-transparent text-secondary'}`}
                         style={isActive ? { background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' } : {}}
                         onClick={() => setActiveTab(item.key)}
                       >
-                        <IconComponent size={16} className={isActive ? 'text-white' : 'text-muted'} /> 
+                        <IconComponent size={16} className={isActive ? 'text-white' : 'text-muted'} />
                         <span className="small">{item.label}</span>
                       </button>
                     );
@@ -277,7 +279,7 @@ export default function AdminPanel() {
 
               <div>
                 <hr className="text-muted opacity-25 my-3" />
-                <button 
+                <button
                   onClick={async () => { await authService.logout(); router.push('/auth/login'); }}
                   className="btn w-100 rounded-pill fw-bold py-2 d-flex align-items-center justify-content-center gap-2 shadow-sm small text-danger bg-white bg-opacity-50 border-0"
                 >
@@ -289,10 +291,10 @@ export default function AdminPanel() {
 
           {/* Main Content Area */}
           <div className="col-lg-9 col-xl-10">
-            
+
             {/* Top Banner */}
-            <div className="p-3 px-md-4 text-white mb-4 position-relative overflow-hidden" style={{ 
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
+            <div className="p-3 px-md-4 text-white mb-4 position-relative overflow-hidden" style={{
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
               borderRadius: '30px',
               boxShadow: '0 10px 30px rgba(118, 75, 162, 0.3)'
             }}>
@@ -326,17 +328,17 @@ export default function AdminPanel() {
                     { label: 'Gallery', count: stats.gallery, icon: ImageIcon, gradient: 'linear-gradient(135deg, #d63384 0%, #e83e8c 100%)', textColor: 'text-white', targetTab: 'gallery' }
                   ].map((stat, idx) => (
                     <div className="col-6 col-md-4 col-lg-3" key={idx}>
-                      <div 
+                      <div
                         role="button"
                         onClick={() => setActiveTab(stat.targetTab)}
-                        className="card border-0 shadow-sm p-3 h-100 position-relative overflow-hidden" 
-                        style={{ 
+                        className="card border-0 shadow-sm p-3 h-100 position-relative overflow-hidden"
+                        style={{
                           background: stat.gradient,
                           transition: 'transform 0.2s',
                           cursor: 'pointer',
                           borderRadius: '24px'
-                        }} 
-                        onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'} 
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
                         onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
                       >
                         <div className="position-absolute" style={{ right: '-15px', bottom: '-15px', opacity: 0.1, pointerEvents: 'none' }}>
@@ -366,7 +368,7 @@ export default function AdminPanel() {
                           <BarChart data={chartData}>
                             <XAxis dataKey="name" stroke="#6c757d" fontSize={12} tickLine={false} axisLine={false} />
                             <YAxis stroke="#6c757d" fontSize={12} allowDecimals={false} tickLine={false} axisLine={false} />
-                            <Tooltip cursor={{fill: 'rgba(255,255,255,0.2)'}} contentStyle={{ backgroundColor: 'rgba(255,255,255,0.9)', borderRadius: '16px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', backdropFilter: 'blur(10px)' }} />
+                            <Tooltip cursor={{ fill: 'rgba(255,255,255,0.2)' }} contentStyle={{ backgroundColor: 'rgba(255,255,255,0.9)', borderRadius: '16px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', backdropFilter: 'blur(10px)' }} />
                             <Bar dataKey="count" radius={[6, 6, 0, 0]}>
                               {chartData.map((entry, index) => (
                                 <Cell key={`cell-${index}`} fill={entry.color} />
@@ -389,7 +391,7 @@ export default function AdminPanel() {
                       <div style={{ width: '100%', height: '280px' }}>
                         <ResponsiveContainer>
                           <PieChart>
-                            <Pie data={chartData} dataKey="count" nameKey="name" cx="50%" cy="50%" outerRadius={85} innerRadius={45} label={({name, percent}) => `${(percent * 100).toFixed(0)}%`} labelLine={false}>
+                            <Pie data={chartData} dataKey="count" nameKey="name" cx="50%" cy="50%" outerRadius={85} innerRadius={45} label={({ name, percent }) => `${(percent * 100).toFixed(0)}%`} labelLine={false}>
                               {chartData.map((entry, index) => (
                                 <Cell key={`cell-${index}`} fill={entry.color} />
                               ))}
@@ -407,18 +409,18 @@ export default function AdminPanel() {
 
             {/* Render Active Components in Glass Container */}
             {activeTab !== 'overview' && (
-               <div className="p-0" style={{ ...glassStyle, borderRadius: '30px', minHeight: '60vh' }}>
-                  {activeTab === 'profile' && <ProfileManager />}
-                  {activeTab === 'services' && <ServicesManager />}
-                  {activeTab === 'car-models' && <CarModelsManager />} 
-                  {activeTab === 'car-classes' && <CarClassesManager />} 
-                  {activeTab === 'blogs' && <BlogsManager />}
-                  {activeTab === 'comments' && <CommentsManager />}
-                  {activeTab === 'cases' && <CasesManager />}
-                  {activeTab === 'gallery' && <GalleryManager />}
-                  {activeTab === 'inbox' && <InboxManager />}
-                  {activeTab === 'users' && <UsersManager />}
-               </div>
+              <div className="p-0" style={{ ...glassStyle, borderRadius: '30px', minHeight: '60vh' }}>
+                {activeTab === 'profile' && <ProfileManager />}
+                {activeTab === 'services' && <ServicesManager />}
+                {activeTab === 'car-models' && <CarModelsManager />}
+                {activeTab === 'car-classes' && <CarClassesManager />}
+                {activeTab === 'blogs' && <BlogsManager />}
+                {activeTab === 'comments' && <CommentsManager />}
+                {activeTab === 'cases' && <CasesManager />}
+                {activeTab === 'gallery' && <GalleryManager />}
+                {activeTab === 'inbox' && <InboxManager />}
+                {activeTab === 'users' && <UsersManager />}
+              </div>
             )}
 
           </div>

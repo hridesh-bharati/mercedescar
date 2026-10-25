@@ -43,7 +43,7 @@ export default function BlogsManager() {
       content, 
       ...(imageUrl && { imageUrl }), 
       date: 'Mar 2026', 
-      author: 'hridesh027@gmail.com' 
+      author: 'waqas@saaki.net' 
     };
 
     if (editId) {

@@ -59,6 +59,8 @@ export default function Header() {
   const [activeTab, setActiveTab] = useState('home');
   const [userData, setUserData] = useState(null);
 
+  const ADMIN_EMAIL = (process.env.NEXT_PUBLIC_ADMIN_EMAIL || '').toLowerCase();
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
@@ -72,13 +74,13 @@ export default function Header() {
           setUserData({
             email: currentUser.email,
             profilePic,
-            isAdmin: currentUser.email?.toLowerCase() === 'hridesh027@gmail.com'.toLowerCase()
+            isAdmin: ADMIN_EMAIL ? currentUser.email?.toLowerCase() === ADMIN_EMAIL : false
           });
         } catch (err) {
           setUserData({
             email: currentUser.email,
             profilePic: currentUser.photoURL || '',
-            isAdmin: currentUser.email?.toLowerCase() === 'hridesh027@gmail.com'.toLowerCase()
+            isAdmin: ADMIN_EMAIL ? currentUser.email?.toLowerCase() === ADMIN_EMAIL : false
           });
         }
       } else {
@@ -104,10 +106,10 @@ export default function Header() {
     { key: 'home', label: 'Home', href: '/', icon: ICONS.Home },
     { key: 'services', label: 'Services', href: '/services', icon: ICONS.Wrench },
     { key: 'about', label: 'About Us', href: '/about-us', icon: ICONS.User },
-    { 
-      key: 'car-classes', 
-      label: 'Car Classes', 
-      href: '/car-class/g-class', 
+    {
+      key: 'car-classes',
+      label: 'Car Classes',
+      href: '/car-class/g-class',
       icon: ICONS.Gallery,
       subItems: [
         { label: 'All Classes', href: '/car-class/all' },
@@ -139,8 +141,8 @@ export default function Header() {
 
   const filtered = query.trim()
     ? navItems
-        .map((i) => ({ ...i, subItems: i.subItems?.filter((s) => s.label.toLowerCase().includes(query.toLowerCase())) }))
-        .filter((i) => i.label.toLowerCase().includes(query.toLowerCase()) || (i.subItems && i.subItems.length > 0))
+      .map((i) => ({ ...i, subItems: i.subItems?.filter((s) => s.label.toLowerCase().includes(query.toLowerCase())) }))
+      .filter((i) => i.label.toLowerCase().includes(query.toLowerCase()) || (i.subItems && i.subItems.length > 0))
     : navItems;
 
   const dashboardUrl = userData?.isAdmin ? '/dashboard/adminpanel' : '/dashboard/userpanel';
@@ -189,7 +191,7 @@ export default function Header() {
 
           <div className="md-appbar-actions d-flex align-items-center gap-2">
             <GoogleTranslateButton />
-            
+
             <button className="md-icon-btn md-ripple" onMouseDown={addRipple} onClick={() => setSearchOpen(true)} aria-label="Search">
               <Icon path={ICONS.Search} size={20} />
             </button>

@@ -98,7 +98,7 @@ export default function BlogDetailPage({ params }) {
     setSubmitting(false);
   };
 
-  const handleReplySubmit = async (parentId) => {
+const handleReplySubmit = async (parentId) => {
     if (!replyMessage.trim() || isPostingReplyRef.current || postingReply) return;
 
     isPostingReplyRef.current = true;
@@ -107,7 +107,7 @@ export default function BlogDetailPage({ params }) {
     const payload = {
       blogId,
       name: 'Admin / Author',
-      email: 'hridesh027@gmail.com',
+      email: process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'admin@example.com',
       message: replyMessage.trim(),
       parentId,
       date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })

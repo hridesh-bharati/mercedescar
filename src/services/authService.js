@@ -7,8 +7,7 @@ import {
 } from "firebase/auth";
 import { ref, set, get, child } from "firebase/database";
 
-const ADMIN_EMAIL = "hridesh027@gmail.com";
-
+const ADMIN_EMAIL = (process.env.NEXT_PUBLIC_ADMIN_EMAIL || '').toLowerCase();
 export const authService = {
   // Signup User with Name & Mobile
   async signup(email, password, name, mobile = "") {
