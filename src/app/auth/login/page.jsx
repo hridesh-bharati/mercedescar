@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { authService } from '@/services/authService';
 import { auth } from '@/lib/firebase';
 import { onAuthStateChanged, sendPasswordResetEmail } from 'firebase/auth';
+import { Eye, EyeOff } from 'lucide-react';
 import Link from 'next/link';
 import '../auth.css';
 
@@ -13,6 +14,7 @@ const ADMIN_EMAIL = (process.env.NEXT_PUBLIC_ADMIN_EMAIL || '').toLowerCase();
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
@@ -96,13 +98,23 @@ export default function LoginPage() {
 
           <div className="mb-2">
             <label className="form-label small fw-bold text-secondary">Password</label>
-            <input
-              type="password"
-              className="form-control rounded-pill px-3 py-2 glass-input"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            <div className="position-relative">
+              <input
+                type={showPassword ? 'text' : 'password'}
+                className="form-control rounded-pill px-3 py-2 pe-5 glass-input"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <button
+                type="button"
+                className="btn btn-link text-muted position-absolute top-50 end-0 translate-middle-y me-3 p-0 text-decoration-none d-flex align-items-center"
+                onClick={() => setShowPassword(!showPassword)}
+                tabIndex="-1"
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </div>
 
           {/* Forgot Password Link */}

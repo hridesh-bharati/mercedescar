@@ -3,12 +3,14 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { Eye, EyeOff } from 'lucide-react';
 import { authService } from '@/services/authService';
 import '../auth.css';
 
 export default function SignupPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -49,13 +51,26 @@ export default function SignupPage() {
 
           <div>
             <label className="form-label small fw-bold text-secondary">Password</label>
-            <input 
-              type="password" 
-              className="form-control rounded-pill px-3 glass-input" 
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)} 
-              required 
-            />
+            <div className="position-relative">
+              <input 
+                type={showPassword ? 'text' : 'password'} 
+                className="form-control rounded-pill px-3 pe-5 glass-input" 
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)} 
+                required 
+              />
+              <button
+                type="button"
+                className="btn btn-link text-muted position-absolute top-50 end-0 translate-middle-y me-3 p-0 text-decoration-none d-flex align-items-center"
+                onClick={() => setShowPassword(!showPassword)}
+                tabIndex="-1"
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+            <div className="form-text text-muted" style={{ fontSize: '0.75rem' }}>
+              Minimum 12 characters, including 1 uppercase, 1 lowercase, and 1 special character.
+            </div>
           </div>
 
           <button type="submit" className="btn btn-danger rounded-pill py-2 fw-bold mt-2 shadow-sm" disabled={loading}>
