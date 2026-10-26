@@ -180,7 +180,7 @@ export default function AboutUs() {
               <div className="col-lg-5 text-center" data-aos="zoom-in">
                 <div className="ab-circle-wrap">
                   <img
-                    src="/images/services/imag-post-3.webp"
+                    src="/images/services/imag-post-3.avif"
                     alt="Mechanic cleaning Mercedes"
                     loading="lazy"
                   />
