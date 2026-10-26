@@ -1,11 +1,14 @@
 // src/app/layout.jsx
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'aos/dist/aos.css';
 import Script from 'next/script';
 import './globals.css';
 
 export const metadata = {
-  title: 'German Auto Expert | Luxury Car Repair & Maintenance Dubai',
+  metadataBase: new URL('https://mercedesgaragedubai.com'),
+  title: {
+    template: '%s | German Auto Expert Dubai',
+    default: 'German Auto Expert | Luxury Car Repair & Maintenance Dubai',
+  },
   description:
     'Expert luxury car service, repair, diagnostics, and maintenance in Al Quoz, Dubai. Certified mechanics and genuine parts for German vehicles.',
   keywords: [
@@ -27,8 +30,7 @@ export const metadata = {
   },
   openGraph: {
     title: 'German Auto Expert | Luxury Car Repair & Maintenance',
-    description:
-      'Expert luxury car service, engine diagnostics, and maintenance in Al Quoz, Dubai.',
+    description: 'Expert luxury car service, engine diagnostics, and maintenance in Al Quoz, Dubai.',
     url: 'https://mercedesgaragedubai.com',
     siteName: 'German Auto Expert',
     images: [
@@ -76,15 +78,7 @@ export default function RootLayout({ children }) {
     },
     openingHoursSpecification: {
       '@type': 'OpeningHoursSpecification',
-      dayOfWeek: [
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-        'Sunday',
-      ],
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
       opens: '08:00',
       closes: '20:00',
     },
@@ -95,11 +89,7 @@ export default function RootLayout({ children }) {
     <html lang="en" data-scroll-behavior="smooth">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -107,7 +97,6 @@ export default function RootLayout({ children }) {
       </head>
       <body suppressHydrationWarning={true}>
         {children}
-
         <Script
           src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
           strategy="afterInteractive"
