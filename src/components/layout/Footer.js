@@ -106,7 +106,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="footer-section">
+    <footer className="footer-section mb-4 pb-4">
       {/* Ambient background glows */}
       <div className="footer-glow footer-glow-1" aria-hidden="true"></div>
       <div className="footer-glow footer-glow-2" aria-hidden="true"></div>
@@ -217,7 +217,7 @@ export default function Footer() {
             
             <div className="d-flex gap-2 mb-3">
               {socials.map((s) => (
-                <a key={s.label} href={s.href} className="btn btn-outline-secondary btn-sm rounded-3 text-white border-white border-opacity-10 bg-white bg-opacity-5 d-flex align-items-center justify-content-center" style={{ width: '38px', height: '38px' }} aria-label={s.label} target="_blank" rel="noopener noreferrer">
+                <a key={s.label} href={s.href} className="btn btn-outline-secondary btn-sm rounded-3 text-dark border-white border-opacity-10 bg-white bg-opacity-5 d-flex align-items-center justify-content-center" style={{ width: '38px', height: '38px' }} aria-label={s.label} target="_blank" rel="noopener noreferrer">
                   {s.icon}
                 </a>
               ))}
