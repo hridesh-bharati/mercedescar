@@ -16,7 +16,7 @@ html, body {
 .services-hero {
   position: relative;
   min-height: 440px;
-  background: url('/images/services/hero-bg.jpg') center/cover no-repeat;
+  background: url('/images/services/services.avif') center/cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
