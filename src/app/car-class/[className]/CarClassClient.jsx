@@ -122,15 +122,23 @@ export default function CarClassClient({ initialData, initialList, slug }) {
       <>
         <Header />
         <main className="bg-light pb-5 min-vh-100">
-          <section className="position-relative text-white py-4 py-md-5" style={{ background: '#0a0a0a', minHeight: '320px' }}>
-            <div className="container py-3 py-md-4 text-center">
-              <span className="text-danger fw-bold small text-uppercase d-block mb-1">Mercedes-Benz Dubai</span>
-              <h1 className="display-5 display-md-4 fw-bold mb-3 text-white">All Mercedes Car Classes Service in Dubai</h1>
-              <p className="text-white-50 mx-auto" style={{ maxWidth: '640px', fontSize: '0.95rem' }}>
-                Explore specialized workshop service divisions for every Mercedes-Benz luxury class — G-Class, S-Class, C-Class, AMG and more in Al Quoz, Dubai.
-              </p>
-            </div>
-          </section>
+        <section 
+  className="position-relative text-white py-4 py-md-5" 
+  style={{ 
+    minHeight: '320px',
+    backgroundImage: 'linear-gradient(rgba(10, 10, 10, 0.75), rgba(10, 10, 10, 0.75)), url("/images/servicesman.avif")',
+    backgroundSize: 'cover',
+    backgroundPosition: 'center'
+  }}
+>
+  <div className="container py-3 py-md-4 text-center position-relative" style={{ zIndex: 2 }}>
+    <span className="text-danger fw-bold small text-uppercase d-block mb-1">Mercedes-Benz Dubai</span>
+    <h1 className="display-5 display-md-4 fw-bold mb-3 text-white">All Mercedes Car Classes Service in Dubai</h1>
+    <p className="text-white-50 mx-auto" style={{ maxWidth: '640px', fontSize: '0.95rem' }}>
+      Explore specialized workshop service divisions for every Mercedes-Benz luxury class — G-Class, S-Class, C-Class, AMG and more in Al Quoz, Dubai.
+    </p>
+  </div>
+</section>
           <div className="container py-4 py-md-5">
             {allClasses.length === 0 ? (
               <div className="text-center py-5 bg-white rounded-4 border p-4">

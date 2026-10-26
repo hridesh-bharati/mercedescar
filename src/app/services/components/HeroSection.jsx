@@ -12,18 +12,18 @@ export default function HeroSection() {
     <>
       <section className="services-hero">
         <div className="container text-center">
-          <div className="services-hero-badge" data-aos="fade-down">
+          <div className="services-hero-badge animate-fade-down">
             <Sparkles size={16} className="text-warning" />
             Shop With Confidence • Certified Vehicles
           </div>
 
-          <h1 className="services-hero-title" data-aos="fade-up" data-aos-delay="100">
+          <h1 className="services-hero-title animate-fade-up" style={{ animationDelay: '100ms' }}>
             Discover Our Best Deals On <br />
             <span className="text-danger">New And Used Cars</span>
           </h1>
 
-          {/* Balanced & Compact Search Trigger Bar inside Hero */}
-          <div className="row justify-content-center mt-4" data-aos="fade-up" data-aos-delay="150">
+          {/* Search Trigger Bar inside Hero */}
+          <div className="row justify-content-center mt-4 animate-fade-up" style={{ animationDelay: '150ms' }}>
             <div className="col-10 col-sm-8 col-md-6 col-lg-5">
               <div 
                 className="d-flex align-items-center bg-white shadow-sm rounded-pill px-3 px-md-4 py-2 py-md-2.5 border cursor-pointer"
@@ -37,7 +37,7 @@ export default function HeroSection() {
             </div>
           </div>
 
-          <div className="services-breadcrumb mt-4" data-aos="fade-up" data-aos-delay="200">
+          <div className="services-breadcrumb mt-4 animate-fade-up" style={{ animationDelay: '200ms' }}>
             <Link href="/" className="breadcrumb-link">Home</Link>
             <span className="breadcrumb-sep">✕</span>
             <span className="breadcrumb-current">Services</span>
@@ -45,7 +45,13 @@ export default function HeroSection() {
         </div>
       </section>
 
-      {/* Trigger Search Modal */}
+      <style jsx>{`
+        @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-down { animation: fadeDown 0.8s ease forwards; opacity: 0; }
+        .animate-fade-up { animation: fadeUp 0.8s ease forwards; opacity: 0; }
+      `}</style>
+
       <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
     </>
   );

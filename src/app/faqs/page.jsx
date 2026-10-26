@@ -1,13 +1,28 @@
-'use client';
-
-import { useState, useEffect } from 'react';
+// src/app/faqs/page.jsx
 import Link from 'next/link';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 import { ArrowRight, ArrowDown, MessageSquare } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import FaqAccordion from './FaqAccordion';
 import './Faqs.css';
+
+const SITE_URL = 'https://mercedesgaragedubai.com';
+const SITE_NAME = 'German Auto Expert';
+
+// ✅ SEO Metadata
+export const metadata = {
+  title: 'Mercedes Repair FAQs Dubai | German Auto Expert',
+  description: 'Find answers to common questions about Mercedes engine repair, brake service, transmission issues, and maintenance in Dubai. Expert advice from German Auto Expert.',
+  alternates: { canonical: `${SITE_URL}/faqs` },
+  openGraph: {
+    title: 'Mercedes Repair FAQs Dubai | German Auto Expert',
+    description: 'Find answers to common questions about Mercedes engine repair, brake service, and maintenance in Dubai.',
+    url: `${SITE_URL}/faqs`,
+    siteName: SITE_NAME,
+    type: 'website',
+  },
+  robots: { index: true, follow: true },
+};
 
 const faqsData = [
   {
@@ -57,33 +72,37 @@ const faqsData = [
   },
 ];
 
+// ✅ Google Rich Snippets (FAQ Schema)
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqsData.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    },
+  })),
+};
+
 export default function Faqs() {
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  useEffect(() => {
-    AOS.init({
-      duration: 800,
-      once: true,
-      offset: 40,
-    });
-  }, []);
-
-  const toggleAccordion = (index) => {
-    setActiveIndex(activeIndex === index ? null : index);
-  };
-
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Header />
 
       <main className="faqs-main">
-        {/* ============ HERO BANNER ============ */}
+        {/* HERO BANNER */}
         <section className="faqs-hero text-white position-relative">
           <div className="faqs-hero-bg"></div>
           <div className="faqs-hero-overlay"></div>
           <div className="container position-relative z-2 py-4">
             <div className="row">
-              <div className="col-lg-7 text-start" data-aos="fade-down">
+              <div className="col-lg-7 text-start animate-fade-down">
                 <div className="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-dark bg-opacity-50 border border-light border-opacity-25 mb-2">
                   <span style={{ width: '20px', height: '2px', background: '#D6241D', display: 'inline-block' }}></span>
                   <span className="small fw-bold tracking-wider text-danger">FAQS</span>
@@ -102,17 +121,14 @@ export default function Faqs() {
           </div>
         </section>
 
-        {/* ============ FAQ ACCORDION SECTION ============ */}
+        {/* FAQ SECTION */}
         <section className="faqs-section py-5 position-relative overflow-hidden">
-          {/* Ambient Glow Effects */}
           <div className="faqs-glow faqs-glow-blue"></div>
           <div className="faqs-glow faqs-glow-pink"></div>
 
           <div className="container position-relative z-2">
-            
-            {/* Section Header */}
             <div className="row justify-content-center text-center mb-5">
-              <div className="col-lg-7" data-aos="fade-down">
+              <div className="col-lg-7 animate-fade-down">
                 <div className="d-inline-flex align-items-center gap-2 mb-2">
                   <span style={{ width: '15px', height: '2px', background: '#D6241D' }}></span>
                   <span className="text-danger fw-bold small text-uppercase tracking-wider">POPULAR QUESTIONS</span>
@@ -122,46 +138,13 @@ export default function Faqs() {
               </div>
             </div>
 
-            {/* Accordion Container */}
             <div className="row justify-content-center">
-              <div className="col-lg-9" data-aos="fade-up">
-                <div className="pxl-accordion pxl-accordion1 style-4 glass-card p-4 p-md-5 rounded-4 shadow-sm mb-4">
-                  
-                  {faqsData.map((faq, index) => {
-                    const isActive = activeIndex === index;
-                    return (
-                      <div className={`pxl--item mb-3 pb-3 border-bottom border-light-subtle ${isActive ? 'active' : ''}`} key={faq.id}>
-                        <h5 
-                          className="pxl-accordion--title ft-kenyan m-0 py-2 d-flex align-items-center justify-content-between cursor-pointer"
-                          onClick={() => toggleAccordion(index)}
-                          style={{ cursor: 'pointer' }}
-                        >
-                          <span className="pxl-title--text fw-bold text-dark fs-5">
-                            {faq.question}
-                          </span>
-                          <span className="pxl-icon--action text-danger transition-transform">
-                            {isActive ? <ArrowDown size={18} /> : <ArrowRight size={18} />}
-                          </span>
-                        </h5>
-                        
-                        <div 
-                          id={faq.id} 
-                          className="pxl-accordion--content text-secondary small mt-2 ps-0" 
-                          style={{ 
-                            display: isActive ? 'block' : 'none',
-                            lineHeight: '1.8'
-                          }}
-                        >
-                          {faq.answer}
-                        </div>
-                      </div>
-                    );
-                  })}
+              <div className="col-lg-9 animate-fade-up">
+                {/* ✅ Client Component for Accordion (Handles Click State) */}
+                <FaqAccordion faqs={faqsData} />
 
-                </div>
-
-                {/* Still Need Help Banner - Navigates to /contact-us */}
-                <div data-aos="fade-up" data-aos-delay="100">
+                {/* Still Need Help Banner */}
+                <div className="animate-fade-up" style={{ animationDelay: '100ms' }}>
                   <Link 
                     href="/contact-us"
                     className="glass-card p-4 rounded-4 shadow-sm text-decoration-none d-flex align-items-center justify-content-center gap-3 text-dark fw-bold transition-all hover-scale"
@@ -173,15 +156,20 @@ export default function Faqs() {
                     <span className="fs-6 tracking-wider">STILL NEED HELP? CHAT TO US.</span>
                   </Link>
                 </div>
-
               </div>
             </div>
-
           </div>
         </section>
       </main>
 
       <Footer />
+
+      <style dangerouslySetInnerHTML={{__html: `
+        @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-down { animation: fadeDown 0.8s ease forwards; opacity: 0; }
+        .animate-fade-up { animation: fadeUp 0.8s ease forwards; opacity: 0; }
+      `}} />
     </>
   );
 }

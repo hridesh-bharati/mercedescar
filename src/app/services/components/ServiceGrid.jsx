@@ -3,19 +3,21 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
-import { ArrowRight, Car, Star, ShieldCheck, Wrench, Zap, Layers } from 'lucide-react';
-import { dbService } from '@/services/dbService';
+import { ArrowRight, Car, Star, ShieldCheck, Wrench, Zap, Layers, Search } from 'lucide-react';
 import { mercedesModels } from '../mercedesModels';
 
-export default function ServiceGrid() {
+export default function ServiceGrid({ initialServices }) {
   const searchParams = useSearchParams();
   const modelParam = searchParams.get('model');
 
-  const [liveServices, setLiveServices] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // ✅ Direct initial data load (No spinner if data came from server)
+  const [liveServices, setLiveServices] = useState(initialServices || []);
+  const [loading, setLoading] = useState(!initialServices || initialServices.length === 0);
   const [selectedFilter, setSelectedFilter] = useState('All Services');
   const [modelSearch, setModelSearch] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
   
   const [visibleCount, setVisibleCount] = useState(9);
   const [isFetchingMore, setIsFetchingMore] = useState(false);
@@ -34,64 +36,64 @@ export default function ServiceGrid() {
   ];
 
   useEffect(() => {
-    async function fetchServices() {
-      const res = await dbService.getAll('services');
-      if (res.success && res.data) {
-        setLiveServices(res.data);
-      }
-      setLoading(false);
-    }
-    fetchServices();
-
     if (modelParam) setSelectedFilter(modelParam);
-  }, [modelParam]);
+    // Fallback fetch (if server data was empty for some reason)
+    if (!initialServices || initialServices.length === 0) {
+      setLoading(true);
+      import('@/services/dbService').then(({ dbService }) => {
+        dbService.getAll('services').then((res) => {
+          if (res.success && res.data) setLiveServices(res.data);
+          setLoading(false);
+        });
+      });
+    }
+  }, [modelParam, initialServices]);
 
-  // Robust Smart Filtering with Keyword Grouping
+  // Robust Smart Filtering
   const filteredServices = liveServices.filter((service) => {
-    if (selectedFilter === 'All Services') return true;
-
-    const filterKey = selectedFilter.toLowerCase();
     const titleText = (service.title || '').toLowerCase();
     const modelText = (service.model || '').toLowerCase();
     const descText = (service.desc || service.description || '').toLowerCase();
+    const q = searchQuery.toLowerCase();
 
-    // Smart mapping for filter categories and modal models
+    const matchSearch = !q || titleText.includes(q) || modelText.includes(q) || descText.includes(q);
+    if (selectedFilter === 'All Services') return matchSearch;
+
+    const filterKey = selectedFilter.toLowerCase();
+    
     if (filterKey.includes('g-class') || filterKey.includes('g63') || filterKey.includes('g500')) {
-      return titleText.includes('g-class') || titleText.includes('g63') || modelText.includes('g-class') || modelText.includes('g63') || titleText.includes('engine');
+      return matchSearch && (titleText.includes('g-class') || titleText.includes('g63') || modelText.includes('g-class') || modelText.includes('g63') || titleText.includes('engine'));
     }
     if (filterKey.includes('s-class') || filterKey.includes('s500') || filterKey.includes('s580')) {
-      return titleText.includes('s-class') || titleText.includes('s500') || modelText.includes('s-class') || titleText.includes('airmatic');
+      return matchSearch && (titleText.includes('s-class') || titleText.includes('s500') || modelText.includes('s-class') || titleText.includes('airmatic'));
     }
     if (filterKey.includes('amg')) {
-      return titleText.includes('amg') || modelText.includes('amg') || titleText.includes('performance');
+      return matchSearch && (titleText.includes('amg') || modelText.includes('amg') || titleText.includes('performance'));
     }
     if (filterKey.includes('c-class') || filterKey.includes('c300') || filterKey.includes('c200')) {
-      return titleText.includes('c-class') || modelText.includes('c-class') || titleText.includes('transmission');
+      return matchSearch && (titleText.includes('c-class') || modelText.includes('c-class') || titleText.includes('transmission'));
     }
     if (filterKey.includes('gle')) {
-      return titleText.includes('gle') || modelText.includes('gle');
+      return matchSearch && (titleText.includes('gle') || modelText.includes('gle'));
     }
     if (filterKey.includes('glc')) {
-      return titleText.includes('glc') || modelText.includes('glc');
+      return matchSearch && (titleText.includes('glc') || modelText.includes('glc'));
     }
     if (filterKey === 'engine') {
-      return titleText.includes('engine') || descText.includes('engine') || titleText.includes('timing') || titleText.includes('compressor');
+      return matchSearch && (titleText.includes('engine') || descText.includes('engine') || titleText.includes('timing') || titleText.includes('compressor'));
     }
     if (filterKey === 'brakes') {
-      return titleText.includes('brake') || descText.includes('brake') || titleText.includes('rotor') || titleText.includes('abs');
+      return matchSearch && (titleText.includes('brake') || descText.includes('brake') || titleText.includes('rotor') || titleText.includes('abs'));
     }
 
-    // Default fallback search match
-    return modelText.includes(filterKey) || titleText.includes(filterKey) || descText.includes(filterKey) || modelText.includes('all models');
+    return matchSearch && (modelText.includes(filterKey) || titleText.includes(filterKey) || descText.includes(filterKey) || modelText.includes('all models'));
   });
 
-  // Priority Sorting (Exact matches first)
   const sortedServices = [...filteredServices].sort((a, b) => {
     if (selectedFilter === 'All Services') return 0;
     const filterKey = selectedFilter.toLowerCase();
     const aMatch = (a.model || '').toLowerCase().includes(filterKey) || (a.title || '').toLowerCase().includes(filterKey);
     const bMatch = (b.model || '').toLowerCase().includes(filterKey) || (b.title || '').toLowerCase().includes(filterKey);
-    
     if (aMatch && !bMatch) return -1;
     if (!aMatch && bMatch) return 1;
     return 0;
@@ -99,7 +101,6 @@ export default function ServiceGrid() {
 
   const displayedServices = sortedServices.slice(0, visibleCount);
 
-  // Infinite Scroll Observer
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -113,13 +114,11 @@ export default function ServiceGrid() {
       },
       { threshold: 0.1 }
     );
-
     const currentRef = loadMoreRef.current;
     if (currentRef) observer.observe(currentRef);
     return () => { if (currentRef) observer.unobserve(currentRef); };
   }, [visibleCount, sortedServices.length, isFetchingMore]);
 
-  // Filter Models for Modal Search
   const filteredModels = mercedesModels.filter((item) =>
     item.model.toLowerCase().includes(modelSearch.toLowerCase())
   );
@@ -128,13 +127,12 @@ export default function ServiceGrid() {
     <section className="py-5 bg-light">
       <div className="container py-3">
         
-        {/* TOP CONTROLS & MODEL MODAL BUTTON */}
+        {/* TOP CONTROLS */}
         <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
           <div>
             <h2 className="fw-bold text-dark mb-1">Our Professional Services</h2>
             <p className="text-muted small mb-0">Expert Mercedes-Benz specialized repairs in Dubai.</p>
           </div>
-
           <button 
             type="button" 
             className="btn btn-danger rounded-pill px-4 py-2 fw-bold shadow-sm d-inline-flex align-items-center gap-2 align-self-start align-self-md-auto"
@@ -145,8 +143,26 @@ export default function ServiceGrid() {
           </button>
         </div>
 
-        {/* FILTER CATEGORIES PILLS */}
+        {/* SEARCH & FILTERS */}
         <div className="bg-white p-3 rounded-4 shadow-sm mb-4 border">
+          <div className="d-flex gap-2 mb-3">
+            <div className="input-group bg-light rounded-pill overflow-hidden border w-100">
+              <span className="input-group-text bg-transparent border-0 ps-3 text-muted">
+                <Search size={16} />
+              </span>
+              <input
+                type="text"
+                className="form-control border-0 py-2 small shadow-none bg-transparent"
+                placeholder="Search services, models..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              {searchQuery && (
+                <button className="btn border-0 text-muted px-3 shadow-none" onClick={() => setSearchQuery('')}>✕</button>
+              )}
+            </div>
+          </div>
+
           <div className="d-flex align-items-center gap-2 overflow-auto pb-1 scrollbar-none">
             {filterCategories.map((cat, idx) => {
               const IconComponent = cat.icon;
@@ -167,17 +183,16 @@ export default function ServiceGrid() {
           </div>
         </div>
 
-        {/* SKELETON LOADING */}
+        {/* SKELETON / SERVICES GRID */}
         {loading ? (
           <div className="row g-4">
             {[1, 2, 3].map((item) => (
-              <div className={`col-lg-4 col-md-6 col-12 ${item > 1 ? 'd-none d-md-block' : ''}`} key={item}>
+              <div className="col-lg-4 col-md-6 col-12" key={item}>
                 <div className="card border-0 shadow-sm rounded-4 overflow-hidden bg-white p-3">
                   <div className="skeleton-box rounded-3 mb-3" style={{ height: '190px' }}></div>
                   <div className="skeleton-box rounded-2 mb-2" style={{ height: '18px', width: '35%' }}></div>
                   <div className="skeleton-box rounded-2 mb-2" style={{ height: '22px', width: '80%' }}></div>
                   <div className="skeleton-box rounded-2 mb-4" style={{ height: '36px', width: '100%' }}></div>
-                  <div className="skeleton-box rounded-2" style={{ height: '16px', width: '25%' }}></div>
                 </div>
               </div>
             ))}
@@ -186,8 +201,8 @@ export default function ServiceGrid() {
           <div className="text-center py-5 card border-0 shadow-sm rounded-4 p-5 bg-white">
             <Car size={40} className="text-secondary opacity-50 mb-3 mx-auto" />
             <h5 className="fw-bold text-dark mb-2">No Services Found for "{selectedFilter}"</h5>
-            <button className="btn btn-dark btn-sm rounded-pill px-4 fw-bold mt-2 mx-auto" onClick={() => { setSelectedFilter('All Services'); setVisibleCount(9); }}>
-              Reset Filter
+            <button className="btn btn-dark btn-sm rounded-pill px-4 fw-bold mt-2 mx-auto" onClick={() => { setSelectedFilter('All Services'); setSearchQuery(''); setVisibleCount(9); }}>
+              Reset Filters
             </button>
           </div>
         ) : (
@@ -204,7 +219,7 @@ export default function ServiceGrid() {
                     <div className="modern-service-card h-100 bg-white rounded-4 overflow-hidden position-relative d-flex flex-column shadow-sm border">
                       {mainImage && (
                         <div className="position-relative overflow-hidden" style={{ height: '190px' }}>
-                          <img src={mainImage} alt={title} className="w-100 h-100 object-fit-cover" />
+                          <Image src={mainImage} alt={title || 'Mercedes service'} fill className="object-fit-cover" sizes="(max-width: 768px) 100vw, 33vw" />
                           {pics.length > 1 && (
                             <span className="position-absolute top-0 end-0 m-2 badge bg-dark bg-opacity-75 text-white px-2 py-1 rounded-pill small shadow-sm">
                               📷 {pics.length} Photos
@@ -238,14 +253,8 @@ export default function ServiceGrid() {
                 );
               })}
             </div>
-
-            {/* Infinite Scroll Loader */}
             <div ref={loadMoreRef} className="text-center py-4 mt-4">
-              {isFetchingMore && (
-                <div className="spinner-border text-danger spinner-border-sm" role="status">
-                  <span className="visually-hidden">Loading...</span>
-                </div>
-              )}
+              {isFetchingMore && <div className="spinner-border text-danger spinner-border-sm" role="status" />}
             </div>
           </>
         )}
@@ -291,32 +300,12 @@ export default function ServiceGrid() {
       </div>
 
       <style jsx global>{`
-        @keyframes shimmer {
-          0% { background-position: -200px 0; }
-          100% { background-position: calc(200px + 100%) 0; }
-        }
-        .skeleton-box {
-          background: #e2e8f0;
-          background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
-          background-size: 400px 100%;
-          animation: shimmer 1.2s infinite linear;
-        }
-        .modern-service-card {
-          transition: all 0.3s ease;
-        }
-        .modern-service-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 12px 25px rgba(15, 23, 42, 0.08) !important;
-          border-color: rgba(225, 29, 72, 0.3) !important;
-        }
-        .model-pill-btn:hover {
-          background-color: #e11d48 !important;
-          color: #ffffff !important;
-          border-color: #e11d48 !important;
-        }
-        .model-pill-btn:hover span, .model-pill-btn:hover svg {
-          color: #ffffff !important;
-        }
+        @keyframes shimmer { 0% { background-position: -200px 0; } 100% { background-position: calc(200px + 100%) 0; } }
+        .skeleton-box { background: #e2e8f0; background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%); background-size: 400px 100%; animation: shimmer 1.2s infinite linear; }
+        .modern-service-card { transition: all 0.3s ease; }
+        .modern-service-card:hover { transform: translateY(-4px); box-shadow: 0 12px 25px rgba(15, 23, 42, 0.08) !important; border-color: rgba(225, 29, 72, 0.3) !important; }
+        .model-pill-btn:hover { background-color: #e11d48 !important; color: #ffffff !important; border-color: #e11d48 !important; }
+        .model-pill-btn:hover span, .model-pill-btn:hover svg { color: #ffffff !important; }
         .scrollbar-none::-webkit-scrollbar { display: none; }
         .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
       `}</style>
