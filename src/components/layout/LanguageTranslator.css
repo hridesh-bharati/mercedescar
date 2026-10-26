@@ -92,13 +92,13 @@
 }
 
 .gt-radio.active {
-  border-color: #008069;
+  border-color: #e31824;
 }
 
 .gt-radio-inner {
   width: 10px;
   height: 10px;
-  background: #008069;
+  background: #e31824;
   border-radius: 50%;
 }
 
