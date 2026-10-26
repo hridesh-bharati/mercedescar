@@ -1,4 +1,4 @@
- /* src\components\layout\MultiLanguage.css */
+/* src/components/layout/LanguageTranslator.css */
 .gt-overlay {
   position: fixed;
   inset: 0;
@@ -7,7 +7,7 @@
   align-items: flex-end;
   visibility: hidden;
   opacity: 0;
-  transition: .3s;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
   z-index: 10000;
 }
 
@@ -22,7 +22,7 @@
   border-radius: 24px 24px 0 0;
   max-height: 85vh;
   transform: translateY(100%);
-  transition: .3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
 }
@@ -36,31 +36,34 @@
   height: 4px;
   background: #e9edef;
   border-radius: 2px;
-  margin: 12px auto 0;
+  margin: 10px auto 0;
 }
 
 .gt-header {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 16px;
 }
 
 .gt-close-btn {
   background: none;
   border: none;
-  font-size: 22px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #3b4a54;
 }
 
 .gt-body {
   overflow-y: auto;
-  padding-bottom: 20px;
+  padding: 10px 0 20px;
 }
 
 .gt-row {
-  padding: 14px 24px;
+  padding: 12px 24px;
   cursor: pointer;
-  transition: .2s;
+  transition: background-color 0.2s;
 }
 
 .gt-row:active {
@@ -74,7 +77,7 @@
 .gt-left {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 20px;
 }
 
 .gt-radio {
@@ -92,8 +95,8 @@
 }
 
 .gt-radio-inner {
-  width: 11px;
-  height: 11px;
+  width: 10px;
+  height: 10px;
   background: #008069;
   border-radius: 50%;
 }
@@ -108,18 +111,8 @@
   color: #667781;
 }
 
-/* Google UI Hiding */
-body {
-  top: 0 !important;
-}
-
-.skiptranslate,
-#goog-gt-tt,
-.goog-te-banner-frame {
-  display: none !important;
-}
-
-@media(min-width:768px) {
+/* Responsive (Desktop Modal View) */
+@media(min-width: 768px) {
   .gt-overlay {
     align-items: center;
     justify-content: center;
@@ -135,41 +128,28 @@ body {
   }
 }
 
-/* ............................................ */
+/* ------------ Google Translate Widget Cleanup & Hiding ------------ */
+body {
+  top: 0 !important;
+}
 
-/* ------------ Google Translate Widget Cleanup ------------ */
 #goog-gt-tt,
 .goog-te-banner-frame,
 .goog-te-balloon-frame,
 .goog-te-gadget-simple,
+.skiptranslate,
 .VIpgJd-ZVi9od-ORHb-OEVmcd,
 .VIpgJd-ZVi9od-l4eHX-hSRGPd,
-.VIpgJd-ZVi9od-l4eHX-hSRGPd:link,
-.VIpgJd-ZVi9od-l4eHX-hSRGPd:visited,
-.VIpgJd-ZVi9od-l4eHX-hSRGPd:hover,
-.VIpgJd-ZVi9od-l4eHX-hSRGPd:active,
 .VIpgJd-ZVi9od-aZ2wEe-wOHMyf,
-.VIpgJd-yAWNEb-hvhgNd-IuizWc,
-.VIpgJd-ZVi9od-l4eHX-hSRGPd img {
+.VIpgJd-yAWNEb-hvhgNd-IuizWc {
   display: none !important;
   visibility: hidden !important;
   width: 0 !important;
   height: 0 !important;
 }
 
-.VIpgJd-ZVi9od-aZ2wEe-wOHMyf {
-  position: absolute;
-  bottom: 0 !important;
-}
-
 .goog-te-gadget {
-  height: 1rem !important;
+  height: 0 !important;
+  overflow: hidden !important;
   color: transparent !important;
-}
-
-.goog-te-gadget .goog-te-combo {
-  margin: 4px 0;
-  padding: 2px 1px;
-  width: 100%;
-  border: 0;
 }
