@@ -1,497 +1,152 @@
 // src/app/car-class/[className]/page.jsx
-'use client';
-
-import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
-import Link from 'next/link';
-import {
-    Wrench, ShieldCheck, Cpu, Phone, Mail, MapPin,
-    CheckCircle2, ArrowRight, Disc, Settings, Wind, Shield, AlertTriangle, Sparkles, Car, Calendar
-} from 'lucide-react';
 import { dbService } from '@/services/dbService';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
-import 'aos/dist/aos.css';
-import AOS from 'aos';
+import CarClassClient from './CarClassClient';
+import { notFound } from 'next/navigation';
 
-export default function CarClassDynamicPage() {
-    const params = useParams();
-    const rawSlug = params?.className || 'g-class';
-    const isAll = rawSlug.toLowerCase() === 'all';
-    const classNameFormatted = isAll ? 'All Mercedes Classes' : rawSlug.replace(/-/g, ' ').toUpperCase();
+const SITE_URL = 'https://mercedesgaragedubai.com'; 
+const SITE_NAME = 'German Auto Expert';
 
-    const [activeTab, setActiveTab] = useState('overview');
-    const [modelData, setModelData] = useState(null);
-    const [allClasses, setAllClasses] = useState([]);
-    const [loading, setLoading] = useState(true);
+const slugify = (str = '') =>
+  str.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
-    // Backend Booking Form State
-    const [bookingForm, setBookingForm] = useState({
-        name: '',
-        phone: '',
-        serviceType: 'Routine Servicing',
-        preferredDate: '',
-        notes: ''
-    });
-    const [submitting, setSubmitting] = useState(false);
-    const [successMsg, setSuccessMsg] = useState('');
+// Fetch all classes for both 'all' page schema and single class
+async function getData(slug) {
+  try {
+    const res = await dbService.getAll('car_classes');
+    if (!res.success || !res.data) return { list: [], single: null };
+    
+    const dataList = Array.isArray(res.data) 
+      ? res.data 
+      : Object.keys(res.data).map(key => ({ id: key, ...res.data[key] }));
 
-    useEffect(() => {
-        AOS.init({ duration: 800, once: true });
-        async function fetchData() {
-            setLoading(true);
-            const res = await dbService.getAll('car_classes');
-            if (res.success && res.data) {
-                if (isAll) {
-                    setAllClasses(res.data);
-                } else {
-                    const found = res.data.find(
-                        item => item.className?.toLowerCase().replace(/\s+/g, '-') === rawSlug.toLowerCase() ||
-                            item.id?.toLowerCase() === rawSlug.toLowerCase()
-                    );
-                    if (found) {
-                        setModelData(found);
-                    }
-                }
-            }
-            setLoading(false);
-        }
-        fetchData();
-    }, [rawSlug, isAll]);
+    if (slug === 'all') return { list: dataList, single: null };
 
-    const handleBookingSubmit = async (e) => {
-        e.preventDefault();
-        setSubmitting(true);
-        setSuccessMsg('');
-
-        const payload = {
-            ...bookingForm,
-            carClass: classNameFormatted,
-            createdAt: new Date().toISOString(),
-            status: 'Pending'
-        };
-
-        const res = await dbService.create('service_bookings', payload);
-        if (res.success) {
-            setSuccessMsg('Appointment booked successfully! Our workshop technician will call you shortly.');
-            setBookingForm({ name: '', phone: '', serviceType: 'Routine Servicing', preferredDate: '', notes: '' });
-        } else {
-            setSuccessMsg('Failed to submit appointment. Please call us directly.');
-        }
-        setSubmitting(false);
-    };
-
-    const servicesList = [
-        { title: 'Routine Servicing', desc: `Keep your vehicle in perfect condition.`, icon: <Wrench size={22} className="text-danger flex-shrink-0" /> },
-        { title: 'Engine Diagnostics', desc: 'Advanced scanning & error code analysis.', icon: <Cpu size={22} className="text-danger flex-shrink-0" /> },
-        { title: 'Brake Service', desc: 'Safe braking, maximum control.', icon: <Disc size={22} className="text-danger flex-shrink-0" /> },
-        { title: 'Suspension & Steering', desc: 'Smooth ride, precise handling.', icon: <Settings size={22} className="text-danger flex-shrink-0" /> },
-        { title: 'Electrical & AC Service', desc: 'Stay cool & connected on every drive.', icon: <Wind size={22} className="text-danger flex-shrink-0" /> },
-        { title: 'Transmission Repair', desc: 'Smooth gear shifts, better performance.', icon: <AlertTriangle size={22} className="text-danger flex-shrink-0" /> },
-        { title: 'Body & Paint Work', desc: 'Restore the original luxury look.', icon: <Shield size={22} className="text-danger flex-shrink-0" /> },
-        { title: 'Genuine Parts', desc: '100% authentic Mercedes-Benz parts.', icon: <ShieldCheck size={22} className="text-danger flex-shrink-0" /> },
-    ];
-
-    if (loading) {
-        return (
-            <>
-                <Header />
-                <div className="min-vh-100 d-flex align-items-center justify-content-center bg-white">
-                    <div className="spinner-border text-danger" role="status"></div>
-                    <span className="ms-2 fw-bold text-dark">Loading...</span>
-                </div>
-                <Footer />
-            </>
-        );
-    }
-
-    // ================= IF 'ALL CLASSES' IS SELECTED =================
-    if (isAll) {
-        return (
-            <>
-                <Header />
-                <main className="bg-light pb-5 min-vh-100">
-                    <section className="position-relative text-white py-5 overflow-hidden" style={{ background: '#0a0a0a', minHeight: '320px' }}>
-                        <div className="container position-relative py-4 text-center" style={{ zIndex: 2 }}>
-                            <span className="text-danger fw-bold small text-uppercase tracking-widest d-block mb-1">Mercedes-Benz Dubai</span>
-                            <h1 className="display-4 fw-bold mb-3 text-white">All Mercedes Car Classes</h1>
-                            <p className="text-white-50 mx-auto" style={{ maxWidth: '600px' }}>
-                                Explore our specialized workshop service divisions tailored for every Mercedes-Benz luxury class.
-                            </p>
-                        </div>
-                    </section>
-
-                    <div className="container py-5">
-                        {allClasses.length === 0 ? (
-                            <div className="text-center py-5 bg-white rounded-4 shadow-sm border p-5">
-                                <Car size={48} className="text-muted opacity-50 mb-3" />
-                                <h5 className="fw-bold text-dark">No Car Classes Found</h5>
-                                <p className="text-muted small">Please add car classes from the Admin Panel.</p>
-                            </div>
-                        ) : (
-                            <div className="row g-4">
-                                {allClasses.map((item, idx) => {
-                                    const slug = (item.className || 'model').toLowerCase().replace(/\s+/g, '-');
-                                    const cardImg = item.imageUrl || item.imageUrls?.[0] || '/images/car-class.png';
-                                    return (
-                                        <div className="col-12 col-md-6 col-lg-4" key={item.id || idx} data-aos="fade-up" data-aos-delay={idx * 50}>
-                                            <div className="card border-0 shadow-sm rounded-4 overflow-hidden h-100 bg-white hover-shadow transition">
-                                                <div style={{ height: '220px' }} className="overflow-hidden bg-light position-relative">
-                                                    <img
-                                                        src={cardImg}
-                                                        alt={item.className}
-                                                        className="w-100 h-100 object-fit-cover"
-                                                    />
-                                                    <span className="position-absolute top-0 end-0 m-3 badge bg-dark text-white px-3 py-2 rounded-pill small">
-                                                        Certified Care
-                                                    </span>
-                                                </div>
-                                                <div className="card-body p-4 d-flex flex-column justify-content-between">
-                                                    <div>
-                                                        <h3 className="fw-bold text-dark fs-4 mb-2">{item.className}</h3>
-                                                        <p className="text-muted small mb-3" style={{ lineHeight: '1.6', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                                                            {item.tagline || item.desc}
-                                                        </p>
-                                                    </div>
-                                                    <div className="d-flex align-items-center gap-2 mt-auto pb-2">
-                                                        <Link href={`/car-class/${slug}`} className="btn btn-outline-dark btn-sm rounded-pill px-3 fw-bold d-inline-flex align-items-center gap-1">
-                                                            View Details <ArrowRight size={14} />
-                                                        </Link>
-                                                        <Link href={`/car-class/${slug}#booking-form`} className="btn btn-danger btn-sm rounded-pill px-3 fw-bold d-inline-flex align-items-center gap-1">
-                                                            <Calendar size={14} /> Book Service
-                                                        </Link>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        )}
-                    </div>
-                </main>
-                <Footer />
-            </>
-        );
-    }
-
-    // ================= SINGLE CAR CLASS VIEW =================
-    return (
-        <>
-            <Header />
-
-            <main className="bg-light pb-5">
-
-                {/* ============ HERO SECTION ============ */}
-                <section className="position-relative text-white py-5 overflow-hidden" style={{ background: '#0a0a0a', minHeight: '420px' }}>
-                    <div className="position-absolute top-0 start-0 w-100 h-100 opacity-50" style={{ pointerEvents: 'none' }}>
-                        <img
-                            src={modelData?.imageUrl || modelData?.imageUrls?.[0] || '/images/car-class.png'}
-                            alt={`${classNameFormatted} Repair Dubai`}
-                            className="w-100 h-100 object-fit-cover"
-                        />
-                    </div>
-                    <div className="container position-relative py-4" style={{ zIndex: 2 }}>
-                        <nav aria-label="breadcrumb" data-aos="fade-down">
-                            <ol className="breadcrumb mb-3 small text-white-50">
-                                <li className="breadcrumb-item"><Link href="/" className="text-white text-decoration-none">Home</Link></li>
-                                <li className="breadcrumb-item"><Link href="/car-class/all" className="text-white text-decoration-none">Car Classes</Link></li>
-                                <li className="breadcrumb-item active text-danger fw-bold" aria-current="page">{classNameFormatted}</li>
-                            </ol>
-                        </nav>
-
-                        <div className="row align-items-center">
-                            <div className="col-12 col-lg-8" data-aos="fade-up">
-                                <span className="text-danger fw-bold small text-uppercase tracking-widest d-block mb-1">
-                                    Mercedes-Benz Service Al Quoz
-                                </span>
-                                <h1 className="display-3 fw-bold mb-3 text-white">{classNameFormatted}</h1>
-                                <p className="fs-5 fw-semibold text-white mb-2">{modelData?.tagline || `Expert Service & Repair for Your Mercedes ${classNameFormatted}`}</p>
-                                <p className="text-white-50 mb-4" style={{ maxWidth: '650px', lineHeight: '1.7' }}>
-                                    {modelData?.desc || `Your ${classNameFormatted} deserves the absolute best care. We provide specialized factory-grade servicing, diagnostics, and genuine repairs in Dubai.`}
-                                </p>
-                                <a href="#booking-form" className="btn btn-danger btn-lg rounded-pill px-5 fw-bold shadow-sm d-inline-flex align-items-center gap-2">
-                                    <Calendar size={18} /> Book Your Service Now
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                {/* ============ TAB NAVIGATION BAR ============ */}
-                <div className="bg-white border-bottom sticky-top shadow-sm" style={{ top: '80px', zIndex: 10 }}>
-                    <div className="container">
-                        <ul className="nav py-3 gap-4 border-0">
-                            {[
-                                { id: 'overview', label: 'Overview' },
-                                { id: 'services', label: 'Our Services' },
-                                { id: 'why-choose-us', label: 'Why Choose Us' },
-                                { id: 'faqs', label: 'FAQs' },
-                            ].map((tab) => (
-                                <li className="nav-item" key={tab.id}>
-                                    <button
-                                        className={`btn btn-link text-decoration-none p-0 fw-bold small text-uppercase position-relative pb-1 ${activeTab === tab.id ? 'text-danger' : 'text-dark'}`}
-                                        onClick={() => setActiveTab(tab.id)}
-                                    >
-                                        {tab.label}
-                                        {activeTab === tab.id && (
-                                            <span className="position-absolute bottom-0 start-0 w-100 bg-danger" style={{ height: '3px', borderRadius: '2px' }}></span>
-                                        )}
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                </div>
-
-                {/* ============ MAIN CONTENT & SIDEBAR ============ */}
-                <div className="container py-5">
-                    <div className="row g-5">
-
-                        {/* LEFT COLUMN */}
-                        <div className="col-12 col-lg-8">
-
-                            {activeTab === 'overview' && (
-                                <div data-aos="fade-up">
-                                    <div className="bg-white rounded-4 p-4 p-md-5 shadow-sm border mb-5">
-                                        <h2 className="fw-bold text-danger mb-4">About Mercedes {classNameFormatted}</h2>
-                                        <p className="text-secondary mb-4" style={{ lineHeight: '1.8' }}>
-                                            {modelData?.desc || `The Mercedes-Benz ${classNameFormatted} stands as a pinnacle of power, luxury, and precise engineering. Whether navigating city roads or tackling rough terrains, our specialized workshop in Al Quoz, Dubai ensures your vehicle runs at ultimate performance.`}
-                                        </p>
-                                        <div className="rounded-4 overflow-hidden shadow-sm" style={{ height: '340px' }}>
-                                            <img src={modelData?.imageUrl || '/images/car-class.png'} alt={`${classNameFormatted} maintenance workshop Dubai`} className="w-100 h-100 object-fit-cover" />
-                                        </div>
-                                    </div>
-
-                                    <div className="mb-5">
-                                        <h3 className="fw-bold text-danger mb-4">Our {classNameFormatted} Services</h3>
-                                        <div className="row g-4">
-                                            {servicesList.map((srv, idx) => (
-                                                <div className="col-12 col-md-6" key={idx} data-aos="fade-up" data-aos-delay={idx * 40}>
-                                                    <div className="bg-white p-4 rounded-4 shadow-sm border h-100 d-flex flex-column align-items-center text-center justify-content-between">
-                                                        <div>
-                                                            <div className="bg-danger bg-opacity-10 p-3 rounded-circle mb-3 d-inline-flex align-items-center justify-content-center" style={{ width: '60px', height: '60px' }}>
-                                                                {srv.icon}
-                                                            </div>
-                                                            <h5 className="fw-bold text-dark mb-2 fs-6">{srv.title}</h5>
-                                                            <p className="text-muted small mb-3">{srv.desc}</p>
-                                                        </div>
-                                                        <a href="#booking-form" className="btn btn-outline-danger btn-sm rounded-pill px-3 fw-bold mt-3 w-100">Book Service</a>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-
-                            {activeTab === 'services' && (
-                                <div className="bg-white rounded-4 p-4 p-md-5 shadow-sm border" data-aos="fade-up">
-                                    <h3 className="fw-bold text-dark mb-4">Comprehensive Workshop Services</h3>
-                                    <div className="list-group list-group-flush gap-3">
-                                        {servicesList.map((s, i) => (
-                                            <div key={i} className="list-group-item border rounded-4 p-4 d-flex flex-wrap align-items-center justify-content-between gap-3 bg-light">
-                                                <div className="d-flex align-items-center gap-3">
-                                                    <div className="bg-danger text-white p-3 rounded-3 d-flex align-items-center justify-content-center">{s.icon}</div>
-                                                    <div>
-                                                        <h5 className="fw-bold text-dark mb-1">{s.title}</h5>
-                                                        <p className="text-muted small mb-0">{s.desc}</p>
-                                                    </div>
-                                                </div>
-                                                <a href="#booking-form" className="btn btn-danger btn-sm rounded-pill px-4 fw-bold">Book Service</a>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-
-                            {activeTab === 'why-choose-us' && (
-                                <div className="bg-white rounded-4 p-4 p-md-5 shadow-sm border" data-aos="fade-up">
-                                    <h3 className="fw-bold text-dark mb-4">Why Choose Our {classNameFormatted} Workshop?</h3>
-                                    <p className="text-muted mb-4">We combine factory-trained technical mastery with genuine OEM parts to deliver dealership-level precision without the heavy markup.</p>
-                                    <div className="row g-4">
-                                        <div className="col-12 col-md-6">
-                                            <div className="p-4 bg-light rounded-4 h-100 border">
-                                                <h5 className="fw-bold text-dark mb-2">Certified Technicians</h5>
-                                                <p className="text-muted small mb-0">Specialized training in Mercedes electronics, engine tuning, and transmission systems.</p>
-                                            </div>
-                                        </div>
-                                        <div className="col-12 col-md-6">
-                                            <div className="p-4 bg-light rounded-4 h-100 border">
-                                                <h5 className="fw-bold text-dark mb-2">Advanced Diagnostics</h5>
-                                                <p className="text-muted small mb-0">Equipped with official Mercedes Xentry diagnostic scanners for error-free troubleshooting.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-
-                            {activeTab === 'faqs' && (
-                                <div className="bg-white rounded-4 p-4 p-md-5 shadow-sm border" data-aos="fade-up">
-                                    <h3 className="fw-bold text-dark mb-4">Frequently Asked Questions</h3>
-                                    <div className="accordion" id="faqAccordion">
-                                        <div className="accordion-item border rounded-4 mb-3 overflow-hidden">
-                                            <h2 className="accordion-header">
-                                                <button className="accordion-button fw-bold shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
-                                                    How long does a routine service take for a {classNameFormatted}?
-                                                </button>
-                                            </h2>
-                                            <div id="faq1" className="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
-                                                <div className="accordion-body text-muted small">
-                                                    A standard routine service typically takes between 2 to 3 hours, depending on additional inspections or filter replacements.
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-
-                        </div>
-
-                        {/* RIGHT COLUMN: Booking & Info Sidebar */}
-                        <div className="col-12 col-lg-4" id="booking-form">
-                            <div className="sticky-top d-flex flex-column gap-4" style={{ top: '100px' }}>
-
-                                <div className="card border-0 shadow-sm rounded-4 p-4 bg-white border">
-                                    <h4 className="fw-bold mb-2 fs-5 text-danger">Book Your Service</h4>
-                                    <p className="text-muted small mb-4">Get expert care for your Mercedes {classNameFormatted} from our certified technicians.</p>
-
-                                    {successMsg && (
-                                        <div className="alert alert-success small py-2 rounded-3 mb-3">
-                                            {successMsg}
-                                        </div>
-                                    )}
-
-                                    <form onSubmit={handleBookingSubmit} className="d-flex flex-column gap-3">
-                                        <div>
-                                            <input
-                                                type="text"
-                                                required
-                                                className="form-control rounded-3 bg-light text-dark border py-2.5 small shadow-none"
-                                                placeholder="Your Name"
-                                                value={bookingForm.name}
-                                                onChange={(e) => setBookingForm({ ...bookingForm, name: e.target.value })}
-                                            />
-                                        </div>
-                                        <div>
-                                            <input
-                                                type="tel"
-                                                required
-                                                className="form-control rounded-3 bg-light text-dark border py-2.5 small shadow-none"
-                                                placeholder="Phone Number"
-                                                value={bookingForm.phone}
-                                                onChange={(e) => setBookingForm({ ...bookingForm, phone: e.target.value })}
-                                            />
-                                        </div>
-                                        <div>
-                                            <select
-                                                className="form-select rounded-3 bg-light text-dark border py-2.5 small shadow-none"
-                                                value={bookingForm.serviceType}
-                                                onChange={(e) => setBookingForm({ ...bookingForm, serviceType: e.target.value })}
-                                            >
-                                                <option value="Routine Servicing">Routine Servicing</option>
-                                                <option value="Engine Diagnostics">Engine Diagnostics</option>
-                                                <option value="Brake Service">Brake Service</option>
-                                                <option value="AC & Electrical">AC & Electrical</option>
-                                            </select>
-                                        </div>
-                                        <div>
-                                            <input
-                                                type="date"
-                                                required
-                                                className="form-control rounded-3 bg-light text-dark border py-2.5 small shadow-none"
-                                                value={bookingForm.preferredDate}
-                                                onChange={(e) => setBookingForm({ ...bookingForm, preferredDate: e.target.value })}
-                                            />
-                                        </div>
-
-                                        <button type="submit" disabled={submitting} className="btn btn-danger w-100 rounded-pill py-2.5 fw-bold shadow-sm mt-1">
-                                            {submitting ? 'Booking...' : 'Book an Appointment →'}
-                                        </button>
-                                    </form>
-
-                                    <div className="mt-4 pt-4 border-top d-flex flex-column gap-2.5 small text-muted">
-                                        <div className="d-flex align-items-center gap-2">
-                                            <Phone size={14} className="text-danger" />
-                                            <span>+971 56 788 8808</span>
-                                        </div>
-                                        <div className="d-flex align-items-center gap-2">
-                                            <Mail size={14} className="text-danger" />
-                                            <span>info@mercedesgaragedubai.com</span>
-                                        </div>
-                                        <div className="d-flex align-items-center gap-2">
-                                            <MapPin size={14} className="text-danger" />
-                                            <span>Al Quoz, Dubai, UAE</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="card border-0 shadow-sm rounded-4 p-4 bg-white border">
-                                    <div className="d-flex align-items-center gap-2 mb-3">
-                                        <span className="text-dark fw-bold fs-6">Mercedes-Benz</span>
-                                    </div>
-                                    <ul className="list-unstyled d-flex flex-column gap-2.5 small text-secondary mb-0">
-                                        <li className="d-flex align-items-center gap-2"><CheckCircle2 size={16} className="text-success" /> Certified Technicians</li>
-                                        <li className="d-flex align-items-center gap-2"><CheckCircle2 size={16} className="text-success" /> Genuine Mercedes Parts</li>
-                                        <li className="d-flex align-items-center gap-2"><CheckCircle2 size={16} className="text-success" /> Advanced Diagnostic Tools</li>
-                                        <li className="d-flex align-items-center gap-2"><CheckCircle2 size={16} className="text-success" /> Transparent Pricing</li>
-                                        <li className="d-flex align-items-center gap-2"><CheckCircle2 size={16} className="text-success" /> Quick Turnaround Time</li>
-                                    </ul>
-                                </div>
-
-                                <div className="card border-0 shadow-sm rounded-4 p-4 bg-dark text-white position-relative overflow-hidden">
-                                    <h5 className="fw-bold mb-1 fs-6">Keep Your {classNameFormatted} at Its Best</h5>
-                                    <p className="text-white-50 small mb-3">Luxury. Power. Performance.</p>
-                                    <Link href="/contact-us" className="btn btn-danger btn-sm rounded-pill px-4 fw-bold d-inline-flex align-items-center gap-1 shadow-sm" style={{ width: 'fit-content' }}>
-                                        Contact Us <ArrowRight size={14} />
-                                    </Link>
-                                </div>
-
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                {/* ============ BOTTOM TRUST STRIP ============ */}
-                <section className="bg-dark text-white py-4 mt-5 border-top border-secondary border-opacity-25">
-                    <div className="container">
-                        <div className="row text-center text-md-start align-items-center g-4">
-                            <div className="col-12 col-md-3 d-flex align-items-center justify-content-center justify-content-md-start gap-3">
-                                <ShieldCheck size={28} className="text-danger" />
-                                <div>
-                                    <h6 className="fw-bold mb-0 small">Genuine Mercedes Parts</h6>
-                                    <span className="text-white-50" style={{ fontSize: '0.75rem' }}>100% Authentic</span>
-                                </div>
-                            </div>
-                            <div className="col-12 col-md-3 d-flex align-items-center justify-content-center justify-content-md-start gap-3">
-                                <Wrench size={28} className="text-danger" />
-                                <div>
-                                    <h6 className="fw-bold mb-0 small">Expert Technicians</h6>
-                                    <span className="text-white-50" style={{ fontSize: '0.75rem' }}>Factory Trained</span>
-                                </div>
-                            </div>
-                            <div className="col-12 col-md-3 d-flex align-items-center justify-content-center justify-content-md-start gap-3">
-                                <Cpu size={28} className="text-danger" />
-                                <div>
-                                    <h6 className="fw-bold mb-0 small">Advanced Diagnostics</h6>
-                                    <span className="text-white-50" style={{ fontSize: '0.75rem' }}>Latest Technology</span>
-                                </div>
-                            </div>
-                            <div className="col-12 col-md-3 d-flex align-items-center justify-content-center justify-content-md-start gap-3">
-                                <Sparkles size={28} className="text-danger" />
-                                <div>
-                                    <h6 className="fw-bold mb-0 small">Trusted by 1000+ Customers</h6>
-                                    <span className="text-white-50" style={{ fontSize: '0.75rem' }}>In Dubai</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-            </main>
-
-            <Footer />
-        </>
+    const single = dataList.find(
+      (item) => slugify(item.className) === slug || item.slug === slug || item.id?.toLowerCase() === slug
     );
+    return { list: dataList, single: single || null };
+  } catch (err) {
+    console.error('Error fetching class details:', err);
+    return { list: [], single: null };
+  }
+}
+
+export async function generateMetadata({ params }) {
+  const resolvedParams = await params;
+  const className = resolvedParams?.className || '';
+  const isAll = className.toLowerCase() === 'all';
+
+  if (isAll) {
+    return {
+      title: 'All Mercedes Car Classes Service in Dubai | German Auto Expert',
+      description: 'Explore specialized Mercedes-Benz servicing, maintenance and repair for every car class — G-Class, S-Class, C-Class, AMG and more in Al Quoz, Dubai.',
+      alternates: { canonical: `${SITE_URL}/car-class/all` },
+      openGraph: {
+        title: 'All Mercedes Car Classes Service in Dubai',
+        description: 'Specialized Mercedes-Benz workshop services in Al Quoz, Dubai.',
+        url: `${SITE_URL}/car-class/all`,
+        siteName: SITE_NAME,
+        type: 'website',
+      },
+    };
+  }
+
+  const { single: data } = await getData(className);
+  if (!data) return { title: 'Car Class Not Found' };
+
+  const formatted = data.className || className.replace(/-/g, ' ').toUpperCase();
+  const title = data.seoTitle || `Mercedes ${formatted} Service & Repair in Dubai | ${SITE_NAME}`;
+  const description = data.seoDescription || `Professional Mercedes ${formatted} servicing, maintenance and repair in Al Quoz, Dubai. Certified technicians, genuine parts and transparent pricing.`;
+  const image = data.imageUrl || data.imageUrls?.[0] || `${SITE_URL}/images/car-class.png`;
+
+  return {
+    title,
+    description,
+    alternates: { canonical: `${SITE_URL}/car-class/${className}` },
+    openGraph: {
+      title,
+      description,
+      url: `${SITE_URL}/car-class/${className}`,
+      siteName: SITE_NAME,
+      images: [{ url: image, alt: `Mercedes ${formatted} service Dubai` }],
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [image],
+    },
+    robots: { index: true, follow: true },
+  };
+}
+
+export default async function Page({ params }) {
+  const resolvedParams = await params;
+  const className = resolvedParams?.className || '';
+  const isAll = className.toLowerCase() === 'all';
+  
+  const { list, single } = await getData(className);
+  if (!isAll && !single) notFound();
+
+  const formatted = isAll
+    ? 'All Mercedes Classes'
+    : (single?.className || className.replace(/-/g, ' ').toUpperCase());
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'AutoRepair',
+        name: SITE_NAME,
+        url: SITE_URL,
+        telephone: '+971 56 788 8808',
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: 'Al Quoz',
+          addressLocality: 'Dubai',
+          addressCountry: 'AE',
+        },
+      },
+      // If All page -> Complete ItemList Schema
+      ...(isAll ? [{
+        '@type': 'ItemList',
+        name: 'Mercedes Car Classes Services',
+        description: 'Complete list of Mercedes-Benz service classes offered by German Auto Expert.',
+        itemListElement: list.map((c, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: c.className,
+          url: `${SITE_URL}/car-class/${c.slug || slugify(c.className)}`,
+        })),
+      }] : []),
+      // If Single page -> Service + FAQ Schema
+      ...(!isAll && single ? [{
+        '@type': 'Service',
+        serviceType: `Mercedes ${formatted} Service`,
+        provider: { '@type': 'AutoRepair', name: SITE_NAME },
+        areaServed: 'Dubai',
+        name: single.h1 || `Mercedes ${formatted} Service and Repair in Dubai`,
+        description: single.heroIntro || `Expert Mercedes ${formatted} servicing in Dubai.`,
+      },
+      ...(single.faqs?.length ? [{
+        '@type': 'FAQPage',
+        mainEntity: single.faqs.map((f) => ({
+          '@type': 'Question',
+          name: f.q,
+          acceptedAnswer: { '@type': 'Answer', text: f.a },
+        })),
+      }] : [])] : [])
+    ],
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <CarClassClient initialData={single} initialList={isAll ? list : null} slug={className} />
+    </>
+  );
 }
