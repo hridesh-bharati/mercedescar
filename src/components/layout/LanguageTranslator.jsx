@@ -158,7 +158,7 @@ export default function GoogleTranslateButton() {
     return false;
   }, []);
 
-  const initGoogleTranslate = () => {
+  const handleOpenModal = () => {
     setOpen(true);
 
     if (window.__gtLoaded) {
@@ -189,7 +189,6 @@ export default function GoogleTranslateButton() {
     }
   };
 
-  // Prevent background scroll when modal/sheet is open
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "auto";
   }, [open]);
@@ -204,9 +203,10 @@ export default function GoogleTranslateButton() {
   return (
     <>
       <div id="google_translate_element" style={{ display: "none" }} />
+      
       <button 
         className="notranslate btn btn-sm border-0 d-flex align-items-center gap-1 p-2" 
-        onClick={initGoogleTranslate}
+        onClick={handleOpenModal}
         aria-label="Change Language"
       >
         <Languages size={20} />
