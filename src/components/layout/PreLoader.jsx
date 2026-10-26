@@ -3,35 +3,30 @@
 import { useState, useEffect } from 'react';
 
 export default function PreLoader() {
-  const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(true);
   const [fadeAnim, setFadeAnim] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
     const timer = setTimeout(() => {
       setFadeAnim(true);
-      const hideTimer = setTimeout(() => setLoading(false), 700);
-      return () => clearTimeout(hideTimer);
+      setTimeout(() => setLoading(false), 600);
     }, 2500);
 
     return () => clearTimeout(timer);
   }, []);
 
-  if (!mounted || !loading) return null;
+  if (!loading) return null;
 
   return (
     <div
-      className={`position-fixed top-0 start-0 w-100 h-100 d-flex flex-column align-items-center justify-content-center px-3 ${
+      className={`preloader-root position-fixed top-0 start-0 w-100 h-100 d-flex flex-column align-items-center justify-content-center ${
         fadeAnim ? 'opacity-0 scale-out' : 'opacity-100'
       }`}
       style={{
         zIndex: 9999999,
-        transition:
-          'opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1)',
+        transition: 'opacity 0.6s ease-in-out, transform 0.6s ease-in-out',
         pointerEvents: fadeAnim ? 'none' : 'auto',
-        background:
-          'radial-gradient(circle at center, #0a0000 0%, #000000 70%, #000000 100%)',
+        background: 'radial-gradient(circle at center, #1a0505 0%, #000000 100%)',
         overflow: 'hidden',
         perspective: '1000px',
       }}
@@ -44,46 +39,47 @@ export default function PreLoader() {
       </div>
 
       {/* Main Content */}
-      <div className="preloader-content text-center d-flex flex-column align-items-center justify-content-center">
+      <div className="preloader-content position-relative text-center px-3 d-flex flex-column align-items-center justify-content-center">
         {/* Cinematic Brand Reveal */}
         <div className="brand-reveal">
           <h1 className="preloader-brand mb-1">
-            <span className="text-white d-block d-sm-inline">GERMAN </span>
-            <span className="text-danger d-block d-sm-inline">AUTO </span>
-            <span className="text-white d-block d-sm-inline">EXPERT</span>
+            <span className="text-white">GERMAN </span>
+            <span className="text-danger">AUTO </span>
+            <span className="text-white">EXPERT</span>
           </h1>
           <div className="brand-line"></div>
         </div>
 
         {/* Subtitle */}
-        <div className="preloader-subtitle mt-2 mt-md-3">
-          <span className="text-white-50 subtitle-text">AUTO SERVICE CENTER</span>
+        <div className="preloader-subtitle mt-3">
+          <span className="preloader-subtitle-text text-white-50">
+            AUTO SERVICE CENTER
+          </span>
         </div>
 
-        {/* Loading bar */}
-        <div className="loading-bar-container mt-3 mt-md-5">
+        {/* Premium Loading Progress Line */}
+        <div className="loading-bar-container">
           <div className="loading-bar-fill"></div>
         </div>
 
-        {/* Loading text */}
-        <div className="mt-2 mt-md-3 loading-text">INITIALIZING...</div>
+        {/* Loading Text */}
+        <div className="preloader-loading-text mt-3">
+          INITIALIZING...
+        </div>
       </div>
 
       <style jsx>{`
+        /* Fade & Scale Out Effect */
         .scale-out {
-          transform: scale(1.05);
+          transform: scale(1.1);
         }
 
-        /* ---- Content wrapper ---- */
         .preloader-content {
-          position: relative;
           z-index: 2;
           width: 100%;
-          max-width: 320px;
-          padding: 0 10px;
         }
 
-        /* ---- 3D scene ---- */
+        /* 3D Rings Scene */
         .preloader-3d-scene {
           position: absolute;
           top: 50%;
@@ -102,86 +98,84 @@ export default function PreLoader() {
           position: absolute;
           border-radius: 50%;
           border: 2px solid transparent;
-          will-change: transform;
         }
 
         .ring-outer {
-          width: clamp(300px, 85vw, 380px);
-          height: clamp(300px, 85vw, 380px);
+          width: clamp(220px, 70vw, 400px);
+          height: clamp(220px, 70vw, 400px);
           border-top: 2px solid #e11d48;
-          border-left: 1px solid rgba(225, 29, 72, 0.2);
-          animation: spin3D 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-          box-shadow: 0 0 35px rgba(225, 29, 72, 0.15);
+          border-left: 1px solid rgba(225, 29, 72, 0.3);
+          animation: spin3D 4s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+          box-shadow: 0 0 30px rgba(225, 29, 72, 0.2);
         }
 
         .ring-inner {
-          width: clamp(230px, 68vw, 300px);
-          height: clamp(230px, 68vw, 300px);
+          width: clamp(170px, 55vw, 320px);
+          height: clamp(170px, 55vw, 320px);
           border-bottom: 2px solid #ff4d4d;
-          border-right: 1px solid rgba(255, 77, 77, 0.2);
-          animation: spin3DReverse 3.5s linear infinite;
+          border-right: 1px solid rgba(255, 77, 77, 0.3);
+          animation: spin3DReverse 3s linear infinite;
         }
 
         .center-glow {
           position: absolute;
-          width: clamp(140px, 40vw, 180px);
-          height: clamp(140px, 40vw, 180px);
-          background: rgba(225, 29, 72, 0.25);
+          width: clamp(120px, 40vw, 200px);
+          height: clamp(120px, 40vw, 200px);
+          background: rgba(225, 29, 72, 0.4);
           border-radius: 50%;
-          filter: blur(40px);
-          animation: pulseGlow 2.5s ease-in-out infinite alternate;
-          will-change: transform, opacity;
+          filter: blur(60px);
+          animation: pulseGlow 2s ease-in-out infinite alternate;
         }
 
-        /* ---- Brand ---- */
+        /* Brand Reveal Animation */
         .brand-reveal {
-          animation: revealBrand 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          animation: revealBrand 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
           opacity: 0;
-          transform: translateY(20px) scale(0.95);
-          will-change: transform, opacity;
+          transform: translateY(30px) scale(0.9);
           width: 100%;
         }
 
         .preloader-brand {
-          font-size: clamp(1.3rem, 5.5vw, 2.8rem);
+          font-size: clamp(1.1rem, 5.5vw, 3.5rem);
           font-weight: 900;
-          letter-spacing: clamp(1px, 0.5vw, 2.5px);
+          letter-spacing: clamp(1px, 0.5vw, 3px);
           margin: 0;
           text-transform: uppercase;
-          text-shadow: 0 4px 25px rgba(0, 0, 0, 0.9);
+          text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
           line-height: 1.2;
+          white-space: nowrap;
         }
 
         .brand-line {
           width: 0%;
           height: 2px;
           background: linear-gradient(90deg, transparent, #e11d48, transparent);
-          margin: 8px auto 0;
-          animation: expandLine 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+          margin: clamp(6px, 1.5vw, 10px) auto 0;
+          animation: expandLine 1s ease-out 0.5s forwards;
         }
 
-        /* ---- Subtitle ---- */
         .preloader-subtitle {
-          animation: slideUpFade 1s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+          animation: slideUpFade 1s ease-out 0.8s forwards;
           opacity: 0;
         }
 
-        .subtitle-text {
-          letter-spacing: clamp(2px, 1.2vw, 6px);
+        .preloader-subtitle-text {
+          font-size: clamp(0.5rem, 2.2vw, 0.85rem);
+          letter-spacing: clamp(2px, 1.2vw, 8px);
           font-weight: 300;
+          margin-left: clamp(2px, 1vw, 8px);
           display: inline-block;
-          font-size: clamp(0.55rem, 1.8vw, 0.75rem);
-          padding-left: 4px;
         }
 
-        /* ---- Loading bar ---- */
+        /* Loading Bar */
         .loading-bar-container {
-          width: clamp(120px, 40vw, 160px);
-          height: 2px;
-          background: rgba(255, 255, 255, 0.08);
+          width: clamp(140px, 55vw, 200px);
+          height: 3px;
+          background: rgba(255, 255, 255, 0.1);
           border-radius: 10px;
           overflow: hidden;
-          animation: slideUpFade 1s cubic-bezier(0.16, 1, 0.3, 1) 0.7s forwards;
+          margin-top: clamp(1rem, 4vw, 3rem);
+          animation: slideUpFade 1s ease-out 1s forwards;
           opacity: 0;
         }
 
@@ -189,95 +183,65 @@ export default function PreLoader() {
           width: 0%;
           height: 100%;
           background: linear-gradient(90deg, #ff4d4d, #e11d48);
-          animation: fillBar 1.6s cubic-bezier(0.4, 0, 0.2, 1) 0.6s forwards;
-          box-shadow: 0 0 12px #e11d48;
+          animation: fillBar 1.5s ease-in-out 0.8s forwards;
+          box-shadow: 0 0 10px #e11d48;
         }
 
-        /* ---- Loading text ---- */
-        .loading-text {
-          font-size: 0.55rem;
-          letter-spacing: 4px;
-          color: #e11d48;
-          text-shadow: 0 0 12px rgba(225, 29, 72, 0.6);
+        .preloader-loading-text {
+          font-size: clamp(0.5rem, 1.8vw, 0.65rem);
+          letter-spacing: clamp(2px, 1vw, 6px);
           font-weight: 700;
-          padding-left: 4px;
+          color: #e11d48;
+          text-shadow: 0 0 10px rgba(225, 29, 72, 0.5);
+          margin-left: clamp(2px, 1vw, 6px);
         }
 
-        /* ---- Keyframes ---- */
+        /* Keyframes */
         @keyframes spin3D {
-          0% {
-            transform: rotateX(20deg) rotateY(0deg) rotateZ(0deg);
-          }
-          100% {
-            transform: rotateX(20deg) rotateY(0deg) rotateZ(360deg);
-          }
+          0% { transform: rotateX(20deg) rotateY(0deg) rotateZ(0deg); }
+          100% { transform: rotateX(20deg) rotateY(0deg) rotateZ(360deg); }
         }
 
         @keyframes spin3DReverse {
-          0% {
-            transform: rotateX(15deg) rotateY(0deg) rotateZ(360deg);
-          }
-          100% {
-            transform: rotateX(15deg) rotateY(0deg) rotateZ(0deg);
-          }
+          0% { transform: rotateX(15deg) rotateY(0deg) rotateZ(360deg); }
+          100% { transform: rotateX(15deg) rotateY(0deg) rotateZ(0deg); }
         }
 
         @keyframes pulseGlow {
-          0% {
-            transform: scale(0.85);
-            opacity: 0.4;
-          }
-          100% {
-            transform: scale(1.15);
-            opacity: 0.8;
-          }
+          0% { transform: scale(0.8); opacity: 0.5; }
+          100% { transform: scale(1.2); opacity: 1; }
         }
 
         @keyframes revealBrand {
-          to {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-          }
+          to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         @keyframes expandLine {
-          to {
-            width: 100%;
-          }
+          to { width: 100%; }
         }
 
         @keyframes slideUpFade {
-          from {
-            opacity: 0;
-            transform: translateY(12px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+          from { opacity: 0; transform: translateY(15px); }
+          to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes fillBar {
-          0% {
-            width: 0%;
-          }
-          40% {
-            width: 45%;
-          }
-          80% {
-            width: 85%;
-          }
-          100% {
-            width: 100%;
-          }
+          0% { width: 0%; }
+          50% { width: 60%; }
+          100% { width: 100%; }
         }
 
-        /* ---- Respect reduced motion ---- */
-        @media (prefers-reduced-motion: reduce) {
-          .ring-outer,
-          .ring-inner,
-          .center-glow {
-            animation: none;
+        /* Extra small devices refinement */
+        @media (max-width: 400px) {
+          .preloader-brand {
+            font-size: clamp(0.95rem, 5vw, 1.4rem);
+            letter-spacing: 1px;
+          }
+          .preloader-subtitle-text {
+            letter-spacing: 2px;
+          }
+          .preloader-loading-text {
+            letter-spacing: 3px;
           }
         }
       `}</style>
