@@ -22,7 +22,7 @@ export default function PreLoader() {
 
   return (
     <div
-      className={`position-fixed top-0 start-0 w-100 h-100 d-flex flex-column align-items-center justify-content-center ${fadeAnim ? 'opacity-0 scale-out' : 'opacity-100'}`}
+      className={`position-fixed top-0 start-0 w-100 h-100 d-flex flex-column align-items-center justify-content-center px-3 ${fadeAnim ? 'opacity-0 scale-out' : 'opacity-100'}`}
       style={{
         zIndex: 9999999,
         transition: 'opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -40,11 +40,11 @@ export default function PreLoader() {
       </div>
 
       {/* Main Content */}
-      <div className="position-relative text-center px-3 d-flex flex-column align-items-center justify-content-center" style={{ zIndex: 2 }}>
+      <div className="position-relative text-center w-100 max-w-content d-flex flex-column align-items-center justify-content-center" style={{ zIndex: 2 }}>
         
         {/* Cinematic Brand Reveal */}
-        <div className="brand-reveal">
-          <h1 className="preloader-brand mb-1">
+        <div className="brand-reveal w-100">
+          <h1 className="preloader-brand mb-1 text-nowrap">
             <span className="text-white">GERMAN </span>
             <span className="text-danger">AUTO </span>
             <span className="text-white">EXPERT</span>
@@ -54,23 +54,27 @@ export default function PreLoader() {
 
         {/* Subtitle */}
         <div className="preloader-subtitle mt-3">
-          <span className="text-white-50 small" style={{ letterSpacing: '8px', fontWeight: '300', marginLeft: '8px' }}>
+          <span className="text-white-50 small subtitle-text">
             AUTO SERVICE CENTER
           </span>
         </div>
 
         {/* Premium Loading Progress Line */}
-        <div className="loading-bar-container mt-5">
+        <div className="loading-bar-container mt-4 mt-md-5">
           <div className="loading-bar-fill"></div>
         </div>
         
         {/* Loading Text */}
-        <div className="mt-3 fw-bold" style={{ fontSize: '0.65rem', letterSpacing: '6px', color: '#e11d48', textShadow: '0 0 12px rgba(225, 29, 72, 0.6)', marginLeft: '6px' }}>
+        <div className="mt-3 fw-bold loading-text">
           INITIALIZING...
         </div>
       </div>
 
       <style jsx>{`
+        .max-w-content {
+          max-width: 500px;
+        }
+
         .scale-out {
           transform: scale(1.05);
         }
@@ -95,7 +99,8 @@ export default function PreLoader() {
         }
 
         .ring-outer {
-          width: 380px; height: 380px;
+          width: clamp(260px, 80vw, 380px);
+          height: clamp(260px, 80vw, 380px);
           border-top: 2px solid #e11d48;
           border-left: 1px solid rgba(225, 29, 72, 0.2);
           animation: spin3D 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
@@ -103,7 +108,8 @@ export default function PreLoader() {
         }
 
         .ring-inner {
-          width: 300px; height: 300px;
+          width: clamp(200px, 65vw, 300px);
+          height: clamp(200px, 65vw, 300px);
           border-bottom: 2px solid #ff4d4d;
           border-right: 1px solid rgba(255, 77, 77, 0.2);
           animation: spin3DReverse 3.5s linear infinite;
@@ -111,10 +117,11 @@ export default function PreLoader() {
 
         .center-glow {
           position: absolute;
-          width: 180px; height: 180px;
+          width: clamp(120px, 40vw, 180px);
+          height: clamp(120px, 40vw, 180px);
           background: rgba(225, 29, 72, 0.25);
           border-radius: 50%;
-          filter: blur(50px);
+          filter: blur(40px);
           animation: pulseGlow 2.5s ease-in-out infinite alternate;
           will-change: transform, opacity;
         }
@@ -127,9 +134,9 @@ export default function PreLoader() {
         }
 
         .preloader-brand {
-          font-size: clamp(2rem, 5vw, 3.5rem);
+          font-size: clamp(1.4rem, 6.5vw, 3.2rem);
           font-weight: 900;
-          letter-spacing: 3px;
+          letter-spacing: clamp(1px, 0.5vw, 3px);
           margin: 0;
           text-transform: uppercase;
           text-shadow: 0 4px 25px rgba(0,0,0,0.9);
@@ -148,8 +155,15 @@ export default function PreLoader() {
           opacity: 0;
         }
 
+        .subtitle-text {
+          letter-spacing: clamp(4px, 1.5vw, 8px);
+          font-weight: 300;
+          display: inline-block;
+          padding-left: 6px;
+        }
+
         .loading-bar-container {
-          width: 180px;
+          width: clamp(140px, 45vw, 180px);
           height: 2px;
           background: rgba(255, 255, 255, 0.08);
           border-radius: 10px;
@@ -164,6 +178,14 @@ export default function PreLoader() {
           background: linear-gradient(90deg, #ff4d4d, #e11d48);
           animation: fillBar 1.6s cubic-bezier(0.4, 0, 0.2, 1) 0.6s forwards;
           box-shadow: 0 0 12px #e11d48;
+        }
+
+        .loading-text {
+          font-size: 0.65rem;
+          letter-spacing: 6px;
+          color: #e11d48;
+          text-shadow: 0 0 12px rgba(225, 29, 72, 0.6);
+          padding-left: 6px;
         }
 
         @keyframes spin3D {
