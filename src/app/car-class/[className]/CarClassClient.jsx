@@ -16,10 +16,7 @@ import Footer from '@/components/layout/Footer';
 const slugify = (str = '') =>
   str.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
-const getToday = () => {
-  const d = new Date();
-  return d.toLocaleDateString('en-CA');
-};
+const getToday = () => new Date().toLocaleDateString('en-CA');
 
 const SERVICES_LIST = [
   { title: 'Routine Servicing', desc: 'Comprehensive scheduled maintenance with genuine Mercedes-Benz fluids, filters, and factory-approved inspection checklists.', icon: Wrench },
@@ -44,7 +41,7 @@ export default function CarClassClient({ initialData, initialList, slug }) {
     name: '', phone: '', serviceType: 'Routine Servicing', preferredDate: '', notes: '',
   });
   const [submitting, setSubmitting] = useState(false);
-  const [alert, setAlert] = useState({ type: '', msg: '' }); 
+  const [alert, setAlert] = useState({ type: '', msg: '' });
 
   const today = getToday();
 
@@ -56,8 +53,8 @@ export default function CarClassClient({ initialData, initialList, slug }) {
         const res = await dbService.getAll('car_classes');
         if (!active) return;
         if (res.success && res.data) {
-          const dataList = Array.isArray(res.data) 
-            ? res.data 
+          const dataList = Array.isArray(res.data)
+            ? res.data
             : Object.keys(res.data).map(k => ({ id: k, ...res.data[k] }));
 
           if (isAll) {
@@ -92,9 +89,7 @@ export default function CarClassClient({ initialData, initialList, slug }) {
         createdAt: new Date().toISOString(),
         status: 'Pending',
       };
-      
       const res = await dbService.create('service_bookings', payload);
-      
       if (res.success) {
         setAlert({ type: 'success', msg: 'Appointment booked successfully! Our technician will call you shortly.' });
         setBookingForm({ name: '', phone: '', serviceType: 'Routine Servicing', preferredDate: '', notes: '' });
@@ -127,7 +122,6 @@ export default function CarClassClient({ initialData, initialList, slug }) {
       <>
         <Header />
         <main className="bg-light pb-5 min-vh-100">
-          {/* Responsive Padding: py-4 py-md-5 */}
           <section className="position-relative text-white py-4 py-md-5" style={{ background: '#0a0a0a', minHeight: '320px' }}>
             <div className="container py-3 py-md-4 text-center">
               <span className="text-danger fw-bold small text-uppercase d-block mb-1">Mercedes-Benz Dubai</span>
@@ -152,13 +146,7 @@ export default function CarClassClient({ initialData, initialList, slug }) {
                     <div className="col-12 col-md-6 col-lg-4" key={item.id || idx}>
                       <div className="card border-0 shadow-sm rounded-4 overflow-hidden h-100 bg-white">
                         <div style={{ height: '220px', position: 'relative' }} className="overflow-hidden bg-light">
-                          <Image 
-                            src={cardImg} 
-                            alt={`Mercedes ${item.className} service Dubai`} 
-                            fill 
-                            className="object-fit-cover" 
-                            sizes="(max-width: 768px) 100vw, 33vw" 
-                          />
+                          <Image src={cardImg} alt={`Mercedes ${item.className} service Dubai`} fill className="object-fit-cover" sizes="(max-width: 768px) 100vw, 33vw" />
                           <span className="position-absolute top-0 end-0 m-3 badge bg-dark px-3 py-2 rounded-pill small">Certified Care</span>
                         </div>
                         <div className="card-body p-3 p-md-4 d-flex flex-column">
@@ -211,22 +199,11 @@ export default function CarClassClient({ initialData, initialList, slug }) {
     <>
       <Header />
       <main className="bg-light pb-5">
-        
-        {/* HERO - Responsive Heights & Paddings */}
+        {/* HERO */}
         <section className="position-relative text-white py-4 py-md-5 overflow-hidden d-flex align-items-center" style={{ background: '#0a0a0a', minHeight: 'auto', paddingTop: '60px', paddingBottom: '60px' }}>
-          
-          {/* Responsive Image Opacity (Lighter on mobile so text is readable) */}
           <div className="position-absolute top-0 start-0 w-100 h-100 opacity-25 opacity-md-50" style={{ pointerEvents: 'none' }}>
-            <Image 
-              src={heroImage} 
-              alt={`Mercedes ${classNameFormatted} at German Auto Expert workshop in Al Quoz Dubai`} 
-              fill 
-              className="object-fit-cover" 
-              priority 
-              sizes="100vw" 
-            />
+            <Image src={heroImage} alt={`Mercedes ${classNameFormatted} at German Auto Expert workshop in Al Quoz Dubai`} fill className="object-fit-cover" priority sizes="100vw" />
           </div>
-          
           <div className="container position-relative py-2 py-md-4" style={{ zIndex: 2 }}>
             <nav aria-label="breadcrumb">
               <ol className="breadcrumb mb-3 mb-md-4 small text-white-50">
@@ -238,13 +215,9 @@ export default function CarClassClient({ initialData, initialList, slug }) {
             <div className="row align-items-center">
               <div className="col-12 col-lg-9">
                 <span className="text-danger fw-bold small text-uppercase d-block mb-2">Mercedes-Benz Service Al Quoz, Dubai</span>
-                
-                {/* Responsive Font Size for H1 */}
                 <h1 className="display-5 display-md-4 display-lg-3 fw-bold mb-3 text-white" style={{ lineHeight: '1.2' }}>{h1Text}</h1>
-                
                 <p className="fs-6 fs-md-5 fw-semibold text-white mb-2">{modelData.tagline || `Expert Service & Repair for Your Mercedes ${classNameFormatted}`}</p>
                 <p className="text-white-50 mb-4" style={{ maxWidth: '680px', lineHeight: '1.7', fontSize: '0.95rem' }}>{introText}</p>
-                
                 <a href="#booking-form" className="btn btn-danger btn-md btn-lg rounded-pill px-4 px-md-5 fw-bold shadow-sm d-inline-flex align-items-center gap-2">
                   <Calendar size={18} /> Book Your Service Now
                 </a>
@@ -253,7 +226,7 @@ export default function CarClassClient({ initialData, initialList, slug }) {
           </div>
         </section>
 
-        {/* TRUST BAR - Stack nicely on mobile */}
+        {/* TRUST BAR */}
         <div className="bg-white border-bottom shadow-sm py-3">
           <div className="container">
             <div className="row text-center text-md-start align-items-center g-3 g-md-4">
@@ -294,14 +267,10 @@ export default function CarClassClient({ initialData, initialList, slug }) {
           <div className="row g-4 g-lg-5">
             {/* LEFT COLUMN */}
             <div className="col-12 col-lg-8">
-              
               {/* ABOUT */}
               <section className="bg-white rounded-4 p-3 p-md-4 p-lg-5 shadow-sm border mb-4" id="about">
                 <span className="badge bg-danger bg-opacity-10 text-danger fw-bold mb-3">Overview</span>
-                {/* Responsive Heading Size */}
-                <h2 className="fw-bold text-dark mb-3 mb-md-4" style={{ fontSize: '1.5rem', lineHeight: '1.3' }}>
-                  About Mercedes {classNameFormatted} Service in Dubai
-                </h2>
+                <h2 className="fw-bold text-dark mb-3 mb-md-4" style={{ fontSize: '1.5rem', lineHeight: '1.3' }}>About Mercedes {classNameFormatted} Service in Dubai</h2>
                 {contentSections.length > 0 ? (
                   contentSections.map((sec, i) => (
                     <div key={i} className="mb-4">
@@ -312,16 +281,8 @@ export default function CarClassClient({ initialData, initialList, slug }) {
                 ) : (
                   <p className="text-secondary" style={{ lineHeight: '1.8', fontSize: '0.95rem' }}>{modelData.desc}</p>
                 )}
-                
-                {/* Responsive Image Height */}
-                <div className="rounded-4 overflow-hidden shadow-sm mt-4" style={{ height: '220px', height: 'clamp(220px, 40vw, 380px)', position: 'relative' }}>
-                  <Image 
-                    src={heroImage} 
-                    alt={`Certified technicians servicing Mercedes ${classNameFormatted} in Dubai`} 
-                    fill 
-                    className="object-fit-cover" 
-                    sizes="(max-width: 992px) 100vw, 800px" 
-                  />
+                <div className="rounded-4 overflow-hidden shadow-sm mt-4" style={{ height: 'clamp(220px, 40vw, 380px)', position: 'relative' }}>
+                  <Image src={heroImage} alt={`Certified technicians servicing Mercedes ${classNameFormatted} in Dubai`} fill className="object-fit-cover" sizes="(max-width: 992px) 100vw, 800px" />
                 </div>
               </section>
 
@@ -422,7 +383,7 @@ export default function CarClassClient({ initialData, initialList, slug }) {
                 </div>
               </section>
 
-              {/* BOTTOM CTA - Stack vertically on mobile */}
+              {/* BOTTOM CTA */}
               <section className="bg-dark text-white rounded-4 p-4 p-md-5 shadow-sm mb-4">
                 <div className="row align-items-center g-3 g-md-4 text-center text-md-start">
                   <div className="col-12 col-md-8">
@@ -436,19 +397,17 @@ export default function CarClassClient({ initialData, initialList, slug }) {
               </section>
             </div>
 
-            {/* SIDEBAR (Booking Form) */}
+            {/* SIDEBAR */}
             <div className="col-12 col-lg-4" id="booking-form" style={{ scrollMarginTop: '80px' }}>
               <div className="sticky-top d-flex flex-column gap-4" style={{ top: '90px' }}>
                 <div className="card border-0 shadow-sm rounded-4 p-3 p-md-4 bg-white border">
                   <h2 className="fw-bold mb-2 fs-5 text-danger">Book Your {classNameFormatted} Service</h2>
                   <p className="text-muted small mb-4">Expert care from certified Mercedes technicians in Al Quoz, Dubai.</p>
-                  
                   {alert.msg && (
                     <div className={`alert ${alert.type === 'error' ? 'alert-danger' : 'alert-success'} small py-2 rounded-3 mb-3`}>
                       {alert.msg}
                     </div>
                   )}
-
                   <form onSubmit={handleBookingSubmit} className="d-flex flex-column gap-3">
                     <div>
                       <label className="form-label small fw-bold">Your Name</label>
@@ -470,17 +429,14 @@ export default function CarClassClient({ initialData, initialList, slug }) {
                       <label className="form-label small fw-bold">Preferred Date</label>
                       <input type="date" required min={today} className="form-control rounded-3 bg-light small shadow-none" value={bookingForm.preferredDate} onChange={(e) => setBookingForm({ ...bookingForm, preferredDate: e.target.value })} />
                     </div>
-                    
                     <div>
                       <label className="form-label small fw-bold">Additional Notes (Optional)</label>
                       <textarea rows="2" className="form-control rounded-3 bg-light small shadow-none" placeholder="Any specific issues?" value={bookingForm.notes} onChange={(e) => setBookingForm({ ...bookingForm, notes: e.target.value })}></textarea>
                     </div>
-
                     <button type="submit" disabled={submitting} className="btn btn-danger w-100 rounded-pill py-2.5 fw-bold shadow-sm mt-1">
                       {submitting ? 'Booking...' : 'Book Appointment →'}
                     </button>
                   </form>
-                  
                   <div className="mt-4 pt-4 border-top d-flex flex-column gap-2 small text-muted">
                     <div className="d-flex align-items-center gap-2"><Phone size={14} className="text-danger" /><span>+971 56 788 8808</span></div>
                     <div className="d-flex align-items-center gap-2"><Mail size={14} className="text-danger" /><span>info@mercedesgaragedubai.com</span></div>
@@ -517,16 +473,13 @@ export default function CarClassClient({ initialData, initialList, slug }) {
                 </div>
               </div>
             </div>
-
           </div>
         </div>
 
-                {/* BOTTOM TRUST STRIP - Colorful Cards */}
+        {/* BOTTOM TRUST STRIP (Colorful) */}
         <section className="py-4 py-md-5 mt-4 mt-md-5 bg-light border-top">
           <div className="container">
             <div className="row text-center text-md-start align-items-center g-3 g-md-4">
-              
-              {/* Card 1 - Red/Orange */}
               <div className="col-12 col-md-3">
                 <div className="d-flex align-items-center gap-3 p-3 rounded-4 shadow-sm border bg-white h-100">
                   <div className="rounded-circle d-flex align-items-center justify-content-center bg-danger bg-opacity-10 text-danger flex-shrink-0" style={{ width: '48px', height: '48px' }}>
@@ -538,8 +491,6 @@ export default function CarClassClient({ initialData, initialList, slug }) {
                   </div>
                 </div>
               </div>
-
-              {/* Card 2 - Blue */}
               <div className="col-12 col-md-3">
                 <div className="d-flex align-items-center gap-3 p-3 rounded-4 shadow-sm border bg-white h-100">
                   <div className="rounded-circle d-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary flex-shrink-0" style={{ width: '48px', height: '48px' }}>
@@ -551,8 +502,6 @@ export default function CarClassClient({ initialData, initialList, slug }) {
                   </div>
                 </div>
               </div>
-
-              {/* Card 3 - Green */}
               <div className="col-12 col-md-3">
                 <div className="d-flex align-items-center gap-3 p-3 rounded-4 shadow-sm border bg-white h-100">
                   <div className="rounded-circle d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success flex-shrink-0" style={{ width: '48px', height: '48px' }}>
@@ -564,8 +513,6 @@ export default function CarClassClient({ initialData, initialList, slug }) {
                   </div>
                 </div>
               </div>
-
-              {/* Card 4 - Yellow/Warning */}
               <div className="col-12 col-md-3">
                 <div className="d-flex align-items-center gap-3 p-3 rounded-4 shadow-sm border bg-white h-100">
                   <div className="rounded-circle d-flex align-items-center justify-content-center bg-warning bg-opacity-10 text-warning flex-shrink-0" style={{ width: '48px', height: '48px' }}>
@@ -577,7 +524,6 @@ export default function CarClassClient({ initialData, initialList, slug }) {
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </section>

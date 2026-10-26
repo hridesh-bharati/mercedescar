@@ -4,17 +4,22 @@
 import { useState, useEffect, useRef } from 'react';
 import { dbService } from '@/services/dbService';
 import { uploadToCloudinary } from '@/lib/cloudinary';
-import { Trash2, Edit, Car, X, UploadCloud, Save, List, PlusCircle, Calendar, ChevronDown, ChevronUp, Globe } from 'lucide-react';
+import {
+  Trash2, Edit, Car, X, UploadCloud, Save, List, PlusCircle, Calendar,
+  ChevronDown, ChevronUp, Globe,
+} from 'lucide-react';
 
 const EMPTY = {
-  className: '', tagline: '', desc: '',
-  seoTitle: '', seoDescription: '',
+  className: '', tagline: '', desc: '', seoTitle: '', seoDescription: '',
   h1: '', heroIntro: '',
   contentSections: [{ heading: '', body: '' }],
   faqs: [{ q: '', a: '' }],
   relatedModels: [{ label: '', href: '' }],
   imageUrls: [],
 };
+
+const slugify = (str = '') =>
+  str.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 export default function CarClassesManager() {
   const [carClasses, setCarClasses] = useState([]);
@@ -31,13 +36,20 @@ export default function CarClassesManager() {
 
   useEffect(() => { loadCarClasses(); }, []);
 
+  // ✅ Background Cache Clear Function
+  const clearPublicCache = async () => {
+    try {
+      // Ye background mein API hit karke cache clear karega
+      await fetch('/api/revalidate?tag=car-classes', { cache: 'no-store' });
+    } catch (e) {
+      console.log('Cache clear failed', e);
+    }
+  };
+
   const loadCarClasses = async () => {
     const res = await dbService.getAll('car_classes');
     if (res.success && res.data) {
-      // Preserve IDs if data comes as an object
-      const dataList = Array.isArray(res.data) 
-        ? res.data 
-        : Object.keys(res.data).map(k => ({ id: k, ...res.data[k] }));
+      const dataList = Array.isArray(res.data) ? res.data : Object.keys(res.data).map((k) => ({ id: k, ...res.data[k] }));
       setCarClasses(dataList);
     }
   };
@@ -52,34 +64,37 @@ export default function CarClassesManager() {
         if (!Array.isArray(jsonData)) { alert('Invalid JSON. Expected an array.'); return; }
         if (!confirm(`Import ${jsonData.length} car classes?`)) return;
         setImportingJson(true);
-        let ok = 0;
+
+        const existingRes = await dbService.getAll('car_classes');
+        const existingList = existingRes.success && existingRes.data
+            ? (Array.isArray(existingRes.data) ? existingRes.data : Object.keys(existingRes.data).map((k) => ({ id: k, ...existingRes.data[k] })))
+            : [];
+        const existingSlugs = new Set(existingList.map((i) => i.slug || slugify(i.className)));
+
+        let ok = 0, skipped = 0;
         for (const item of jsonData) {
-          
-          // Auto-generate slug for JSON imports
-          const generatedSlug = (item.className || item.modelName || 'g-class').toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+          const generatedSlug = slugify(item.slug || item.className || item.modelName || 'g-class');
+          if (existingSlugs.has(generatedSlug)) { skipped++; continue; }
 
           const payload = {
             className: item.className || item.modelName || 'G-Class',
-            slug: item.slug || generatedSlug,
+            slug: generatedSlug,
             tagline: item.tagline || 'Expert Service & Repair',
             desc: item.desc || item.description || '',
-            seoTitle: item.seoTitle || '',
-            seoDescription: item.seoDescription || '',
-            h1: item.h1 || '',
-            heroIntro: item.heroIntro || '',
-            contentSections: item.contentSections || [],
-            faqs: item.faqs || [],
-            relatedModels: item.relatedModels || [],
+            seoTitle: item.seoTitle || '', seoDescription: item.seoDescription || '',
+            h1: item.h1 || '', heroIntro: item.heroIntro || '',
+            contentSections: item.contentSections || [], faqs: item.faqs || [], relatedModels: item.relatedModels || [],
             imageUrls: item.imageUrls || (item.imageUrl ? [item.imageUrl] : []),
             imageUrl: item.imageUrl || item.imageUrls?.[0] || '',
           };
           const res = await dbService.create('car_classes', payload);
-          if (res.success) ok++;
+          if (res.success) { ok++; existingSlugs.add(generatedSlug); }
         }
-        alert(`Imported ${ok} car classes.`);
+        alert(`Imported ${ok} car classes.${skipped ? ` Skipped ${skipped} duplicates.` : ''}`);
         setImportingJson(false);
         loadCarClasses();
         if (jsonInputRef.current) jsonInputRef.current.value = '';
+        await clearPublicCache();
       } catch (err) {
         alert('Failed to parse JSON: ' + err.message);
         setImportingJson(false);
@@ -107,29 +122,27 @@ export default function CarClassesManager() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    const generatedSlug = slugify(form.className);
 
-    // Fix 1: Auto-generate slug so URLs never break if className changes
-    const generatedSlug = form.className.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-
-    // Fix 2: Filter out empty rows before saving
     const payload = {
       ...form,
       slug: generatedSlug,
       imageUrl: form.imageUrls[0] || '',
-      contentSections: form.contentSections.filter(s => s.heading.trim() && s.body.trim()),
-      faqs: form.faqs.filter(f => f.q.trim() && f.a.trim()),
-      relatedModels: form.relatedModels.filter(r => r.label.trim() && r.href.trim()),
+      contentSections: form.contentSections.filter((s) => s.heading.trim() && s.body.trim()),
+      faqs: form.faqs.filter((f) => f.q.trim() && f.a.trim()),
+      relatedModels: form.relatedModels.filter((r) => r.label.trim() && r.href.trim()),
     };
 
     try {
       if (editId) await dbService.update('car_classes', editId, payload);
       else await dbService.create('car_classes', payload);
-      
+
       setForm(EMPTY);
       setEditId(null);
       if (fileInputRef.current) fileInputRef.current.value = '';
       loadCarClasses();
       setShowList(true);
+      await clearPublicCache(); // ✅ Cache Clear
     } catch (err) {
       alert('Error saving car class. Please try again.');
     } finally {
@@ -141,19 +154,16 @@ export default function CarClassesManager() {
     if (confirm('Delete this car class?')) {
       await dbService.remove('car_classes', id);
       loadCarClasses();
+      await clearPublicCache(); // ✅ Cache Clear
     }
   };
 
   const handleEdit = (item) => {
     setEditId(item.id);
     setForm({
-      className: item.className || '',
-      tagline: item.tagline || '',
-      desc: item.desc || '',
-      seoTitle: item.seoTitle || '',
-      seoDescription: item.seoDescription || '',
-      h1: item.h1 || '',
-      heroIntro: item.heroIntro || '',
+      className: item.className || '', tagline: item.tagline || '', desc: item.desc || '',
+      seoTitle: item.seoTitle || '', seoDescription: item.seoDescription || '',
+      h1: item.h1 || '', heroIntro: item.heroIntro || '',
       contentSections: item.contentSections?.length ? item.contentSections : [{ heading: '', body: '' }],
       faqs: item.faqs?.length ? item.faqs : [{ q: '', a: '' }],
       relatedModels: item.relatedModels?.length ? item.relatedModels : [{ label: '', href: '' }],
@@ -189,14 +199,12 @@ export default function CarClassesManager() {
           <a href="#bookings-section" className="btn btn-outline-danger btn-sm rounded-pill px-3 fw-bold text-decoration-none">
             <Calendar size={15} /> Bookings
           </a>
-          <button type="button" className="btn btn-outline-dark btn-sm rounded-pill px-4 fw-bold"
-            onClick={() => setShowList(!showList)}>
+          <button type="button" className="btn btn-outline-dark btn-sm rounded-pill px-4 fw-bold" onClick={() => setShowList(!showList)}>
             {showList ? <><PlusCircle size={16} /> Add New</> : <><List size={16} /> All ({carClasses.length})</>}
           </button>
           <div>
             <input ref={jsonInputRef} type="file" accept=".json" className="d-none" onChange={handleJsonFileUpload} />
-            <button type="button" className="btn btn-dark btn-sm rounded-pill px-4 fw-bold"
-              onClick={() => jsonInputRef.current?.click()} disabled={importingJson}>
+            <button type="button" className="btn btn-dark btn-sm rounded-pill px-4 fw-bold" onClick={() => jsonInputRef.current?.click()} disabled={importingJson}>
               <UploadCloud size={16} /> {importingJson ? 'Importing...' : 'Upload JSON'}
             </button>
           </div>
@@ -216,35 +224,28 @@ export default function CarClassesManager() {
 
           <div className="col-12 col-md-6">
             <label className="form-label small fw-bold">Car Class Name *</label>
-            <input type="text" className="form-control rounded-pill px-3 small bg-white"
-              placeholder="e.g. G-Class, S-Class, C-Class, AMG"
-              value={form.className} onChange={(e) => setForm({ ...form, className: e.target.value })} required />
+            <input type="text" className="form-control rounded-pill px-3 small bg-white" placeholder="e.g. G-Class, S-Class, C-Class, AMG" value={form.className} onChange={(e) => setForm({ ...form, className: e.target.value })} required />
           </div>
           <div className="col-12 col-md-6">
             <label className="form-label small fw-bold">Tagline (Hero Subtitle)</label>
-            <input type="text" className="form-control rounded-pill px-3 small bg-white"
-              placeholder="Expert Service & Repair for Your Mercedes G-Class"
-              value={form.tagline} onChange={(e) => setForm({ ...form, tagline: e.target.value })} />
+            <input type="text" className="form-control rounded-pill px-3 small bg-white" placeholder="Expert Service & Repair for Your Mercedes G-Class" value={form.tagline} onChange={(e) => setForm({ ...form, tagline: e.target.value })} />
           </div>
 
           <div className="col-12">
             <label className="form-label small fw-bold">Short Description (Fallback)</label>
-            <textarea className="form-control rounded-3 p-3 small bg-white" rows="2"
-              value={form.desc} onChange={(e) => setForm({ ...form, desc: e.target.value })} />
+            <textarea className="form-control rounded-3 p-3 small bg-white" rows="2" value={form.desc} onChange={(e) => setForm({ ...form, desc: e.target.value })} />
           </div>
 
           <div className="col-12">
             <label className="form-label small fw-bold">Photos</label>
-            <input ref={fileInputRef} type="file" className="form-control rounded-pill px-3 small bg-white"
-              accept="image/*" multiple onChange={handleMultipleImageUpload} />
+            <input ref={fileInputRef} type="file" className="form-control rounded-pill px-3 small bg-white" accept="image/*" multiple onChange={handleMultipleImageUpload} />
             {uploading && <div className="text-danger small mt-1">Uploading...</div>}
             {form.imageUrls.length > 0 && (
               <div className="d-flex flex-wrap gap-2 mt-3">
                 {form.imageUrls.map((url, idx) => (
                   <div key={idx} className="position-relative border rounded-3 p-1 bg-white" style={{ width: '60px', height: '60px' }}>
                     <img src={url} alt="" className="w-100 h-100 object-fit-cover rounded-2" />
-                    <button type="button" className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border-0 p-1"
-                      onClick={() => removeImage(idx)}><X size={10} /></button>
+                    <button type="button" className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border-0 p-1" onClick={() => removeImage(idx)}><X size={10} /></button>
                   </div>
                 ))}
               </div>
@@ -252,8 +253,7 @@ export default function CarClassesManager() {
           </div>
 
           <div className="col-12">
-            <button type="button" className="btn btn-outline-danger btn-sm rounded-pill px-3 fw-bold d-flex align-items-center gap-2"
-              onClick={() => setShowSeo(!showSeo)}>
+            <button type="button" className="btn btn-outline-danger btn-sm rounded-pill px-3 fw-bold d-flex align-items-center gap-2" onClick={() => setShowSeo(!showSeo)}>
               <Globe size={14} /> {showSeo ? 'Hide' : 'Show'} SEO Content {showSeo ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
             </button>
           </div>
@@ -262,92 +262,63 @@ export default function CarClassesManager() {
             <>
               <div className="col-12">
                 <label className="form-label small fw-bold">SEO Title (50-60 chars)</label>
-                <input type="text" className="form-control rounded-pill px-3 small bg-white"
-                  placeholder="Mercedes G-Class Service & Repair Dubai | German Auto Expert"
-                  value={form.seoTitle} onChange={(e) => setForm({ ...form, seoTitle: e.target.value })} />
+                <input type="text" className="form-control rounded-pill px-3 small bg-white" placeholder="Mercedes G-Class Service & Repair Dubai | German Auto Expert" value={form.seoTitle} onChange={(e) => setForm({ ...form, seoTitle: e.target.value })} />
                 <div className="form-text small">{form.seoTitle.length}/60</div>
               </div>
-
               <div className="col-12">
                 <label className="form-label small fw-bold">SEO Meta Description (150-160 chars)</label>
-                <textarea className="form-control rounded-3 p-3 small bg-white" rows="2"
-                  placeholder="Professional Mercedes G-Class servicing, maintenance & repair in Al Quoz, Dubai..."
-                  value={form.seoDescription} onChange={(e) => setForm({ ...form, seoDescription: e.target.value })} />
+                <textarea className="form-control rounded-3 p-3 small bg-white" rows="2" placeholder="Professional Mercedes G-Class servicing, maintenance & repair in Al Quoz, Dubai..." value={form.seoDescription} onChange={(e) => setForm({ ...form, seoDescription: e.target.value })} />
                 <div className="form-text small">{form.seoDescription.length}/160</div>
               </div>
-
               <div className="col-12">
                 <label className="form-label small fw-bold">H1 Heading (must include model + Dubai)</label>
-                <input type="text" className="form-control rounded-pill px-3 small bg-white"
-                  placeholder="Mercedes G-Class Service and Repair in Dubai"
-                  value={form.h1} onChange={(e) => setForm({ ...form, h1: e.target.value })} />
+                <input type="text" className="form-control rounded-pill px-3 small bg-white" placeholder="Mercedes G-Class Service and Repair in Dubai" value={form.h1} onChange={(e) => setForm({ ...form, h1: e.target.value })} />
               </div>
-
               <div className="col-12">
                 <label className="form-label small fw-bold">Hero Intro Paragraph</label>
-                <textarea className="form-control rounded-3 p-3 small bg-white" rows="3"
-                  placeholder="Looking for professional Mercedes G-Class service in Dubai? German Auto Expert provides..."
-                  value={form.heroIntro} onChange={(e) => setForm({ ...form, heroIntro: e.target.value })} />
+                <textarea className="form-control rounded-3 p-3 small bg-white" rows="3" placeholder="Looking for professional Mercedes G-Class service in Dubai? German Auto Expert provides..." value={form.heroIntro} onChange={(e) => setForm({ ...form, heroIntro: e.target.value })} />
               </div>
 
               <div className="col-12">
                 <label className="form-label small fw-bold">Content Sections (H2 blocks)</label>
                 {form.contentSections.map((sec, i) => (
                   <div key={i} className="border rounded-3 p-3 mb-2 bg-white">
-                    <input type="text" className="form-control form-control-sm rounded-pill px-3 mb-2"
-                      placeholder="H2 heading — e.g. Mercedes G-Class Maintenance"
-                      value={sec.heading} onChange={(e) => updateArr('contentSections', i, 'heading', e.target.value)} />
-                    <textarea className="form-control form-control-sm rounded-3 p-2" rows="3"
-                      placeholder="Body paragraph..."
-                      value={sec.body} onChange={(e) => updateArr('contentSections', i, 'body', e.target.value)} />
+                    <input type="text" className="form-control form-control-sm rounded-pill px-3 mb-2" placeholder="H2 heading — e.g. Mercedes G-Class Maintenance" value={sec.heading} onChange={(e) => updateArr('contentSections', i, 'heading', e.target.value)} />
+                    <textarea className="form-control form-control-sm rounded-3 p-2" rows="3" placeholder="Body paragraph..." value={sec.body} onChange={(e) => updateArr('contentSections', i, 'body', e.target.value)} />
                     {form.contentSections.length > 1 && (
-                      <button type="button" className="btn btn-sm btn-outline-danger rounded-pill mt-2"
-                        onClick={() => removeRow('contentSections', i)}>Remove</button>
+                      <button type="button" className="btn btn-sm btn-outline-danger rounded-pill mt-2" onClick={() => removeRow('contentSections', i)}>Remove</button>
                     )}
                   </div>
                 ))}
-                <button type="button" className="btn btn-sm btn-outline-dark rounded-pill px-3 fw-bold"
-                  onClick={() => addRow('contentSections', { heading: '', body: '' })}>+ Add Section</button>
+                <button type="button" className="btn btn-sm btn-outline-dark rounded-pill px-3 fw-bold" onClick={() => addRow('contentSections', { heading: '', body: '' })}>+ Add Section</button>
               </div>
 
               <div className="col-12">
                 <label className="form-label small fw-bold">FAQs (for FAQPage schema)</label>
                 {form.faqs.map((faq, i) => (
                   <div key={i} className="border rounded-3 p-3 mb-2 bg-white">
-                    <input type="text" className="form-control form-control-sm rounded-pill px-3 mb-2"
-                      placeholder="Question"
-                      value={faq.q} onChange={(e) => updateArr('faqs', i, 'q', e.target.value)} />
-                    <textarea className="form-control form-control-sm rounded-3 p-2" rows="2"
-                      placeholder="Answer"
-                      value={faq.a} onChange={(e) => updateArr('faqs', i, 'a', e.target.value)} />
+                    <input type="text" className="form-control form-control-sm rounded-pill px-3 mb-2" placeholder="Question" value={faq.q} onChange={(e) => updateArr('faqs', i, 'q', e.target.value)} />
+                    <textarea className="form-control form-control-sm rounded-3 p-2" rows="2" placeholder="Answer" value={faq.a} onChange={(e) => updateArr('faqs', i, 'a', e.target.value)} />
                     {form.faqs.length > 1 && (
-                      <button type="button" className="btn btn-sm btn-outline-danger rounded-pill mt-2"
-                        onClick={() => removeRow('faqs', i)}>Remove</button>
+                      <button type="button" className="btn btn-sm btn-outline-danger rounded-pill mt-2" onClick={() => removeRow('faqs', i)}>Remove</button>
                     )}
                   </div>
                 ))}
-                <button type="button" className="btn btn-sm btn-outline-dark rounded-pill px-3 fw-bold"
-                  onClick={() => addRow('faqs', { q: '', a: '' })}>+ Add FAQ</button>
+                <button type="button" className="btn btn-sm btn-outline-dark rounded-pill px-3 fw-bold" onClick={() => addRow('faqs', { q: '', a: '' })}>+ Add FAQ</button>
               </div>
 
               <div className="col-12">
                 <label className="form-label small fw-bold">Related Model Pages (internal linking)</label>
                 {form.relatedModels.map((r, i) => (
                   <div key={i} className="d-flex gap-2 mb-2">
-                    <input type="text" className="form-control form-control-sm rounded-pill px-3"
-                      placeholder="Label — e.g. Mercedes S-Class Service"
-                      value={r.label} onChange={(e) => updateArr('relatedModels', i, 'label', e.target.value)} />
-                    <input type="text" className="form-control form-control-sm rounded-pill px-3"
-                      placeholder="/car-class/s-class"
-                      value={r.href} onChange={(e) => updateArr('relatedModels', i, 'href', e.target.value)} />
+                    <input type="text" className="form-control form-control-sm rounded-pill px-3" placeholder="Label — e.g. Mercedes S-Class Service" value={r.label} onChange={(e) => updateArr('relatedModels', i, 'label', e.target.value)} />
+                    <input type="text" className="form-control form-control-sm rounded-pill px-3" placeholder="/car-class/s-class" value={r.href} onChange={(e) => updateArr('relatedModels', i, 'href', e.target.value)} />
                     {form.relatedModels.length > 1 && (
-                      <button type="button" className="btn btn-sm btn-outline-danger rounded-circle"
-                        onClick={() => removeRow('relatedModels', i)}><X size={12} /></button>
+                      <button type="button" className="btn btn-sm btn-outline-danger rounded-circle" onClick={() => removeRow('relatedModels', i)}><X size={12} /></button>
                     )}
                   </div>
                 ))}
-                <button type="button" className="btn btn-sm btn-outline-dark rounded-pill px-3 fw-bold"
-                  onClick={() => addRow('relatedModels', { label: '', href: '' })}>+ Add Link</button>
+                <button type="button" className="btn btn-sm btn-outline-dark rounded-pill px-3 fw-bold" onClick={() => addRow('relatedModels', { label: '', href: '' })}>+ Add Link</button>
               </div>
             </>
           )}
@@ -362,8 +333,7 @@ export default function CarClassesManager() {
         <div>
           <div className="d-flex align-items-center justify-content-between mb-3">
             <h5 className="fw-bold text-dark fs-6 mb-0">All Car Classes ({carClasses.length})</h5>
-            <button className="btn btn-danger btn-sm rounded-pill px-3 fw-bold d-flex align-items-center gap-1"
-              onClick={() => { handleCancel(); setShowList(false); }}>
+            <button className="btn btn-danger btn-sm rounded-pill px-3 fw-bold d-flex align-items-center gap-1" onClick={() => { handleCancel(); setShowList(false); }}>
               <PlusCircle size={14} /> Add Car Class
             </button>
           </div>
@@ -377,18 +347,14 @@ export default function CarClassesManager() {
               <table className="table align-middle">
                 <thead className="table-light">
                   <tr>
-                    <th>Photos</th>
-                    <th>Car Class</th>
-                    <th>SEO</th>
-                    <th>Tagline</th>
-                    <th>Actions</th>
+                    <th>Photos</th><th>Car Class</th><th>SEO</th><th>Tagline</th><th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {carClasses.map((item) => {
                     const pics = item.imageUrls || (item.imageUrl ? [item.imageUrl] : []);
-                    const slug = (item.slug || (item.className || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''));
-                    const hasSeo = !!(item.seoTitle && item.h1 && item.contentSections?.length);
+                    const slug = item.slug || slugify(item.className);
+                    const hasSeo = !!(item.seoTitle?.trim() && item.seoDescription?.trim() && item.h1?.trim() && item.contentSections?.filter((s) => s.heading?.trim() && s.body?.trim()).length > 0 && item.faqs?.filter((f) => f.q?.trim() && f.a?.trim()).length > 0);
                     return (
                       <tr key={item.id}>
                         <td>
@@ -400,23 +366,14 @@ export default function CarClassesManager() {
                         </td>
                         <td className="fw-bold text-dark">{item.className}</td>
                         <td>
-                          {hasSeo
-                            ? <span className="badge bg-success">Complete</span>
-                            : <span className="badge bg-warning text-dark">Pending</span>}
+                          {hasSeo ? <span className="badge bg-success">Complete</span> : <span className="badge bg-warning text-dark">Pending</span>}
                         </td>
                         <td className="text-muted small text-truncate" style={{ maxWidth: '260px' }}>{item.tagline || item.desc}</td>
                         <td>
                           <div className="d-flex gap-2">
-                            <a href={`/car-class/${slug}`} target="_blank" rel="noopener noreferrer"
-                              className="btn btn-sm btn-outline-dark rounded-circle p-2" title="View Page">
-                              <Car size={14} />
-                            </a>
-                            <button className="btn btn-sm btn-outline-primary rounded-circle p-2" onClick={() => handleEdit(item)} title="Edit">
-                              <Edit size={14} />
-                            </button>
-                            <button className="btn btn-sm btn-outline-danger rounded-circle p-2" onClick={() => handleDelete(item.id)} title="Delete">
-                              <Trash2 size={14} />
-                            </button>
+                            <a href={`/car-class/${slug}`} target="_blank" rel="noopener noreferrer" className="btn btn-sm btn-outline-dark rounded-circle p-2" title="View Page"><Car size={14} /></a>
+                            <button className="btn btn-sm btn-outline-primary rounded-circle p-2" onClick={() => handleEdit(item)} title="Edit"><Edit size={14} /></button>
+                            <button className="btn btn-sm btn-outline-danger rounded-circle p-2" onClick={() => handleDelete(item.id)} title="Delete"><Trash2 size={14} /></button>
                           </div>
                         </td>
                       </tr>
