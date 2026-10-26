@@ -82,14 +82,14 @@ export default function CarClassDynamicPage() {
     };
 
     const servicesList = [
-        { title: 'Routine Servicing', desc: `Keep your vehicle in perfect condition.`, icon: <Wrench size={24} className="text-danger" /> },
-        { title: 'Engine Diagnostics', desc: 'Advanced scanning & error code analysis.', icon: <Cpu size={24} className="text-danger" /> },
-        { title: 'Brake Service', desc: 'Safe braking, maximum control.', icon: <Disc size={24} className="text-danger" /> },
-        { title: 'Suspension & Steering', desc: 'Smooth ride, precise handling.', icon: <Settings size={24} className="text-danger" /> },
-        { title: 'Electrical & AC Service', desc: 'Stay cool & connected on every drive.', icon: <Wind size={24} className="text-danger" /> },
-        { title: 'Transmission Repair', desc: 'Smooth gear shifts, better performance.', icon: <AlertTriangle size={24} className="text-danger" /> },
-        { title: 'Body & Paint Work', desc: 'Restore the original luxury look.', icon: <Shield size={24} className="text-danger" /> },
-        { title: 'Genuine Parts', desc: '100% authentic Mercedes-Benz parts.', icon: <ShieldCheck size={24} className="text-danger" /> },
+        { title: 'Routine Servicing', desc: `Keep your vehicle in perfect condition.`, icon: <Wrench size={22} className="text-danger flex-shrink-0" /> },
+        { title: 'Engine Diagnostics', desc: 'Advanced scanning & error code analysis.', icon: <Cpu size={22} className="text-danger flex-shrink-0" /> },
+        { title: 'Brake Service', desc: 'Safe braking, maximum control.', icon: <Disc size={22} className="text-danger flex-shrink-0" /> },
+        { title: 'Suspension & Steering', desc: 'Smooth ride, precise handling.', icon: <Settings size={22} className="text-danger flex-shrink-0" /> },
+        { title: 'Electrical & AC Service', desc: 'Stay cool & connected on every drive.', icon: <Wind size={22} className="text-danger flex-shrink-0" /> },
+        { title: 'Transmission Repair', desc: 'Smooth gear shifts, better performance.', icon: <AlertTriangle size={22} className="text-danger flex-shrink-0" /> },
+        { title: 'Body & Paint Work', desc: 'Restore the original luxury look.', icon: <Shield size={22} className="text-danger flex-shrink-0" /> },
+        { title: 'Genuine Parts', desc: '100% authentic Mercedes-Benz parts.', icon: <ShieldCheck size={22} className="text-danger flex-shrink-0" /> },
     ];
 
     if (loading) {
@@ -153,7 +153,7 @@ export default function CarClassDynamicPage() {
                                                             {item.tagline || item.desc}
                                                         </p>
                                                     </div>
-                                                    <div className="d-flex align-items-center gap-2 mt-auto">
+                                                    <div className="d-flex align-items-center gap-2 mt-auto pb-2">
                                                         <Link href={`/car-class/${slug}`} className="btn btn-outline-dark btn-sm rounded-pill px-3 fw-bold d-inline-flex align-items-center gap-1">
                                                             View Details <ArrowRight size={14} />
                                                         </Link>
@@ -268,13 +268,15 @@ export default function CarClassDynamicPage() {
                                         <div className="row g-4">
                                             {servicesList.map((srv, idx) => (
                                                 <div className="col-12 col-md-6" key={idx} data-aos="fade-up" data-aos-delay={idx * 40}>
-                                                    <div className="bg-white p-4 rounded-4 shadow-sm border h-100 d-flex flex-column align-items-center text-center">
-                                                        <div className="bg-danger bg-opacity-10 p-3 rounded-circle mb-3 d-flex align-items-center justify-content-center" style={{ width: '60px', height: '60px' }}>
-                                                            {srv.icon}
+                                                    <div className="bg-white p-4 rounded-4 shadow-sm border h-100 d-flex flex-column align-items-center text-center justify-content-between">
+                                                        <div>
+                                                            <div className="bg-danger bg-opacity-10 p-3 rounded-circle mb-3 d-inline-flex align-items-center justify-content-center" style={{ width: '60px', height: '60px' }}>
+                                                                {srv.icon}
+                                                            </div>
+                                                            <h5 className="fw-bold text-dark mb-2 fs-6">{srv.title}</h5>
+                                                            <p className="text-muted small mb-3">{srv.desc}</p>
                                                         </div>
-                                                        <h5 className="fw-bold text-dark mb-2 fs-6">{srv.title}</h5>
-                                                        <p className="text-muted small mb-3">{srv.desc}</p>
-                                                        <a href="#booking-form" className="btn btn-outline-danger btn-sm rounded-pill px-3 fw-bold mt-auto">Book Service</a>
+                                                        <a href="#booking-form" className="btn btn-outline-danger btn-sm rounded-pill px-3 fw-bold mt-3 w-100">Book Service</a>
                                                     </div>
                                                 </div>
                                             ))}
@@ -290,7 +292,7 @@ export default function CarClassDynamicPage() {
                                         {servicesList.map((s, i) => (
                                             <div key={i} className="list-group-item border rounded-4 p-4 d-flex flex-wrap align-items-center justify-content-between gap-3 bg-light">
                                                 <div className="d-flex align-items-center gap-3">
-                                                    <div className="bg-danger text-white p-3 rounded-3">{s.icon}</div>
+                                                    <div className="bg-danger text-white p-3 rounded-3 d-flex align-items-center justify-content-center">{s.icon}</div>
                                                     <div>
                                                         <h5 className="fw-bold text-dark mb-1">{s.title}</h5>
                                                         <p className="text-muted small mb-0">{s.desc}</p>

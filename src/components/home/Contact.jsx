@@ -148,7 +148,7 @@ export default function Contact() {
                     </svg>
                   </span>
                   <div>
-                    <span className="contact-map-title d-block fw-bold">Navigate to Workshop</span>
+                    <span className="contact-map-title text-light d-block fw-bold">Navigate to Workshop</span>
                     <span className="contact-map-sub d-block text-muted small">Open interactive Google Maps</span>
                   </div>
                 </div>
