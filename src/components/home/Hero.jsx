@@ -3,7 +3,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import Image from 'next/image'; // 👈 Next.js Image import kiya
+import Image from 'next/image';
 import './Hero.css';
 
 const slides = [
@@ -92,9 +92,9 @@ export default function Hero() {
           <Image
             key={slide.image}
             src={slide.image}
-            alt="" 
-            fill 
-            priority={index === 0} 
+            alt=""
+            fill
+            priority={index === 0}
             fetchPriority={index === 0 ? 'high' : 'low'}
             sizes="100vw"
             className={`hero-bg-image ${
@@ -109,10 +109,8 @@ export default function Hero() {
       <div className="container enterprise-container">
         <div className="row align-items-center enterprise-hero-row">
           <div className="col-12 col-lg-7 hero-content-col">
-            
-            {/* SEO FIX: Google ke liye ek main H1 tag */}
-            <h1 className="visually-hidden"> 
-               Luxury Car Repair & Maintenance in Dubai - German Auto Expert
+            <h1 className="visually-hidden">
+              Luxury Car Repair & Maintenance in Dubai - German Auto Expert
             </h1>
 
             <div
@@ -134,7 +132,6 @@ export default function Hero() {
                         <span>{slide.badge}</span>
                       </div>
 
-                      {/* H1 ki jagah H2 use kiya for visual headings */}
                       <h2 className="enterprise-heading">
                         <span className="heading-main hero-heading-animate">
                           {slide.titleMain}
@@ -214,7 +211,7 @@ export default function Hero() {
                     }`}
                     onClick={() => goToSlide(index)}
                     aria-label={`Go to slide ${index + 1}: ${slide.badge}`}
-                    aria-current={currentSlide === index ? 'true' : 'false'} 
+                    aria-current={currentSlide === index ? 'true' : 'false'}
                   />
                 ))}
               </div>

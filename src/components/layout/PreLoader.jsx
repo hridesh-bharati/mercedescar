@@ -26,7 +26,7 @@ export default function PreLoader() {
         zIndex: 9999999,
         transition: 'opacity 0.6s ease-in-out, transform 0.6s ease-in-out',
         pointerEvents: fadeAnim ? 'none' : 'auto',
-        background: 'radial-gradient(circle at center, #1a0505 0%, #000000 100%)',
+        background: '#000000', // Pure Black Background
         overflow: 'hidden',
         perspective: '1000px',
       }}
@@ -48,13 +48,6 @@ export default function PreLoader() {
             <span className="text-white">EXPERT</span>
           </h1>
           <div className="brand-line"></div>
-        </div>
-
-        {/* Subtitle */}
-        <div className="preloader-subtitle mt-3">
-          <span className="preloader-subtitle-text text-white-50">
-            AUTO SERVICE CENTER
-          </span>
         </div>
 
         {/* Premium Loading Progress Line */}
@@ -121,7 +114,7 @@ export default function PreLoader() {
           position: absolute;
           width: clamp(120px, 40vw, 200px);
           height: clamp(120px, 40vw, 200px);
-          background: rgba(225, 29, 72, 0.4);
+          background: rgba(225, 29, 72, 0.2);
           border-radius: 50%;
           filter: blur(60px);
           animation: pulseGlow 2s ease-in-out infinite alternate;
@@ -131,7 +124,7 @@ export default function PreLoader() {
         .brand-reveal {
           animation: revealBrand 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
           opacity: 0;
-          transform: translateY(30px) scale(0.9);
+          transform: translateY(20px) scale(0.95);
           width: 100%;
         }
 
@@ -151,20 +144,7 @@ export default function PreLoader() {
           height: 2px;
           background: linear-gradient(90deg, transparent, #e11d48, transparent);
           margin: clamp(6px, 1.5vw, 10px) auto 0;
-          animation: expandLine 1s ease-out 0.5s forwards;
-        }
-
-        .preloader-subtitle {
-          animation: slideUpFade 1s ease-out 0.8s forwards;
-          opacity: 0;
-        }
-
-        .preloader-subtitle-text {
-          font-size: clamp(0.5rem, 2.2vw, 0.85rem);
-          letter-spacing: clamp(2px, 1.2vw, 8px);
-          font-weight: 300;
-          margin-left: clamp(2px, 1vw, 8px);
-          display: inline-block;
+          animation: expandLine 1s ease-out 0.3s forwards;
         }
 
         /* Loading Bar */
@@ -174,8 +154,8 @@ export default function PreLoader() {
           background: rgba(255, 255, 255, 0.1);
           border-radius: 10px;
           overflow: hidden;
-          margin-top: clamp(1rem, 4vw, 3rem);
-          animation: slideUpFade 1s ease-out 1s forwards;
+          margin-top: clamp(1.5rem, 4vw, 2.5rem);
+          animation: slideUpFade 1s ease-out 0.5s forwards;
           opacity: 0;
         }
 
@@ -183,7 +163,7 @@ export default function PreLoader() {
           width: 0%;
           height: 100%;
           background: linear-gradient(90deg, #ff4d4d, #e11d48);
-          animation: fillBar 1.5s ease-in-out 0.8s forwards;
+          animation: fillBar 1.5s ease-in-out 0.5s forwards;
           box-shadow: 0 0 10px #e11d48;
         }
 
@@ -193,7 +173,9 @@ export default function PreLoader() {
           font-weight: 700;
           color: #e11d48;
           text-shadow: 0 0 10px rgba(225, 29, 72, 0.5);
-          margin-left: clamp(2px, 1vw, 6px);
+          margin-top: 10px;
+          animation: slideUpFade 1s ease-out 0.7s forwards;
+          opacity: 0;
         }
 
         /* Keyframes */
@@ -208,8 +190,8 @@ export default function PreLoader() {
         }
 
         @keyframes pulseGlow {
-          0% { transform: scale(0.8); opacity: 0.5; }
-          100% { transform: scale(1.2); opacity: 1; }
+          0% { transform: scale(0.8); opacity: 0.3; }
+          100% { transform: scale(1.2); opacity: 0.7; }
         }
 
         @keyframes revealBrand {
@@ -229,20 +211,6 @@ export default function PreLoader() {
           0% { width: 0%; }
           50% { width: 60%; }
           100% { width: 100%; }
-        }
-
-        /* Extra small devices refinement */
-        @media (max-width: 400px) {
-          .preloader-brand {
-            font-size: clamp(0.95rem, 5vw, 1.4rem);
-            letter-spacing: 1px;
-          }
-          .preloader-subtitle-text {
-            letter-spacing: 2px;
-          }
-          .preloader-loading-text {
-            letter-spacing: 3px;
-          }
         }
       `}</style>
     </div>

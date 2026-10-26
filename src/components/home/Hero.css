@@ -128,7 +128,7 @@
   background: var(--hero-red);
 }
 
-/* Heading (Ab H2 hai) */
+/* Heading (H2) */
 .enterprise-heading {
   display: flex;
   flex-direction: column;
@@ -259,10 +259,23 @@
   background: var(--hero-red);
 }
 
-/* Animations */
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+
+/* Initial hidden states */
 .hero-heading-animate {
   opacity: 0;
-  transform: translateY(-10px);
+}
+
+/* Black heading: shuru mein left side (peeche) */
+.heading-main.hero-heading-animate {
+  transform: translateX(-40px);
+}
+
+/* Red heading: shuru mein right side (aage) */
+.heading-highlight.hero-heading-animate {
+  transform: translateX(40px);
 }
 
 .hero-paragraph-animate {
@@ -270,16 +283,19 @@
   transform: translateY(10px);
 }
 
+/* Active slide triggers */
 .carousel-item.active .enterprise-badge {
   animation: smoothDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.03s forwards;
 }
 
+/* Black heading → LEFT se aaye */
 .carousel-item.active .heading-main {
-  animation: smoothDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.08s forwards;
+  animation: slideInFromLeft 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.08s forwards;
 }
 
+/* Red heading → RIGHT se aaye */
 .carousel-item.active .heading-highlight {
-  animation: smoothDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.12s forwards;
+  animation: slideInFromRight 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.12s forwards;
 }
 
 .carousel-item.active .enterprise-desc {
@@ -290,14 +306,49 @@
   animation: smoothUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
 }
 
+/* Keyframes */
+@keyframes slideInFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 @keyframes smoothDown {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes smoothUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Mobile responsive adjustments */
@@ -317,5 +368,13 @@
   }
   .hero-carousel-indicators {
     margin-top: 32px;
+  }
+
+  /* Mobile par slide distance chhota rakho */
+  .heading-main.hero-heading-animate {
+    transform: translateX(-24px);
+  }
+  .heading-highlight.hero-heading-animate {
+    transform: translateX(24px);
   }
 }
