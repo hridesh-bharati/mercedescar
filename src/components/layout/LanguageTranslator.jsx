@@ -140,8 +140,20 @@ const LANGUAGES = [
 
 export default function GoogleTranslateButton() {
   const [open, setOpen] = useState(false);
-  const [selectedLang, setSelectedLang] = useState(() => localStorage.getItem("appLang") || "device");
-  const [isScriptLoaded, setIsScriptLoaded] = useState(() => typeof window !== "undefined" && !!window.__gtLoaded);
+
+  // ✅ SSR-safe: default to "device", hydrate from localStorage in useEffect
+  const [selectedLang, setSelectedLang] = useState("device");
+
+  const [isScriptLoaded, setIsScriptLoaded] = useState(
+    () => typeof window !== "undefined" && !!window.__gtLoaded
+  );
+
+  // ✅ Read persisted language only on the client after mount
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const stored = localStorage.getItem("appLang");
+    if (stored) setSelectedLang(stored);
+  }, []);
 
   const getTargetCode = (code) => {
     if (code !== "device") return code;
@@ -203,9 +215,9 @@ export default function GoogleTranslateButton() {
   return (
     <>
       <div id="google_translate_element" style={{ display: "none" }} />
-      
-      <button 
-        className="notranslate btn btn-sm border-0 d-flex align-items-center gap-1 p-2" 
+
+      <button
+        className="notranslate btn btn-sm border-0 d-flex align-items-center gap-1 p-2"
         onClick={handleOpenModal}
         aria-label="Change Language"
       >
