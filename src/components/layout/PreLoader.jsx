@@ -40,11 +40,11 @@ export default function PreLoader() {
       </div>
 
       {/* Main Content */}
-      <div className="position-relative text-center w-100 max-w-content d-flex flex-column align-items-center justify-content-center" style={{ zIndex: 2 }}>
+      <div className="position-relative text-center w-100 max-w-content d-flex flex-column align-items-center justify-content-center px-2" style={{ zIndex: 2 }}>
         
         {/* Cinematic Brand Reveal */}
         <div className="brand-reveal w-100">
-          <h1 className="preloader-brand mb-1 text-nowrap">
+          <h1 className="preloader-brand mb-1">
             <span className="text-white">GERMAN </span>
             <span className="text-danger">AUTO </span>
             <span className="text-white">EXPERT</span>
@@ -53,14 +53,14 @@ export default function PreLoader() {
         </div>
 
         {/* Subtitle */}
-        <div className="preloader-subtitle mt-3">
+        <div className="preloader-subtitle mt-2">
           <span className="text-white-50 small subtitle-text">
             AUTO SERVICE CENTER
           </span>
         </div>
 
         {/* Premium Loading Progress Line */}
-        <div className="loading-bar-container mt-4 mt-md-5">
+        <div className="loading-bar-container mt-4">
           <div className="loading-bar-fill"></div>
         </div>
         
@@ -72,7 +72,7 @@ export default function PreLoader() {
 
       <style jsx>{`
         .max-w-content {
-          max-width: 500px;
+          max-width: 320px; /* 모바일 원 크기에 맞게 내용 최대 너비 제한 */
         }
 
         .scale-out {
@@ -99,8 +99,8 @@ export default function PreLoader() {
         }
 
         .ring-outer {
-          width: clamp(260px, 80vw, 380px);
-          height: clamp(260px, 80vw, 380px);
+          width: clamp(280px, 85vw, 380px);
+          height: clamp(280px, 85vw, 380px);
           border-top: 2px solid #e11d48;
           border-left: 1px solid rgba(225, 29, 72, 0.2);
           animation: spin3D 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
@@ -108,8 +108,8 @@ export default function PreLoader() {
         }
 
         .ring-inner {
-          width: clamp(200px, 65vw, 300px);
-          height: clamp(200px, 65vw, 300px);
+          width: clamp(220px, 70vw, 300px);
+          height: clamp(220px, 70vw, 300px);
           border-bottom: 2px solid #ff4d4d;
           border-right: 1px solid rgba(255, 77, 77, 0.2);
           animation: spin3DReverse 3.5s linear infinite;
@@ -117,8 +117,8 @@ export default function PreLoader() {
 
         .center-glow {
           position: absolute;
-          width: clamp(120px, 40vw, 180px);
-          height: clamp(120px, 40vw, 180px);
+          width: clamp(140px, 45vw, 180px);
+          height: clamp(140px, 45vw, 180px);
           background: rgba(225, 29, 72, 0.25);
           border-radius: 50%;
           filter: blur(40px);
@@ -134,19 +134,20 @@ export default function PreLoader() {
         }
 
         .preloader-brand {
-          font-size: clamp(1.4rem, 6.5vw, 3.2rem);
+          font-size: clamp(1.15rem, 4.8vw, 2.5rem); /* 모바일에서 글자가 넘치지 않도록 크기 축소 */
           font-weight: 900;
-          letter-spacing: clamp(1px, 0.5vw, 3px);
+          letter-spacing: clamp(1px, 0.3vw, 2px);
           margin: 0;
           text-transform: uppercase;
           text-shadow: 0 4px 25px rgba(0,0,0,0.9);
+          white-space: nowrap; /* 줄바꿈 방지 */
         }
 
         .brand-line {
           width: 0%;
           height: 2px;
           background: linear-gradient(90deg, transparent, #e11d48, transparent);
-          margin: 10px auto 0;
+          margin: 8px auto 0;
           animation: expandLine 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
         }
 
@@ -156,14 +157,15 @@ export default function PreLoader() {
         }
 
         .subtitle-text {
-          letter-spacing: clamp(4px, 1.5vw, 8px);
+          font-size: 0.6rem;
+          letter-spacing: clamp(3px, 1vw, 6px);
           font-weight: 300;
           display: inline-block;
-          padding-left: 6px;
+          padding-left: 4px;
         }
 
         .loading-bar-container {
-          width: clamp(140px, 45vw, 180px);
+          width: clamp(120px, 40vw, 160px);
           height: 2px;
           background: rgba(255, 255, 255, 0.08);
           border-radius: 10px;
@@ -181,11 +183,11 @@ export default function PreLoader() {
         }
 
         .loading-text {
-          font-size: 0.65rem;
-          letter-spacing: 6px;
+          font-size: 0.55rem;
+          letter-spacing: 4px;
           color: #e11d48;
           text-shadow: 0 0 12px rgba(225, 29, 72, 0.6);
-          padding-left: 6px;
+          padding-left: 4px;
         }
 
         @keyframes spin3D {
