@@ -150,7 +150,7 @@ export default function Hero() {
 
                       <div className="enterprise-actions hero-paragraph-animate">
                         <Link
-                          href="/book-service"
+                          href="/services"
                           className="btn-enterprise-primary"
                           aria-label="Book a car service appointment online"
                         >
