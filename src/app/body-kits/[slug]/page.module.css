@@ -1,7 +1,7 @@
 /* src/app/body-kits/[slug]/page.module.css */
 
 .heroSection {
-  min-height: 520px;
+  min-height: 480px;
   background-color: #0a0a0a;
 }
 
@@ -11,14 +11,14 @@
 }
 
 .heroOverlay {
-  background: linear-gradient(to bottom, rgba(10,10,10,0.2) 0%, rgba(10,10,10,0.6) 50%, rgba(10,10,10,0.95) 100%);
+  background: linear-gradient(to bottom, rgba(10,10,10,0.3) 0%, rgba(10,10,10,0.65) 50%, rgba(10,10,10,0.95) 100%);
   z-index: 1;
 }
 
 .heroContent {
   z-index: 2;
-  padding-top: 80px;
-  padding-bottom: 80px;
+  padding-top: 60px;
+  padding-bottom: 60px;
 }
 
 /* Glassmorphism & Gradient Effects */
@@ -32,7 +32,7 @@
 }
 
 .glassCard:hover {
-  transform: translateY(-3px);
+  transform: translateY(-2px);
   box-shadow: 0 12px 36px rgba(220, 38, 38, 0.08);
 }
 
@@ -55,11 +55,11 @@
   border-color: rgba(255, 255, 255, 0.4);
 }
 
-/* Compact & Lightweight Gallery Grid */
+/* Responsive Gallery Grid */
 .galleryGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
 }
 
 .galleryItem {
@@ -81,8 +81,8 @@
 
 /* Icon Box Gradients */
 .iconBox {
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -113,11 +113,11 @@
 /* Floating WhatsApp Button */
 .floatingBtn {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
+  bottom: 20px;
+  right: 20px;
   z-index: 999;
-  width: 54px;
-  height: 54px;
+  width: 50px;
+  height: 50px;
   background: linear-gradient(135deg, #dc2626, #991b1b);
   border: none;
   transition: transform 0.3s ease;
@@ -127,8 +127,41 @@
   transform: scale(1.08);
 }
 
-@media (max-width: 576px) {
+/* ===========================
+   MOBILE RESPONSIVE BREAKPOINTS
+   =========================== */
+
+@media (max-width: 768px) {
+  .heroSection {
+    min-height: 420px;
+  }
+  
+  .heroContent {
+    padding-top: 45px;
+    padding-bottom: 45px;
+  }
+
+  /* Reduce heading sizes nicely on mobile */
+  .heroContent h1 {
+    font-size: 2rem !important;
+  }
+
   .galleryGrid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+}
+
+@media (max-width: 576px) {
+  .floatingBtn {
+    bottom: 16px;
+    right: 16px;
+    width: 46px;
+    height: 46px;
+  }
+
+  /* Adjust padding inside cards for small mobile screens */
+  .glassCard {
+    padding: 1.25rem !important;
   }
 }
