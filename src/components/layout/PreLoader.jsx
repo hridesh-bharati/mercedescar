@@ -61,28 +61,50 @@ export default function PreLoader() {
             setFadeAnim(true);
             setTimeout(() => setLoading(false), 400);
           }}
+          className="preloader-video"
           style={{
-            width: '280px',
-            maxWidth: '85vw',
             height: 'auto',
             objectFit: 'contain',
             borderRadius: '16px',
             background: '#000000', // Ensures video element itself has black base
-            // Drop shadow ko remove ya subtle red/dark kar diya hai taki box border match ho
-            filter: 'drop-shadow(0 0 20px rgba(255, 0, 0, 0.15))', 
+            filter: 'drop-shadow(0 0 25px rgba(255, 0, 0, 0.2))', 
           }}
         />
 
         {/* Loading text */}
         <div
-          className="mt-4 fw-bold small tracking-widest d-flex align-items-center gap-1"
-          style={{ fontSize: '0.8rem', letterSpacing: '3px', color: '#777777' }}
+          className="mt-4 fw-bold tracking-widest d-flex align-items-center gap-1 preloader-text"
+          style={{ letterSpacing: '3px', color: '#777777' }}
         >
           <span>LOADING LUXURY EXPERIENCE</span>
         </div>
       </div>
 
       <style jsx>{`
+        /* Thoda bada size mobile ke liye */
+        .preloader-video {
+          width: 340px;
+          max-width: 90vw;
+        }
+        .preloader-text {
+          font-size: 0.85rem;
+        }
+
+        /* PC / Desktop screens ke liye aur bada size */
+        @media (min-width: 992px) {
+          .preloader-video {
+            width: 540px; /* Yahan se aap PC ka size aur chota/bda kar sakte hain */
+          }
+          .preloader-text {
+            font-size: 1rem;
+          }
+          .ring {
+            width: 800px !important;
+            height: 800px !important;
+            margin: -400px 0 0 -400px !important;
+          }
+        }
+
         .preloader-bg-3d {
           position: absolute;
           inset: 0;
