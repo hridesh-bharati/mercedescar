@@ -27,6 +27,7 @@ const ICONS = {
   User: 'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2 M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z',
   Login: 'M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4 M10 17l5-5-5-5 M15 12H3',
   Gallery: 'M21 19V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z M8.5 10a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3 z M21 15l-5-5L5 21',
+  Blog: 'M4 4h16v16H4z M8 8h8 M8 12h8 M8 16h5',
 };
 
 function addRipple(e) {
@@ -50,37 +51,74 @@ const slugify = (str = '') =>
 export default function Header() {
   const [mounted, setMounted] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [expanded, setExpanded] = useState(null);
   const [searchOpen, setSearchOpen] = useState(false);
   const [elevated, setElevated] = useState(false);
+  const [activeTab, setActiveTab] = useState('home');
   const [userData, setUserData] = useState(null);
-  
-  // State to hold all items fetched from Firebase for the dropdown visual list
-  const [bodyKitItems, setBodyKitItems] = useState([]);
+  const [groupedCategories, setGroupedCategories] = useState([]);
+  const [bodyKitSubItems, setBodyKitSubItems] = useState([
+    { label: 'AMG Body Kits', href: '/body-kits/amg-body-kits' },
+    { label: 'Mercedes Facelift', href: '/body-kits/mercedes-facelift' },
+    { label: 'Custom Upgrades', href: '/body-kits/custom-upgrades' },
+  ]);
 
   const ADMIN_EMAIL = (process.env.NEXT_PUBLIC_ADMIN_EMAIL || '').toLowerCase();
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  useEffect(() => { setMounted(true); }, []);
 
-  // Fetch all items from database so header can show Title + Photo on hover
+  /* ---------- Fetch grouped body kits data ---------- */
   useEffect(() => {
-    async function fetchItems() {
+    async function fetchGroupedData() {
       try {
         const refPath = ref(database, 'body_kits_upgrades');
         const snapshot = await get(refPath);
         if (snapshot.exists()) {
           const val = snapshot.val();
           const dataList = Array.isArray(val) ? val : Object.keys(val).map(k => ({ id: k, ...val[k] }));
-          setBodyKitItems(dataList);
+
+          // Normalized unique categories (case + spaces safe)
+          const catMap = new Map();
+          dataList.forEach(item => {
+            const raw = (item.category || 'General').toString().trim().replace(/\s+/g, ' ');
+            const key = raw.toLowerCase();
+            if (!catMap.has(key)) catMap.set(key, raw);
+          });
+
+          const structured = [];
+          catMap.forEach((displayName, key) => {
+            const catItems = dataList.filter(item => {
+              const c = (item.category || 'General').toString().trim().replace(/\s+/g, ' ').toLowerCase();
+              return c === key;
+            });
+            structured.push({
+              categoryName: displayName,
+              categorySlug: slugify(displayName),
+              items: catItems.map(prod => ({
+                title: prod.title,
+                slug: prod.slug || slugify(prod.title),
+                image: prod.imageUrl || prod.imageUrls?.[0] || '/images/car-class.png'
+              }))
+            });
+          });
+
+          setGroupedCategories(structured);
+
+          // Keep simple subItems list for mobile drawer
+          setBodyKitSubItems(structured.map(g => ({
+            label: g.categoryName,
+            href: `/body-kits/${g.categorySlug}`,
+            children: g.items
+          })));
         }
       } catch (err) {
-        console.error('Error fetching items in header:', err);
+        console.error('Error fetching grouped categories in header:', err);
       }
     }
-    fetchItems();
+    fetchGroupedData();
   }, []);
 
+  /* ---------- Auth ---------- */
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
@@ -88,28 +126,32 @@ export default function Header() {
           const userRef = ref(database, `users/${currentUser.uid}`);
           const snapshot = await get(userRef);
           let profilePic = currentUser.photoURL || '';
-          if (snapshot.exists()) {
-            profilePic = snapshot.val().profilePic || profilePic;
-          }
+          if (snapshot.exists()) profilePic = snapshot.val().profilePic || profilePic;
           setUserData({
             email: currentUser.email,
             profilePic,
             isAdmin: ADMIN_EMAIL ? currentUser.email?.toLowerCase() === ADMIN_EMAIL : false
           });
-        } catch (err) {
+        } catch {
           setUserData({
             email: currentUser.email,
             profilePic: currentUser.photoURL || '',
             isAdmin: ADMIN_EMAIL ? currentUser.email?.toLowerCase() === ADMIN_EMAIL : false
           });
         }
-      } else {
-        setUserData(null);
-      }
+      } else setUserData(null);
     });
     return () => unsubscribe();
   }, [ADMIN_EMAIL]);
 
+  /* ---------- Body scroll lock ---------- */
+  useEffect(() => {
+    const original = document.body.style.overflow;
+    document.body.style.overflow = drawerOpen ? 'hidden' : original;
+    return () => { document.body.style.overflow = original; };
+  }, [drawerOpen]);
+
+  /* ---------- Scroll elevate ---------- */
   useEffect(() => {
     const onScroll = () => setElevated(window.scrollY > 4);
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -117,19 +159,21 @@ export default function Header() {
   }, []);
 
   const navItems = [
-    { key: 'home', label: 'Home', href: '/' },
-    { key: 'about', label: 'About Us', href: '/about-us' },
-    { key: 'services', label: 'Services', href: '/services' },
+    { key: 'home', label: 'Home', href: '/', icon: ICONS.Home },
+    { key: 'about', label: 'About Us', href: '/about-us', icon: ICONS.User },
+    { key: 'services', label: 'Services', href: '/services', icon: ICONS.Wrench },
     {
       key: 'body-kits',
       label: 'Body & Kits',
-      href: '/body-kits/amg-body-kits',
-      hasImageDropdown: true, // Flag to render rich dropdown with Title + Pic
+      href: '#',
+      hasCategoryDropdown: true,
+      icon: ICONS.Gallery,
     },
     {
       key: 'car-classes',
       label: 'Car Classes',
       href: '/car-class/g-class',
+      icon: ICONS.Gallery,
       subItems: [
         { label: 'All Classes', href: '/car-class/all' },
         { label: 'G-Class', href: '/car-class/g-class' },
@@ -139,18 +183,37 @@ export default function Header() {
         { label: 'AMG Series', href: '/car-class/amg-series' },
       ]
     },
-    { key: 'models', label: 'Car Models', href: '/models' },
-    { key: 'blog', label: 'Blogs', href: '/blogs' },
-    { key: 'contact', label: 'Contact Us', href: '/contact-us' },
+    { key: 'models', label: 'Car Models', href: '/models', icon: ICONS.Gallery },
+    { key: 'blog', label: 'Blogs', href: '/blogs', icon: ICONS.Blog },
+    { key: 'contact', label: 'Contact Us', href: '/contact-us', icon: ICONS.Contact },
   ];
 
-  const closeDrawer = () => { setDrawerOpen(false); };
-  const dashboardUrl = userData?.isAdmin ? './dashboard/adminpanel' : '/dashboard/userpanel';
+  const closeDrawer = () => { setDrawerOpen(false); setExpanded(null); };
+  const dashboardUrl = userData?.isAdmin ? '/dashboard/adminpanel' : '/dashboard/userpanel';
 
   if (!mounted) return <header className="md-appbar" style={{ minHeight: '80px' }} />;
 
   return (
     <>
+      {/* Top Info Bar */}
+      <div className="md-top-info-bar d-none d-lg-block">
+        <div className="container d-flex justify-content-between align-items-center py-2">
+          <div className="d-flex align-items-center gap-2 text-white">
+            <Icon path="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z M12 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" size={14} />
+            <span>Warehouse #S2, Al Quoz 20C Street Industrial Area 2, Dubai, UAE</span>
+          </div>
+          <div className="d-flex align-items-center gap-4">
+            <a href="tel:+971567888808" className="text-decoration-none text-white d-flex align-items-center gap-1">
+              <Icon path={ICONS.Contact} size={14} /> +971 56 788 8808
+            </a>
+            <a href="mailto:info@mercedesgaragedubai.com" className="text-decoration-none text-white d-flex align-items-center gap-1">
+              <Icon path="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M22 6l-10 7L2 6" size={14} /> info@mercedesgaragedubai.com
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* Main App Bar */}
       <header className={`md-appbar ${elevated ? 'md-appbar--elevated' : ''}`}>
         <div className="container-fluid d-flex align-items-center justify-content-between md-appbar-row">
           <Link href="/" className="md-appbar-brand" onClick={closeDrawer}>
@@ -161,9 +224,8 @@ export default function Header() {
             {navItems.map((item) => (
               <div key={item.key} className="md-desktop-item position-relative">
                 <Link href={item.href} className="md-desktop-link">{item.label}</Link>
-                
-                {/* Standard Submenu (for other tabs) */}
-                {item.subItems && (
+
+                {item.subItems && !item.hasCategoryDropdown && (
                   <div className="md-desktop-menu shadow border-0 rounded-3">
                     {item.subItems.map((s, i) => (
                       <Link key={i} href={s.href} className="md-desktop-menu-item">{s.label}</Link>
@@ -171,29 +233,34 @@ export default function Header() {
                   </div>
                 )}
 
-                {/* Rich Image + Title Dropdown on Hover for Body & Kits */}
-                {item.hasImageDropdown && (
-                  <div className="md-desktop-menu shadow border-0 rounded-4 p-2" style={{ width: '320px', maxHeight: '400px', overflowY: 'auto' }}>
-                    {bodyKitItems.length === 0 ? (
-                      <div className="p-2 text-muted small text-center">No items available</div>
+                {item.hasCategoryDropdown && (
+                  <div className="md-desktop-menu shadow border-0 rounded-4 p-3" style={{ width: '340px', maxHeight: '450px', overflowY: 'auto' }}>
+                    {groupedCategories.length === 0 ? (
+                      <div className="p-2 text-muted small text-center">No categories found</div>
                     ) : (
-                      bodyKitItems.map((prod, idx) => {
-                        const prodImg = prod.imageUrl || prod.imageUrls?.[0] || '/images/car-class.png';
-                        const prodSlug = prod.slug || slugify(prod.title);
-                        return (
-                          <Link 
-                            key={idx} 
-                            href={`/body-kits/${prodSlug}`} 
-                            className="d-flex align-items-center gap-3 p-2 rounded-3 text-decoration-none text-dark hover-bg-light transition"
+                      groupedCategories.map((catGroup, cIdx) => (
+                        <div key={cIdx} className="mb-3 pb-2 border-bottom">
+                          <Link
+                            href={`/body-kits/${catGroup.categorySlug}`}
+                            className="fw-bold text-danger small text-uppercase mb-2 d-block text-decoration-none"
+                            style={{ letterSpacing: '0.5px' }}
                           >
-                            <img src={prodImg} alt={prod.title} className="rounded-2 object-fit-cover shadow-sm flex-shrink-0" style={{ width: '45px', height: '45px' }} />
-                            <div className="overflow-hidden">
-                              <h6 className="fw-bold text-dark small mb-0 text-truncate" style={{ fontSize: '0.85rem' }}>{prod.title}</h6>
-                              <span className="text-danger" style={{ fontSize: '0.75rem' }}>{prod.category || 'Upgrade'}</span>
-                            </div>
+                            {catGroup.categoryName} ➔
                           </Link>
-                        );
-                      })
+                          <div className="d-flex flex-column gap-2 ps-2">
+                            {catGroup.items.map((subItem, sIdx) => (
+                              <Link
+                                key={sIdx}
+                                href={`/body-kits/${subItem.slug}`}
+                                className="d-flex align-items-center gap-2 p-1 rounded-3 text-decoration-none text-dark"
+                              >
+                                <img src={subItem.image} alt={subItem.title} className="rounded-2 object-fit-cover shadow-sm flex-shrink-0" style={{ width: '38px', height: '38px' }} />
+                                <span className="small text-truncate fw-semibold text-secondary" style={{ fontSize: '0.82rem' }}>{subItem.title}</span>
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      ))
                     )}
                   </div>
                 )}
@@ -208,7 +275,9 @@ export default function Header() {
             </button>
             {userData ? (
               <Link href={dashboardUrl} className="rounded-circle p-0 overflow-hidden shadow-sm d-none d-lg-flex align-items-center justify-content-center border border-2 border-danger" style={{ width: '36px', height: '36px' }} onMouseDown={addRipple} title="Go to Dashboard">
-                {userData.profilePic ? <img src={userData.profilePic} alt="Profile" className="w-100 h-100 object-fit-cover" /> : <div className="bg-danger text-white w-100 h-100 d-flex align-items-center justify-content-center fw-bold small">{userData.email?.charAt(0).toUpperCase()}</div>}
+                {userData.profilePic
+                  ? <img src={userData.profilePic} alt="Profile" className="w-100 h-100 object-fit-cover" />
+                  : <div className="bg-danger text-white w-100 h-100 d-flex align-items-center justify-content-center fw-bold small">{userData.email?.charAt(0).toUpperCase()}</div>}
               </Link>
             ) : (
               <Link href="/auth/login" className="btn btn-danger btn-sm rounded-pill px-3 fw-bold d-none d-lg-flex align-items-center gap-1 shadow-sm" onMouseDown={addRipple}>
@@ -223,7 +292,151 @@ export default function Header() {
       </header>
 
       <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
+
+      {/* Scrim */}
       <div className={`md-scrim ${drawerOpen ? 'show' : ''}`} onClick={closeDrawer} aria-hidden="true" />
+
+      {/* ============ MOBILE DRAWER ============ */}
+      <aside className={`md-drawer ${drawerOpen ? 'open' : ''}`} aria-hidden={!drawerOpen}>
+        <div className="md-drawer-header d-flex align-items-center justify-content-between px-4 py-3 border-bottom">
+          <div className="d-flex align-items-center gap-3">
+            <div className="bg-danger text-white rounded-3 p-2 d-flex align-items-center justify-content-center" style={{ width: '38px', height: '38px' }}>
+              <Icon path={ICONS.Wrench} size={20} />
+            </div>
+            <div>
+              <span className="fw-bold fs-5 text-dark m-0 d-block lh-1">Navigation</span>
+              <small className="text-muted" style={{ fontSize: '0.8rem' }}>Mercedes Garage Dubai</small>
+            </div>
+          </div>
+          <button className="md-icon-btn md-ripple" onMouseDown={addRipple} onClick={closeDrawer} aria-label="Close menu">
+            <Icon path={ICONS.Back} size={22} />
+          </button>
+        </div>
+
+        <ul className="md-drawer-list">
+          {navItems.map((item) => (
+            <li key={item.key} className="md-drawer-item">
+              <div
+                className={`md-drawer-row md-ripple ${activeTab === item.key ? 'is-active' : ''}`}
+                onMouseDown={addRipple}
+                onClick={() => {
+                  if (item.hasCategoryDropdown || item.subItems) {
+                    setExpanded(expanded === item.key ? null : item.key);
+                  } else {
+                    setActiveTab(item.key);
+                    closeDrawer();
+                  }
+                }}
+              >
+                <span className="md-drawer-icon-wrap"><Icon path={item.icon} size={18} /></span>
+                <Link href={item.href} className="md-drawer-label text-decoration-none text-dark"
+                  onClick={(e) => { if (item.hasCategoryDropdown || item.subItems) e.preventDefault(); else closeDrawer(); }}>
+                  {item.label}
+                </Link>
+                {(item.hasCategoryDropdown || item.subItems) && (
+                  <span className={`md-drawer-chevron ${expanded === item.key ? 'open' : ''}`}>
+                    <Icon path={ICONS.Chevron} size={16} />
+                  </span>
+                )}
+              </div>
+
+              {/* Standard submenu */}
+              {item.subItems && !item.hasCategoryDropdown && (
+                <ul className="md-drawer-submenu" style={{ maxHeight: expanded === item.key ? `${item.subItems.length * 45 + 16}px` : '0px' }}>
+                  {item.subItems.map((s, i) => (
+                    <li key={i}>
+                      <Link href={s.href} className="md-drawer-sublink text-decoration-none" onMouseDown={addRipple} onClick={closeDrawer}>
+                        <span className="md-sub-dot"></span>{s.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              {/* Body Kits grouped categories */}
+              {item.hasCategoryDropdown && (
+                <ul className="md-drawer-submenu" style={{ maxHeight: expanded === item.key ? '70vh' : '0px', overflowY: 'auto' }}>
+                  {groupedCategories.map((catGroup, cIdx) => (
+                    <li key={cIdx} className="mb-2">
+                      <Link
+                        href={`/body-kits/${catGroup.categorySlug}`}
+                        className="md-drawer-sublink text-decoration-none fw-bold text-danger"
+                        onMouseDown={addRipple}
+                        onClick={closeDrawer}
+                      >
+                        <span className="md-sub-dot"></span>{catGroup.categoryName} ➔
+                      </Link>
+                      <ul className="list-unstyled ps-4">
+                        {catGroup.items.map((subItem, sIdx) => (
+                          <li key={sIdx}>
+                            <Link
+                              href={`/body-kits/${subItem.slug}`}
+                              className="md-drawer-sublink text-decoration-none"
+                              onMouseDown={addRipple}
+                              onClick={closeDrawer}
+                            >
+                              <img src={subItem.image} alt={subItem.title} className="rounded-1 object-fit-cover flex-shrink-0" style={{ width: '24px', height: '24px' }} />
+                              <span className="text-truncate" style={{ fontSize: '0.82rem' }}>{subItem.title}</span>
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ul>
+
+        <div className="md-drawer-footer">
+          {userData ? (
+            <Link href={dashboardUrl} className="btn btn-dark w-100 rounded-pill fw-bold py-2 shadow-sm d-flex align-items-center justify-content-center gap-2" onMouseDown={addRipple} onClick={closeDrawer}>
+              Go to Dashboard
+            </Link>
+          ) : (
+            <Link href="/auth/login" className="btn btn-danger w-100 rounded-pill fw-bold py-2 shadow-sm d-flex align-items-center justify-content-center gap-2" onMouseDown={addRipple} onClick={closeDrawer}>
+              <Icon path={ICONS.Login} size={18} /> Log in
+            </Link>
+          )}
+        </div>
+      </aside>
+
+      {/* ============ MOBILE BOTTOM NAV ============ */}
+      <nav className="md-navbar d-lg-none">
+        <Link href="/" className={`md-nav-dest md-ripple ${activeTab === 'home' ? 'is-active' : ''}`} onMouseDown={addRipple} onClick={() => setActiveTab('home')}>
+          <span className="md-nav-indicator"><Icon path={ICONS.Home} size={20} /></span>
+          <span className="md-nav-label">Home</span>
+        </Link>
+        <Link href="/services" className={`md-nav-dest md-ripple ${activeTab === 'services' ? 'is-active' : ''}`} onMouseDown={addRipple} onClick={() => setActiveTab('services')}>
+          <span className="md-nav-indicator"><Icon path={ICONS.Wrench} size={20} /></span>
+          <span className="md-nav-label">Services</span>
+        </Link>
+        <div className="md-nav-fab-slot">
+          <Link href="/gallery" className="md-fab md-ripple d-flex align-items-center justify-content-center text-white" onMouseDown={addRipple} aria-label="Gallery">
+            <Icon path={ICONS.Gallery} size={24} />
+          </Link>
+        </div>
+        <Link href="/contact-us" className={`md-nav-dest md-ripple ${activeTab === 'contact' ? 'is-active' : ''}`} onMouseDown={addRipple} onClick={() => setActiveTab('contact')}>
+          <span className="md-nav-indicator"><Icon path={ICONS.Contact} size={20} /></span>
+          <span className="md-nav-label">Contact</span>
+        </Link>
+        {userData ? (
+          <Link href={dashboardUrl} className={`md-nav-dest md-ripple ${activeTab === 'account' ? 'is-active' : ''}`} onMouseDown={addRipple} onClick={() => setActiveTab('account')}>
+            <span className="md-nav-indicator">
+              {userData.profilePic
+                ? <img src={userData.profilePic} alt="Profile" className="rounded-circle object-fit-cover border border-danger" style={{ width: '22px', height: '22px' }} />
+                : <Icon path={ICONS.User} size={20} />}
+            </span>
+            <span className="md-nav-label">Account</span>
+          </Link>
+        ) : (
+          <Link href="/auth/login" className={`md-nav-dest md-ripple ${activeTab === 'account' ? 'is-active' : ''}`} onMouseDown={addRipple} onClick={() => setActiveTab('account')}>
+            <span className="md-nav-indicator"><Icon path={ICONS.User} size={20} /></span>
+            <span className="md-nav-label">Account</span>
+          </Link>
+        )}
+      </nav>
     </>
   );
 }
