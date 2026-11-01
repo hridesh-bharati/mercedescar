@@ -30,9 +30,9 @@ const ICONS = {
   Plus: 'M12 5v14 M5 12h14',
   Phone: 'M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 3a2 2 0 0 1-.5 2.1L8 10.1a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c1 .3 2 .5 3 .7a2 2 0 0 1 1.6 2z',
   Email: 'M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z M22 6l-10 7L2 6',
-  Location: 'M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z M12 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z',
+  Location: 'M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z M12 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6 z',
   Blog: 'M4 4h16v16H4z M8 8h8 M8 12h8 M8 16h5',
-  Gallery: 'M21 19V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z M8.5 10a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z M21 15l-5-5L5 21',
+  Gallery: 'M21 19V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2z M8.5 10a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3 z M21 15l-5-5L5 21',
 };
 
 function addRipple(e) {
@@ -51,6 +51,7 @@ function addRipple(e) {
 }
 
 export default function Header() {
+  const [mounted, setMounted] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [expanded, setExpanded] = useState(null);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -60,6 +61,10 @@ export default function Header() {
   const [userData, setUserData] = useState(null);
 
   const ADMIN_EMAIL = (process.env.NEXT_PUBLIC_ADMIN_EMAIL || '').toLowerCase();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -88,7 +93,7 @@ export default function Header() {
       }
     });
     return () => unsubscribe();
-  }, []);
+  }, [ADMIN_EMAIL]);
 
   useEffect(() => {
     const original = document.body.style.overflow;
@@ -104,17 +109,17 @@ export default function Header() {
 
   const navItems = [
     { key: 'home', label: 'Home', href: '/', icon: ICONS.Home },
-    {
-      key: 'services',
-      label: 'Mercedes Services',
-      href: '/services',
-      icon: ICONS.Wrench,
+    { key: 'services', label: 'Services', href: '/services', icon: ICONS.Wrench },
+    { 
+      key: 'body-kits', 
+      label: 'Body Kits & Upgrades', 
+      href: '/body-kits-and-upgrades', 
+      icon: ICONS.Gallery,
       subItems: [
-        { label: 'All Mercedes Services', href: '/services' },
-        { label: 'Mercedes Body Kits', href: '/services/mercedes-body-kits-dubai' },
-        { label: 'Mercedes Facelift', href: '/services/mercedes-facelift-dubai' },
-        { label: 'Mercedes Vehicle Upgrades', href: '/services/mercedes-vehicle-upgrades-dubai' },
-      ],
+        { label: 'AMG Body Kits', href: '/body-kits/amg-body-kits' },
+        { label: 'Mercedes Facelift', href: '/body-kits/mercedes-facelift' },
+        { label: 'Custom Upgrades', href: '/body-kits/custom-upgrades' },
+      ]
     },
     { key: 'about', label: 'About Us', href: '/about-us', icon: ICONS.User },
     {
@@ -152,11 +157,15 @@ export default function Header() {
 
   const filtered = query.trim()
     ? navItems
-      .map((i) => ({ ...i, subItems: i.subItems?.filter((s) => s.label.toLowerCase().includes(query.toLowerCase())) }))
-      .filter((i) => i.label.toLowerCase().includes(query.toLowerCase()) || (i.subItems && i.subItems.length > 0))
+        .map((i) => ({ ...i, subItems: i.subItems?.filter((s) => s.label.toLowerCase().includes(query.toLowerCase())) }))
+        .filter((i) => i.label.toLowerCase().includes(query.toLowerCase()) || (i.subItems && i.subItems.length > 0))
     : navItems;
 
   const dashboardUrl = userData?.isAdmin ? '/dashboard/adminpanel' : '/dashboard/userpanel';
+
+  if (!mounted) {
+    return <header className="md-appbar" style={{ minHeight: '80px' }} />;
+  }
 
   return (
     <>
@@ -265,7 +274,7 @@ export default function Header() {
               </div>
 
               {item.subItems && (
-                <ul className="md-drawer-submenu" style={{ maxHeight: expanded === item.key ? `${item.subItems.length * 40 + 8}px` : '0px', overflow: 'hidden', transition: 'max-height 0.3s ease' }}>
+                <ul className="md-drawer-submenu" style={{ maxHeight: expanded === item.key ? `${item.subItems.length * 45 + 16}px` : '0px', overflow: 'hidden', transition: 'max-height 0.3s ease' }}>
                   {item.subItems.map((s, i) => (
                     <li key={i}>
                       <Link href={s.href} className="md-drawer-sublink md-ripple text-decoration-none text-muted" onMouseDown={addRipple} onClick={closeDrawer}>

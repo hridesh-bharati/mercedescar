@@ -21,6 +21,7 @@ import GalleryManager from './gallery-manager';
 import ProfileManager from './profile-manager';
 import CarModelsManager from './car-models-manager';
 import CarClassesManager from './car-classes-manager';
+import BodyKitsManager from './body-kits-manager';
 
 let dashboardCache = {
   stats: null,
@@ -96,19 +97,20 @@ export default function AdminPanel() {
 
   if (!isAdmin) return null;
 
-  const menuItems = [
-    { key: 'overview', label: 'Overview', icon: LayoutDashboard },
-    { key: 'services', label: 'Car Services', icon: Wrench },
-    { key: 'car-models', label: 'Car Models', icon: Car },
-    { key: 'car-classes', label: 'Car Classes', icon: Cpu },
-    { key: 'blogs', label: 'Manage Blogs', icon: FileText },
-    { key: 'comments', label: 'Blog Comments', icon: MessageSquare },
-    { key: 'cases', label: 'Manage Cases', icon: Briefcase },
-    { key: 'gallery', label: 'Manage Gallery', icon: ImageIcon },
-    { key: 'inbox', label: 'Inbox', icon: Inbox },
-    { key: 'users', label: 'Users List', icon: Users },
-    { key: 'profile', label: 'Profile', icon: UserCircle },
-  ];
+const menuItems = [
+  { key: 'overview', label: 'Overview', icon: LayoutDashboard },
+  { key: 'services', label: 'Car Services', icon: Wrench },
+  { key: 'car-models', label: 'Car Models', icon: Car },
+  { key: 'car-classes', label: 'Car Classes', icon: Cpu },
+  { key: 'body-kits', label: 'Body Kits & Upgrades', icon: Wrench },
+  { key: 'blogs', label: 'Manage Blogs', icon: FileText },
+  { key: 'comments', label: 'Blog Comments', icon: MessageSquare },
+  { key: 'cases', label: 'Manage Cases', icon: Briefcase },
+  { key: 'gallery', label: 'Manage Gallery', icon: ImageIcon },
+  { key: 'inbox', label: 'Inbox', icon: Inbox },
+  { key: 'users', label: 'Users List', icon: Users },
+  { key: 'profile', label: 'Profile', icon: UserCircle },
+];
 
   const chartData = [
     { name: 'Services', count: stats.services, color: '#8b5cf6' },
@@ -414,6 +416,7 @@ export default function AdminPanel() {
                 {activeTab === 'services' && <ServicesManager />}
                 {activeTab === 'car-models' && <CarModelsManager />}
                 {activeTab === 'car-classes' && <CarClassesManager />}
+                {activeTab === 'body-kits' && <BodyKitsManager />}
                 {activeTab === 'blogs' && <BlogsManager />}
                 {activeTab === 'comments' && <CommentsManager />}
                 {activeTab === 'cases' && <CasesManager />}
