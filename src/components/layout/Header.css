@@ -30,7 +30,6 @@ body {
   font-family: 'Inter', system-ui, sans-serif;
   margin: 0;
   padding-top: 0px;
- 
 }
 
 /* ============================================
@@ -261,7 +260,9 @@ body {
 .md-scrim {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.4);
+  background: rgba(15, 27, 43, 0.5);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -270,48 +271,51 @@ body {
 .md-scrim.show { opacity: 1; visibility: visible; }
 
 /* ============================================
-   Drawer
+   Drawer (Enhanced with Rich Colors & Icons)
    ============================================ */
 .md-drawer {
   position: fixed;
   top: 0;
   right: 0;
   left: auto;
-  width: 330px;
-  max-width: 88vw;
+  width: 340px;
+  max-width: 90vw;
   height: 100dvh;
-  background: var(--md-surface);
+  background: linear-gradient(180deg, #FFFFFF 0%, #F8F9FC 100%);
   transform: translateX(100%);
-  transition: transform 0.32s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 1050;
   display: flex;
   flex-direction: column;
-  border-radius: 20px 0 0 20px;
-  box-shadow: var(--md-elev-4);
+  border-radius: 24px 0 0 24px;
+  box-shadow: -10px 0 35px rgba(15, 27, 43, 0.15);
   overflow: hidden;
+  border-left: 1px solid rgba(214, 36, 29, 0.1);
 }
 .md-drawer.open { transform: translateX(0); }
 
 .md-drawer-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 16px 20px;
+  justify-content: space-between;
+  padding: 18px 22px;
+  background: #ffffff;
   border-bottom: 1px solid var(--md-outline);
 }
 
 .md-drawer-list {
   list-style: none;
   margin: 0;
-  padding: 4px 14px;
+  padding: 10px 16px;
   flex: 1;
   overflow-y: auto;
 }
 .md-drawer-item {
   opacity: 0;
-  transform: translateX(10px);
+  transform: translateX(12px);
   animation: mdDrawerIn 0.35s ease forwards;
   animation-delay: var(--d, 0s);
+  margin-bottom: 6px;
 }
 .md-drawer.open .md-drawer-item { animation-play-state: running; }
 @keyframes mdDrawerIn { to { opacity: 1; transform: translateX(0); } }
@@ -320,27 +324,52 @@ body {
   display: flex;
   align-items: center;
   gap: 14px;
-  height: 56px;
-  padding: 0 16px;
-  border-radius: 28px;
+  height: 54px;
+  padding: 0 14px;
+  border-radius: 14px;
   cursor: pointer;
-  transition: background 0.2s ease;
-  margin-bottom: 4px;
+  transition: all 0.2s ease;
+  background: transparent;
 }
-.md-drawer-row:hover { background: rgba(27,28,30,0.05); }
-.md-drawer-row.is-active { background: var(--md-primary-container); }
+.md-drawer-row:hover { 
+  background: rgba(214, 36, 29, 0.05); 
+}
+.md-drawer-row:hover .md-drawer-icon-wrap {
+  background: var(--md-primary);
+  color: #ffffff;
+}
+.md-drawer-row.is-active { 
+  background: var(--md-primary-container); 
+}
 .md-drawer-row.is-active .md-drawer-label,
-.md-drawer-row.is-active .md-drawer-icon {
+.md-drawer-row.is-active .md-drawer-icon-wrap {
   color: var(--md-on-primary-container);
   font-weight: 800;
 }
+.md-drawer-row.is-active .md-drawer-icon-wrap {
+  background: var(--md-primary);
+  color: #ffffff;
+}
 
-.md-drawer-icon { color: var(--md-on-surface-variant); display: flex; flex-shrink: 0; }
+.md-drawer-icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: var(--md-surface-variant);
+  color: var(--md-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+}
+
 .md-drawer-label {
   flex: 1;
   color: var(--md-on-surface);
   text-decoration: none;
-  font-size: 1.08rem !important;
+  font-size: 1.02rem !important;
   font-weight: 700;
 }
 .md-drawer-chevron {
@@ -348,30 +377,46 @@ body {
   display: flex;
   transition: transform 0.3s ease;
 }
-.md-drawer-chevron.open { transform: rotate(90deg); }
+.md-drawer-chevron.open { transform: rotate(90deg); color: var(--md-primary); }
 
 .md-drawer-submenu {
   list-style: none;
-  margin: 0;
-  padding-left: 54px;
+  margin: 2px 0 6px 0;
+  padding-left: 50px;
   overflow: hidden;
   max-height: 0;
   transition: max-height 0.35s ease;
 }
 .md-drawer-sublink {
-  display: block;
-  padding: 10px 14px;
-  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 14px;
+  border-radius: 10px;
   color: var(--md-on-surface-variant);
   text-decoration: none;
-  font-size: 0.96rem !important;
+  font-size: 0.93rem !important;
   font-weight: 600;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition: all 0.15s ease;
 }
-.md-drawer-sublink:hover { background: var(--md-surface-variant); color: var(--md-on-surface); }
+.md-sub-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--md-outline);
+  transition: background 0.15s ease;
+}
+.md-drawer-sublink:hover { 
+  background: rgba(214, 36, 29, 0.06); 
+  color: var(--md-primary); 
+}
+.md-drawer-sublink:hover .md-sub-dot {
+  background: var(--md-primary);
+}
 
 .md-drawer-footer {
-  padding: 18px 22px 26px;
+  padding: 18px 22px 24px;
+  background: #ffffff;
   border-top: 1px solid var(--md-outline);
   position: relative;
 }

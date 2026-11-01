@@ -157,8 +157,8 @@ export default function Header() {
 
   const filtered = query.trim()
     ? navItems
-      .map((i) => ({ ...i, subItems: i.subItems?.filter((s) => s.label.toLowerCase().includes(query.toLowerCase())) }))
-      .filter((i) => i.label.toLowerCase().includes(query.toLowerCase()) || (i.subItems && i.subItems.length > 0))
+        .map((i) => ({ ...i, subItems: i.subItems?.filter((s) => s.label.toLowerCase().includes(query.toLowerCase())) }))
+        .filter((i) => i.label.toLowerCase().includes(query.toLowerCase()) || (i.subItems && i.subItems.length > 0))
     : navItems;
 
   const dashboardUrl = userData?.isAdmin ? '/dashboard/adminpanel' : '/dashboard/userpanel';
@@ -248,10 +248,18 @@ export default function Header() {
       {/* Mobile Drawer */}
       <aside className={`md-drawer ${drawerOpen ? 'open' : ''}`} aria-hidden={!drawerOpen}>
         <div className="md-drawer-header d-flex align-items-center justify-content-between px-4 py-3 border-bottom">
+          <div className="d-flex align-items-center gap-3">
+            <div className="bg-danger text-white rounded-3 p-2 d-flex align-items-center justify-content-center" style={{ width: '38px', height: '38px' }}>
+              <Icon path={ICONS.Wrench} size={20} />
+            </div>
+            <div>
+              <span className="fw-bold fs-5 text-dark m-0 d-block lh-1">Navigation</span>
+              <small className="text-muted" style={{ fontSize: '0.8rem' }}>Mercedes Garage Dubai</small>
+            </div>
+          </div>
           <button className="md-icon-btn md-ripple" onMouseDown={addRipple} onClick={closeDrawer} aria-label="Close menu">
             <Icon path={ICONS.Back} size={22} />
           </button>
-          <span className="fw-bold fs-5 text-dark m-0">Menu</span>
         </div>
 
         <ul className="md-drawer-list">
@@ -262,7 +270,7 @@ export default function Header() {
                 onMouseDown={addRipple}
                 onClick={() => item.subItems ? setExpanded(expanded === item.key ? null : item.key) : (setActiveTab(item.key), closeDrawer())}
               >
-                <span className="md-drawer-icon"><Icon path={item.icon} size={20} /></span>
+                <span className="md-drawer-icon-wrap"><Icon path={item.icon} size={18} /></span>
                 <Link href={item.href} className="md-drawer-label text-decoration-none text-dark" onClick={(e) => { if (item.subItems) e.preventDefault(); else closeDrawer(); }}>
                   {item.label}
                 </Link>
@@ -278,6 +286,7 @@ export default function Header() {
                   {item.subItems.map((s, i) => (
                     <li key={i}>
                       <Link href={s.href} className="md-drawer-sublink md-ripple text-decoration-none text-muted" onMouseDown={addRipple} onClick={closeDrawer}>
+                        <span className="md-sub-dot"></span>
                         {s.label}
                       </Link>
                     </li>
@@ -290,11 +299,11 @@ export default function Header() {
 
         <div className="md-drawer-footer">
           {userData ? (
-            <Link href={dashboardUrl} className="btn btn-dark w-100 rounded-pill fw-bold py-2 shadow-sm d-flex align-items-center justify-content-center gap-2" onMouseDown={addRipple} onClick={closeDrawer}>
+            <Link href={dashboardUrl} className="btn btn-dark w-100 rounded-pill fw-bold py-2.5 shadow-sm d-flex align-items-center justify-content-center gap-2" onMouseDown={addRipple} onClick={closeDrawer}>
               <span>Go to Dashboard</span>
             </Link>
           ) : (
-            <Link href="/auth/login" className="btn btn-danger w-100 rounded-pill fw-bold py-2 shadow-sm d-flex align-items-center justify-content-center gap-2" onMouseDown={addRipple} onClick={closeDrawer}>
+            <Link href="/auth/login" className="btn btn-danger w-100 rounded-pill fw-bold py-2.5 shadow-sm d-flex align-items-center justify-content-center gap-2" onMouseDown={addRipple} onClick={closeDrawer}>
               <Icon path={ICONS.Login} size={18} />
               <span>Log in</span>
             </Link>
