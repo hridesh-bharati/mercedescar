@@ -110,10 +110,10 @@ export default function Header() {
   const navItems = [
     { key: 'home', label: 'Home', href: '/', icon: ICONS.Home },
     { key: 'services', label: 'Services', href: '/services', icon: ICONS.Wrench },
-    { 
-      key: 'body-kits', 
-      label: 'Body Kits & Upgrades', 
-      href: '/body-kits-and-upgrades', 
+    {
+      key: 'body-kits',
+      label: 'Body Kits & Upgrades',
+      href: '/body-kits/amg-body-kits',
       icon: ICONS.Gallery,
       subItems: [
         { label: 'AMG Body Kits', href: '/body-kits/amg-body-kits' },
@@ -157,8 +157,8 @@ export default function Header() {
 
   const filtered = query.trim()
     ? navItems
-        .map((i) => ({ ...i, subItems: i.subItems?.filter((s) => s.label.toLowerCase().includes(query.toLowerCase())) }))
-        .filter((i) => i.label.toLowerCase().includes(query.toLowerCase()) || (i.subItems && i.subItems.length > 0))
+      .map((i) => ({ ...i, subItems: i.subItems?.filter((s) => s.label.toLowerCase().includes(query.toLowerCase())) }))
+      .filter((i) => i.label.toLowerCase().includes(query.toLowerCase()) || (i.subItems && i.subItems.length > 0))
     : navItems;
 
   const dashboardUrl = userData?.isAdmin ? '/dashboard/adminpanel' : '/dashboard/userpanel';

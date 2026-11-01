@@ -4,19 +4,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { dbService } from '@/services/dbService';
 import { uploadToCloudinary } from '@/lib/cloudinary';
-import { Trash2, Edit, Wrench, X, UploadCloud, Save, List, PlusCircle, Globe, ChevronDown, ChevronUp } from 'lucide-react';
+import { Trash2, Edit, Wrench, X, Save, List, PlusCircle } from 'lucide-react';
 
 const EMPTY = {
   title: '',
   category: 'AMG Body Kits', 
   tagline: '',
   desc: '',
-  seoTitle: '',
-  seoDescription: '',
-  h1: '',
-  heroIntro: '',
-  contentSections: [{ heading: '', body: '' }],
-  faqs: [{ q: '', a: '' }],
   imageUrls: [],
 };
 
@@ -26,8 +20,7 @@ export default function BodyKitsManager() {
   const [uploading, setUploading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [editId, setEditId] = useState(null);
-  const [showList, setShowList] = useState(false); // false = show form, true = show list
-  const [showSeo, setShowSeo] = useState(false);
+  const [showList, setShowList] = useState(false);
 
   const fileInputRef = useRef(null);
 
@@ -75,7 +68,7 @@ export default function BodyKitsManager() {
     if (fileInputRef.current) fileInputRef.current.value = '';
     setLoading(false);
     loadItems();
-    setShowList(true); // Switch to list view after save
+    setShowList(true);
   };
 
   const handleDelete = async (id) => {
@@ -92,16 +85,9 @@ export default function BodyKitsManager() {
       category: item.category || 'AMG Body Kits',
       tagline: item.tagline || '',
       desc: item.desc || '',
-      seoTitle: item.seoTitle || '',
-      seoDescription: item.seoDescription || '',
-      h1: item.h1 || '',
-      heroIntro: item.heroIntro || '',
-      contentSections: item.contentSections?.length ? item.contentSections : [{ heading: '', body: '' }],
-      faqs: item.faqs?.length ? item.faqs : [{ q: '', a: '' }],
       imageUrls: item.imageUrls || (item.imageUrl ? [item.imageUrl] : []),
     });
-    setShowList(false); // Ensure form is shown when editing
-    setShowSeo(true);
+    setShowList(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -110,14 +96,6 @@ export default function BodyKitsManager() {
     setForm(EMPTY);
     setShowList(true);
   };
-
-  const updateArr = (key, idx, field, value) => {
-    const arr = [...form[key]];
-    arr[idx] = { ...arr[idx], [field]: value };
-    setForm({ ...form, [key]: arr });
-  };
-  const addRow = (key, template) => setForm({ ...form, [key]: [...form[key], template] });
-  const removeRow = (key, idx) => setForm({ ...form, [key]: form[key].filter((_, i) => i !== idx) });
 
   return (
     <div className="card border-0 shadow-sm rounded-4 p-3 p-md-4 bg-white text-start">
@@ -142,9 +120,9 @@ export default function BodyKitsManager() {
       </div>
 
       {!showList ? (
-        <form onSubmit={handleSubmit} className="row g-3 mb-4 bg-light p-3 p-md-4 rounded-4">
+        <form onSubmit={handleSubmit} className="row g-3 mb-4 bg-light p-3 p-md-4 rounded-4 shadow-sm border">
           <div className="d-flex justify-content-between align-items-center">
-            <h6 className="fw-bold mb-0">{editId ? 'Edit Service' : 'Add New Body Kit / Upgrade'}</h6>
+            <h6 className="fw-bold mb-0 text-dark">{editId ? 'Edit Service' : 'Add New Body Kit / Upgrade'}</h6>
             {editId && (
               <button type="button" className="btn btn-sm btn-outline-secondary rounded-pill px-3" onClick={handleCancel}>
                 <X size={14} /> Cancel
@@ -154,14 +132,14 @@ export default function BodyKitsManager() {
 
           <div className="col-12 col-md-6">
             <label className="form-label small fw-bold">Service Title *</label>
-            <input type="text" className="form-control rounded-pill px-3 small bg-white"
+            <input type="text" className="form-control rounded-pill px-3 small bg-white shadow-none"
               placeholder="e.g. C-Class W205 to W206 Facelift Bodykit"
               value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} required />
           </div>
 
           <div className="col-12 col-md-6">
             <label className="form-label small fw-bold">Category *</label>
-            <select className="form-select rounded-pill px-3 small bg-white"
+            <select className="form-select rounded-pill px-3 small bg-white shadow-none"
               value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })}>
               <option value="AMG Body Kits">AMG Body Kits</option>
               <option value="Mercedes Facelift">Mercedes Facelift</option>
@@ -171,26 +149,26 @@ export default function BodyKitsManager() {
 
           <div className="col-12">
             <label className="form-label small fw-bold">Tagline (Subtitle)</label>
-            <input type="text" className="form-control rounded-pill px-3 small bg-white"
+            <input type="text" className="form-control rounded-pill px-3 small bg-white shadow-none"
               placeholder="Full conversion bodykit bumper, hood, headlight & taillight"
               value={form.tagline} onChange={(e) => setForm({ ...form, tagline: e.target.value })} />
           </div>
 
           <div className="col-12">
             <label className="form-label small fw-bold">Short Description</label>
-            <textarea className="form-control rounded-3 p-3 small bg-white" rows="2"
-              value={form.desc} onChange={(e) => setForm({ ...form, desc: e.target.value })} />
+            <textarea className="form-control rounded-3 p-3 small bg-white shadow-none" rows="3"
+              value={form.desc} onChange={(e) => setForm({ ...form, desc: e.target.value })} placeholder="Enter brief service overview..." />
           </div>
 
           <div className="col-12">
-            <label className="form-label small fw-bold">Photos</label>
-            <input ref={fileInputRef} type="file" className="form-control rounded-pill px-3 small bg-white"
+            <label className="form-label small fw-bold">Photos Gallery</label>
+            <input ref={fileInputRef} type="file" className="form-control rounded-pill px-3 small bg-white shadow-none"
               accept="image/*" multiple onChange={handleMultipleImageUpload} />
-            {uploading && <div className="text-danger small mt-1">Uploading...</div>}
+            {uploading && <div className="text-danger small mt-1">Uploading images to Cloudinary...</div>}
             {form.imageUrls.length > 0 && (
               <div className="d-flex flex-wrap gap-2 mt-3">
                 {form.imageUrls.map((url, idx) => (
-                  <div key={idx} className="position-relative border rounded-3 p-1 bg-white" style={{ width: '60px', height: '60px' }}>
+                  <div key={idx} className="position-relative border rounded-3 p-1 bg-white shadow-sm" style={{ width: '65px', height: '65px' }}>
                     <img src={url} alt="" className="w-100 h-100 object-fit-cover rounded-2" />
                     <button type="button" className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border-0 p-1"
                       onClick={() => removeImage(idx)}><X size={10} /></button>
@@ -200,79 +178,7 @@ export default function BodyKitsManager() {
             )}
           </div>
 
-          {/* SEO TOGGLE */}
-          <div className="col-12">
-            <button type="button" className="btn btn-outline-danger btn-sm rounded-pill px-3 fw-bold d-flex align-items-center gap-2"
-              onClick={() => setShowSeo(!showSeo)}>
-              <Globe size={14} /> {showSeo ? 'Hide' : 'Show'} SEO & Content Sections {showSeo ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
-            </button>
-          </div>
-
-          {showSeo && (
-            <>
-              <div className="col-12">
-                <label className="form-label small fw-bold">SEO Title</label>
-                <input type="text" className="form-control rounded-pill px-3 small bg-white"
-                  value={form.seoTitle} onChange={(e) => setForm({ ...form, seoTitle: e.target.value })} />
-              </div>
-
-              <div className="col-12">
-                <label className="form-label small fw-bold">SEO Meta Description</label>
-                <textarea className="form-control rounded-3 p-3 small bg-white" rows="2"
-                  value={form.seoDescription} onChange={(e) => setForm({ ...form, seoDescription: e.target.value })} />
-              </div>
-
-              <div className="col-12">
-                <label className="form-label small fw-bold">H1 Heading</label>
-                <input type="text" className="form-control rounded-pill px-3 small bg-white"
-                  value={form.h1} onChange={(e) => setForm({ ...form, h1: e.target.value })} />
-              </div>
-
-              <div className="col-12">
-                <label className="form-label small fw-bold">Hero Intro</label>
-                <textarea className="form-control rounded-3 p-3 small bg-white" rows="3"
-                  value={form.heroIntro} onChange={(e) => setForm({ ...form, heroIntro: e.target.value })} />
-              </div>
-
-              <div className="col-12">
-                <label className="form-label small fw-bold">Content Sections (H2 blocks)</label>
-                {form.contentSections.map((sec, i) => (
-                  <div key={i} className="border rounded-3 p-3 mb-2 bg-white">
-                    <input type="text" className="form-control form-control-sm rounded-pill px-3 mb-2"
-                      placeholder="Heading" value={sec.heading} onChange={(e) => updateArr('contentSections', i, 'heading', e.target.value)} />
-                    <textarea className="form-control form-control-sm rounded-3 p-2" rows="3"
-                      placeholder="Body..." value={sec.body} onChange={(e) => updateArr('contentSections', i, 'body', e.target.value)} />
-                    {form.contentSections.length > 1 && (
-                      <button type="button" className="btn btn-sm btn-outline-danger rounded-pill mt-2"
-                        onClick={() => removeRow('contentSections', i)}>Remove</button>
-                    )}
-                  </div>
-                ))}
-                <button type="button" className="btn btn-sm btn-outline-dark rounded-pill px-3 fw-bold"
-                  onClick={() => addRow('contentSections', { heading: '', body: '' })}>+ Add Section</button>
-              </div>
-
-              <div className="col-12">
-                <label className="form-label small fw-bold">FAQs</label>
-                {form.faqs.map((faq, i) => (
-                  <div key={i} className="border rounded-3 p-3 mb-2 bg-white">
-                    <input type="text" className="form-control form-control-sm rounded-pill px-3 mb-2"
-                      placeholder="Question" value={faq.q} onChange={(e) => updateArr('faqs', i, 'q', e.target.value)} />
-                    <textarea className="form-control form-control-sm rounded-3 p-2" rows="2"
-                      placeholder="Answer" value={faq.a} onChange={(e) => updateArr('faqs', i, 'a', e.target.value)} />
-                    {form.faqs.length > 1 && (
-                      <button type="button" className="btn btn-sm btn-outline-danger rounded-pill mt-2"
-                        onClick={() => removeRow('faqs', i)}>Remove</button>
-                    )}
-                  </div>
-                ))}
-                <button type="button" className="btn btn-sm btn-outline-dark rounded-pill px-3 fw-bold"
-                  onClick={() => addRow('faqs', { q: '', a: '' })}>+ Add FAQ</button>
-              </div>
-            </>
-          )}
-
-          <div className="col-12 pt-2">
+          <div className="col-12 pt-3">
             <button type="submit" className="btn btn-danger btn-sm rounded-pill px-4 fw-bold shadow-sm" disabled={loading || uploading}>
               <Save size={15} /> {loading ? 'Processing...' : editId ? 'Update Service' : 'Save Service'}
             </button>
@@ -297,14 +203,14 @@ export default function BodyKitsManager() {
                   {items.map((item) => (
                     <tr key={item.id}>
                       <td>
-                        <img src={item.imageUrl || item.imageUrls?.[0] || '/images/car-class.png'} alt="" className="rounded-2 object-fit-cover" style={{ width: '40px', height: '40px' }} />
+                        <img src={item.imageUrl || item.imageUrls?.[0] || '/images/car-class.png'} alt="" className="rounded-2 object-fit-cover shadow-sm" style={{ width: '45px', height: '45px' }} />
                       </td>
                       <td className="fw-bold text-dark">{item.title}</td>
                       <td><span className="badge bg-danger bg-opacity-10 text-danger">{item.category}</span></td>
                       <td>
                         <div className="d-flex gap-2">
-                          <button className="btn btn-sm btn-outline-primary rounded-circle p-2" onClick={() => handleEdit(item)} title="Edit"><Edit size={14} /></button>
-                          <button className="btn btn-sm btn-outline-danger rounded-circle p-2" onClick={() => handleDelete(item.id)} title="Delete"><Trash2 size={14} /></button>
+                          <button className="btn btn-sm btn-outline-primary rounded-circle p-2 shadow-none" onClick={() => handleEdit(item)} title="Edit"><Edit size={14} /></button>
+                          <button className="btn btn-sm btn-outline-danger rounded-circle p-2 shadow-none" onClick={() => handleDelete(item.id)} title="Delete"><Trash2 size={14} /></button>
                         </div>
                       </td>
                     </tr>
