@@ -76,7 +76,7 @@ body {
 }
 
 .md-appbar--elevated { box-shadow: var(--md-elev-2); }
-.md-appbar-row { height: 65px; }
+.md-appbar-row { height: 70px; }
 
 .md-icon-btn {
   width: 44px;
@@ -98,7 +98,7 @@ body {
 .md-icon-btn:active { background: rgba(27,28,30,0.10); }
 
 .md-appbar-brand { display: flex; align-items: center; text-decoration: none; }
-.md-logo-img { height: 58px; width: auto; object-fit: contain; }
+.md-logo-img { height: 64px; width: auto; object-fit: contain; }
 .md-appbar-actions { display: flex; align-items: center; gap: 6px; }
 
 /* ============================================
@@ -138,7 +138,7 @@ body {
   color: #374151;
   text-decoration: none;
   font-weight: 700;
-  font-size: 0.95rem !important;
+  font-size: 1rem !important;
   white-space: nowrap;
   background: transparent !important;
   position: relative;
