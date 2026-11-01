@@ -14,7 +14,7 @@ import {
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 
-export default function ServiceDetailClient({ page, services = [] }) {
+export default function ServiceLandingClient({ page, services = [] }) {
   const [activeImages, setActiveImages] = useState({});
 
   const getImages = (service) => {
@@ -30,25 +30,14 @@ export default function ServiceDetailClient({ page, services = [] }) {
     service.description ||
     'Contact German Auto Expert for more information about this Mercedes-Benz service in Dubai.';
 
-  const getServiceUrl = (service) => {
-    const slug =
-      service.slug ||
-      service.id ||
-      service.title?.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-
-    return `/services/${encodeURIComponent(slug)}`;
-  };
-
   return (
     <>
       <Header />
 
       <main className="bg-light min-vh-100">
-
-        {/* HERO */}
+        {/* Hero */}
         <section className="py-5 bg-dark text-white">
           <div className="container py-4">
-
             <Link
               href="/services"
               className="text-white text-decoration-none small d-inline-flex align-items-center gap-2 mb-4"
@@ -91,16 +80,13 @@ export default function ServiceDetailClient({ page, services = [] }) {
                 Book Appointment
               </Link>
             </div>
-
           </div>
         </section>
 
-        {/* INTRODUCTION */}
+        {/* Introduction */}
         <section className="py-5">
           <div className="container">
-
             <div className="row g-4 align-items-start">
-
               <div className="col-lg-8">
                 <h2 className="fw-bold text-dark mb-3">
                   {page.title}
@@ -113,7 +99,6 @@ export default function ServiceDetailClient({ page, services = [] }) {
 
               <div className="col-lg-4">
                 <div className="bg-white rounded-4 shadow-sm p-4">
-
                   <h3 className="h5 fw-bold mb-3">
                     Why Choose German Auto Expert?
                   </h3>
@@ -137,48 +122,36 @@ export default function ServiceDetailClient({ page, services = [] }) {
                       </li>
                     ))}
                   </ul>
-
                 </div>
               </div>
-
             </div>
           </div>
         </section>
 
-        {/* CONTENT SECTIONS */}
-        {page.sections?.length > 0 && (
-          <section className="pb-4">
-            <div className="container">
+        {/* Content Sections */}
+        <section className="pb-4">
+          <div className="container">
+            <div className="row g-4">
+              {page.sections.map((section, index) => (
+                <div className="col-md-6" key={index}>
+                  <div className="bg-white shadow-sm rounded-4 p-4 h-100">
+                    <h2 className="h5 fw-bold text-dark mb-3">
+                      {section.heading}
+                    </h2>
 
-              <div className="row g-4">
-                {page.sections.map((section, index) => (
-                  <div className="col-md-6" key={index}>
-                    <div className="bg-white shadow-sm rounded-4 p-4 h-100">
-
-                      <h2 className="h5 fw-bold text-dark mb-3">
-                        {section.heading}
-                      </h2>
-
-                      <p
-                        className="text-secondary mb-0"
-                        style={{ lineHeight: 1.8 }}
-                      >
-                        {section.description}
-                      </p>
-
-                    </div>
+                    <p className="text-secondary mb-0" style={{ lineHeight: 1.8 }}>
+                      {section.description}
+                    </p>
                   </div>
-                ))}
-              </div>
-
+                </div>
+              ))}
             </div>
-          </section>
-        )}
+          </div>
+        </section>
 
-        {/* RELATED SERVICES */}
+        {/* Firebase Services and Images */}
         <section className="py-5">
           <div className="container">
-
             <div className="text-center mb-4">
               <span className="text-danger fw-bold small">
                 OUR SERVICES
@@ -195,20 +168,14 @@ export default function ServiceDetailClient({ page, services = [] }) {
 
             {services.length > 0 ? (
               <div className="row g-4">
-
-                {services.map((service, index) => {
+                {services.map((service) => {
                   const images = getImages(service);
                   const selectedImage =
                     activeImages[service.id] || images[0];
 
                   return (
-                    <div
-                      className="col-sm-6 col-lg-4"
-                      key={service.id || service.title || index}
-                    >
+                    <div className="col-sm-6 col-lg-4" key={service.id}>
                       <article className="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
-
-                        {/* IMAGE */}
                         <div
                           className="position-relative bg-secondary bg-opacity-10"
                           style={{ height: '230px' }}
@@ -219,9 +186,6 @@ export default function ServiceDetailClient({ page, services = [] }) {
                               alt={`${service.title} - Mercedes-Benz service in Dubai`}
                               className="w-100 h-100 object-fit-cover"
                               loading="lazy"
-                              onError={(e) => {
-                                e.currentTarget.style.display = 'none';
-                              }}
                             />
                           ) : (
                             <div className="h-100 d-flex align-items-center justify-content-center text-muted">
@@ -230,12 +194,11 @@ export default function ServiceDetailClient({ page, services = [] }) {
                           )}
                         </div>
 
-                        {/* IMAGE THUMBNAILS */}
                         {images.length > 1 && (
                           <div className="d-flex gap-2 px-3 pt-3 overflow-auto">
-                            {images.map((image, imageIndex) => (
+                            {images.map((image, index) => (
                               <button
-                                key={imageIndex}
+                                key={index}
                                 type="button"
                                 onClick={() =>
                                   setActiveImages((prev) => ({
@@ -252,11 +215,11 @@ export default function ServiceDetailClient({ page, services = [] }) {
                                       ? '#dc3545'
                                       : '#dee2e6',
                                 }}
-                                aria-label={`View service image ${imageIndex + 1}`}
+                                aria-label={`View service image ${index + 1}`}
                               >
                                 <img
                                   src={image}
-                                  alt={`${service.title} image ${imageIndex + 1}`}
+                                  alt={`${service.title} image ${index + 1}`}
                                   className="w-100 h-100 object-fit-cover"
                                   loading="lazy"
                                 />
@@ -265,17 +228,12 @@ export default function ServiceDetailClient({ page, services = [] }) {
                           </div>
                         )}
 
-                        {/* CARD CONTENT */}
                         <div className="card-body p-4">
-
                           <h3 className="h5 fw-bold text-dark">
                             {service.title}
                           </h3>
 
-                          <p
-                            className="small text-secondary"
-                            style={{ lineHeight: 1.7 }}
-                          >
+                          <p className="small text-secondary" style={{ lineHeight: 1.7 }}>
                             {getDescription(service)}
                           </p>
 
@@ -288,19 +246,17 @@ export default function ServiceDetailClient({ page, services = [] }) {
                             )}
 
                           <Link
-                            href={getServiceUrl(service)}
+                            href={`/services/${service.id}`}
                             className="btn btn-outline-danger rounded-pill px-3 btn-sm fw-bold d-inline-flex align-items-center gap-2"
                           >
                             View Service
                             <ArrowRight size={15} />
                           </Link>
-
                         </div>
                       </article>
                     </div>
                   );
                 })}
-
               </div>
             ) : (
               <div className="bg-white rounded-4 shadow-sm p-4 text-center">
@@ -310,14 +266,12 @@ export default function ServiceDetailClient({ page, services = [] }) {
                 </p>
               </div>
             )}
-
           </div>
         </section>
 
         {/* CTA */}
         <section className="py-5 bg-white border-top">
           <div className="container text-center py-3">
-
             <h2 className="fw-bold text-dark mb-3">
               Need Help With Your Mercedes-Benz?
             </h2>
@@ -327,7 +281,6 @@ export default function ServiceDetailClient({ page, services = [] }) {
             </p>
 
             <div className="d-flex justify-content-center flex-wrap gap-2">
-
               <a
                 href="tel:+971567888808"
                 className="btn btn-danger rounded-pill px-4 py-2 fw-bold"
@@ -342,14 +295,15 @@ export default function ServiceDetailClient({ page, services = [] }) {
               >
                 Book Service
               </Link>
-
             </div>
           </div>
         </section>
-
       </main>
 
       <Footer />
     </>
   );
 }
+
+
+

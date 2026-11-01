@@ -12,51 +12,19 @@ const SITE_URL = 'https://mercedesgaragedubai.com';
 const SITE_NAME = 'German Auto Expert';
 
 // ✅ SEO Metadata
-
 export const metadata = {
-  title: 'Mercedes-Benz Specialist Services in Al Quoz, Dubai | German Auto Expert',
-
-  description:
-    'German Auto Expert provides specialist Mercedes-Benz servicing, maintenance, engine diagnostics, brake repair, transmission service and AC repair in Al Quoz, Dubai.',
-
-  keywords: [
-    'Mercedes service Dubai',
-    'Mercedes repair Dubai',
-    'Mercedes garage Al Quoz',
-    'Mercedes-Benz specialist Dubai',
-    'Mercedes maintenance Dubai',
-    'Mercedes engine diagnostics Dubai',
-    'Mercedes brake service Dubai',
-    'Mercedes transmission repair Dubai',
-    'Mercedes AC repair Dubai',
-  ],
-
-  alternates: {
-    canonical: 'https://mercedesgaragedubai.com/services',
-  },
-
+  title: 'Mercedes-Benz Services in Dubai | German Auto Expert',
+  description: 'Explore our comprehensive Mercedes-Benz services in Al Quoz, Dubai. From routine maintenance and engine diagnostics to transmission repair and AC service.',
+  alternates: { canonical: `${SITE_URL}/services` },
   openGraph: {
-    title: 'Mercedes-Benz Specialist Services in Dubai | German Auto Expert',
-    description:
-      'Professional Mercedes-Benz maintenance, diagnostics and repair services in Al Quoz, Dubai.',
-    url: 'https://mercedesgaragedubai.com/services',
-    siteName: 'German Auto Expert',
+    title: 'Mercedes-Benz Services in Dubai | German Auto Expert',
+    description: 'Expert Mercedes servicing, repair, and maintenance in Dubai. Certified technicians and genuine parts.',
+    url: `${SITE_URL}/services`,
+    siteName: SITE_NAME,
     type: 'website',
   },
-
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Mercedes-Benz Services in Dubai | German Auto Expert',
-    description:
-      'Explore specialist Mercedes-Benz servicing and repair in Al Quoz, Dubai.',
-  },
-
-  robots: {
-    index: true,
-    follow: true,
-  },
+  robots: { index: true, follow: true },
 };
-
 
 // ✅ Caching services data for speed
 const getCachedServices = unstable_cache(
@@ -119,5 +87,3 @@ export default async function ServicesPage() {
     </>
   );
 }
-
-
