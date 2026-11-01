@@ -57,11 +57,6 @@ export default function Header() {
   const [activeTab, setActiveTab] = useState('home');
   const [userData, setUserData] = useState(null);
   const [groupedCategories, setGroupedCategories] = useState([]);
-  const [bodyKitSubItems, setBodyKitSubItems] = useState([
-    { label: 'AMG Body Kits', href: '/body-kits/amg-body-kits' },
-    { label: 'Mercedes Facelift', href: '/body-kits/mercedes-facelift' },
-    { label: 'Custom Upgrades', href: '/body-kits/custom-upgrades' },
-  ]);
 
   const ADMIN_EMAIL = (process.env.NEXT_PUBLIC_ADMIN_EMAIL || '').toLowerCase();
 
@@ -77,7 +72,7 @@ export default function Header() {
           const val = snapshot.val();
           const dataList = Array.isArray(val) ? val : Object.keys(val).map(k => ({ id: k, ...val[k] }));
 
-          // Normalized unique categories (case + spaces safe)
+          // Normalized unique categories
           const catMap = new Map();
           dataList.forEach(item => {
             const raw = (item.category || 'General').toString().trim().replace(/\s+/g, ' ');
@@ -103,13 +98,6 @@ export default function Header() {
           });
 
           setGroupedCategories(structured);
-
-          // Keep simple subItems list for mobile drawer
-          setBodyKitSubItems(structured.map(g => ({
-            label: g.categoryName,
-            href: `/body-kits/${g.categorySlug}`,
-            children: g.items
-          })));
         }
       } catch (err) {
         console.error('Error fetching grouped categories in header:', err);
@@ -353,9 +341,16 @@ export default function Header() {
                 </ul>
               )}
 
-              {/* Body Kits grouped categories */}
+              {/* Body Kits grouped categories — no internal scroll */}
               {item.hasCategoryDropdown && (
-                <ul className="md-drawer-submenu" style={{ maxHeight: expanded === item.key ? '70vh' : '0px', overflowY: 'auto' }}>
+                <ul
+                  className="md-drawer-submenu"
+                  style={{
+                    maxHeight: expanded === item.key ? '2000px' : '0px',
+                    overflow: 'hidden',
+                    transition: 'max-height 0.35s ease'
+                  }}
+                >
                   {groupedCategories.map((catGroup, cIdx) => (
                     <li key={cIdx} className="mb-2">
                       <Link
@@ -366,7 +361,7 @@ export default function Header() {
                       >
                         <span className="md-sub-dot"></span>{catGroup.categoryName} ➔
                       </Link>
-                      <ul className="list-unstyled ps-4">
+                      <ul className="list-unstyled ps-4 mb-0">
                         {catGroup.items.map((subItem, sIdx) => (
                           <li key={sIdx}>
                             <Link

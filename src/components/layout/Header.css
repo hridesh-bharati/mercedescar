@@ -47,9 +47,7 @@ body {
   font-weight: 500;
   transition: color 0.2s ease;
 }
-.md-top-info-bar a:hover {
-  color: #ffffff !important;
-}
+.md-top-info-bar a:hover { color: #ffffff !important; }
 
 /* ============================================
    MAIN APPBAR
@@ -71,26 +69,14 @@ body {
   right: 0;
   bottom: 0;
   height: 2px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(214, 36, 29, 0.2) 20%,
-    var(--md-primary) 50%,
-    rgba(214, 36, 29, 0.2) 80%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg, transparent 0%, rgba(214, 36, 29, 0.2) 20%, var(--md-primary) 50%, rgba(214, 36, 29, 0.2) 80%, transparent 100%);
   box-shadow: 0 2px 8px rgba(214, 36, 29, 0.4);
   pointer-events: none;
   z-index: 10;
 }
 
-.md-appbar--elevated {
-  box-shadow: var(--md-elev-2);
-}
-
-.md-appbar-row {
-  height: 65px;
-}
+.md-appbar--elevated { box-shadow: var(--md-elev-2); }
+.md-appbar-row { height: 65px; }
 
 .md-icon-btn {
   width: 44px;
@@ -111,22 +97,9 @@ body {
 .md-icon-btn:hover { background: rgba(27,28,30,0.06); }
 .md-icon-btn:active { background: rgba(27,28,30,0.10); }
 
-.md-appbar-brand {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-}
-.md-logo-img {
-  height: 58px;
-  width: auto;
-  object-fit: contain;
-}
-
-.md-appbar-actions {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
+.md-appbar-brand { display: flex; align-items: center; text-decoration: none; }
+.md-logo-img { height: 58px; width: auto; object-fit: contain; }
+.md-appbar-actions { display: flex; align-items: center; gap: 6px; }
 
 /* ============================================
    Search
@@ -156,13 +129,8 @@ body {
 /* ============================================
    Desktop Nav
    ============================================ */
-.md-desktop-nav {
-  list-style: none;
-  gap: 2px; 
-} 
-.md-desktop-item {
-  position: relative;
-}
+.md-desktop-nav { list-style: none; gap: 2px; }
+.md-desktop-item { position: relative; }
 
 .md-desktop-link {
   display: block;
@@ -170,8 +138,8 @@ body {
   color: #374151;
   text-decoration: none;
   font-weight: 700;
-  font-size: 0.95rem !important; 
-  white-space: nowrap; 
+  font-size: 0.95rem !important;
+  white-space: nowrap;
   background: transparent !important;
   position: relative;
   transition: color 0.2s ease;
@@ -184,14 +152,7 @@ body {
   left: 8px;
   right: 8px;
   height: 2.5px;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(214, 36, 29, 0.3) 20%,
-    var(--md-primary) 50%,
-    rgba(214, 36, 29, 0.3) 80%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg, transparent 0%, rgba(214, 36, 29, 0.3) 20%, var(--md-primary) 50%, rgba(214, 36, 29, 0.3) 80%, transparent 100%);
   box-shadow: 0 0 8px rgba(214, 36, 29, 0.5);
   transform: scaleX(0);
   transform-origin: center;
@@ -202,10 +163,7 @@ body {
   color: var(--md-primary) !important;
   background: transparent !important;
 }
-
-.md-desktop-item:hover .md-desktop-link::after {
-  transform: scaleX(1);
-}
+.md-desktop-item:hover .md-desktop-link::after { transform: scaleX(1); }
 
 .md-desktop-menu {
   position: absolute;
@@ -222,7 +180,19 @@ body {
   overflow-y: auto;
   z-index: 20;
   border: 1px solid var(--md-outline);
+
+  /* thin scrollbar for desktop dropdown */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214,36,29,0.35) transparent;
 }
+.md-desktop-menu::-webkit-scrollbar { width: 6px; }
+.md-desktop-menu::-webkit-scrollbar-track { background: transparent; }
+.md-desktop-menu::-webkit-scrollbar-thumb {
+  background: rgba(214,36,29,0.35);
+  border-radius: 10px;
+}
+.md-desktop-menu::-webkit-scrollbar-thumb:hover { background: rgba(214,36,29,0.55); }
+
 .md-desktop-item:hover .md-desktop-menu { display: flex; }
 .md-desktop-menu-item {
   padding: 11px 16px;
@@ -271,7 +241,7 @@ body {
 .md-scrim.show { opacity: 1; visibility: visible; }
 
 /* ============================================
-   Drawer (Enhanced with Rich Colors & Icons)
+   Drawer
    ============================================ */
 .md-drawer {
   position: fixed;
@@ -289,7 +259,7 @@ body {
   flex-direction: column;
   border-radius: 24px 0 0 24px;
   box-shadow: -10px 0 35px rgba(15, 27, 43, 0.15);
-  overflow: hidden;
+  overflow: hidden; /* IMPORTANT: no outer scroll */
   border-left: 1px solid rgba(214, 36, 29, 0.1);
 }
 .md-drawer.open { transform: translateX(0); }
@@ -301,15 +271,39 @@ body {
   padding: 18px 22px;
   background: #ffffff;
   border-bottom: 1px solid var(--md-outline);
+  flex-shrink: 0; /* header fixed */
 }
 
+/* ⭐ THE ONLY SCROLL AREA */
 .md-drawer-list {
   list-style: none;
   margin: 0;
   padding: 10px 16px;
-  flex: 1;
+  flex: 1 1 auto;
+  min-height: 0;              /* IMPORTANT: allows flex child to shrink */
   overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+
+  /* thin, hidden-until-hover scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214,36,29,0.0) transparent;
+  transition: scrollbar-color 0.2s ease;
 }
+.md-drawer-list:hover { scrollbar-color: rgba(214,36,29,0.35) transparent; }
+
+.md-drawer-list::-webkit-scrollbar { width: 5px; }
+.md-drawer-list::-webkit-scrollbar-track { background: transparent; }
+.md-drawer-list::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 10px;
+  transition: background 0.2s ease;
+}
+.md-drawer-list:hover::-webkit-scrollbar-thumb {
+  background: rgba(214,36,29,0.35);
+}
+
 .md-drawer-item {
   opacity: 0;
   transform: translateX(12px);
@@ -331,16 +325,12 @@ body {
   transition: all 0.2s ease;
   background: transparent;
 }
-.md-drawer-row:hover { 
-  background: rgba(214, 36, 29, 0.05); 
-}
+.md-drawer-row:hover { background: rgba(214, 36, 29, 0.05); }
 .md-drawer-row:hover .md-drawer-icon-wrap {
   background: var(--md-primary);
   color: #ffffff;
 }
-.md-drawer-row.is-active { 
-  background: var(--md-primary-container); 
-}
+.md-drawer-row.is-active { background: var(--md-primary-container); }
 .md-drawer-row.is-active .md-drawer-label,
 .md-drawer-row.is-active .md-drawer-icon-wrap {
   color: var(--md-on-primary-container);
@@ -379,6 +369,7 @@ body {
 }
 .md-drawer-chevron.open { transform: rotate(90deg); color: var(--md-primary); }
 
+/* Submenu — no internal scroll */
 .md-drawer-submenu {
   list-style: none;
   margin: 2px 0 6px 0;
@@ -387,6 +378,7 @@ body {
   max-height: 0;
   transition: max-height 0.35s ease;
 }
+
 .md-drawer-sublink {
   display: flex;
   align-items: center;
@@ -405,20 +397,20 @@ body {
   border-radius: 50%;
   background: var(--md-outline);
   transition: background 0.15s ease;
+  flex-shrink: 0;
 }
-.md-drawer-sublink:hover { 
-  background: rgba(214, 36, 29, 0.06); 
-  color: var(--md-primary); 
+.md-drawer-sublink:hover {
+  background: rgba(214, 36, 29, 0.06);
+  color: var(--md-primary);
 }
-.md-drawer-sublink:hover .md-sub-dot {
-  background: var(--md-primary);
-}
+.md-drawer-sublink:hover .md-sub-dot { background: var(--md-primary); }
 
 .md-drawer-footer {
   padding: 18px 22px 24px;
   background: #ffffff;
   border-top: 1px solid var(--md-outline);
   position: relative;
+  flex-shrink: 0; /* footer fixed */
 }
 .md-drawer-footer::after {
   content: '';
