@@ -104,7 +104,18 @@ export default function Header() {
 
   const navItems = [
     { key: 'home', label: 'Home', href: '/', icon: ICONS.Home },
-    { key: 'services', label: 'Services', href: '/services', icon: ICONS.Wrench },
+    {
+      key: 'services',
+      label: 'Mercedes Services',
+      href: '/services',
+      icon: ICONS.Wrench,
+      subItems: [
+        { label: 'All Mercedes Services', href: '/services' },
+        { label: 'Mercedes Body Kits', href: '/services/mercedes-body-kits-dubai' },
+        { label: 'Mercedes Facelift', href: '/services/mercedes-facelift-dubai' },
+        { label: 'Mercedes Vehicle Upgrades', href: '/services/mercedes-vehicle-upgrades-dubai' },
+      ],
+    },
     { key: 'about', label: 'About Us', href: '/about-us', icon: ICONS.User },
     {
       key: 'car-classes',

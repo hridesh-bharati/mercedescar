@@ -98,7 +98,7 @@ export default function AdminPanel() {
 
   const menuItems = [
     { key: 'overview', label: 'Overview', icon: LayoutDashboard },
-    { key: 'services', label: 'Manage Services', icon: Wrench },
+    { key: 'services', label: 'Car Services', icon: Wrench },
     { key: 'car-models', label: 'Car Models', icon: Car },
     { key: 'car-classes', label: 'Car Classes', icon: Cpu },
     { key: 'blogs', label: 'Manage Blogs', icon: FileText },

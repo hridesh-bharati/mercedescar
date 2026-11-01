@@ -1,23 +1,35 @@
-// src/app/services/components/CTASection.jsx
+
 'use client';
+
 import { PhoneCall } from 'lucide-react';
 
 export default function CTASection() {
   return (
-    <section className="services-cta" data-aos="zoom-in" data-aos-duration="800">
+    <section
+      className="services-cta"
+      data-aos="zoom-in"
+      data-aos-duration="800"
+    >
       <div className="container services-cta-content">
         <h2 className="services-cta-title">
-          Schedule Your
+          Book Your
           <br />
-          Mercedes Service
+          Mercedes-Benz
           <br />
-          Today.
+          Service Today.
         </h2>
+
         <p className="services-cta-text">
-          Your trusted independent specialist for premium Mercedes-Benz and AMG
-          repair and maintenance.
+          Looking for reliable Mercedes-Benz servicing and repair in
+          Al Quoz, Dubai? Contact German Auto Expert to discuss your
+          vehicle's maintenance and repair needs.
         </p>
-        <a href="tel:+971567888808" className="services-cta-phone">
+
+        <a
+          href="tel:+971567888808"
+          className="services-cta-phone"
+          aria-label="Call German Auto Expert"
+        >
           <PhoneCall size={18} />
           +971 56 788 8808
         </a>

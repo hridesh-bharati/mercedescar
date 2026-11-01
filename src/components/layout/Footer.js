@@ -54,12 +54,15 @@ export default function Footer() {
     }
   };
 
-  const quickLinks = [
-    { label: 'Diagnostics & Repair', href: '/services' },
-    { label: 'Engine & Performance', href: '/services' },
-    { label: 'Body & Paintwork', href: '/services' },
-    { label: 'Premium Maintenance', href: '/services' },
-  ];
+
+const quickLinks = [
+  { label: 'Mercedes-Benz Diagnostics & Repair', href: '/services' },
+  { label: 'Mercedes Engine & Performance', href: '/services' },
+  { label: 'Mercedes Body Kits', href: '/mercedes-body-kits-dubai' },
+  { label: 'Mercedes Facelift', href: '/mercedes-facelift-dubai' },
+  { label: 'Mercedes Vehicle Upgrades', href: '/mercedes-vehicle-upgrades-dubai' },
+];
+
 
   const socials = [
     {

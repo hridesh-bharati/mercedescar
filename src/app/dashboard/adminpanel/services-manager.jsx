@@ -16,7 +16,7 @@ export default function ServicesManager() {
   const [loading, setLoading] = useState(false);
   const [importingJson, setImportingJson] = useState(false);
   const [editId, setEditId] = useState(null);
-  
+
   // New state to toggle between Form view and Services List view
   const [showList, setShowList] = useState(false);
 
@@ -53,9 +53,9 @@ export default function ServicesManager() {
 
         for (const item of jsonData) {
           const payload = {
-            title: item.title || 'Mercedes Repair Service',
-            model: item.model || 'All Models',
-            desc: item.desc || item.description || 'Professional Mercedes-Benz workshop services in Dubai.',
+            title: item.title || 'Mercedes-Benz Service',
+            model: item.model || 'All Mercedes-Benz Models',
+            desc: item.desc || item.description || 'Professional Mercedes-Benz specialist service in Al Quoz, Dubai.',
             imageUrls: item.imageUrls || (item.imageUrl ? [item.imageUrl] : []),
             imageUrl: item.imageUrl || (item.imageUrls?.[0] || '')
           };
@@ -103,12 +103,12 @@ export default function ServicesManager() {
     e.preventDefault();
     setLoading(true);
 
-    const payload = { 
-      title, 
+    const payload = {
+      title,
       model,
-      desc, 
+      desc,
       imageUrls,
-      imageUrl: imageUrls[0] || '' 
+      imageUrl: imageUrls[0] || ''
     };
 
     if (editId) {
@@ -170,8 +170,8 @@ export default function ServicesManager() {
 
         <div className="d-flex align-items-center gap-2 flex-wrap">
           {/* Toggle View Button */}
-          <button 
-            type="button" 
+          <button
+            type="button"
             className="btn btn-outline-dark btn-sm rounded-pill px-4 fw-bold shadow-sm d-flex align-items-center gap-2"
             onClick={() => setShowList(!showList)}
           >
@@ -188,15 +188,15 @@ export default function ServicesManager() {
 
           {/* JSON File Upload Button */}
           <div>
-            <input 
+            <input
               ref={jsonInputRef}
-              type="file" 
-              accept=".json" 
-              className="d-none" 
-              onChange={handleJsonFileUpload} 
+              type="file"
+              accept=".json"
+              className="d-none"
+              onChange={handleJsonFileUpload}
             />
-            <button 
-              type="button" 
+            <button
+              type="button"
               className="btn btn-dark btn-sm rounded-pill px-4 fw-bold shadow-sm d-flex align-items-center gap-2"
               onClick={() => jsonInputRef.current?.click()}
               disabled={importingJson}
@@ -224,37 +224,37 @@ export default function ServicesManager() {
 
           <div className="col-12 col-md-6">
             <label className="form-label small fw-bold">Service Title</label>
-            <input 
-              type="text" 
-              className="form-control rounded-pill px-3 small bg-white" 
-              placeholder="e.g. Engine Repair" 
-              value={title} 
-              onChange={(e) => setTitle(e.target.value)} 
-              required 
+            <input
+              type="text"
+              className="form-control rounded-pill px-3 small bg-white"
+              placeholder="e.g. Engine Repair"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
             />
           </div>
 
           <div className="col-12 col-md-6">
             <label className="form-label small fw-bold">Model / Category Focus</label>
-            <input 
-              type="text" 
-              className="form-control rounded-pill px-3 small bg-white" 
-              placeholder="e.g. All Models / G63" 
-              value={model} 
-              onChange={(e) => setModel(e.target.value)} 
-              required 
+            <input
+              type="text"
+              className="form-control rounded-pill px-3 small bg-white"
+              placeholder="e.g. All Models / G63"
+              value={model}
+              onChange={(e) => setModel(e.target.value)}
+              required
             />
           </div>
 
           <div className="col-12">
             <label className="form-label small fw-bold">Upload Multiple Workshop Photos</label>
-            <input 
-              ref={fileInputRef} 
-              type="file" 
-              className="form-control rounded-pill px-3 small py-2 bg-white" 
-              accept="image/*" 
-              multiple 
-              onChange={handleMultipleImageUpload} 
+            <input
+              ref={fileInputRef}
+              type="file"
+              className="form-control rounded-pill px-3 small py-2 bg-white"
+              accept="image/*"
+              multiple
+              onChange={handleMultipleImageUpload}
             />
             {uploading && <div className="text-danger small mt-1">Uploading pictures...</div>}
 
@@ -263,8 +263,8 @@ export default function ServicesManager() {
                 {imageUrls.map((url, idx) => (
                   <div key={idx} className="position-relative border rounded-3 p-1 bg-white shadow-sm" style={{ width: '60px', height: '60px' }}>
                     <img src={url} alt="Preview" className="w-100 h-100 object-fit-cover rounded-2" />
-                    <button 
-                      type="button" 
+                    <button
+                      type="button"
                       className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border-0 p-1"
                       onClick={() => removeImage(idx)}
                     >
@@ -278,12 +278,12 @@ export default function ServicesManager() {
 
           <div className="col-12">
             <label className="form-label small fw-bold">Description</label>
-            <textarea 
-              className="form-control rounded-4 p-3 small bg-white" 
-              rows="3" 
-              placeholder="Write service specifications..." 
-              value={desc} 
-              onChange={(e) => setDesc(e.target.value)} 
+            <textarea
+              className="form-control rounded-4 p-3 small bg-white"
+              rows="3"
+              placeholder="Write service specifications..."
+              value={desc}
+              onChange={(e) => setDesc(e.target.value)}
               required
             ></textarea>
           </div>
@@ -299,7 +299,7 @@ export default function ServicesManager() {
         <div>
           <div className="d-flex align-items-center justify-content-between mb-3">
             <h5 className="fw-bold text-dark fs-6 mb-0">All Services ({services.length})</h5>
-            <button 
+            <button
               className="btn btn-danger btn-sm rounded-pill px-3 fw-bold d-flex align-items-center gap-1"
               onClick={() => {
                 handleCancel();
