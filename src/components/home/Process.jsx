@@ -7,7 +7,6 @@ import './Process.css';
 export default function Process() {
   const sectionRef = useRef(null);
 
-  // Mouse-follow spotlight effect for step cards
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
@@ -114,13 +113,11 @@ export default function Process() {
 
   return (
     <section className="process-section" id="process" ref={sectionRef}>
-      {/* Decorative background layers */}
       <div className="process-grid-bg" aria-hidden="true"></div>
       <div className="process-orb process-orb-1" aria-hidden="true"></div>
       <div className="process-orb process-orb-2" aria-hidden="true"></div>
 
       <div className="container process-container">
-        {/* Header */}
         <div className="process-header" data-aos="fade-up">
           <div className="process-badge">
             <span className="process-badge-icon" aria-hidden="true">
@@ -151,14 +148,11 @@ export default function Process() {
           </p>
         </div>
 
-        {/* Timeline row with connecting line */}
         <div className="process-timeline">
-          {/* Base line */}
           <div className="process-timeline-track" aria-hidden="true">
             <div className="process-timeline-progress"></div>
           </div>
 
-          {/* Step cards */}
           <div className="process-grid">
             {steps.map((step, idx) => (
               <div
@@ -167,7 +161,6 @@ export default function Process() {
                 data-aos="fade-up"
                 data-aos-delay={idx * 150}
               >
-                {/* Numbered node on the line */}
                 <div className="process-node" aria-hidden="true">
                   <span className="process-node-number">{idx + 1}</span>
                   <span className="process-node-ring"></span>
@@ -177,13 +170,11 @@ export default function Process() {
                   <div className="process-card-spotlight" aria-hidden="true"></div>
                   <div className="process-card-glow" aria-hidden="true"></div>
 
-                  {/* Icon at top */}
                   <div className="process-icon-box">{step.icon}</div>
 
                   <h4 className="process-title">{step.title}</h4>
                   <p className="process-desc">{step.description}</p>
 
-                  {/* Bottom meta row */}
                   <div className="process-card-footer">
                     <span className="process-card-step-label">
                       Step {idx + 1} of {steps.length}
