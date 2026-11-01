@@ -268,10 +268,10 @@ export default function Header() {
           </nav>
 
           <div className="md-appbar-actions d-flex align-items-center gap-2">
-            <GoogleTranslateButton />
             <button className="md-icon-btn md-ripple" onMouseDown={addRipple} onClick={() => setSearchOpen(true)} aria-label="Search">
               <Icon path={ICONS.Search} size={20} />
             </button>
+            <GoogleTranslateButton />
             {userData ? (
               <Link href={dashboardUrl} className="rounded-circle p-0 overflow-hidden shadow-sm d-none d-lg-flex align-items-center justify-content-center border border-2 border-danger" style={{ width: '36px', height: '36px' }} onMouseDown={addRipple} title="Go to Dashboard">
                 {userData.profilePic
