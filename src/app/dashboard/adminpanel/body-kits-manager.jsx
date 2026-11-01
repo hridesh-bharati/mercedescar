@@ -138,13 +138,15 @@ export default function BodyKitsManager() {
           </div>
 
           <div className="col-12 col-md-6">
-            <label className="form-label small fw-bold">Category *</label>
-            <select className="form-select rounded-pill px-3 small bg-white shadow-none"
-              value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })}>
-              <option value="AMG Body Kits">AMG Body Kits</option>
-              <option value="Mercedes Facelift">Mercedes Facelift</option>
-              <option value="Custom Upgrades">Custom Upgrades</option>
-            </select>
+            <label className="form-label small fw-bold">Category * (Type any category name)</label>
+            <input 
+              type="text" 
+              className="form-control rounded-pill px-3 small bg-white shadow-none"
+              placeholder="e.g. AMG Body Kits"
+              value={form.category} 
+              onChange={(e) => setForm({ ...form, category: e.target.value })} 
+              required 
+            />
           </div>
 
           <div className="col-12">
