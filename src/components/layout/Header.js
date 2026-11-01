@@ -72,7 +72,6 @@ export default function Header() {
           const val = snapshot.val();
           const dataList = Array.isArray(val) ? val : Object.keys(val).map(k => ({ id: k, ...val[k] }));
 
-          // Normalized unique categories
           const catMap = new Map();
           dataList.forEach(item => {
             const raw = (item.category || 'General').toString().trim().replace(/\s+/g, ' ');
@@ -210,45 +209,57 @@ export default function Header() {
 
           <nav className="md-desktop-nav d-none d-lg-flex align-items-center gap-1 m-0">
             {navItems.map((item) => (
-              <div key={item.key} className="md-desktop-item position-relative">
+              <div key={item.key} className="md-desktop-item">
                 <Link href={item.href} className="md-desktop-link">{item.label}</Link>
 
+                {/* Standard Dropdown (Car Classes) */}
                 {item.subItems && !item.hasCategoryDropdown && (
-                  <div className="md-desktop-menu shadow border-0 rounded-3">
+                  <div className="md-desktop-menu md-standard-dropdown shadow border-0 rounded-3">
                     {item.subItems.map((s, i) => (
-                      <Link key={i} href={s.href} className="md-desktop-menu-item">{s.label}</Link>
+                      <Link key={i} href={s.href} className="md-desktop-menu-item">
+                        {s.label}
+                      </Link>
                     ))}
                   </div>
                 )}
 
+                {/* Mega Menu (Body & Kits) */}
                 {item.hasCategoryDropdown && (
-                  <div className="md-desktop-menu shadow border-0 rounded-4 p-3" style={{ width: '340px', maxHeight: '450px', overflowY: 'auto' }}>
+                  <div className="md-desktop-menu mega-menu shadow border-0 rounded-4 p-4">
                     {groupedCategories.length === 0 ? (
-                      <div className="p-2 text-muted small text-center">No categories found</div>
+                      <div className="p-2 text-muted small text-center w-100">No categories found</div>
                     ) : (
-                      groupedCategories.map((catGroup, cIdx) => (
-                        <div key={cIdx} className="mb-3 pb-2 border-bottom">
-                          <Link
-                            href={`/body-kits/${catGroup.categorySlug}`}
-                            className="fw-bold text-danger small text-uppercase mb-2 d-block text-decoration-none"
-                            style={{ letterSpacing: '0.5px' }}
-                          >
-                            {catGroup.categoryName} ➔
-                          </Link>
-                          <div className="d-flex flex-column gap-2 ps-2">
-                            {catGroup.items.map((subItem, sIdx) => (
-                              <Link
-                                key={sIdx}
-                                href={`/body-kits/${subItem.slug}`}
-                                className="d-flex align-items-center gap-2 p-1 rounded-3 text-decoration-none text-dark"
-                              >
-                                <img src={subItem.image} alt={subItem.title} className="rounded-2 object-fit-cover shadow-sm flex-shrink-0" style={{ width: '38px', height: '38px' }} />
-                                <span className="small text-truncate fw-semibold text-secondary" style={{ fontSize: '0.82rem' }}>{subItem.title}</span>
-                              </Link>
-                            ))}
+                      <div className="mega-menu-grid">
+                        {groupedCategories.map((catGroup, cIdx) => (
+                          <div key={cIdx} className="mega-menu-column">
+                            <Link
+                              href={`/body-kits/${catGroup.categorySlug}`}
+                              className="fw-bold text-danger small text-uppercase mb-3 d-block text-decoration-none"
+                              style={{ letterSpacing: '0.5px', fontSize: '0.85rem' }}
+                            >
+                              {catGroup.categoryName} ➔
+                            </Link>
+                            <div className="d-flex flex-column gap-2">
+                              {catGroup.items.map((subItem, sIdx) => (
+                                <Link
+                                  key={sIdx}
+                                  href={`/body-kits/${subItem.slug}`}
+                                  className="d-flex align-items-center gap-3 p-2 rounded-3 text-decoration-none text-dark mega-item-hover"
+                                >
+                                  <img
+                                    src={subItem.image}
+                                    alt={subItem.title}
+                                    className="rounded-2 object-fit-cover shadow-sm flex-shrink-0 mega-item-img"
+                                  />
+                                  <span className="fw-semibold text-secondary mega-item-text">
+                                    {subItem.title}
+                                  </span>
+                                </Link>
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      ))
+                        ))}
+                      </div>
                     )}
                   </div>
                 )}
@@ -341,14 +352,15 @@ export default function Header() {
                 </ul>
               )}
 
-              {/* Body Kits grouped categories — no internal scroll */}
+              {/* Body Kits grouped categories */}
               {item.hasCategoryDropdown && (
                 <ul
                   className="md-drawer-submenu"
                   style={{
                     maxHeight: expanded === item.key ? '2000px' : '0px',
                     overflow: 'hidden',
-                    transition: 'max-height 0.35s ease'
+                    transition: 'max-height 0.35s ease',
+                    paddingLeft: '20px'
                   }}
                 >
                   {groupedCategories.map((catGroup, cIdx) => (
@@ -358,20 +370,31 @@ export default function Header() {
                         className="md-drawer-sublink text-decoration-none fw-bold text-danger"
                         onMouseDown={addRipple}
                         onClick={closeDrawer}
+                        style={{ paddingLeft: '10px' }}
                       >
-                        <span className="md-sub-dot"></span>{catGroup.categoryName} ➔
+                        <span className="md-sub-dot"></span>
+                        <span style={{ fontSize: '0.9rem' }}>{catGroup.categoryName} ➔</span>
                       </Link>
-                      <ul className="list-unstyled ps-4 mb-0">
+
+                      <ul className="list-unstyled ps-2 mb-0">
                         {catGroup.items.map((subItem, sIdx) => (
                           <li key={sIdx}>
                             <Link
                               href={`/body-kits/${subItem.slug}`}
-                              className="md-drawer-sublink text-decoration-none"
+                              className="md-drawer-sublink text-decoration-none d-flex align-items-start gap-2"
                               onMouseDown={addRipple}
                               onClick={closeDrawer}
+                              style={{ paddingLeft: '10px' }}
                             >
-                              <img src={subItem.image} alt={subItem.title} className="rounded-1 object-fit-cover flex-shrink-0" style={{ width: '24px', height: '24px' }} />
-                              <span className="text-truncate" style={{ fontSize: '0.82rem' }}>{subItem.title}</span>
+                              <img
+                                src={subItem.image}
+                                alt={subItem.title}
+                                className="rounded-1 object-fit-cover flex-shrink-0 mt-1"
+                                style={{ width: '28px', height: '28px' }}
+                              />
+                              <span style={{ fontSize: '0.82rem', whiteSpace: 'normal', lineHeight: '1.3' }}>
+                                {subItem.title}
+                              </span>
                             </Link>
                           </li>
                         ))}

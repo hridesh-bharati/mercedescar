@@ -1,4 +1,4 @@
-// src\app\body-kits\[slug]\page.jsx
+// src/app/body-kits/[slug]/page.jsx
 import { dbService } from '@/services/dbService';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
@@ -252,7 +252,7 @@ export default async function BodyKitsDetailPage({ params }) {
     return (
       <>
         <Header />
-        <main className="container py-5 text-center min-vh-100 d-flex flex-column justify-content-center align-items-center">
+        <main className={`container py-5 text-center min-vh-100 d-flex flex-column justify-content-center align-items-center ${styles.pageWrapper}`}>
           <h1 className="fw-bold text-dark mb-3">Service Coming Soon</h1>
           <Link href="/" className="btn btn-danger rounded-pill px-4 fw-bold shadow-sm">
             Back to Home
@@ -353,7 +353,7 @@ export default async function BodyKitsDetailPage({ params }) {
 
       <Header />
 
-      <main className="bg-light pb-5">
+      <main className={styles.pageWrapper}>
 
         {/* HERO SECTION */}
         <section className={`position-relative text-white overflow-hidden ${styles.heroSection}`}>
@@ -371,22 +371,22 @@ export default async function BodyKitsDetailPage({ params }) {
           <div className={styles.heroOverlay} />
 
           <div className={`container position-relative d-flex flex-column justify-content-center align-items-center text-center ${styles.heroContent}`}>
-            <div data-aos="fade-down" data-aos-once="true">
+            <div data-aos="fade-down" data-aos-once="false">
               <span className={`badge text-white px-3 py-2 mb-3 rounded-pill fw-semibold ${styles.glassBadge}`}>
                 <Sparkles size={14} className="me-2" />
                 {item.category} · CERTIFIED
               </span>
             </div>
 
-            <h1 className="display-4 fw-bold mb-3" data-aos="fade-up" data-aos-once="true" data-aos-delay="100">
+            <h1 className="display-4 fw-bold mb-3" data-aos="fade-up" data-aos-once="false" data-aos-delay="100">
               {item.h1 || item.title}
             </h1>
 
-            <p className="text-white-50 fs-6 mb-4" style={{ maxWidth: '600px' }} data-aos="fade-up" data-aos-once="true" data-aos-delay="200">
+            <p className="text-white-50 fs-6 mb-4" style={{ maxWidth: '600px' }} data-aos="fade-up" data-aos-once="false" data-aos-delay="200">
               {item.tagline || item.heroIntro || item.desc}
             </p>
 
-            <div className="d-flex flex-wrap justify-content-center gap-3 mb-4" data-aos="fade-up" data-aos-once="true" data-aos-delay="300">
+            <div className="d-flex flex-wrap justify-content-center gap-3 mb-4" data-aos="fade-up" data-aos-once="false" data-aos-delay="300">
               <a href="#booking-form" className="btn btn-danger rounded-pill px-4 py-2 fw-bold shadow-sm d-flex align-items-center gap-2">
                 <Calendar size={18} /> Get a Quote
               </a>
@@ -396,7 +396,7 @@ export default async function BodyKitsDetailPage({ params }) {
               </a>
             </div>
 
-            <div className="d-flex flex-wrap justify-content-center gap-4 pt-4 border-top border-secondary border-opacity-25 w-100" data-aos="fade-up" data-aos-once="true" data-aos-delay="400">
+            <div className="d-flex flex-wrap justify-content-center gap-4 pt-4 border-top border-secondary border-opacity-25 w-100" data-aos="fade-up" data-aos-once="false" data-aos-delay="400">
               <div className="d-flex align-items-center gap-2 text-white-50 small">
                 <ShieldCheck size={18} className="text-danger" /> Certified
               </div>
@@ -413,12 +413,12 @@ export default async function BodyKitsDetailPage({ params }) {
         <div className="container py-4 py-md-5">
           <div className="row g-4 g-lg-5">
 
-            {/* LEFT COLUMN - NORMAL PAGE SCROLL */}
+            {/* LEFT COLUMN */}
             <div className="col-12 col-lg-8">
 
               {/* GALLERY */}
               {galleryImages.length > 0 && (
-                <div className={`rounded-4 p-3 p-md-4 mb-4 ${styles.glassCard}`} data-aos="fade-up" data-aos-once="true">
+                <div className={`rounded-4 p-3 p-md-4 mb-4 overflow-hidden ${styles.glassCard}`} data-aos="fade-up" data-aos-once="false">
                   <div className="d-flex align-items-center gap-3 mb-3">
                     <div className={styles.iconBox}>
                       <Images size={22} />
@@ -437,7 +437,7 @@ export default async function BodyKitsDetailPage({ params }) {
                         key={idx}
                         className={styles.galleryItem}
                         data-aos="zoom-in"
-                        data-aos-once="true"
+                        data-aos-once="false"
                         data-aos-delay={idx * 50}
                       >
                         <Image
@@ -454,7 +454,7 @@ export default async function BodyKitsDetailPage({ params }) {
               )}
 
               {/* OVERVIEW */}
-              <div className={`rounded-4 p-3 p-md-4 mb-4 ${styles.glassCard}`} data-aos="fade-up" data-aos-once="true">
+              <div className={`rounded-4 p-3 p-md-4 mb-4 overflow-hidden ${styles.glassCard}`} data-aos="fade-up" data-aos-once="false">
                 <div className="d-flex align-items-center gap-3 mb-4">
                   <div className={styles.iconBox}>
                     <Wrench size={22} />
@@ -471,7 +471,7 @@ export default async function BodyKitsDetailPage({ params }) {
 
                 <div className={styles.contentProse}>
                   {item.contentSections.map((sec, i) => (
-                    <div key={i} className="mb-4" data-aos="fade-up" data-aos-once="true" data-aos-delay={i * 50}>
+                    <div key={i} className="mb-4" data-aos="fade-up" data-aos-once="false" data-aos-delay={i * 50}>
                       {sec.heading?.trim() && (
                         <h3 className="fw-bold text-dark fs-6 mb-2 d-flex align-items-center gap-2">
                           <CheckCircle2 size={18} className="text-danger flex-shrink-0" />
@@ -488,12 +488,12 @@ export default async function BodyKitsDetailPage({ params }) {
               </div>
 
               {/* FEATURES */}
-              <div className={`rounded-4 p-3 p-md-4 mb-4 ${styles.glassCard}`} data-aos="fade-up" data-aos-once="true">
+              <div className={`rounded-4 p-3 p-md-4 mb-4 overflow-hidden ${styles.glassCard}`} data-aos="fade-up" data-aos-once="false">
                 <h3 className="fw-bold text-dark fs-5 mb-3">Why Choose Us?</h3>
 
                 <div className="row g-3">
                   {features.map((feat, i) => (
-                    <div key={i} className="col-12 col-md-6" data-aos="fade-up" data-aos-once="true" data-aos-delay={i * 50}>
+                    <div key={i} className="col-12 col-md-6" data-aos="fade-up" data-aos-once="false" data-aos-delay={i * 50}>
                       <div className="d-flex gap-3 p-3 rounded-3 bg-white bg-opacity-75 h-100 border border-white shadow-sm">
                         <div className={styles.iconBoxSm}>
                           <feat.icon size={18} />
@@ -509,7 +509,7 @@ export default async function BodyKitsDetailPage({ params }) {
               </div>
 
               {/* FAQ */}
-              <div className={`rounded-4 p-3 p-md-4 ${styles.glassCard}`} data-aos="fade-up" data-aos-once="true">
+              <div className={`rounded-4 p-3 p-md-4 overflow-hidden ${styles.glassCard}`} data-aos="fade-up" data-aos-once="false">
                 <h3 className="fw-bold text-dark fs-5 mb-4 d-flex align-items-center gap-2">
                   <span className="badge bg-danger rounded-pill">FAQ</span>
                   Frequently Asked Questions
@@ -521,7 +521,7 @@ export default async function BodyKitsDetailPage({ params }) {
                       key={idx}
                       className="accordion-item border-0 rounded-3 mb-2 overflow-hidden bg-white bg-opacity-75 shadow-sm"
                       data-aos="fade-up"
-                      data-aos-once="true"
+                      data-aos-once="false"
                       data-aos-delay={idx * 50}
                     >
                       <h4 className="accordion-header">
@@ -552,12 +552,12 @@ export default async function BodyKitsDetailPage({ params }) {
 
             </div>
 
-            {/* RIGHT SIDEBAR - STICKY ON DESKTOP ONLY */}
+            {/* RIGHT SIDEBAR */}
             <div className={`col-12 col-lg-4 ${styles.rightSidebar}`} id="booking-form">
               <div className={styles.sidebarInner}>
 
-                {/* BOOKING CARD */}
-                <div className={`rounded-4 p-4 mb-4 ${styles.glassCard}`} data-aos="fade-left" data-aos-once="true">
+                {/* ENQUIRE NOW CARD */}
+                <div className={`rounded-4 p-4 mb-4 overflow-hidden ${styles.glassCard}`} data-aos="fade-left" data-aos-once="false">
                   <div className="d-flex align-items-center gap-2 mb-3">
                     <div className={styles.iconBoxSm}>
                       <Calendar size={18} />
@@ -607,8 +607,8 @@ export default async function BodyKitsDetailPage({ params }) {
                   </div>
                 </div>
 
-                {/* EXPLORE SERVICES */}
-                <div className={`rounded-4 p-4 ${styles.glassCard}`} data-aos="fade-left" data-aos-once="true" data-aos-delay="100">
+                {/* EXPLORE MORE CARD */}
+                <div className={`rounded-4 p-4 overflow-hidden ${styles.glassCard}`} data-aos="fade-left" data-aos-once="false" data-aos-delay="100">
                   <h4 className="fw-bold fs-6 mb-3 text-dark">Explore More Services</h4>
 
                   <div className="d-flex flex-column gap-2">
@@ -642,13 +642,13 @@ export default async function BodyKitsDetailPage({ params }) {
             </div>
 
           </div>
-          {/* 🌟 EXPLORE ALL SERVICES COLORFUL BANNER CARD */}
-          <div className="row mt-5 mb-4" data-aos="fade-up">
+
+          {/* EXPLORE ALL SERVICES BANNER */}
+          <div className="row mt-5 mb-4" data-aos="fade-up" data-aos-once="false">
             <div className="col-12">
               <div className={`rounded-4 p-4 p-md-5 text-white ${styles.exploreBanner}`}>
                 <div className="d-flex flex-column flex-md-row align-items-center justify-content-between gap-4 text-center text-md-start">
 
-                  {/* Left Side: Icon & Text */}
                   <div className="d-flex flex-column flex-md-row align-items-center gap-3">
                     <div className={styles.exploreIconBox}>
                       <Sparkles size={26} />
@@ -661,7 +661,6 @@ export default async function BodyKitsDetailPage({ params }) {
                     </div>
                   </div>
 
-                  {/* Right Side: Action Button */}
                   <div>
                     <Link href="/services" className={`btn d-inline-flex align-items-center gap-2 ${styles.exploreBtn}`}>
                       <span>Explore All Services</span>
