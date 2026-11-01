@@ -109,6 +109,7 @@ export default function Header() {
 
   const navItems = [
     { key: 'home', label: 'Home', href: '/', icon: ICONS.Home },
+    { key: 'about', label: 'About Us', href: '/about-us', icon: ICONS.User },
     { key: 'services', label: 'Services', href: '/services', icon: ICONS.Wrench },
     {
       key: 'body-kits',
@@ -121,7 +122,6 @@ export default function Header() {
         { label: 'Custom Upgrades', href: '/body-kits/custom-upgrades' },
       ]
     },
-    { key: 'about', label: 'About Us', href: '/about-us', icon: ICONS.User },
     {
       key: 'car-classes',
       label: 'Car Classes',

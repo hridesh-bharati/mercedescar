@@ -642,6 +642,37 @@ export default async function BodyKitsDetailPage({ params }) {
             </div>
 
           </div>
+          {/* 🌟 EXPLORE ALL SERVICES COLORFUL BANNER CARD */}
+          <div className="row mt-5 mb-4" data-aos="fade-up">
+            <div className="col-12">
+              <div className={`rounded-4 p-4 p-md-5 text-white ${styles.exploreBanner}`}>
+                <div className="d-flex flex-column flex-md-row align-items-center justify-content-between gap-4 text-center text-md-start">
+
+                  {/* Left Side: Icon & Text */}
+                  <div className="d-flex flex-column flex-md-row align-items-center gap-3">
+                    <div className={styles.exploreIconBox}>
+                      <Sparkles size={26} />
+                    </div>
+                    <div>
+                      <h3 className="fw-bold fs-4 mb-1 text-white">Looking for More Mercedes Upgrades?</h3>
+                      <p className="text-white-50 mb-0 small" style={{ maxWidth: '500px' }}>
+                        Explore our complete range of professional tuning, body kits, exhaust systems, and interior customization services.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Right Side: Action Button */}
+                  <div>
+                    <Link href="/services" className={`btn d-inline-flex align-items-center gap-2 ${styles.exploreBtn}`}>
+                      <span>Explore All Services</span>
+                      <span className="fs-5">→</span>
+                    </Link>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* FLOATING WHATSAPP CTA */}

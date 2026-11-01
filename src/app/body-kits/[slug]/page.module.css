@@ -200,3 +200,55 @@
     padding: 1.25rem !important;
   }
 }
+
+/* ✅ Explore All Services Colorful Banner Card */
+.exploreBanner {
+  background: linear-gradient(135deg, #0b0f19 0%, #1e1b4b 50%, #e11d48 100%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 12px 40px rgba(225, 29, 72, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.exploreBanner:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 48px rgba(225, 29, 72, 0.35);
+}
+
+.exploreIconBox {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  flex-shrink: 0;
+  transition: background 0.3s ease;
+}
+
+.exploreBanner:hover .exploreIconBox {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.exploreBtn {
+  background: #ffffff;
+  color: #e11d48;
+  border: none;
+  font-weight: 700;
+  padding: 10px 24px;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.exploreBtn:hover {
+  background: #f8fafc;
+  color: #991b1b;
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
