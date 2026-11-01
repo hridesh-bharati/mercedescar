@@ -1,29 +1,31 @@
+// src/app/sitemap.js
 
 export default async function sitemap() {
   const baseUrl = 'https://mercedesgaragedubai.com';
 
-  const routes = [
-    { route: '', priority: 1.0 },
-    { route: '/services', priority: 0.9 },
-    { route: '/mercedes-body-kits-dubai', priority: 0.9 },
-    { route: '/mercedes-facelift-dubai', priority: 0.9 },
-    { route: '/mercedes-vehicle-upgrades-dubai', priority: 0.9 },
-    { route: '/about-us', priority: 0.7 },
-    { route: '/gallery', priority: 0.7 },
-    { route: '/blogs', priority: 0.8 },
-    { route: '/contact-us', priority: 0.8 },
+  // Static routes
+  const staticRoutes = [
+    { route: '', priority: 1.0, changeFrequency: 'daily' },
+    { route: '/services', priority: 0.9, changeFrequency: 'weekly' },
+    { route: '/about-us', priority: 0.7, changeFrequency: 'monthly' },
+    { route: '/gallery', priority: 0.7, changeFrequency: 'weekly' },
+    { route: '/blogs', priority: 0.8, changeFrequency: 'weekly' },
+    { route: '/contact-us', priority: 0.8, changeFrequency: 'monthly' },
   ];
-  const newRoutes = [
-    '/mercedes-body-kits-dubai',
-    '/mercedes-facelift-dubai',
-    '/mercedes-vehicle-upgrades-dubai',
+
+  // Body kit pages — actual live URLs
+  const bodyKitRoutes = [
+    { route: '/body-kits/amg-body-kits', priority: 0.9, changeFrequency: 'weekly' },
+    { route: '/body-kits/mercedes-facelift', priority: 0.9, changeFrequency: 'weekly' },
+    { route: '/body-kits/custom-upgrades', priority: 0.9, changeFrequency: 'weekly' },
   ];
-  return routes.map(({ route, priority }) => ({
-    ...newRoutes.map((route) => ({
-      url: `${baseUrl}${route}`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8,
-    }))
+
+  const allRoutes = [...staticRoutes, ...bodyKitRoutes];
+
+  return allRoutes.map(({ route, priority, changeFrequency }) => ({
+    url: `${baseUrl}${route}`,
+    lastModified: new Date(),
+    changeFrequency: changeFrequency || 'weekly',
+    priority: priority ?? 0.8,
   }));
 }

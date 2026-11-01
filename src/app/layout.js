@@ -14,6 +14,9 @@ export const metadata = {
   keywords: [
     'German Auto Expert',
     'Mercedes repair Dubai',
+    'Mercedes body kits Dubai',
+    'AMG body kits Dubai',
+    'Mercedes facelift Dubai',
     'BMW repair Dubai',
     'Audi service Dubai',
     'luxury car workshop Al Quoz',
@@ -28,6 +31,20 @@ export const metadata = {
     icon: '/favicon.ico',
     apple: '/apple-icon.png',
   },
+  alternates: {
+    canonical: 'https://mercedesgaragedubai.com',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
   openGraph: {
     title: 'German Auto Expert | Luxury Car Repair & Maintenance',
     description: 'Expert luxury car service, engine diagnostics, and maintenance in Al Quoz, Dubai.',
@@ -41,7 +58,7 @@ export const metadata = {
         alt: 'German Auto Expert Workshop Dubai',
       },
     ],
-    locale: 'en_US',
+    locale: 'en_AE',
     type: 'website',
   },
   twitter: {
@@ -78,8 +95,8 @@ export default function RootLayout({ children }) {
     },
     openingHoursSpecification: {
       '@type': 'OpeningHoursSpecification',
-      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-      opens: '08:00',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      opens: '09:00',
       closes: '20:00',
     },
     priceRange: '$$',

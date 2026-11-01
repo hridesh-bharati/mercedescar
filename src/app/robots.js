@@ -1,10 +1,12 @@
+// src/app/robots.js
+
 export default function robots() {
   return {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: '/dashboard/', // Admin panel ko Google crawl na kare
+      disallow: '/dashboard/',
     },
-    sitemap: 'https://mercedesgaragedubai.com/sitemap.js',
+    sitemap: 'https://mercedesgaragedubai.com/sitemap.xml',
   };
 }
