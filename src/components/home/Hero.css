@@ -1,6 +1,5 @@
 /* src/components/home/Hero.css */
 
-/* SEO ke liye hidden heading */
 .visually-hidden {
   position: absolute !important;
   width: 1px !important;
@@ -24,7 +23,7 @@
   flex-direction: column;
   justify-content: center;
   min-height: 520px;
-  height: 90vh;
+  height: 520px;
   overflow: hidden;
   background: #f8fafc;
   color: var(--hero-dark);
@@ -36,9 +35,10 @@
   z-index: -2;
   overflow: hidden;
   background: #f8fafc;
+  aspect-ratio: 16 / 9;
+  min-height: 520px;
 }
 
-/* next/image ke liye zaroori styling */
 .hero-bg-image {
   position: absolute;
   inset: 0;
@@ -90,16 +90,34 @@
   z-index: 2;
 }
 
-#heroBootstrapCarousel {
+/* ============================================================
+   CUSTOM CAROUSEL — Only auto-slide
+   ============================================================ */
+.hero-carousel-inner {
+  position: relative;
   width: 100%;
+  min-height: 320px;
 }
 
-#heroBootstrapCarousel .carousel-inner {
-  overflow: visible;
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition:
+    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    visibility 0.6s;
+  pointer-events: none;
 }
 
-#heroBootstrapCarousel .carousel-item {
-  padding: 4px 0;
+.hero-slide-active {
+  position: relative;
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 .hero-text-block {
@@ -128,7 +146,7 @@
   background: var(--hero-red);
 }
 
-/* Heading (H2) */
+/* Heading */
 .enterprise-heading {
   display: flex;
   flex-direction: column;
@@ -160,7 +178,7 @@
   line-height: 1.6;
 }
 
-/* Action Buttons */
+/* Actions */
 .enterprise-actions {
   display: flex;
   flex-wrap: wrap;
@@ -235,45 +253,18 @@
   white-space: nowrap;
 }
 
-/* Indicators */
-.hero-carousel-indicators {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 28px;
-}
-
-.hero-indicator {
-  width: 16px;
-  height: 3px;
-  padding: 0;
-  border: 0;
-  border-radius: 20px;
-  background: #d5dae2;
-  cursor: pointer;
-  transition: width 0.3s ease, background 0.3s ease;
-}
-
-.hero-indicator.active {
-  width: 28px;
-  background: var(--hero-red);
-}
-
 /* ============================================================
-   ANIMATIONS
+   ANIMATIONS — Trigger on .hero-slide-active
    ============================================================ */
 
-/* Initial hidden states */
 .hero-heading-animate {
   opacity: 0;
 }
 
-/* Black heading: shuru mein left side (peeche) */
 .heading-main.hero-heading-animate {
   transform: translateX(-40px);
 }
 
-/* Red heading: shuru mein right side (aage) */
 .heading-highlight.hero-heading-animate {
   transform: translateX(40px);
 }
@@ -283,30 +274,26 @@
   transform: translateY(10px);
 }
 
-/* Active slide triggers */
-.carousel-item.active .enterprise-badge {
+.hero-slide-active .enterprise-badge {
   animation: smoothDown 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.03s forwards;
 }
 
-/* Black heading → LEFT se aaye */
-.carousel-item.active .heading-main {
+.hero-slide-active .heading-main {
   animation: slideInFromLeft 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.08s forwards;
 }
 
-/* Red heading → RIGHT se aaye */
-.carousel-item.active .heading-highlight {
+.hero-slide-active .heading-highlight {
   animation: slideInFromRight 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.12s forwards;
 }
 
-.carousel-item.active .enterprise-desc {
+.hero-slide-active .enterprise-desc {
   animation: smoothUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.16s forwards;
 }
 
-.carousel-item.active .enterprise-actions {
+.hero-slide-active .enterprise-actions {
   animation: smoothUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
 }
 
-/* Keyframes */
 @keyframes slideInFromLeft {
   from {
     opacity: 0;
@@ -351,30 +338,58 @@
   }
 }
 
-/* Mobile responsive adjustments */
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
 @media (max-width: 768px) {
   .enterprise-hero {
-    height: auto;
-    min-height: 300px;
+    height: 520px;
+    min-height: 520px;
     padding-top: 40px;
     padding-bottom: 60px;
+  }
+  .hero-bg-wrapper {
+    min-height: 520px;
   }
   .enterprise-container {
     padding-right: 20px;
     padding-left: 20px;
   }
-  .enterprise-actions {
-    margin-bottom: 10px;
+  .hero-carousel-inner {
+    min-height: 360px;
   }
-  .hero-carousel-indicators {
-    margin-top: 32px;
-  }
-
-  /* Mobile par slide distance chhota rakho */
   .heading-main.hero-heading-animate {
     transform: translateX(-24px);
   }
   .heading-highlight.hero-heading-animate {
     transform: translateX(24px);
+  }
+}
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg-image,
+  .hero-slide,
+  .hero-slide-active .enterprise-badge,
+  .hero-slide-active .heading-main,
+  .hero-slide-active .heading-highlight,
+  .hero-slide-active .enterprise-desc,
+  .hero-slide-active .enterprise-actions {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .hero-slide:not(.hero-slide-active) {
+    display: none;
+  }
+
+  .heading-main.hero-heading-animate,
+  .heading-highlight.hero-heading-animate,
+  .hero-paragraph-animate {
+    transform: none !important;
   }
 }

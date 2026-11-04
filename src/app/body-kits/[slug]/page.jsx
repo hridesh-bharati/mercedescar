@@ -414,7 +414,8 @@ export default async function BodyKitsDetailPage({ params }) {
               fill
               className={styles.heroImage}
               priority
-              sizes="100vw"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
+              quality={75}
             />
           </div>
 
@@ -441,7 +442,7 @@ export default async function BodyKitsDetailPage({ params }) {
             </h1>
 
             <p
-              className="text-white-50 fs-6 mb-4"
+              className="text-white-75 fs-6 mb-4"
               style={{ maxWidth: '600px' }}
               data-anim="up"
               data-anim-delay="200"
@@ -474,7 +475,7 @@ export default async function BodyKitsDetailPage({ params }) {
               data-anim="up"
               data-anim-delay="400"
             >
-              <div className="d-flex align-items-center gap-2 text-white-50 small">
+              <div className="d-flex align-items-center gap-2 text-white-75 small">
                 <ShieldCheck
                   size={18}
                   className="text-danger"
@@ -482,11 +483,11 @@ export default async function BodyKitsDetailPage({ params }) {
                 />{' '}
                 Certified
               </div>
-              <div className="d-flex align-items-center gap-2 text-white-50 small">
+              <div className="d-flex align-items-center gap-2 text-white-75 small">
                 <Award size={18} className="text-danger" aria-hidden="true" />{' '}
                 OEM Parts
               </div>
-              <div className="d-flex align-items-center gap-2 text-white-50 small">
+              <div className="d-flex align-items-center gap-2 text-white-75 small">
                 <Star size={18} className="text-danger" aria-hidden="true" />{' '}
                 5-Star Rated
               </div>
@@ -532,7 +533,7 @@ export default async function BodyKitsDetailPage({ params }) {
                           fill
                           className={`object-fit-cover ${styles.galleryImg}`}
                           sizes="(max-width: 576px) 50vw, 33vw"
-                          priority={idx === 0}
+                          quality={70}
                         />
                       </div>
                     ))}
@@ -591,7 +592,9 @@ export default async function BodyKitsDetailPage({ params }) {
                 className={`rounded-4 p-3 p-md-4 mb-4 overflow-hidden ${styles.glassCard}`}
                 data-anim="up"
               >
-                <h3 className="fw-bold text-dark fs-5 mb-3">Why Choose Us?</h3>
+                <h2 className="fw-bold text-dark fs-5 mb-3">
+                  Why Choose Us?
+                </h2>
 
                 <div className="row g-3">
                   {features.map((feat, i) => (
@@ -606,9 +609,9 @@ export default async function BodyKitsDetailPage({ params }) {
                           <feat.icon size={18} aria-hidden="true" />
                         </div>
                         <div>
-                          <h4 className="fw-bold fs-6 mb-1 text-dark">
+                          <h3 className="fw-bold fs-6 mb-1 text-dark">
                             {feat.title}
-                          </h4>
+                          </h3>
                           <p className="text-muted small mb-0">{feat.desc}</p>
                         </div>
                       </div>
@@ -623,10 +626,10 @@ export default async function BodyKitsDetailPage({ params }) {
                   className={`rounded-4 p-3 p-md-4 overflow-hidden ${styles.glassCard}`}
                   data-anim="up"
                 >
-                  <h3 className="fw-bold text-dark fs-5 mb-4 d-flex align-items-center gap-2">
+                  <h2 className="fw-bold text-dark fs-5 mb-4 d-flex align-items-center gap-2">
                     <span className="badge bg-danger rounded-pill">FAQ</span>
                     Frequently Asked Questions
-                  </h3>
+                  </h2>
 
                   <div className="accordion" id="faqAcc">
                     {faqs.map((f, idx) => (
@@ -636,7 +639,7 @@ export default async function BodyKitsDetailPage({ params }) {
                         data-anim="up"
                         data-anim-delay={idx * 50}
                       >
-                        <h4 className="accordion-header">
+                        <h3 className="accordion-header">
                           <button
                             className="accordion-button fw-bold small shadow-none bg-transparent"
                             type="button"
@@ -646,7 +649,7 @@ export default async function BodyKitsDetailPage({ params }) {
                           >
                             {f.q}
                           </button>
-                        </h4>
+                        </h3>
 
                         <div
                           id={`faq${idx}`}
@@ -681,9 +684,9 @@ export default async function BodyKitsDetailPage({ params }) {
                     <div className={styles.iconBoxSm}>
                       <Calendar size={18} aria-hidden="true" />
                     </div>
-                    <h3 className="fw-bold mb-0 fs-5 text-dark">
+                    <h2 className="fw-bold mb-0 fs-5 text-dark">
                       Enquire Now
-                    </h3>
+                    </h2>
                   </div>
 
                   <p className="text-muted small mb-4">
@@ -752,15 +755,15 @@ export default async function BodyKitsDetailPage({ params }) {
                   </div>
                 </div>
 
-                {/* EXPLORE MORE CARD — ✅ URLs fixed */}
+                {/* EXPLORE MORE CARD */}
                 <div
                   className={`rounded-4 p-4 overflow-hidden ${styles.glassCard}`}
                   data-anim="left"
                   data-anim-delay="100"
                 >
-                  <h4 className="fw-bold fs-6 mb-3 text-dark">
+                  <h2 className="fw-bold fs-6 mb-3 text-dark">
                     Explore More Mercedes Services
-                  </h4>
+                  </h2>
 
                   <div className="d-flex flex-column gap-2">
                     <Link
@@ -793,10 +796,7 @@ export default async function BodyKitsDetailPage({ params }) {
           </div>
 
           {/* EXPLORE ALL BANNER */}
-          <div
-            className="row mt-5 mb-4"
-            data-anim="up"
-          >
+          <div className="row mt-5 mb-4" data-anim="up">
             <div className="col-12">
               <div
                 className={`rounded-4 p-4 p-md-5 text-white ${styles.exploreBanner}`}
@@ -811,7 +811,7 @@ export default async function BodyKitsDetailPage({ params }) {
                         Looking for More Mercedes Upgrades?
                       </h3>
                       <p
-                        className="text-white-50 mb-0 small"
+                        className="text-white-75 mb-0 small"
                         style={{ maxWidth: '500px' }}
                       >
                         Explore our complete range of professional Mercedes

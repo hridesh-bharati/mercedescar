@@ -52,7 +52,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-vh-100">
+    <main className="min-vh-100">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
@@ -86,6 +86,6 @@ export default function Home() {
 
       <Contact />
       <Footer />
-    </div>
+    </main>
   );
 }

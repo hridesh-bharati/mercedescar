@@ -26,13 +26,13 @@ export default function Welcome() {
           {/* Left Text Column */}
           <div className="col-lg-7">
             {/* Badge */}
-            <div className="welcome-badge" data-anim="down" data-anim-delay="100">
+            <div className="welcome-badge" data-aos="fade-down" data-anim-delay="100">
               <span className="welcome-badge-dash"></span>
               <span className="welcome-badge-text">ABOUT OUR MERCEDES WORKSHOP</span>
             </div>
 
             {/* Heading */}
-            <h2 className="welcome-heading" data-anim="right" data-anim-delay="200">
+            <h2 className="welcome-heading" data-aos="fade-right" data-anim-delay="200">
               Welcome To{' '}
               <span className="welcome-heading-accent">
                 Mercedes Garage Dubai
@@ -40,7 +40,7 @@ export default function Welcome() {
             </h2>
 
             {/* Paragraph */}
-            <p className="welcome-paragraph" data-anim="up" data-anim-delay="300">
+            <p className="welcome-paragraph" data-aos="fade-up" data-anim-delay="300">
               Mercedes Garage Dubai provides specialist Mercedes-Benz repair,
               maintenance and diagnostics at our workshop in Al Quoz. From
               routine Mercedes servicing to advanced engine and transmission
@@ -49,7 +49,7 @@ export default function Welcome() {
             </p>
 
             {/* Subheading */}
-            <h3 className="welcome-subheading" data-anim="up" data-anim-delay="400">
+            <h3 className="welcome-subheading" data-aos="fade-up" data-anim-delay="400">
               Enjoy Exclusive Mercedes Membership Benefits
             </h3>
 
@@ -59,8 +59,8 @@ export default function Welcome() {
                 <div
                   className="welcome-benefit-card"
                   key={index}
-                  data-anim="up"
-                  data-anim-delay={450 + index * 100}
+                  data-aos="zoom-in-up"
+                  data-aos-delay={450 + index * 100}
                 >
                   <span className="benefit-icon" aria-hidden="true">
                     <svg
@@ -83,7 +83,7 @@ export default function Welcome() {
           </div>
 
           {/* Right Image Column */}
-          <div className="col-lg-5" data-anim="left" data-anim-delay="300">
+          <div className="col-lg-5" data-aos="fade-left" data-anim-delay="300">
             <div className="welcome-image-wrapper">
               <div className="image-frame-glow" aria-hidden="true"></div>
               <div className="welcome-image-box">
@@ -95,11 +95,13 @@ export default function Welcome() {
                   sizes="(max-width: 991px) 100vw, 40vw"
                   className="welcome-img"
                   loading="lazy"
+                  quality={70}
                 />
                 <div
                   className="experience-badge"
-                  data-anim="up"
+                  data-aos="fade-up"
                   data-anim-delay="600"
+                  data-aos-anchor-placement="top-bottom"
                 >
                   <span className="exp-number">15+</span>
                   <span className="exp-text">Years of Mercedes Excellence</span>

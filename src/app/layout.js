@@ -1,6 +1,5 @@
 // src/app/layout.jsx
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Script from 'next/script';
 import './globals.css';
 import ScrollToTop from '@/components/layout/ScrollToTop';
 import ScrollAnimProvider from '@/components/providers/ScrollAnimProvider';
@@ -126,10 +125,6 @@ export default function RootLayout({ children }) {
       <body suppressHydrationWarning={true}>
         <ScrollAnimProvider>{children}</ScrollAnimProvider>
         <ScrollToTop />
-        <Script
-          src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-          strategy="afterInteractive"
-        />
       </body>
     </html>
   );
