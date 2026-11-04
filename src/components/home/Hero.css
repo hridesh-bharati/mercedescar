@@ -1,17 +1,5 @@
 /* src/components/home/Hero.css */
 
-.visually-hidden {
-  position: absolute !important;
-  width: 1px !important;
-  height: 1px !important;
-  padding: 0 !important;
-  margin: -1px !important;
-  overflow: hidden !important;
-  clip: rect(0, 0, 0, 0) !important;
-  white-space: nowrap !important;
-  border: 0 !important;
-}
-
 .enterprise-hero {
   --hero-red: #e31824;
   --hero-dark: #17212f;
@@ -35,8 +23,6 @@
   z-index: -2;
   overflow: hidden;
   background: #f8fafc;
-  aspect-ratio: 16 / 9;
-  min-height: 520px;
 }
 
 .hero-bg-image {
@@ -45,12 +31,13 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 78% center;
+  object-position: 80% center;
   opacity: 0;
   transform: scale(1.04);
   transition:
     opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
     transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: -1;
 }
 
 .hero-bg-image.hero-image-active {
@@ -61,6 +48,7 @@
 .hero-gradient-overlay {
   position: absolute;
   inset: 0;
+  z-index: 0;
   background: linear-gradient(
     90deg,
     rgba(255, 255, 255, 0.99) 0%,
@@ -72,7 +60,7 @@
 
 .enterprise-container {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   width: 100%;
   max-width: 1320px;
   margin-right: auto;
@@ -81,18 +69,6 @@
   padding-left: 28px;
 }
 
-.enterprise-hero-row {
-  min-height: auto;
-}
-
-.hero-content-col {
-  position: relative;
-  z-index: 2;
-}
-
-/* ============================================================
-   CUSTOM CAROUSEL — Only auto-slide
-   ============================================================ */
 .hero-carousel-inner {
   position: relative;
   width: 100%;
@@ -252,11 +228,61 @@
   font-weight: 800;
   white-space: nowrap;
 }
+/* ✅ 3 Animated Down Arrows */
+.hero-scroll-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  /* Text box ke andar properly center karne ke liye */
+  margin-top: 35px; 
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%; /* Pure text block container width lekar center karega */
+  max-width: 600px; /* text block ki max width ke barabar */
+  color: var(--hero-muted);
+  opacity: 0.7;
+}
 
-/* ============================================================
-   ANIMATIONS — Trigger on .hero-slide-active
-   ============================================================ */
+.hero-scroll-indicator svg {
+  animation: bounceArrow 1.5s infinite;
+}
 
+.hero-scroll-indicator svg:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.hero-scroll-indicator svg:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.hero-scroll-indicator svg:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes bounceArrow {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(5px);
+    opacity: 1;
+  }
+}
+
+@keyframes bounceArrow {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(5px);
+    opacity: 1;
+  }
+}
+
+/* Animations */
 .hero-heading-animate {
   opacity: 0;
 }
@@ -294,102 +320,99 @@
   animation: smoothUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
 }
 
+.hero-slide-active .hero-scroll-indicator {
+  animation: smoothUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+}
+
 @keyframes slideInFromLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(-40px); }
+  to { opacity: 1; transform: translateX(0); }
 }
-
 @keyframes slideInFromRight {
-  from {
-    opacity: 0;
-    transform: translateX(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
 }
-
 @keyframes smoothDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
-
 @keyframes smoothUp {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ============================================================
-   RESPONSIVE
+   MOBILE FIX — Buttons Side-by-Side & Height Auto
    ============================================================ */
-@media (max-width: 768px) {
+@media (max-width: 991px) {
   .enterprise-hero {
-    height: 520px;
-    min-height: 520px;
-    padding-top: 40px;
-    padding-bottom: 60px;
+    min-height: 450px;
+    height: auto;
+    padding: 60px 0 40px 0;
   }
+
   .hero-bg-wrapper {
-    min-height: 520px;
+    min-height: 100%;
   }
+
   .enterprise-container {
-    padding-right: 20px;
-    padding-left: 20px;
+    background: transparent;
+    backdrop-filter: none;
+    padding: 0 20px;
+    width: 100%;
+    margin: 0;
   }
+
   .hero-carousel-inner {
-    min-height: 360px;
+    min-height: 280px;
   }
-  .heading-main.hero-heading-animate {
-    transform: translateX(-24px);
+
+  /* Mobile pe buttons side-by-side */
+  .enterprise-actions {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 10px;
   }
-  .heading-highlight.hero-heading-animate {
-    transform: translateX(24px);
+
+  .btn-enterprise-primary,
+  .btn-enterprise-secondary {
+    width: auto;
+    flex: 1 1 auto;
+  }
+
+  .btn-enterprise-primary {
+    padding: 0 16px;
+  }
+
+  .btn-enterprise-secondary {
+    padding: 2px 4px;
+  }
+
+  /* ✅ Mobile pe arrows ko bilkul center aur thoda niche kiya */
+  .hero-scroll-indicator {
+    margin-top: 50px; /* Mobile par gap aur badha diya taaki niche rahe */
+    margin-left: auto;
+    margin-right: auto;
+    transform: none; /* Pichhla transform hata diya taaki perfectly center ho */
+  }
+}
+@media (max-width: 575px) {
+  .enterprise-heading {
+    font-size: 30px;
+  }
+  /* Mobile pe buttons thode chhote aur side-by-side */
+  .enterprise-actions {
+    gap: 8px;
+  }
+  .btn-enterprise-primary {
+    font-size: 12px;
+    padding: 0 12px;
+  }
+  .phone-number {
+    font-size: 11px;
+  }
+  .phone-label {
+    font-size: 8px;
   }
 }
 
-/* ============================================================
-   REDUCED MOTION
-   ============================================================ */
-@media (prefers-reduced-motion: reduce) {
-  .hero-bg-image,
-  .hero-slide,
-  .hero-slide-active .enterprise-badge,
-  .hero-slide-active .heading-main,
-  .hero-slide-active .heading-highlight,
-  .hero-slide-active .enterprise-desc,
-  .hero-slide-active .enterprise-actions {
-    animation: none !important;
-    transition: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-  }
-
-  .hero-slide:not(.hero-slide-active) {
-    display: none;
-  }
-
-  .heading-main.hero-heading-animate,
-  .heading-highlight.hero-heading-animate,
-  .hero-paragraph-animate {
-    transform: none !important;
-  }
-}

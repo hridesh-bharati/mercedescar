@@ -28,7 +28,6 @@ const slides = [
 export default function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // ✅ Only auto-slide every 7s. Nothing else.
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -154,6 +153,20 @@ export default function Hero() {
                         </span>
                       </a>
                     </div>
+
+                    {/* ✅ Niche 3 animated down arrows */}
+                    <div className="hero-scroll-indicator hero-paragraph-animate">
+                      <svg width="32" height="16" viewBox="0 0 24 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="2 2 12 10 22 2" />
+                      </svg>
+                      <svg width="24" height="12" viewBox="0 0 24 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="2 2 12 10 22 2" />
+                      </svg>
+                      <svg width="16" height="8" viewBox="0 0 24 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="2 2 12 10 22 2" />
+                      </svg>
+                    </div>
+
                   </div>
                 </div>
               ))}
