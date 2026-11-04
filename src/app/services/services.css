@@ -155,3 +155,19 @@ html, body {
   .services-hero { min-height: 380px; padding: 60px 16px; }
   .services-cta { margin: 20px 12px 50px; }
 }
+
+/* Preloader-safe hero spacing — prevents CLS */
+.services-hero {
+  min-height: 380px; /* adjust based on your design */
+}
+
+/* Breadcrumb separator */
+.breadcrumb-sep {
+  margin: 0 0.5rem;
+  opacity: 0.6;
+}
+
+/* CTA spacing */
+.services-cta {
+  padding: 4rem 0;
+}

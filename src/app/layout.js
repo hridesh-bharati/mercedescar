@@ -2,38 +2,40 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Script from 'next/script';
 import './globals.css';
-import ScrollToTop from '@/components/layout/ScrollToTop'; 
+import ScrollToTop from '@/components/layout/ScrollToTop';
+import ScrollAnimProvider from '@/components/providers/ScrollAnimProvider';
 
 export const metadata = {
   metadataBase: new URL('https://mercedesgaragedubai.com'),
   title: {
-    template: '%s | German Auto Expert Dubai',
-    default: 'German Auto Expert | Luxury Car Repair & Maintenance Dubai',
+    template: '%s | Mercedes Garage Dubai',
+    default: 'Mercedes Garage Dubai | Mercedes-Benz Specialist Workshop',
   },
   description:
-    'Expert luxury car service, repair, diagnostics, and maintenance in Al Quoz, Dubai. Certified mechanics and genuine parts for German vehicles.',
+    'Looking for a Mercedes-Benz garage in Dubai? Specialist Mercedes repair, servicing, diagnostics and maintenance in Al Quoz. Contact our expert team today.',
   keywords: [
-    'German Auto Expert',
-    'Mercedes repair Dubai',
+    'Mercedes Garage Dubai',
+    'Mercedes Workshop Dubai',
+    'Mercedes Repair Dubai',
+    'Mercedes Service Dubai',
+    'Mercedes Maintenance Dubai',
+    'Mercedes Specialist Dubai',
+    'Mercedes Mechanic Dubai',
+    'Mercedes Garage Al Quoz',
     'Mercedes body kits Dubai',
     'AMG body kits Dubai',
     'Mercedes facelift Dubai',
-    'BMW repair Dubai',
-    'Audi service Dubai',
     'luxury car workshop Al Quoz',
   ],
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'GERMAN AUTO EXPERT',
+    title: 'Mercedes Garage Dubai',
   },
   icons: {
     icon: '/favicon.ico',
     apple: '/apple-icon.png',
-  },
-  alternates: {
-    canonical: 'https://mercedesgaragedubai.com',
   },
   robots: {
     index: true,
@@ -47,16 +49,17 @@ export const metadata = {
     },
   },
   openGraph: {
-    title: 'German Auto Expert | Luxury Car Repair & Maintenance',
-    description: 'Expert luxury car service, engine diagnostics, and maintenance in Al Quoz, Dubai.',
+    title: 'Mercedes Garage Dubai | Mercedes-Benz Specialist Workshop',
+    description:
+      'Specialist Mercedes repair, servicing, diagnostics and maintenance in Al Quoz, Dubai.',
     url: 'https://mercedesgaragedubai.com',
-    siteName: 'German Auto Expert',
+    siteName: 'Mercedes Garage Dubai',
     images: [
       {
         url: 'https://mercedesgaragedubai.com/images/og-banner.png',
         width: 1200,
         height: 630,
-        alt: 'German Auto Expert Workshop Dubai',
+        alt: 'Mercedes Garage Dubai Workshop in Al Quoz',
       },
     ],
     locale: 'en_AE',
@@ -64,8 +67,9 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'German Auto Expert | Luxury Car Repair',
-    description: 'Expert luxury car service and repair in Al Quoz, Dubai.',
+    title: 'Mercedes Garage Dubai | Mercedes-Benz Specialist Workshop',
+    description:
+      'Specialist Mercedes repair, servicing and diagnostics in Al Quoz, Dubai.',
     images: ['https://mercedesgaragedubai.com/images/og-banner.png'],
   },
   verification: {
@@ -77,7 +81,9 @@ export default function RootLayout({ children }) {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'AutoRepair',
-    name: 'German Auto Expert',
+    '@id': 'https://mercedesgaragedubai.com/#business',
+    name: 'Mercedes Garage Dubai',
+    alternateName: 'German Auto Expert',
     image: 'https://mercedesgaragedubai.com/images/logo.png',
     url: 'https://mercedesgaragedubai.com',
     telephone: '+971567888808',
@@ -101,6 +107,10 @@ export default function RootLayout({ children }) {
       closes: '20:00',
     },
     priceRange: '$$',
+    areaServed: [
+      { '@type': 'City', name: 'Dubai' },
+      { '@type': 'Place', name: 'Al Quoz' },
+    ],
   };
 
   return (
@@ -114,8 +124,8 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body suppressHydrationWarning={true}>
-        {children}
-        <ScrollToTop /> 
+        <ScrollAnimProvider>{children}</ScrollAnimProvider>
+        <ScrollToTop />
         <Script
           src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
           strategy="afterInteractive"

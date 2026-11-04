@@ -37,17 +37,19 @@
   );
 }
 
-/* Glass Card styling */
+/* Glass Card */
 .glass-card {
   background: rgba(255, 255, 255, 0.65);
   backdrop-filter: blur(20px) saturate(190%);
   -webkit-backdrop-filter: blur(20px) saturate(190%);
   border: 1px solid rgba(255, 255, 255, 0.95) !important;
   border-radius: 22px;
-  box-shadow: 0 10px 30px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 1);
+  box-shadow:
+    0 10px 30px rgba(31, 38, 135, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
 }
 
-/* Ambient Background Glows */
+/* Ambient Glows */
 .faqs-glow {
   position: absolute;
   border-radius: 50%;
@@ -77,10 +79,69 @@
   letter-spacing: 2px;
 }
 
-.cursor-pointer {
+/* ============================================
+   ACCORDION
+   ============================================ */
+.pxl-accordion--title {
   cursor: pointer;
+  transition: color 0.2s ease;
+  background: transparent !important;
+  color: inherit;
+}
+
+.pxl-accordion--title:hover .pxl-title--text {
+  color: #D6241D;
+}
+
+.pxl-accordion--title:focus-visible {
+  outline: 2px solid #D6241D;
+  outline-offset: 4px;
+  border-radius: 4px;
 }
 
 .pxl--item.active .pxl-title--text {
   color: #D6241D !important;
+}
+
+.pxl-icon--action {
+  transition: transform 0.3s ease;
+}
+
+/* Content collapse animation */
+.pxl-accordion--content-wrap {
+  overflow: hidden;
+  transition: max-height 0.35s ease, opacity 0.3s ease;
+  max-height: 0;
+  opacity: 0;
+}
+
+.pxl-accordion--content-wrap.is-open {
+  max-height: 600px;
+  opacity: 1;
+}
+
+.pxl-accordion--content-wrap[hidden] {
+  display: none;
+}
+
+.pxl-accordion--content {
+  line-height: 1.8;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .pxl-accordion--content-wrap,
+  .pxl-icon--action {
+    transition: none !important;
+  }
+}
+
+/* Hover scale (used in "Still Need Help" card) */
+.hover-scale {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 35px rgba(31, 38, 135, 0.12) !important;
 }

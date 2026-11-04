@@ -30,9 +30,27 @@
   z-index: 0;
   pointer-events: none;
 }
-.ab-glow-blue { width: 500px; height: 500px; background: #60a5fa; top: 10%; left: -120px; }
-.ab-glow-pink { width: 500px; height: 500px; background: #f472b6; top: 40%; right: -120px; }
-.ab-glow-purple { width: 450px; height: 450px; background: #c084fc; bottom: 10%; left: 30%; }
+.ab-glow-blue {
+  width: 500px;
+  height: 500px;
+  background: #60a5fa;
+  top: 10%;
+  left: -120px;
+}
+.ab-glow-pink {
+  width: 500px;
+  height: 500px;
+  background: #f472b6;
+  top: 40%;
+  right: -120px;
+}
+.ab-glow-purple {
+  width: 450px;
+  height: 450px;
+  background: #c084fc;
+  bottom: 10%;
+  left: 30%;
+}
 
 /* ============================================================
    GLASSMORPHISM CARD STYLING (Bootstrap 5 Compatible)
@@ -43,13 +61,17 @@
   -webkit-backdrop-filter: blur(20px) saturate(190%);
   border: 1px solid rgba(255, 255, 255, 0.95) !important;
   border-radius: 22px;
-  box-shadow: 0 10px 35px rgba(31, 38, 135, 0.08), inset 0 1px 0 rgba(255, 255, 255, 1);
+  box-shadow:
+    0 10px 35px rgba(31, 38, 135, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
   transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
 .glass-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 20px 45px rgba(31, 38, 135, 0.14), inset 0 1px 0 rgba(255, 255, 255, 1);
+  box-shadow:
+    0 20px 45px rgba(31, 38, 135, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
 }
 
 /* ============================================================
@@ -236,6 +258,11 @@
   background: rgba(255, 255, 255, 0.7);
 }
 
+.ab-tab:focus-visible {
+  outline: 2px solid #D6241D;
+  outline-offset: 3px;
+}
+
 .ab-tab.is-active {
   color: #fff;
   background: #D6241D;
@@ -269,17 +296,128 @@
   box-shadow: 0 12px 25px rgba(214, 36, 29, 0.4);
 }
 
+.ab-btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
 /* ============================================================
    FORM INPUTS
    ============================================================ */
-.form-control:focus, .form-select:focus {
+.form-control:focus,
+.form-select:focus {
   border-color: #D6241D !important;
   box-shadow: 0 0 0 0.2rem rgba(214, 36, 29, 0.15) !important;
   background-color: #fff !important;
 }
 
+/* ============================================================
+   NEXT/IMAGE SUPPORT
+   ============================================================ */
+/* next/image needs explicit display:block on positioned parents */
+.ab-main-img,
+.ab-sub-img,
+.ab-circle-wrap img {
+  display: block;
+}
+
+/* When using next/image fill (if you switch later), ensure parent has position:relative */
+.ab-collage {
+  position: relative;
+}
+
+/* ============================================================
+   REDUCED MOTION SUPPORT
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================================
+   FAQ DETAILS STYLING
+   ============================================================ */
+#about-faq details summary {
+  font-weight: 700;
+  color: #0f172a;
+  padding: 4px 0;
+  transition: color 0.2s ease;
+}
+
+#about-faq details summary:hover {
+  color: #D6241D;
+}
+
+#about-faq details[open] summary {
+  color: #D6241D;
+  margin-bottom: 8px;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
 @media (max-width: 768px) {
-  .ab-collage { padding: 0; }
-  .ab-main-img { height: 280px; width: 100%; }
-  .ab-sub-img { display: none; }
+  .ab-collage {
+    padding: 0;
+  }
+  .ab-main-img {
+    height: 280px;
+    width: 100%;
+  }
+  .ab-sub-img {
+    display: none;
+  }
+}
+/* ============================================================
+   CSS ANIMATIONS (Hydration-safe — replaces AOS)
+   ============================================================ */
+@keyframes fadeRight {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeLeft {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.anim-fade-right {
+  animation: fadeRight 0.8s ease both;
+}
+
+.anim-fade-left {
+  animation: fadeLeft 0.8s ease both;
+}
+
+.anim-zoom-in {
+  animation: zoomIn 0.8s ease both;
 }

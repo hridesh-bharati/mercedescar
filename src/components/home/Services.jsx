@@ -1,22 +1,12 @@
-
+// src/components/home/Services.jsx
 'use client';
 
 import { useEffect, useRef } from 'react';
-import AOS from 'aos';
 import Link from 'next/link';
-import 'aos/dist/aos.css';
 import './Services.css';
 
 export default function Services() {
   const sectionRef = useRef(null);
-
-  useEffect(() => {
-    AOS.init({
-      duration: 800,
-      once: true,
-      easing: 'ease-out-cubic',
-    });
-  }, []);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -42,8 +32,9 @@ export default function Services() {
     {
       title: 'Routine Maintenance',
       description:
-        'Professional Mercedes-Benz maintenance in Dubai, including oil changes, filters, fluids and scheduled servicing.',
-      href: '/services',
+        'Mercedes-Benz routine maintenance in Al Quoz, Dubai — oil changes, filters, fluids and scheduled Mercedes servicing.',
+      href: '/services#routine-maintenance',
+      ariaLabel: 'Mercedes routine maintenance in Al Quoz Dubai',
       icon: (
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
           stroke="currentColor" strokeWidth="2" strokeLinecap="round"
@@ -55,8 +46,9 @@ export default function Services() {
     {
       title: 'Engine Diagnostics',
       description:
-        'Advanced Mercedes-Benz engine diagnostics, fault detection and precision repair by specialist technicians in Al Quoz, Dubai.',
-      href: '/services',
+        'Advanced Mercedes-Benz engine diagnostics, ECU fault code reading and precision repair by specialist technicians in Al Quoz, Dubai.',
+      href: '/mercedes-diagnostics-dubai',
+      ariaLabel: 'Mercedes engine diagnostics in Dubai',
       icon: (
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
           stroke="currentColor" strokeWidth="2" strokeLinecap="round"
@@ -69,8 +61,9 @@ export default function Services() {
     {
       title: 'Brake Service',
       description:
-        'Mercedes-Benz brake inspection, brake pad replacement, rotor servicing and brake fluid maintenance.',
-      href: '/services',
+        'Mercedes-Benz brake inspection, brake pad replacement, rotor servicing and brake fluid maintenance in Dubai.',
+      href: '/mercedes-repair-dubai#brake-repair',
+      ariaLabel: 'Mercedes brake service in Dubai',
       icon: (
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
           stroke="currentColor" strokeWidth="2" strokeLinecap="round"
@@ -83,8 +76,9 @@ export default function Services() {
     {
       title: 'Transmission Service',
       description:
-        'Expert Mercedes-Benz transmission inspection, gearbox servicing and fluid replacement for smooth performance.',
-      href: '/services',
+        'Mercedes gearbox repair, transmission inspection and fluid replacement for smooth performance by Mercedes specialists in Dubai.',
+      href: '/mercedes-repair-dubai#transmission-repair',
+      ariaLabel: 'Mercedes transmission and gearbox repair in Dubai',
       icon: (
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
           stroke="currentColor" strokeWidth="2" strokeLinecap="round"
@@ -95,24 +89,27 @@ export default function Services() {
       ),
     },
     {
-      title: 'Mercedes Body Kits',
+      title: 'Mercedes AMG Body Kits',
       description:
-        'Upgrade your Mercedes with AMG body kits, premium exterior styling packages and custom body modifications in Dubai.',
+        'Mercedes AMG body kit installation in Dubai — G63 wide-body kits, C-Class and E-Class AMG styling, and Mercedes body kit conversion in Al Quoz.',
       href: '/mercedes-body-kits-dubai',
+      ariaLabel: 'Mercedes AMG body kit installation in Dubai',
       icon: <span className="fw-bold">AMG</span>,
     },
     {
-      title: 'Mercedes Facelift',
+      title: 'Mercedes Facelift Conversion',
       description:
-        'Transform your Mercedes with model-specific facelift conversions, updated exterior styling and modern design upgrades.',
+        'Mercedes facelift conversion in Dubai — W205 to W206 C-Class facelift, W213 E-Class facelift, GLC facelift and AMG styling upgrades.',
       href: '/mercedes-facelift-dubai',
+      ariaLabel: 'Mercedes facelift conversion in Dubai',
       icon: <span className="fw-bold">FL</span>,
     },
     {
       title: 'Mercedes Custom Upgrades',
       description:
-        'Discover custom Mercedes upgrades, styling enhancements and vehicle modifications at our Al Quoz workshop.',
+        'Mercedes customization and performance upgrades in Dubai — AMG styling, exterior modifications and custom Mercedes workshop in Al Quoz.',
       href: '/mercedes-vehicle-upgrades-dubai',
+      ariaLabel: 'Mercedes custom upgrades and customization in Dubai',
       icon: <span className="fw-bold">UP</span>,
     },
   ];
@@ -127,7 +124,7 @@ export default function Services() {
 
       <div className="container services-container">
         <div className="row align-items-end mb-4 mb-lg-5">
-          <div className="col-lg-7" data-aos="fade-right">
+          <div className="col-lg-7" data-anim="right">
             <div className="services-badge">
               <span className="services-badge-icon" aria-hidden="true">
                 <svg width="14" height="14" viewBox="0 0 24 24"
@@ -147,14 +144,14 @@ export default function Services() {
             </h2>
 
             <p className="services-paragraph">
-              German Auto Expert provides specialist Mercedes-Benz servicing,
+              Mercedes Garage Dubai provides specialist Mercedes-Benz servicing,
               diagnostics, maintenance and repair in Al Quoz, Dubai. Explore
               our AMG body kits, Mercedes facelift solutions and custom vehicle
               upgrades, all focused on your Mercedes.
             </p>
           </div>
 
-          <div className="col-lg-5 text-lg-end mt-4 mt-lg-0" data-aos="fade-left">
+          <div className="col-lg-5 text-lg-end mt-4 mt-lg-0" data-anim="left">
             <Link href="/services" className="services-btn-primary">
               <span>View All Mercedes Services</span>
               <svg width="18" height="18" viewBox="0 0 24 24"
@@ -172,13 +169,13 @@ export default function Services() {
             <div
               className="col-lg-3 col-md-6"
               key={item.title}
-              data-aos="fade-up"
-              data-aos-delay={index * 120}
+              data-anim="up"
+              data-anim-delay={index * 120}
             >
               <Link
                 href={item.href}
                 className="service-card text-decoration-none"
-                aria-label={`Explore ${item.title}`}
+                aria-label={item.ariaLabel || `Explore ${item.title}`}
               >
                 <div className="service-card-spotlight" aria-hidden="true" />
                 <div className="service-card-glow" aria-hidden="true" />

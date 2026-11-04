@@ -9,7 +9,7 @@
   isolation: isolate;
 }
 
-/* ============ Decorative Background ============ */
+/* ============ Decorative Background (static — no animation) ============ */
 .process-grid-bg {
   position: absolute;
   inset: 0;
@@ -30,7 +30,7 @@
   opacity: 0.55;
   z-index: 0;
   pointer-events: none;
-  animation: processOrbFloat 16s ease-in-out infinite;
+  /* ✅ Animation removed — static position */
 }
 .process-orb-1 {
   width: 500px;
@@ -45,11 +45,6 @@
   background: radial-gradient(circle, rgba(255, 107, 74, 0.20) 0%, transparent 70%);
   bottom: -180px;
   right: -140px;
-  animation-delay: -8s;
-}
-@keyframes processOrbFloat {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50%      { transform: translate(30px, -25px) scale(1.08); }
 }
 
 /* ============ Container ============ */
@@ -80,22 +75,6 @@
   position: relative;
   overflow: hidden;
 }
-.process-badge::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(229, 9, 20, 0.14), transparent);
-  animation: processBadgeShine 3.5s ease-in-out infinite;
-  pointer-events: none;
-}
-@keyframes processBadgeShine {
-  0%   { left: -100%; }
-  60%  { left: 100%; }
-  100% { left: 100%; }
-}
 
 .process-badge-icon {
   width: 26px;
@@ -106,24 +85,14 @@
   border-radius: 50%;
   background: linear-gradient(135deg, #ff2b2b 0%, #e50914 50%, #ff6b4a 100%);
   color: #ffffff;
-  box-shadow: 0 0 0 0 rgba(229, 9, 20, 0.5), 0 4px 14px rgba(229, 9, 20, 0.35);
-  animation: processBadgePulse 2.4s ease-in-out infinite;
+  box-shadow: 0 4px 14px rgba(229, 9, 20, 0.35);
   flex-shrink: 0;
 }
 .process-badge-icon svg {
   display: block;
   stroke: currentColor;
 }
-@keyframes processBadgePulse {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(229, 9, 20, 0.5), 0 4px 14px rgba(229, 9, 20, 0.35);
-    transform: scale(1);
-  }
-  50% {
-    box-shadow: 0 0 0 10px rgba(229, 9, 20, 0), 0 6px 20px rgba(229, 9, 20, 0.5);
-    transform: scale(1.08);
-  }
-}
+
 .process-badge-text {
   font-size: 0.72rem;
   font-weight: 700;
@@ -178,13 +147,7 @@
   position: absolute;
   inset: 0;
   background: linear-gradient(90deg, #e50914 0%, #ff2b2b 40%, #ff6b4a 70%, #e50914 100%);
-  background-size: 200% 100%;
-  animation: trackFlow 4s linear infinite;
-  transform-origin: left center;
-}
-@keyframes trackFlow {
-  0%   { background-position: 0% 0; }
-  100% { background-position: 200% 0; }
+  /* ✅ Animation removed — static gradient */
 }
 
 .process-grid {
@@ -230,7 +193,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(229, 9, 20, 0.2), 0 0 0 4px rgba(255, 255, 255, 1);
+  box-shadow:
+    0 4px 12px rgba(229, 9, 20, 0.2),
+    0 0 0 4px rgba(255, 255, 255, 1);
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .process-node-ring {
@@ -238,23 +203,14 @@
   inset: 0;
   border-radius: 50%;
   border: 2px solid rgba(229, 9, 20, 0.4);
-  animation: nodeRingPulse 2.4s ease-out infinite;
-}
-.process-step:nth-child(1) .process-node-ring { animation-delay: 0s; }
-.process-step:nth-child(2) .process-node-ring { animation-delay: 0.6s; }
-.process-step:nth-child(3) .process-node-ring { animation-delay: 1.2s; }
-.process-step:nth-child(4) .process-node-ring { animation-delay: 1.8s; }
-@keyframes nodeRingPulse {
-  0%   { transform: scale(1);   opacity: 0.7; }
-  100% { transform: scale(1.9); opacity: 0; }
+  /* ✅ Pulse animation removed — static ring */
 }
 
-/* ============ Card (Default = Hover Look) ============ */
+/* ============ Card ============ */
 .process-card {
   position: relative;
   width: 100%;
   background: #ffffff;
-  /* Default me hi red border aur shadow daal diya */
   border: 1px solid rgba(229, 9, 20, 0.25);
   border-radius: 20px;
   padding: 26px 22px 22px;
@@ -267,13 +223,11 @@
     border-color 0.4s ease,
     box-shadow 0.4s ease;
   isolation: isolate;
-  /* Default me hi red shadow daal diya */
   box-shadow:
     0 12px 32px rgba(229, 9, 20, 0.08),
     0 0 0 1px rgba(229, 9, 20, 0.04);
 }
 
-/* Top red gradient line always visible */
 .process-card::before {
   content: '';
   position: absolute;
@@ -285,7 +239,6 @@
   opacity: 1;
 }
 
-/* Bottom-right glow always visible */
 .process-card-glow {
   position: absolute;
   bottom: -60px;
@@ -300,7 +253,6 @@
   z-index: 0;
 }
 
-/* On Hover, lift a bit more and increase shadow */
 .process-card:hover {
   transform: translateY(-8px);
   border-color: rgba(229, 9, 20, 0.4);
@@ -309,7 +261,6 @@
     0 0 0 1px rgba(229, 9, 20, 0.1);
 }
 
-/* Hover par spotlight wesa hi rahega mouse follow karne ke liye */
 .process-card-spotlight {
   position: absolute;
   inset: 0;
@@ -327,7 +278,7 @@
   opacity: 1;
 }
 
-/* ============ Icon Box (Default = Hover Filled Look) ============ */
+/* ============ Icon Box ============ */
 .process-icon-box {
   position: relative;
   z-index: 2;
@@ -337,7 +288,6 @@
   align-items: center;
   justify-content: center;
   border-radius: 14px;
-  /* Default filled red gradient */
   background: linear-gradient(135deg, #e50914 0%, #b0060f 100%);
   color: #ffffff;
   border: 1px solid #e50914;
@@ -348,16 +298,12 @@
     transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow 0.4s ease;
 }
-
 .process-icon-box svg {
   display: block;
   width: 26px;
   height: 26px;
   stroke: currentColor;
-  /* Hover wali animation hata di taaki icon clean lage */
 }
-
-/* Hover par thoda aur pop */
 .process-card:hover .process-icon-box {
   transform: translateY(-3px) scale(1.06);
   box-shadow: 0 12px 28px rgba(229, 9, 20, 0.4);
@@ -379,7 +325,6 @@
   position: relative;
   z-index: 2;
   font-size: 0.88rem;
-  /* Text color default me thoda dark kiya */
   color: #475569;
   line-height: 1.65;
   margin: 0 0 20px 0;
@@ -404,7 +349,6 @@
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
-  /* Label default me hi red */
   color: #e50914;
 }
 
@@ -415,21 +359,17 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  /* Arrow default me hi filled red */
   background: #e50914;
   border: 1px solid #e50914;
   color: #ffffff;
   box-shadow: 0 4px 12px rgba(229, 9, 20, 0.3);
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
-
 .process-card-arrow svg {
   display: block;
   width: 13px;
   height: 13px;
 }
-
-/* Hover par arrow thoda right slide kare */
 .process-card:hover .process-card-arrow {
   transform: translateX(3px);
   box-shadow: 0 6px 16px rgba(229, 9, 20, 0.4);
@@ -448,22 +388,27 @@
 
 @media (max-width: 575px) {
   .process-section { padding: 70px 0; }
-  .process-grid    { grid-template-columns: 1fr; gap: 32px; }
-  .process-card    { padding: 24px 20px; min-height: 240px; }
+  .process-grid { grid-template-columns: 1fr; gap: 32px; }
+  .process-card { padding: 24px 20px; min-height: 240px; }
   .process-icon-box { width: 48px; height: 48px; }
   .process-icon-box svg { width: 22px; height: 22px; }
   .process-heading { font-size: 1.9rem; }
 }
 
 /* ============================================
-   REDUCED MOTION
+   REDUCED MOTION — disable ALL transitions
    ============================================ */
 @media (prefers-reduced-motion: reduce) {
   .process-orb,
-  .process-badge::before,
   .process-badge-icon,
+  .process-badge::before,
+  .process-node-ring,
   .process-timeline-progress,
-  .process-node-ring {
+  .process-card,
+  .process-icon-box,
+  .process-card-arrow,
+  .process-card-spotlight {
     animation: none !important;
+    transition: none !important;
   }
 }

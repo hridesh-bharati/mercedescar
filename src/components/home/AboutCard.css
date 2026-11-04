@@ -24,7 +24,7 @@
   pointer-events: none;
 }
 
-/* ============ Soft Glow Accents (colored orbs) ============ */
+/* ============ Soft Glow Accents ============ */
 .about-glow {
   position: absolute;
   border-radius: 50%;
@@ -33,7 +33,6 @@
   z-index: 0;
   pointer-events: none;
 }
-
 .about-glow--blue {
   top: -140px;
   right: -140px;
@@ -41,7 +40,6 @@
   height: 460px;
   background: #93c5fd;
 }
-
 .about-glow--pink {
   bottom: -160px;
   left: -140px;
@@ -138,7 +136,6 @@
     transform 0.3s ease,
     box-shadow 0.3s ease;
 }
-
 .about-showmore-btn:hover {
   background: rgba(255, 255, 255, 0.85);
   border-color: var(--md-primary, #D6241D);
@@ -149,13 +146,16 @@
     0 10px 24px rgba(214, 36, 29, 0.15),
     inset 0 1px 0 rgba(255, 255, 255, 1);
 }
-
 .about-showmore-btn svg {
   transition: transform 0.3s ease;
 }
-
 .about-showmore-btn:hover svg {
   transform: translateY(3px);
+}
+/* ✅ Focus visible for keyboard users */
+.about-showmore-btn:focus-visible {
+  outline: 2px solid var(--md-primary, #D6241D);
+  outline-offset: 3px;
 }
 
 /* ============ Primary Button ============ */
@@ -173,6 +173,9 @@
   box-shadow: 0 8px 22px rgba(214, 36, 29, 0.35);
   transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
   margin-bottom: 36px;
+  /* ✅ Required for ripple */
+  position: relative;
+  overflow: hidden;
 }
 .about-btn-primary:hover {
   background: var(--md-primary-dark, #A81A15);
@@ -185,6 +188,10 @@
 }
 .about-btn-primary:hover svg {
   transform: translateX(4px);
+}
+.about-btn-primary:focus-visible {
+  outline: 2px solid var(--md-primary, #D6241D);
+  outline-offset: 3px;
 }
 
 /* ============================================
@@ -235,11 +242,12 @@
   border: 1px solid rgba(214, 36, 29, 0.15);
 }
 
-.stat-content h4 {
+/* ✅ FIX: h4 → h3 (JSX change) */
+.stat-content h3 {
   font-size: 1.15rem;
   font-weight: 700;
   color: var(--md-on-surface, #1B1C1E);
-  margin-bottom: 2px;
+  margin: 0 0 2px 0;
   line-height: 1.2;
 }
 .stat-content p {
@@ -284,6 +292,7 @@
   box-shadow: 0 14px 36px rgba(15, 27, 43, 0.18);
 }
 
+/* ✅ next/image fill requires position:relative */
 .about-back-img-box {
   position: relative;
   width: 100%;
@@ -316,12 +325,14 @@
 }
 
 /* ---------- SWAP LAYERS ---------- */
+/* ✅ next/image fill requires position:relative on direct parent */
 .about-swap-layer {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   overflow: hidden;
+  position: relative; /* ensures fill works when direct parent */
 }
 .about-swap-up {
   animation: swapFromBottom 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
@@ -389,12 +400,19 @@
   cursor: pointer;
   border: none;
   padding: 0;
+  position: relative;
+  overflow: hidden;
 }
 .about-slider-dot.active {
   width: 18px;
   border-radius: 10px;
   background: var(--md-primary, #D6241D);
   box-shadow: 0 0 10px rgba(214, 36, 29, 0.5);
+}
+/* ✅ Focus visible for keyboard users */
+.about-slider-dot:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
 }
 
 /* ---------- FLOATING BADGE — Glass ---------- */
@@ -559,13 +577,16 @@
     transform 0.3s ease,
     box-shadow 0.3s ease;
 }
-
 .about-modal-close:hover {
   background: var(--md-primary, #D6241D);
   color: #ffffff;
   border-color: var(--md-primary, #D6241D);
   transform: rotate(90deg) scale(1.08);
   box-shadow: 0 8px 20px rgba(214, 36, 29, 0.4);
+}
+.about-modal-close:focus-visible {
+  outline: 2px solid var(--md-primary, #D6241D);
+  outline-offset: 3px;
 }
 
 /* ---------- Modal Body ---------- */
@@ -580,7 +601,6 @@
 .about-modal-body p {
   margin: 0 0 16px 0;
 }
-
 .about-modal-body p:last-child {
   margin-bottom: 0;
 }
@@ -590,22 +610,93 @@
   font-weight: 700;
 }
 
+/* ✅ NEW: Modal h4 sub-headings (added in JSX) */
+.about-modal-body h4 {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #111827;
+  margin: 1.5rem 0 0.5rem 0;
+  padding-left: 0;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  position: relative;
+}
+/* Red left accent on h4 */
+.about-modal-body h4::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 16px;
+  background: var(--md-primary, #D6241D);
+  border-radius: 2px;
+  margin-right: 10px;
+  vertical-align: middle;
+  transform: translateY(-1px);
+}
+.about-modal-body h4:first-of-type {
+  margin-top: 0.5rem;
+}
+
 /* Custom scrollbar */
 .about-modal-body::-webkit-scrollbar {
   width: 8px;
 }
-
 .about-modal-body::-webkit-scrollbar-track {
   background: transparent;
 }
-
 .about-modal-body::-webkit-scrollbar-thumb {
   background: rgba(214, 36, 29, 0.25);
   border-radius: 10px;
 }
-
 .about-modal-body::-webkit-scrollbar-thumb:hover {
   background: var(--md-primary, #D6241D);
+}
+
+/* ============================================
+   RIPPLE EFFECT (md-ripple)
+   ============================================ */
+/* ✅ Added — ripple needs positioning context */
+.md-ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.md-ripple-effect {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  pointer-events: none;
+  transform: scale(0);
+  animation: mdRippleAnim 0.6s ease-out forwards;
+}
+
+@keyframes mdRippleAnim {
+  to {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+/* ============================================
+   REDUCED MOTION SUPPORT
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  .about-swap-up,
+  .about-swap-down,
+  .about-modal,
+  .about-modal-overlay,
+  .md-ripple-effect {
+    animation: none !important;
+  }
+  .about-modal-header::before {
+    animation: none !important;
+  }
+  .about-stat-item,
+  .about-showmore-btn,
+  .about-btn-primary,
+  .about-modal-close {
+    transition: none !important;
+  }
 }
 
 /* ============================================
@@ -652,32 +743,29 @@
   .about-modal-overlay {
     padding: 16px;
   }
-
   .about-modal {
     max-height: 90vh;
     border-radius: 16px;
   }
-
   .about-modal-header {
     padding: 20px 56px 16px 20px;
   }
-
   .about-modal-title {
     font-size: 1rem;
   }
-
   .about-modal-close {
     top: 14px;
     right: 14px;
     width: 32px;
     height: 32px;
   }
-
   .about-modal-body {
     padding: 20px 20px 24px;
     font-size: 0.9rem;
   }
-
+  .about-modal-body h4 {
+    font-size: 0.95rem;
+  }
   .about-showmore-btn {
     font-size: 0.8rem;
     padding: 9px 16px;

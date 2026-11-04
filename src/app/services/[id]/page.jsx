@@ -3,10 +3,10 @@ import { dbService } from '@/services/dbService';
 import { notFound } from 'next/navigation';
 import ServiceDetailClient from './ServiceDetailClient';
 
-const SITE_URL = 'https://mercedesgaragedubai.com';
-const SITE_NAME = 'German Auto Expert';
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://mercedesgaragedubai.com';
+const SITE_NAME = 'Mercedes Garage Dubai';
 
-// Data fetch function
 async function getService(id) {
   try {
     const res = await dbService.getById('services', id);
@@ -16,7 +16,6 @@ async function getService(id) {
   }
 }
 
-// ✅ SEO Metadata Generation
 export async function generateMetadata({ params }) {
   const resolvedParams = await params;
   const service = await getService(resolvedParams.id);
@@ -25,15 +24,20 @@ export async function generateMetadata({ params }) {
     return { title: 'Service Not Found' };
   }
 
-  const title = service.title 
-    ? `${service.title} | Mercedes Service Dubai | ${SITE_NAME}` 
+  const title = service.title
+    ? `${service.title} | Mercedes Service Dubai`
     : `Mercedes Service Dubai | ${SITE_NAME}`;
-    
-  const description = service.desc || service.description 
-    ? service.desc?.substring(0, 155) + '...' 
-    : `Professional Mercedes-Benz ${service.title || 'repair'} services in Dubai. Certified technicians and genuine parts at German Auto Expert.`;
 
-  const image = service.imageUrls?.[0] || service.imageUrl || `${SITE_URL}/images/car-class.png`;
+  // ✅ Safely trim to 155 chars — no mid-word cuts
+  const rawDesc = service.desc || service.description;
+  const description = rawDesc
+    ? rawDesc.trim().replace(/\s+/g, ' ').slice(0, 152).replace(/\s+\S*$/, '') + '…'
+    : `Professional Mercedes-Benz ${service.title || 'repair'} in Al Quoz, Dubai. Certified technicians and genuine parts at ${SITE_NAME}.`;
+
+  const image =
+    service.imageUrls?.[0] ||
+    service.imageUrl ||
+    `${SITE_URL}/images/og-services.png`;
 
   return {
     title,
@@ -44,8 +48,16 @@ export async function generateMetadata({ params }) {
       description,
       url: `${SITE_URL}/services/${resolvedParams.id}`,
       siteName: SITE_NAME,
-      images: [{ url: image, alt: service.title }],
-      type: 'website',
+      images: [
+        {
+          url: image,
+          width: 1200,
+          height: 630,
+          alt: `${service.title} — Mercedes-Benz service in Dubai`,
+        },
+      ],
+      locale: 'en_AE',
+      type: 'article',
     },
     twitter: {
       card: 'summary_large_image',
@@ -57,45 +69,74 @@ export async function generateMetadata({ params }) {
   };
 }
 
-// ✅ Server Page Component
 export default async function Page({ params }) {
   const resolvedParams = await params;
   const service = await getService(resolvedParams.id);
 
   if (!service) {
-    notFound(); // Next.js 404 Page
+    notFound();
   }
 
-  // JSON-LD Schema for this specific service
-  const jsonLd = {
+  const serviceJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Service',
     name: service.title,
     description: service.desc || service.description,
     provider: {
       '@type': 'AutoRepair',
+      '@id': `${SITE_URL}/#business`,
       name: SITE_NAME,
+      url: SITE_URL,
+      telephone: '+971567888808',
       address: {
         '@type': 'PostalAddress',
-        streetAddress: 'Al Quoz',
+        streetAddress: 'Warehouse #S2, Al Quoz 20C Street Industrial Area 2',
         addressLocality: 'Dubai',
+        addressRegion: 'Dubai',
         addressCountry: 'AE',
       },
     },
-    areaServed: 'Dubai',
+    areaServed: [
+      { '@type': 'City', name: 'Dubai' },
+      { '@type': 'Place', name: 'Al Quoz' },
+    ],
     image: service.imageUrls?.[0] || service.imageUrl,
-    offers: service.price ? {
-      '@type': 'Offer',
-      price: service.price,
-      priceCurrency: 'AED',
-    } : undefined,
+    offers: service.price
+      ? {
+          '@type': 'Offer',
+          price: service.price,
+          priceCurrency: 'AED',
+        }
+      : undefined,
+  };
+
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Services',
+        item: `${SITE_URL}/services`,
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: service.title,
+        item: `${SITE_URL}/services/${resolvedParams.id}`,
+      },
+    ],
   };
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify([serviceJsonLd, breadcrumbJsonLd]),
+        }}
       />
       <ServiceDetailClient initialService={service} />
     </>

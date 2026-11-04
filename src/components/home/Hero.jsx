@@ -9,19 +9,19 @@ import './Hero.css';
 const slides = [
   {
     image: '/images/home-page-pic1.avif',
-    badge: 'DUBAI’S PREMIER AUTO HUB',
-    titleMain: 'Precision Engineering',
-    titleHighlight: 'Elite Auto Care',
+    badge: 'DUBAI’S PREMIER MERCEDES WORKSHOP',
+    titleMain: 'Mercedes-Benz Garage &',
+    titleHighlight: 'Specialist Workshop in Dubai',
     description:
-      'Advanced diagnostics, expert servicing and genuine parts for luxury and performance vehicles in Al Quoz, Dubai.',
+      'Advanced diagnostics, expert servicing and genuine parts for Mercedes-Benz vehicles at our Al Quoz workshop in Dubai.',
   },
   {
     image: '/images/home-page-pic2.avif',
-    badge: 'ADVANCED WORKSHOP SOLUTIONS',
-    titleMain: 'Complete Auto',
+    badge: 'CERTIFIED MERCEDES SPECIALISTS',
+    titleMain: 'Complete Mercedes',
     titleHighlight: 'Repair Solutions',
     description:
-      'Professional engine diagnostics, brake servicing and maintenance for luxury vehicles with reliable workmanship.',
+      'Professional engine diagnostics, brake servicing and maintenance for Mercedes-Benz vehicles with reliable workmanship in Al Quoz, Dubai.',
   },
 ];
 
@@ -35,9 +35,7 @@ export default function Hero() {
     let disposed = false;
 
     const initializeCarousel = async () => {
-      const { default: Carousel } = await import(
-        'bootstrap/js/dist/carousel'
-      );
+      const { default: Carousel } = await import('bootstrap/js/dist/carousel');
 
       if (disposed || !carouselRef.current) return;
 
@@ -78,15 +76,16 @@ export default function Hero() {
   }, []);
 
   const goToSlide = async (index) => {
-    const { default: Carousel } = await import(
-      'bootstrap/js/dist/carousel'
-    );
+    const { default: Carousel } = await import('bootstrap/js/dist/carousel');
     if (!carouselRef.current) return;
     Carousel.getOrCreateInstance(carouselRef.current).to(index);
   };
 
   return (
-    <section className="enterprise-hero" aria-label="Auto Service Centre">
+    <section
+      className="enterprise-hero"
+      aria-label="Mercedes-Benz Specialist Workshop in Dubai"
+    >
       <div className="hero-bg-wrapper" aria-hidden="true">
         {slides.map((slide, index) => (
           <Image
@@ -109,10 +108,6 @@ export default function Hero() {
       <div className="container enterprise-container">
         <div className="row align-items-center enterprise-hero-row">
           <div className="col-12 col-lg-7 hero-content-col">
-            <h1 className="visually-hidden">
-              Luxury Car Repair & Maintenance in Dubai - German Auto Expert
-            </h1>
-
             <div
               id="heroBootstrapCarousel"
               ref={carouselRef}
@@ -132,14 +127,26 @@ export default function Hero() {
                         <span>{slide.badge}</span>
                       </div>
 
-                      <h2 className="enterprise-heading">
-                        <span className="heading-main hero-heading-animate">
-                          {slide.titleMain}
-                        </span>
-                        <span className="heading-highlight hero-heading-animate">
-                          {slide.titleHighlight}
-                        </span>
-                      </h2>
+                      {/* ✅ Slide 1 = visible H1 (SEO), Slide 2 = H2 */}
+                      {index === 0 ? (
+                        <h1 className="enterprise-heading">
+                          <span className="heading-main hero-heading-animate">
+                            {slide.titleMain}
+                          </span>
+                          <span className="heading-highlight hero-heading-animate">
+                            {slide.titleHighlight}
+                          </span>
+                        </h1>
+                      ) : (
+                        <h2 className="enterprise-heading">
+                          <span className="heading-main hero-heading-animate">
+                            {slide.titleMain}
+                          </span>
+                          <span className="heading-highlight hero-heading-animate">
+                            {slide.titleHighlight}
+                          </span>
+                        </h2>
+                      )}
 
                       <p className="enterprise-desc hero-paragraph-animate">
                         {slide.description}
@@ -147,9 +154,9 @@ export default function Hero() {
 
                       <div className="enterprise-actions hero-paragraph-animate">
                         <Link
-                          href="/services"
+                          href="/contact-us"
                           className="btn-enterprise-primary"
-                          aria-label="Book a car service appointment online"
+                          aria-label="Book a Mercedes-Benz service appointment in Dubai"
                         >
                           Book Service
                           <svg
@@ -171,7 +178,7 @@ export default function Hero() {
                         <a
                           href="tel:+971567888808"
                           className="btn-enterprise-secondary"
-                          aria-label="Call German Auto Expert at plus 971 56 788 8808"
+                          aria-label="Call Mercedes Garage Dubai at plus 971 56 788 8808"
                         >
                           <span className="phone-icon-wrap">
                             <svg

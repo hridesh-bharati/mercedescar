@@ -94,3 +94,6 @@
 .tracking-wider {
   letter-spacing: 2px;
 }
+.glass-card .position-relative.w-100 {
+  min-height: 260px;
+}
