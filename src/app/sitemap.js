@@ -12,7 +12,7 @@ export default async function sitemap() {
     { route: '/about-us', priority: 0.7, changeFrequency: 'monthly' },
     { route: '/gallery', priority: 0.7, changeFrequency: 'monthly' },
     { route: '/blogs', priority: 0.8, changeFrequency: 'weekly' },
-    { route: '/contact', priority: 0.8, changeFrequency: 'monthly' },
+    { route: '/contact-us', priority: 0.8, changeFrequency: 'monthly' },
     { route: '/testimonials', priority: 0.7, changeFrequency: 'monthly' },
     { route: '/work-process', priority: 0.7, changeFrequency: 'monthly' },
     { route: '/faqs', priority: 0.7, changeFrequency: 'monthly' },
