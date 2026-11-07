@@ -174,7 +174,7 @@ export default function Header() {
     },
     { key: 'models', label: 'Car Models', href: '/models', icon: ICONS.Gallery },
     { key: 'blog', label: 'Blogs', href: '/blogs', icon: ICONS.Blog },
-    { key: 'contact-us', label: 'Contact Us', href: '/contact', icon: ICONS.Contact }, // ✅ Fixed
+    { key: 'contact-us', label: 'Contact Us', href: '/contact', icon: ICONS.Contact },
   ];
 
   const closeDrawer = () => { setDrawerOpen(false); setExpanded(null); };
