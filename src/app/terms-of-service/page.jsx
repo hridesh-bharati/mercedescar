@@ -5,7 +5,7 @@ import Footer from '@/components/layout/Footer';
 export const metadata = {
   title: 'Terms of Service | Mercedes Garage Dubai',
   description: 'Terms of service for Mercedes Garage Dubai — service terms, warranty and repair policies.',
-  alternates: { canonical: 'https://www.mercedesgaragedubai.com//terms-of-service' },
+  alternates: { canonical: 'https://www.mercedesgaragedubai.com/terms-of-service' },
 };
 
 export default function TermsOfService() {

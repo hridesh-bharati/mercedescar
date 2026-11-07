@@ -17,7 +17,7 @@ export const metadata = {
   description:
     'Looking for a Mercedes-Benz garage in Dubai? Specialist Mercedes repair, servicing, diagnostics and maintenance in Al Quoz. Contact our expert team today.',
   alternates: {
-    canonical: 'https://www.mercedesgaragedubai.com/',
+    canonical: 'https://mercedesgaragedubai.com',
   },
 };
 

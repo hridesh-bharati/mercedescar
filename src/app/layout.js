@@ -55,7 +55,7 @@ export const metadata = {
     siteName: 'Mercedes Garage Dubai',
     images: [
       {
-        url: 'https://www.mercedesgaragedubai.com//images/og-banner.png',
+        url: 'https://www.mercedesgaragedubai.com/images/og-banner.png',
         width: 1200,
         height: 630,
         alt: 'Mercedes Garage Dubai Workshop in Al Quoz',
@@ -69,7 +69,7 @@ export const metadata = {
     title: 'Mercedes Garage Dubai | Mercedes-Benz Specialist Workshop',
     description:
       'Specialist Mercedes repair, servicing and diagnostics in Al Quoz, Dubai.',
-    images: ['https://www.mercedesgaragedubai.com//images/og-banner.png'],
+    images: ['https://www.mercedesgaragedubai.com/images/og-banner.png'],
   },
   verification: {
     google: '81DlaGd_JjkgQ3rqAKKiqknev76jOg2BovWV-qkUObk',
@@ -80,10 +80,10 @@ export default function RootLayout({ children }) {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'AutoRepair',
-    '@id': 'https://www.mercedesgaragedubai.com//#business',
+    '@id': 'https://www.mercedesgaragedubai.com/#business',
     name: 'Mercedes Garage Dubai',
     alternateName: 'Mercedes Garage Dubai',
-    image: 'https://www.mercedesgaragedubai.com//images/logo.png',
+    image: 'https://www.mercedesgaragedubai.com/images/logo.png',
     url: 'https://www.mercedesgaragedubai.com/',
     telephone: '+971567888808',
     email: 'info@mercedesgaragedubai.com',
@@ -115,8 +115,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" data-scroll-behavior="smooth">
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

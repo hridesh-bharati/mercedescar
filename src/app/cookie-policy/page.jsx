@@ -5,7 +5,7 @@ import Footer from '@/components/layout/Footer';
 export const metadata = {
   title: 'Cookie Policy | Mercedes Garage Dubai',
   description: 'Cookie policy for Mercedes Garage Dubai — how we use cookies on our website.',
-  alternates: { canonical: 'https://www.mercedesgaragedubai.com//cookie-policy' },
+  alternates: { canonical: 'https://www.mercedesgaragedubai.com/cookie-policy' },
 };
 
 export default function CookiePolicy() {
