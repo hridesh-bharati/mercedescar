@@ -1,6 +1,6 @@
 import { dbService } from '@/services/dbService';
 
-const SITE_URL = 'https://www.mercedesgaragedubai.com';
+const SITE_URL = 'https://www.mercedesgaragedubai.com/';
 const DEFAULT_LAST_MODIFIED = new Date('2026-11-01T00:00:00.000Z');
 
 // ✅ Verified Static Routes (Crawl report ke according 200 OK)

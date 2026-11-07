@@ -1,4 +1,4 @@
-// src/app/car-class/[className]/CarClassClient.jsx
+﻿// src/app/car-class/[className]/CarClassClient.jsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -637,7 +637,7 @@ export default function CarClassClient({ initialData, initialList, slug }) {
                   <h3 className="fw-bold mb-1 fs-6">Need Help Choosing?</h3>
                   <p className="text-white-75 small mb-3">Our advisors are here to help.</p>
                   <Link
-                    href="/contact"
+                    href="/contact-us"
                     className="btn btn-light btn-sm rounded-pill px-4 fw-bold d-inline-flex align-items-center gap-1 text-danger"
                     style={{ width: 'fit-content' }}
                   >

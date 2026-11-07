@@ -31,7 +31,7 @@ const FALLBACK_POSTS = [
   {
     id: 'fallback-3',
     title: 'Mercedes AMG Body Kit Installation Dubai',
-    href: '/mercedes-body-kits-dubai',
+    href: '/body-kits/amg-body-kits',
     excerpt:
       'G63 wide-body kits, C-Class and E-Class AMG styling, and full Mercedes body kit conversion at our Al Quoz workshop.',
     tag: 'Body Kits',
@@ -286,3 +286,4 @@ export default function RecentPosts() {
     </section>
   );
 }
+

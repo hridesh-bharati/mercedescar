@@ -1,4 +1,4 @@
-// src/app/body-kits/[slug]/page.jsx
+﻿// src/app/body-kits/[slug]/page.jsx
 import { dbService } from '@/services/dbService';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
@@ -21,7 +21,7 @@ import {
 import styles from './page.module.css';
 
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://www.mercedesgaragedubai.com';
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://www.mercedesgaragedubai.com/';
 const SITE_NAME = 'Mercedes Garage Dubai';
 
 const slugify = (str = '') =>
@@ -767,7 +767,7 @@ export default async function BodyKitsDetailPage({ params }) {
 
                   <div className="d-flex flex-column gap-2">
                     <Link
-                      href="/mercedes-body-kits-dubai"
+                      href="/body-kits/amg-body-kits"
                       className="text-decoration-none text-secondary small d-flex align-items-center justify-content-between p-2 rounded-3 bg-white bg-opacity-75 border border-white"
                     >
                       <span>AMG Body Kits</span>
@@ -775,7 +775,7 @@ export default async function BodyKitsDetailPage({ params }) {
                     </Link>
 
                     <Link
-                      href="/mercedes-facelift-dubai"
+                      href="/body-kits/mercedes-facelift"
                       className="text-decoration-none text-secondary small d-flex align-items-center justify-content-between p-2 rounded-3 bg-white bg-opacity-75 border border-white"
                     >
                       <span>Mercedes Facelift</span>
@@ -783,7 +783,7 @@ export default async function BodyKitsDetailPage({ params }) {
                     </Link>
 
                     <Link
-                      href="/mercedes-vehicle-upgrades-dubai"
+                      href="/body-kits/custom-upgrades"
                       className="text-decoration-none text-secondary small d-flex align-items-center justify-content-between p-2 rounded-3 bg-white bg-opacity-75 border border-white"
                     >
                       <span>Custom Upgrades</span>

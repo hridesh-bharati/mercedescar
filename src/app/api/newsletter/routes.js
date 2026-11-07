@@ -22,3 +22,4 @@ export async function POST(request) {
     return NextResponse.json({ success: false, message: 'Something went wrong.' }, { status: 500 });
   }
 }
+

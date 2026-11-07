@@ -16,3 +16,4 @@ export default function AOSInitializer() {
 
   return null;
 }
+

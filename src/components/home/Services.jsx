@@ -47,7 +47,7 @@ export default function Services() {
       title: 'Engine Diagnostics',
       description:
         'Advanced Mercedes-Benz engine diagnostics, ECU fault code reading and precision repair by specialist technicians in Al Quoz, Dubai.',
-      href: '/mercedes-diagnostics-dubai',
+      href: '/services',
       ariaLabel: 'Mercedes engine diagnostics in Dubai',
       icon: (
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
@@ -62,7 +62,7 @@ export default function Services() {
       title: 'Brake Service',
       description:
         'Mercedes-Benz brake inspection, brake pad replacement, rotor servicing and brake fluid maintenance in Dubai.',
-      href: '/mercedes-repair-dubai#brake-repair',
+      href: '/services#brake-repair',
       ariaLabel: 'Mercedes brake service in Dubai',
       icon: (
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
@@ -77,7 +77,7 @@ export default function Services() {
       title: 'Transmission Service',
       description:
         'Mercedes gearbox repair, transmission inspection and fluid replacement for smooth performance by Mercedes specialists in Dubai.',
-      href: '/mercedes-repair-dubai#transmission-repair',
+      href: '/services#transmission-repair',
       ariaLabel: 'Mercedes transmission and gearbox repair in Dubai',
       icon: (
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
@@ -92,7 +92,7 @@ export default function Services() {
       title: 'Mercedes AMG Body Kits',
       description:
         'Mercedes AMG body kit installation in Dubai — G63 wide-body kits, C-Class and E-Class AMG styling, and Mercedes body kit conversion in Al Quoz.',
-      href: '/mercedes-body-kits-dubai',
+      href: '/body-kits/amg-body-kits',
       ariaLabel: 'Mercedes AMG body kit installation in Dubai',
       icon: <span className="fw-bold">AMG</span>,
     },
@@ -100,7 +100,7 @@ export default function Services() {
       title: 'Mercedes Facelift Conversion',
       description:
         'Mercedes facelift conversion in Dubai — W205 to W206 C-Class facelift, W213 E-Class facelift, GLC facelift and AMG styling upgrades.',
-      href: '/mercedes-facelift-dubai',
+      href: '/body-kits/mercedes-facelift',
       ariaLabel: 'Mercedes facelift conversion in Dubai',
       icon: <span className="fw-bold">FL</span>,
     },
@@ -108,7 +108,7 @@ export default function Services() {
       title: 'Mercedes Custom Upgrades',
       description:
         'Mercedes customization and performance upgrades in Dubai — AMG styling, exterior modifications and custom Mercedes workshop in Al Quoz.',
-      href: '/mercedes-vehicle-upgrades-dubai',
+      href: '/body-kits/custom-upgrades',
       ariaLabel: 'Mercedes custom upgrades and customization in Dubai',
       icon: <span className="fw-bold">UP</span>,
     },
@@ -206,3 +206,4 @@ export default function Services() {
     </section>
   );
 }
+

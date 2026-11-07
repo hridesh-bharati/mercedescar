@@ -59,3 +59,4 @@ export function extractPublicIdFromUrl(url) {
     return null;
   }
 }
+

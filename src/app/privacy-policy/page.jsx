@@ -5,7 +5,7 @@ import Footer from '@/components/layout/Footer';
 export const metadata = {
   title: 'Privacy Policy | Mercedes Garage Dubai',
   description: 'Privacy policy for Mercedes Garage Dubai — how we collect, use and protect your information.',
-  alternates: { canonical: 'https://www.mercedesgaragedubai.com/privacy-policy' },
+  alternates: { canonical: 'https://www.mercedesgaragedubai.com//privacy-policy' },
 };
 
 export default function PrivacyPolicy() {

@@ -10,7 +10,7 @@ import Footer from '@/components/layout/Footer';
 import { dbService } from '@/services/dbService';
 
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://www.mercedesgaragedubai.com';
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://www.mercedesgaragedubai.com/';
 
 // Skeleton Card
 const SkeletonCard = () => (
@@ -296,3 +296,4 @@ export default function CarModelsCatalog() {
     </>
   );
 }
+

@@ -1,6 +1,6 @@
 // src/app/work-process/layout.jsx
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://www.mercedesgaragedubai.com';
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://www.mercedesgaragedubai.com/';
 const SITE_NAME = 'Mercedes Garage Dubai';
 
 export const metadata = {
@@ -46,3 +46,4 @@ export const metadata = {
 export default function WorkProcessLayout({ children }) {
   return children;
 }
+

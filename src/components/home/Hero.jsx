@@ -104,7 +104,7 @@ export default function Hero() {
 
                     <div className="enterprise-actions hero-paragraph-animate">
                       <Link
-                        href="/contact"
+                        href="/contact-us"
                         className="btn-enterprise-primary"
                         aria-label="Book a Mercedes-Benz service appointment in Dubai"
                       >
@@ -177,3 +177,4 @@ export default function Hero() {
     </section>
   );
 }
+

@@ -8,7 +8,7 @@ export default function robots() {
         disallow: ['/api/', '/admin/'],
       },
     ],
-    sitemap: 'https://www.mercedesgaragedubai.com/sitemap.xml',
-    host: 'https://www.mercedesgaragedubai.com',
+    sitemap: 'https://www.mercedesgaragedubai.com//sitemap.xml',
+    host: 'https://www.mercedesgaragedubai.com/',
   };
 }

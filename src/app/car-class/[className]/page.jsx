@@ -6,7 +6,7 @@ import { unstable_cache } from 'next/cache';
 import { cache } from 'react';
 
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://www.mercedesgaragedubai.com';
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://www.mercedesgaragedubai.com/';
 const SITE_NAME = 'Mercedes Garage Dubai';
 
 const slugify = (str = '') =>

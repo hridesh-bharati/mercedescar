@@ -4,7 +4,7 @@ import Footer from '@/components/layout/Footer';
 import Gallery from '@/components/Gallery';
 
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://www.mercedesgaragedubai.com';
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://www.mercedesgaragedubai.com/';
 
 export const metadata = {
   title: 'Mercedes Workshop Gallery Dubai | Mercedes Garage',
@@ -85,3 +85,4 @@ export default function GalleryPage() {
     </>
   );
 }
+

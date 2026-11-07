@@ -19,3 +19,4 @@ export async function GET(request) {
     return NextResponse.json({ revalidated: false, error: err.message }, { status: 500 });
   }
 }
+

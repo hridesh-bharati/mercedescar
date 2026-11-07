@@ -7,7 +7,7 @@ import FaqAccordion from './FaqAccordion';
 import './Faqs.css';
 
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://www.mercedesgaragedubai.com';
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://www.mercedesgaragedubai.com/';
 const SITE_NAME = 'Mercedes Garage Dubai';
 
 // ✅ SEO Metadata
@@ -263,3 +263,4 @@ export default function Faqs() {
     </>
   );
 }
+

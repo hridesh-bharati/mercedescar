@@ -97,7 +97,7 @@ export default function RedCarBanner() {
               data-anim-delay="300"
             >
               <Link
-                href="/contact"
+                href="/contact-us"
                 className="btn btn-danger px-4 py-2 fw-bold text-uppercase small shadow"
                 style={{
                   background:
@@ -124,3 +124,4 @@ export default function RedCarBanner() {
     </section>
   );
 }
+

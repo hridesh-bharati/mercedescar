@@ -80,7 +80,7 @@ Real carbon fiber aerodynamic parts, mirror covers, custom spoiler fitment, inte
 - **Phone:** +971 56 788 8808
 - **WhatsApp:** +971 56 788 8808
 - **Email:** info@mercedesgaragedubai.com
-- **Website:** https://www.mercedesgaragedubai.com
+- **Website:** https://www.mercedesgaragedubai.com/
 - **Hours:** Monday–Saturday, 9:00 AM – 8:00 PM (Closed Sunday)
 - **Brands Served:** Mercedes-Benz, Mercedes-AMG (exclusively)
 - **Specialization:** Mercedes-Benz repair, diagnostics, AMG styling, facelift conversions, custom upgrades
@@ -89,22 +89,22 @@ Real carbon fiber aerodynamic parts, mirror covers, custom spoiler fitment, inte
 
 All pages listed below are live and return HTTP 200 OK:
 
-- Homepage: https://www.mercedesgaragedubai.com
-- Services: https://www.mercedesgaragedubai.comservices
-- About: https://www.mercedesgaragedubai.comabout-us
-- Gallery: https://www.mercedesgaragedubai.comgallery
-- Blogs: https://www.mercedesgaragedubai.comblogs
-- Contact: https://www.mercedesgaragedubai.comcontact-us
-- Testimonials: https://www.mercedesgaragedubai.comtestimonials
-- Work Process: https://www.mercedesgaragedubai.comwork-process
-- FAQs: https://www.mercedesgaragedubai.comfaqs
-- Case Studies: https://www.mercedesgaragedubai.comcase
-- Models: https://www.mercedesgaragedubai.commodels
-- G-Class: https://www.mercedesgaragedubai.comcar-class/g-class
-- AMG: https://www.mercedesgaragedubai.comcar-class/amg
-- AMG Body Kits: https://www.mercedesgaragedubai.combody-kits/amg-body-kits
-- Mercedes Facelift: https://www.mercedesgaragedubai.combody-kits/mercedes-facelift
-- Custom Upgrades: https://www.mercedesgaragedubai.combody-kits/custom-upgrades
+- Homepage: https://www.mercedesgaragedubai.com/
+- Services: https://www.mercedesgaragedubai.com/services
+- About: https://www.mercedesgaragedubai.com/about-us
+- Gallery: https://www.mercedesgaragedubai.com/gallery
+- Blogs: https://www.mercedesgaragedubai.com/blogs
+- Contact: https://www.mercedesgaragedubai.com/contact-us
+- Testimonials: https://www.mercedesgaragedubai.com/testimonials
+- Work Process: https://www.mercedesgaragedubai.com/work-process
+- FAQs: https://www.mercedesgaragedubai.com/faqs
+- Case Studies: https://www.mercedesgaragedubai.com/case
+- Models: https://www.mercedesgaragedubai.com/models
+- G-Class: https://www.mercedesgaragedubai.com/car-class/g-class
+- AMG: https://www.mercedesgaragedubai.com/car-class/amg
+- AMG Body Kits: https://www.mercedesgaragedubai.com/body-kits/amg-body-kits
+- Mercedes Facelift: https://www.mercedesgaragedubai.com/body-kits/mercedes-facelift
+- Custom Upgrades: https://www.mercedesgaragedubai.com/body-kits/custom-upgrades
 
 ---
 

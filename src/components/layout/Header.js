@@ -174,7 +174,7 @@ export default function Header() {
     },
     { key: 'models', label: 'Car Models', href: '/models', icon: ICONS.Gallery },
     { key: 'blog', label: 'Blogs', href: '/blogs', icon: ICONS.Blog },
-    { key: 'contact-us', label: 'Contact Us', href: '/contact', icon: ICONS.Contact },
+    { key: 'contact-us', label: 'Contact Us', href: '/contact-us', icon: ICONS.Contact },
   ];
 
   const closeDrawer = () => { setDrawerOpen(false); setExpanded(null); };
@@ -437,7 +437,7 @@ export default function Header() {
             <Icon path={ICONS.Gallery} size={24} />
           </Link>
         </div>
-        <Link href="/contact" className={`md-nav-dest md-ripple ${activeTab === 'contact' ? 'is-active' : ''}`} onMouseDown={addRipple} onClick={() => setActiveTab('contact')}>
+        <Link href="/contact-us" className={`md-nav-dest md-ripple ${activeTab === 'contact' ? 'is-active' : ''}`} onMouseDown={addRipple} onClick={() => setActiveTab('contact')}>
           <span className="md-nav-indicator"><Icon path={ICONS.Contact} size={20} /></span>
           <span className="md-nav-label">Contact</span>
         </Link>
