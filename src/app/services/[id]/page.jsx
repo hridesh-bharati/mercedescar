@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import ServiceDetailClient from './ServiceDetailClient';
 
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://mercedesgaragedubai.com';
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://www.mercedesgaragedubai.com';
 const SITE_NAME = 'Mercedes Garage Dubai';
 
 async function getService(id) {

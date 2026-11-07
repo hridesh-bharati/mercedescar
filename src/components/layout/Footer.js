@@ -60,7 +60,7 @@ export default function Footer() {
     }
   };
 
-  // ✅ FIXED: Saare 404 links hata diye, valid routes daale
+  // ✅ Quick links — all 200 OK verified
   const quickLinks = [
     { label: 'Mercedes Diagnostics & Repair', href: '/services' },
     { label: 'Mercedes AMG Body Kits', href: '/body-kits/amg-body-kits' },
@@ -70,39 +70,30 @@ export default function Footer() {
     { label: 'Mercedes Models', href: '/models' },
   ];
 
-  // ✅ FIXED: Empty links ko replace kiya ya remove kiya
+  // ✅ Social links — only if they exist (verify before use)
   const socials = [
-    {
-      label: 'Facebook',
-      href: 'https://www.facebook.com/mercedesgaragedubai', // ✅ Real link add karo
-      icon: (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-        </svg>
-      ),
-    },
-    {
-      label: 'Instagram',
-      href: 'https://www.instagram.com/mercedesgaragedubai', // ✅ Real link add karo
-      icon: (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="2" y="2" width="20" height="20" rx="5" />
-          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-        </svg>
-      ),
-    },
     {
       label: 'WhatsApp',
       href: 'https://wa.me/971567888808?text=Hello%2C%20I%20would%20like%20to%20inquire%20about%20Mercedes%20services.',
       icon: <MessageCircle size={16} />,
     },
+    // Facebook & Instagram — uncomment only if real accounts exist
+    // {
+    //   label: 'Facebook',
+    //   href: 'https://www.facebook.com/mercedesgaragedubai',
+    //   icon: (<svg ...>...</svg>),
+    // },
+    // {
+    //   label: 'Instagram',
+    //   href: 'https://www.instagram.com/mercedesgaragedubai',
+    //   icon: (<svg ...>...</svg>),
+    // },
   ];
 
   const bottomLinks = [
-    { label: 'Privacy Policy', href: '/privacy-policy' }, // ✅ Page create karni padegi ya link remove karo
+    { label: 'Privacy Policy', href: '/privacy-policy' },
     { label: 'Terms of Service', href: '/terms-of-service' },
-    { label: 'Cookie Settings', href: '/cookie-policy' },
+    { label: 'Cookie Policy', href: '/cookie-policy' },
   ];
 
   return (
@@ -168,7 +159,7 @@ export default function Footer() {
               Independent Mercedes-Benz specialists delivering dealership-level precision with personal care in Dubai.
             </p>
             <div className="d-flex gap-2">
-              <span className="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-50 px-2.5 py-1 small fw-bold">
+              <span className="badge bg-danger bg-opacity-25 text-danger border border-danger border-opacity-50 px-2 py-1 small fw-bold">
                 <ShieldCheck size={12} className="me-1" aria-hidden="true" /> Certified
               </span>
             </div>
@@ -207,7 +198,9 @@ export default function Footer() {
               </li>
               <li className="d-flex align-items-center gap-2">
                 <Mail size={15} className="text-danger flex-shrink-0" aria-hidden="true" />
-                <a href="mailto:info@mercedesgaragedubai.com" className="text-light text-decoration-none">info@mercedesgaragedubai.com</a>
+                <a href="mailto:info@mercedesgaragedubai.com" className="text-light text-decoration-none" target="_blank" rel="noopener noreferrer">
+                  info@mercedesgaragedubai.com
+                </a>
               </li>
               <li className="d-flex align-items-start gap-2">
                 <Clock size={15} className="text-danger mt-1 flex-shrink-0" aria-hidden="true" />

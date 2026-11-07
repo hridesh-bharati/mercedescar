@@ -6,7 +6,7 @@ import Footer from '@/components/layout/Footer';
 import './WorkProcess.css';
 
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://mercedesgaragedubai.com';
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://www.mercedesgaragedubai.com';
 const SITE_NAME = 'Mercedes Garage Dubai';
 
 const steps = [

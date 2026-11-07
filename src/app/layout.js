@@ -5,7 +5,7 @@ import ScrollToTop from '@/components/layout/ScrollToTop';
 import ScrollAnimProvider from '@/components/providers/ScrollAnimProvider';
 
 export const metadata = {
-  metadataBase: new URL('https://mercedesgaragedubai.com'),
+  metadataBase: new URL('https://www.mercedesgaragedubai.com'),
   title: {
     template: '%s | Mercedes Garage Dubai',
     default: 'Mercedes Garage Dubai | Mercedes-Benz Specialist Workshop',
@@ -51,11 +51,11 @@ export const metadata = {
     title: 'Mercedes Garage Dubai | Mercedes-Benz Specialist Workshop',
     description:
       'Specialist Mercedes repair, servicing, diagnostics and maintenance in Al Quoz, Dubai.',
-    url: 'https://mercedesgaragedubai.com',
+    url: 'https://www.mercedesgaragedubai.com',
     siteName: 'Mercedes Garage Dubai',
     images: [
       {
-        url: 'https://mercedesgaragedubai.com/images/og-banner.png',
+        url: 'https://www.mercedesgaragedubai.com/images/og-banner.png',
         width: 1200,
         height: 630,
         alt: 'Mercedes Garage Dubai Workshop in Al Quoz',
@@ -69,7 +69,7 @@ export const metadata = {
     title: 'Mercedes Garage Dubai | Mercedes-Benz Specialist Workshop',
     description:
       'Specialist Mercedes repair, servicing and diagnostics in Al Quoz, Dubai.',
-    images: ['https://mercedesgaragedubai.com/images/og-banner.png'],
+    images: ['https://www.mercedesgaragedubai.com/images/og-banner.png'],
   },
   verification: {
     google: '81DlaGd_JjkgQ3rqAKKiqknev76jOg2BovWV-qkUObk',
@@ -80,11 +80,11 @@ export default function RootLayout({ children }) {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'AutoRepair',
-    '@id': 'https://mercedesgaragedubai.com/#business',
+    '@id': 'https://www.mercedesgaragedubai.com/#business',
     name: 'Mercedes Garage Dubai',
     alternateName: 'Mercedes Garage Dubai',
-    image: 'https://mercedesgaragedubai.com/images/logo.png',
-    url: 'https://mercedesgaragedubai.com',
+    image: 'https://www.mercedesgaragedubai.com/images/logo.png',
+    url: 'https://www.mercedesgaragedubai.com',
     telephone: '+971567888808',
     email: 'info@mercedesgaragedubai.com',
     address: {

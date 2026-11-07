@@ -4,17 +4,17 @@ export const metadata = {
   description:
     'Read expert Mercedes-Benz repair, maintenance and modification guides from our Al Quoz, Dubai workshop. Tips, diagnostics and AMG upgrades explained.',
   alternates: {
-    canonical: 'https://mercedesgaragedubai.com/blogs',
+    canonical: 'https://www.mercedesgaragedubai.com/blogs',
   },
   openGraph: {
     title: 'Mercedes-Benz Blogs & Guides in Dubai',
     description:
       'Expert Mercedes-Benz repair, maintenance and modification guides from our Al Quoz, Dubai workshop.',
-    url: 'https://mercedesgaragedubai.com/blogs',
+    url: 'https://www.mercedesgaragedubai.com/blogs',
     siteName: 'Mercedes Garage Dubai',
     images: [
       {
-        url: 'https://mercedesgaragedubai.com/images/og-blogs.png',
+        url: 'https://www.mercedesgaragedubai.com/images/og-blogs.png',
         width: 1200,
         height: 630,
         alt: 'Mercedes Garage Dubai Blog',
@@ -35,13 +35,13 @@ export default function BlogsLayout({ children }) {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://mercedesgaragedubai.com',
+        item: 'https://www.mercedesgaragedubai.com',
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Blogs',
-        item: 'https://mercedesgaragedubai.com/blogs',
+        item: 'https://www.mercedesgaragedubai.com/blogs',
       },
     ],
   };
