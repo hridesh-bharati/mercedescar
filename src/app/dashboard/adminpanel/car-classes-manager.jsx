@@ -262,7 +262,7 @@ export default function CarClassesManager() {
             <>
               <div className="col-12">
                 <label className="form-label small fw-bold">SEO Title (50-60 chars)</label>
-                <input type="text" className="form-control rounded-pill px-3 small bg-white" placeholder="Mercedes G-Class Service & Repair Dubai | German Auto Expert" value={form.seoTitle} onChange={(e) => setForm({ ...form, seoTitle: e.target.value })} />
+                <input type="text" className="form-control rounded-pill px-3 small bg-white" placeholder="Mercedes G-Class Service & Repair Dubai | Mercedes Garage Dubai" value={form.seoTitle} onChange={(e) => setForm({ ...form, seoTitle: e.target.value })} />
                 <div className="form-text small">{form.seoTitle.length}/60</div>
               </div>
               <div className="col-12">
@@ -276,7 +276,7 @@ export default function CarClassesManager() {
               </div>
               <div className="col-12">
                 <label className="form-label small fw-bold">Hero Intro Paragraph</label>
-                <textarea className="form-control rounded-3 p-3 small bg-white" rows="3" placeholder="Looking for professional Mercedes G-Class service in Dubai? German Auto Expert provides..." value={form.heroIntro} onChange={(e) => setForm({ ...form, heroIntro: e.target.value })} />
+                <textarea className="form-control rounded-3 p-3 small bg-white" rows="3" placeholder="Looking for professional Mercedes G-Class service in Dubai? Mercedes Garage Dubai provides..." value={form.heroIntro} onChange={(e) => setForm({ ...form, heroIntro: e.target.value })} />
               </div>
 
               <div className="col-12">
@@ -388,5 +388,6 @@ export default function CarClassesManager() {
     </div>
   );
 }
+
 
 

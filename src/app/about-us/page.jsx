@@ -65,7 +65,7 @@ export default function AboutPage() {
     '@type': 'Organization',
     '@id': `${SITE_URL}/#organization`,
     name: SITE_NAME,
-    alternateName: 'German Auto Expert',
+    alternateName: 'Mercedes Garage Dubai',
     url: SITE_URL,
     logo: `${SITE_URL}/images/logo.png`,
     telephone: '+971567888808',

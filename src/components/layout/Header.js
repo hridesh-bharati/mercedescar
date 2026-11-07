@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { auth, database } from '@/lib/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { ref, get } from 'firebase/database';
@@ -145,6 +146,7 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // ✅ FIXED ROUTES: /contact, /car-class/amg, /car-class/g-class, /car-class/c-class, /car-class/s-class, /car-class/e-class
   const navItems = [
     { key: 'home', label: 'Home', href: '/', icon: ICONS.Home },
     { key: 'about', label: 'About Us', href: '/about-us', icon: ICONS.User },
@@ -159,7 +161,7 @@ export default function Header() {
     {
       key: 'car-classes',
       label: 'Car Classes',
-      href: '/car-class/g-class',
+      href: '/car-class/all',
       icon: ICONS.Gallery,
       subItems: [
         { label: 'All Classes', href: '/car-class/all' },
@@ -167,12 +169,12 @@ export default function Header() {
         { label: 'C-Class', href: '/car-class/c-class' },
         { label: 'S-Class', href: '/car-class/s-class' },
         { label: 'E-Class', href: '/car-class/e-class' },
-        { label: 'AMG Series', href: '/car-class/amg-series' },
+        { label: 'AMG Series', href: '/car-class/amg' }, 
       ]
     },
     { key: 'models', label: 'Car Models', href: '/models', icon: ICONS.Gallery },
     { key: 'blog', label: 'Blogs', href: '/blogs', icon: ICONS.Blog },
-    { key: 'contact', label: 'Contact Us', href: '/contact-us', icon: ICONS.Contact },
+    { key: 'contact', label: 'Contact Us', href: '/contact', icon: ICONS.Contact }, // ✅ Fixed
   ];
 
   const closeDrawer = () => { setDrawerOpen(false); setExpanded(null); };
@@ -435,7 +437,7 @@ export default function Header() {
             <Icon path={ICONS.Gallery} size={24} />
           </Link>
         </div>
-        <Link href="/contact-us" className={`md-nav-dest md-ripple ${activeTab === 'contact' ? 'is-active' : ''}`} onMouseDown={addRipple} onClick={() => setActiveTab('contact')}>
+        <Link href="/contact" className={`md-nav-dest md-ripple ${activeTab === 'contact' ? 'is-active' : ''}`} onMouseDown={addRipple} onClick={() => setActiveTab('contact')}>
           <span className="md-nav-indicator"><Icon path={ICONS.Contact} size={20} /></span>
           <span className="md-nav-label">Contact</span>
         </Link>

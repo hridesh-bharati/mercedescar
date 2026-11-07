@@ -82,7 +82,7 @@ export default function RootLayout({ children }) {
     '@type': 'AutoRepair',
     '@id': 'https://mercedesgaragedubai.com/#business',
     name: 'Mercedes Garage Dubai',
-    alternateName: 'German Auto Expert',
+    alternateName: 'Mercedes Garage Dubai',
     image: 'https://mercedesgaragedubai.com/images/logo.png',
     url: 'https://mercedesgaragedubai.com',
     telephone: '+971567888808',
