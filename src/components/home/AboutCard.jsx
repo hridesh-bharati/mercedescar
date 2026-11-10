@@ -33,7 +33,9 @@ function addRipple(e) {
 export default function AboutCard() {
   const sectionRef = useRef(null);
   const [activeSlide, setActiveSlide] = useState(0);
-  const [counts, setCounts] = useState({ years: 0, customers: 0, parts: 0 });
+  
+  // Initial state mein real numbers (Googlebot SEO ke liye)
+  const [counts, setCounts] = useState({ years: 15, customers: 5, parts: 100 });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const countersStarted = useRef(false);
 
@@ -50,6 +52,7 @@ export default function AboutCard() {
     },
   ];
 
+  // Auto Slider Timer
   useEffect(() => {
     if (slides.length <= 1) return;
     if (
@@ -65,8 +68,10 @@ export default function AboutCard() {
     return () => clearInterval(timer);
   }, [slides.length]);
 
-  // ----- Counter Animation -----
+  // ----- Counter Animation on Scroll -----
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     const section = sectionRef.current;
     if (!section) return;
 
@@ -87,6 +92,7 @@ export default function AboutCard() {
         entries.forEach((entry) => {
           if (entry.isIntersecting && !countersStarted.current) {
             countersStarted.current = true;
+            setCounts({ years: 0, customers: 0, parts: 0 }); 
             animateCount(15, 'years', 1400);
             animateCount(5, 'customers', 1600);
             animateCount(100, 'parts', 1800);
@@ -122,17 +128,7 @@ export default function AboutCard() {
       display: `${counts.years}+`,
       label: 'Years Experience',
       icon: (
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-        >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
           <circle cx="9" cy="7" r="4" />
           <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
@@ -144,17 +140,7 @@ export default function AboutCard() {
       display: `${counts.customers}K+`,
       label: 'Happy Customers',
       icon: (
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-        >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
           <circle cx="9" cy="7" r="4" />
           <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
@@ -166,17 +152,7 @@ export default function AboutCard() {
       display: `${counts.parts}%`,
       label: 'Genuine Parts',
       icon: (
-        <svg
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          aria-hidden="true"
-        >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
           <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
           <polyline points="22 4 12 14.01 9 11.01" />
         </svg>
@@ -505,4 +481,3 @@ export default function AboutCard() {
     </>
   );
 }
-

@@ -13,7 +13,7 @@ import Welcome from '@/components/home/Welcome';
 import Preloader from '@/components/layout/PreLoader';
 
 export const metadata = {
-  title: 'Mercedes Garage Dubai | Mercedes-Benz Specialist Workshop',
+  title: 'Mercedes-Benz Specialist Workshop in Al Quoz',
   description:
     'Looking for a Mercedes-Benz garage in Dubai? Specialist Mercedes repair, servicing, diagnostics and maintenance in Al Quoz. Contact our expert team today.',
   alternates: {

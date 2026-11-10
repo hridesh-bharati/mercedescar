@@ -48,7 +48,7 @@ export const metadata = {
     },
   },
   openGraph: {
-    title: 'Mercedes Garage Dubai | Mercedes-Benz Specialist Workshop',
+    title: 'Mercedes-Benz Specialist Workshop in Al Quoz',
     description:
       'Specialist Mercedes repair, servicing, diagnostics and maintenance in Al Quoz, Dubai.',
     url: 'https://www.mercedesgaragedubai.com/',
@@ -66,7 +66,7 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Mercedes Garage Dubai | Mercedes-Benz Specialist Workshop',
+    title: 'Mercedes-Benz Specialist Workshop in Al Quoz',
     description:
       'Specialist Mercedes repair, servicing and diagnostics in Al Quoz, Dubai.',
     images: ['https://www.mercedesgaragedubai.com/images/og-banner.png'],
