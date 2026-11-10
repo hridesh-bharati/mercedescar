@@ -82,7 +82,7 @@ export default function RootLayout({ children }) {
     '@type': 'AutoRepair',
     '@id': 'https://www.mercedesgaragedubai.com/#business',
     name: 'Mercedes Garage Dubai',
-    alternateName: 'Mercedes Garage Dubai',
+    alternateName: 'German Auto Expert', // ✅ FIXED: Purana naam yahan aayega
     image: 'https://www.mercedesgaragedubai.com/images/logo.png',
     url: 'https://www.mercedesgaragedubai.com/',
     telephone: '+971567888808',
@@ -110,6 +110,12 @@ export default function RootLayout({ children }) {
       { '@type': 'City', name: 'Dubai' },
       { '@type': 'Place', name: 'Al Quoz' },
     ],
+    // ✅ FIXED: Social links aur Google Maps add kiye
+    sameAs: [
+      'https://www.facebook.com/mercedesgaragedubai',
+      'https://www.instagram.com/mercedesgaragedubai',
+      // 'https://maps.google.com/?cid=YOUR_GOOGLE_MAPS_CID',
+    ],
   };
 
   return (
@@ -127,4 +133,3 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
-

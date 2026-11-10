@@ -13,11 +13,13 @@ import Welcome from '@/components/home/Welcome';
 import Preloader from '@/components/layout/PreLoader';
 
 export const metadata = {
+  // ✅ FIXED: Title mein brand ka naam nahi likha, kyunki template khud add karega
   title: 'Mercedes-Benz Specialist Workshop in Al Quoz',
   description:
     'Looking for a Mercedes-Benz garage in Dubai? Specialist Mercedes repair, servicing, diagnostics and maintenance in Al Quoz. Contact our expert team today.',
   alternates: {
-    canonical: 'https://mercedesgaragedubai.com',
+    // ✅ FIXED: Canonical mein aakhir mein slash (/) add kiya
+    canonical: 'https://www.mercedesgaragedubai.com/',
   },
 };
 
@@ -89,4 +91,3 @@ export default function Home() {
     </main>
   );
 }
-
