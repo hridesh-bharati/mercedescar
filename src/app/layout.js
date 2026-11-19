@@ -82,7 +82,7 @@ export default function RootLayout({ children }) {
     '@type': 'AutoRepair',
     '@id': 'https://www.mercedesgaragedubai.com/#business',
     name: 'Mercedes Garage Dubai',
-    alternateName: 'German Auto Expert', // ✅ FIXED: Purana naam yahan aayega
+    alternateName: 'German Auto Expert',           
     image: 'https://www.mercedesgaragedubai.com/images/logo.png',
     url: 'https://www.mercedesgaragedubai.com/',
     telephone: '+971567888808',
