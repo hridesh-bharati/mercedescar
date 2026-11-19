@@ -51,7 +51,7 @@ export default function Footer() {
           error: data.message || 'Failed to subscribe.',
         });
       }
-    } catch (err) {
+    } catch {
       setStatus({
         loading: false,
         success: false,
@@ -60,7 +60,7 @@ export default function Footer() {
     }
   };
 
-  // ✅ Quick links — all 200 OK verified
+  // Quick links — all 200 OK verified
   const quickLinks = [
     { label: 'Mercedes Diagnostics & Repair', href: '/services' },
     { label: 'Mercedes AMG Body Kits', href: '/body-kits/amg-body-kits' },
@@ -70,24 +70,13 @@ export default function Footer() {
     { label: 'Mercedes Models', href: '/models' },
   ];
 
-  // ✅ Social links — only if they exist (verify before use)
+  // Social links — only if they exist (verify before use)
   const socials = [
     {
       label: 'WhatsApp',
       href: 'https://wa.me/971567888808?text=Hello%2C%20I%20would%20like%20to%20inquire%20about%20Mercedes%20services.',
       icon: <MessageCircle size={16} />,
     },
-    // Facebook & Instagram — uncomment only if real accounts exist
-    // {
-    //   label: 'Facebook',
-    //   href: 'https://www.facebook.com/mercedesgaragedubai',
-    //   icon: (<svg ...>...</svg>),
-    // },
-    // {
-    //   label: 'Instagram',
-    //   href: 'https://www.instagram.com/mercedesgaragedubai',
-    //   icon: (<svg ...>...</svg>),
-    // },
   ];
 
   const bottomLinks = [
@@ -254,8 +243,16 @@ export default function Footer() {
             ))}
           </ul>
 
-          <p className="text-light opacity-50 small mb-0">
-            Developed by <a href="https://www.pixsymedia.com/" target="_blank" rel="noopener noreferrer" className="text-warning text-decoration-none fw-semibold">Pixsy Media</a>
+          <p className="text-light opacity-75 small mb-0">
+            Developed by{' '}
+            <a
+              href="https://www.pixsymedia.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="footer-credit-link text-decoration-none fw-semibold"
+            >
+              Pixsy Media
+            </a>
           </p>
         </div>
       </div>
