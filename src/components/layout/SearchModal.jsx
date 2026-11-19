@@ -70,30 +70,44 @@ export default function SearchModal({ isOpen, onClose }) {
   const totalResults = results.services.length + results.models.length + results.blogs.length;
 
   return (
-    <div 
-      className="search-overlay-modal fixed-top w-100 h-100 d-flex flex-column bg-white" 
+    <div
+      className="search-overlay-modal fixed-top w-100 h-100 d-flex flex-column bg-white"
       style={{ zIndex: 99999, position: 'fixed', top: 0, left: 0 }}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Search Mercedes services, models, and blogs"
     >
       {/* Top Bar with Input & Close */}
       <div className="bg-white shadow-sm py-3 px-3 px-md-4 border-bottom">
         <div className="container d-flex align-items-center gap-2 gap-md-3">
-          <Search size={20} className="text-danger flex-shrink-0" />
+          <Search size={20} className="text-danger flex-shrink-0" aria-hidden="true" />
           <div className="flex-grow-1 min-width-0">
             <input
               ref={inputRef}
               type="text"
               className="form-control border-0 shadow-none fs-6 fs-md-5 bg-transparent text-dark w-100"
               placeholder="Search Mercedes services, models..."
+              aria-label="Search Mercedes services, models"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
           </div>
           {query && (
-            <button className="btn btn-light rounded-pill px-2 px-md-3 py-1 small text-muted flex-shrink-0" onClick={() => setQuery('')}>
+            <button
+              type="button"
+              className="btn btn-light rounded-pill px-2 px-md-3 py-1 small text-muted flex-shrink-0"
+              onClick={() => setQuery('')}
+            >
               Clear
             </button>
           )}
-          <button className="btn btn-dark rounded-circle p-2 d-flex align-items-center justify-content-center flex-shrink-0" onClick={onClose} style={{ width: '38px', height: '38px' }}>
+          <button
+            type="button"
+            className="btn btn-dark rounded-circle p-2 d-flex align-items-center justify-content-center flex-shrink-0"
+            onClick={onClose}
+            aria-label="Close search"
+            style={{ width: '38px', height: '38px' }}
+          >
             <X size={18} />
           </button>
         </div>
@@ -112,16 +126,18 @@ export default function SearchModal({ isOpen, onClose }) {
           </div>
         ) : totalResults === 0 ? (
           <div className="text-center py-5 text-dark card bg-light border-0 rounded-4 p-4 p-md-5">
-            <h5 className="fw-bold mb-1">No results found for "{query}"</h5>
+            <p className="fw-bold fs-5 mb-1">No results found for "{query}"</p>
             <p className="small text-muted mb-0">Try searching for keywords like "Engine", "G63", "Brakes", or "Airmatic".</p>
           </div>
         ) : (
           <div className="d-flex flex-column gap-4 pb-5">
-            
+
             {/* Services Results */}
             {results.services.length > 0 && (
               <div>
-                <h6 className="text-secondary small fw-bold text-uppercase tracking-wider mb-2">Services ({results.services.length})</h6>
+                <p className="text-secondary small fw-bold text-uppercase tracking-wider mb-2">
+                  Services ({results.services.length})
+                </p>
                 <div className="list-group rounded-4 overflow-hidden shadow-sm border">
                   {results.services.map((item) => (
                     <Link
@@ -135,7 +151,7 @@ export default function SearchModal({ isOpen, onClose }) {
                           <Wrench size={18} />
                         </div>
                         <div className="min-width-0">
-                          <h6 className="fw-bold text-dark mb-0 small text-truncate">{item.title}</h6>
+                          <p className="fw-bold text-dark mb-0 small text-truncate">{item.title}</p>
                           <p className="text-muted mb-0 small text-truncate" style={{ fontSize: '0.75rem' }}>{item.desc}</p>
                         </div>
                       </div>
@@ -149,7 +165,9 @@ export default function SearchModal({ isOpen, onClose }) {
             {/* Car Models Results */}
             {results.models.length > 0 && (
               <div>
-                <h6 className="text-secondary small fw-bold text-uppercase tracking-wider mb-2">Car Models ({results.models.length})</h6>
+                <p className="text-secondary small fw-bold text-uppercase tracking-wider mb-2">
+                  Car Models ({results.models.length})
+                </p>
                 <div className="list-group rounded-4 overflow-hidden shadow-sm border">
                   {results.models.map((item) => (
                     <Link
@@ -163,7 +181,7 @@ export default function SearchModal({ isOpen, onClose }) {
                           <Car size={18} />
                         </div>
                         <div className="min-width-0">
-                          <h6 className="fw-bold text-dark mb-0 small text-truncate">{item.modelName}</h6>
+                          <p className="fw-bold text-dark mb-0 small text-truncate">{item.modelName}</p>
                           <p className="text-muted mb-0 small text-truncate" style={{ fontSize: '0.75rem' }}>{item.desc}</p>
                         </div>
                       </div>
@@ -177,7 +195,9 @@ export default function SearchModal({ isOpen, onClose }) {
             {/* Blogs Results */}
             {results.blogs.length > 0 && (
               <div>
-                <h6 className="text-secondary small fw-bold text-uppercase tracking-wider mb-2">Blog Posts ({results.blogs.length})</h6>
+                <p className="text-secondary small fw-bold text-uppercase tracking-wider mb-2">
+                  Blog Posts ({results.blogs.length})
+                </p>
                 <div className="list-group rounded-4 overflow-hidden shadow-sm border">
                   {results.blogs.map((item) => (
                     <Link
@@ -192,7 +212,7 @@ export default function SearchModal({ isOpen, onClose }) {
                         </div>
                         <div className="min-width-0">
                           <span className="badge bg-danger bg-opacity-10 text-danger mb-1" style={{ fontSize: '0.65rem' }}>{item.category}</span>
-                          <h6 className="fw-bold text-dark mb-0 small text-truncate">{item.title}</h6>
+                          <p className="fw-bold text-dark mb-0 small text-truncate">{item.title}</p>
                         </div>
                       </div>
                       <ArrowRight size={16} className="text-muted flex-shrink-0 ms-2" />
@@ -208,4 +228,3 @@ export default function SearchModal({ isOpen, onClose }) {
     </div>
   );
 }
-

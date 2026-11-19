@@ -30,10 +30,12 @@ function addRipple(e) {
   ripple.addEventListener('animationend', () => ripple.remove());
 }
 
+const IMAGE_SIZES = '(max-width: 768px) 100vw, 460px';
+
 export default function AboutCard() {
   const sectionRef = useRef(null);
   const [activeSlide, setActiveSlide] = useState(0);
-  
+
   // Initial state mein real numbers (Googlebot SEO ke liye)
   const [counts, setCounts] = useState({ years: 15, customers: 5, parts: 100 });
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -92,7 +94,7 @@ export default function AboutCard() {
         entries.forEach((entry) => {
           if (entry.isIntersecting && !countersStarted.current) {
             countersStarted.current = true;
-            setCounts({ years: 0, customers: 0, parts: 0 }); 
+            setCounts({ years: 0, customers: 0, parts: 0 });
             animateCount(15, 'years', 1400);
             animateCount(5, 'customers', 1600);
             animateCount(100, 'parts', 1800);
@@ -295,10 +297,9 @@ export default function AboutCard() {
                         src={darkCardImage.image}
                         alt={`${darkCardImage.badge} — Mercedes-Benz service at our Al Quoz Dubai workshop`}
                         fill
-                        sizes="(max-width: 991px) 100vw, 50vw"
+                        sizes={IMAGE_SIZES}
                         className="about-img"
                         style={{ objectFit: 'cover' }}
-                        loading="lazy"
                       />
                     </div>
                     <div className="about-back-dim" aria-hidden="true"></div>
@@ -314,10 +315,10 @@ export default function AboutCard() {
                       src={mainCardImage.image}
                       alt={`${mainCardImage.badge} — ${mainCardImage.caption}`}
                       fill
-                      sizes="(max-width: 991px) 100vw, 50vw"
+                      sizes={IMAGE_SIZES}
                       className="about-img"
                       style={{ objectFit: 'cover' }}
-                      priority
+                      priority={activeSlide === 0}
                     />
                     <div className="about-img-overlay-text">
                       <span>{mainCardImage.badge}</span>

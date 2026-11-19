@@ -146,7 +146,6 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // ✅ FIXED ROUTES: /contact, /car-class/amg, /car-class/g-class, /car-class/c-class, /car-class/s-class, /car-class/e-class
   const navItems = [
     { key: 'home', label: 'Home', href: '/', icon: ICONS.Home },
     { key: 'about', label: 'About Us', href: '/about-us', icon: ICONS.User },
@@ -169,7 +168,7 @@ export default function Header() {
         { label: 'C-Class', href: '/car-class/c-class' },
         { label: 'S-Class', href: '/car-class/s-class' },
         { label: 'E-Class', href: '/car-class/e-class' },
-        { label: 'AMG Series', href: '/car-class/amg' }, 
+        { label: 'AMG Series', href: '/car-class/amg' },
       ]
     },
     { key: 'models', label: 'Car Models', href: '/models', icon: ICONS.Gallery },
@@ -206,7 +205,14 @@ export default function Header() {
       <header className={`md-appbar ${elevated ? 'md-appbar--elevated' : ''}`}>
         <div className="container-fluid d-flex align-items-center justify-content-between md-appbar-row">
           <Link href="/" className="md-appbar-brand" onClick={closeDrawer}>
-            <img src="/images/logo.avif" alt="Mercedes Garage Dubai" className="md-logo-img rounded-3" />
+            <Image
+              src="/images/logo.avif"
+              alt="Mercedes Garage Dubai"
+              width={156}
+              height={64}
+              priority
+              className="md-logo-img rounded-3"
+            />
           </Link>
 
           <nav className="md-desktop-nav d-none d-lg-flex align-items-center gap-1 m-0">
@@ -298,7 +304,11 @@ export default function Header() {
       <div className={`md-scrim ${drawerOpen ? 'show' : ''}`} onClick={closeDrawer} aria-hidden="true" />
 
       {/* ============ MOBILE DRAWER ============ */}
-      <aside className={`md-drawer ${drawerOpen ? 'open' : ''}`} aria-hidden={!drawerOpen}>
+      <aside
+        className={`md-drawer ${drawerOpen ? 'open' : ''}`}
+        aria-hidden={!drawerOpen}
+        inert={!drawerOpen ? true : undefined}
+      >
         <div className="md-drawer-header d-flex align-items-center justify-content-between px-4 py-3 border-bottom">
           <div className="d-flex align-items-center gap-3">
             <div className="bg-danger text-white rounded-3 p-2 d-flex align-items-center justify-content-center" style={{ width: '38px', height: '38px' }}>
