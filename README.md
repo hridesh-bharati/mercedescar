@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mercedes Garage Dubai — Specialist Mercedes-Benz Service & Upgrade Platform
 
-## Getting Started
+A full-stack Next.js web application built for **Mercedes Garage Dubai (German Auto Expert)**, an independent luxury automotive workshop in Al Quoz, Dubai specializing in Mercedes-Benz diagnostics, maintenance, body kits, facelifts, and custom upgrades.
 
-First, run the development server:
+**Live Website:** [https://www.mercedesgaragedubai.com](https://www.mercedesgaragedubai.com)  
+**Repository:** [https://github.com/hridesh-bharati/mercedescar](https://github.com/hridesh-bharati/mercedescar)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Key Features
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- **Service & Car-Class Divisions:** Dedicated dynamic pages for Mercedes-Benz classes (`G-Class`, `S-Class`, `C-Class`, `E-Class`, `AMG`, and more) alongside an `/all` overview directory.
+- **Body Kits & Upgrades Catalog:** Dynamic routing for AMG Body Kits, Mercedes Facelifts, and Custom Upgrades backed by Firebase Realtime Database.
+- **Online Service Booking & Lead Capture:** Interactive appointment booking forms with validation, real-time submission to Firebase, and instant WhatsApp (`wa.me`) and direct call (`tel:`) lead buttons.
+- **Technical SEO & Structured Data:**
+  - Dynamic `generateMetadata` with canonical URLs, Open Graph, and Twitter Cards.
+  - Rich JSON-LD `@graph` schemas (`AutoRepair`, `BreadcrumbList`, `ItemList`, `Service`, and `FAQPage`).
+- **Performance & Accessibility Optimized:**
+  - Next.js Image optimization (`AVIF` / `WebP`), responsive `sizes`, `priority` LCP loading, and long-term static asset caching.
+  - WCAG-compliant color contrast, semantic heading hierarchy, and keyboard/screen-reader accessibility.
+- **Analytics & Conversion Tracking:** Integrated Google Analytics 4 (`GA4`) with automatic pageview tracking and `beacon`-based event tracking for WhatsApp and phone call conversions.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Framework:** Next.js 16 (App Router)
+- **Frontend:** React 19, Bootstrap 5, Lucide React
+- **Backend & Database:** Firebase Realtime Database, Next.js API Routes
+- **Media Optimization & CDN:** Cloudinary, Next.js Image Optimization
+- **Analytics:** Google Analytics 4 (GA4)
+- **Deployment:** Vercel
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Project Structure
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```text
+src/
+├── app/
+│   ├── api/                  # Newsletter & backend API endpoints
+│   ├── body-kits/            # AMG body kits, facelifts & custom upgrade routes
+│   ├── car-class/
+│   │   └── [className]/      # Dynamic car-class pages (SSR + JSON-LD + Client UI)
+│   ├── models/               # Mercedes-Benz model directory
+│   ├── services/             # Workshop diagnostics & repair services
+│   ├── layout.js             # Root layout, global providers & analytics
+│   └── page.js               # Landing page
+├── components/
+│   ├── layout/               # Header, Footer & navigation components
+│   └── providers/            # Scroll animation & analytics trackers
+└── services/
+    └── dbService.js          # Firebase database abstraction layer
