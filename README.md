@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="public/mercedes-logo.png" alt="Mercedes Garage Dubai Logo" width="120" />
+<img src="public/images/home-page.avif" alt="Mercedes Garage Dubai" width="120" />
 
 # 🏎️ Mercedes Garage Dubai
 
