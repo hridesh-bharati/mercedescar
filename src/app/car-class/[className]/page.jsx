@@ -5,12 +5,23 @@ import { notFound } from 'next/navigation';
 import { unstable_cache } from 'next/cache';
 import { cache } from 'react';
 
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://www.mercedesgaragedubai.com/';
+const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://www.mercedesgaragedubai.com'
+).replace(/\/+$/, '');
 const SITE_NAME = 'Mercedes Garage Dubai';
 
 const slugify = (str = '') =>
-  str.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  str
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+
+const toAbsUrl = (path = '') => {
+  if (!path) return `${SITE_URL}/`;
+  if (/^https?:\/\//i.test(path)) return path;
+  return `${SITE_URL}/${String(path).replace(/^\/+/, '')}`;
+};
 
 // ✅ Caching
 const getCachedClasses = unstable_cache(
@@ -53,22 +64,24 @@ export async function generateMetadata({ params }) {
   const isAll = className.toLowerCase() === 'all';
 
   if (isAll) {
+    const canonicalUrl = `${SITE_URL}/car-class/all`;
+    const ogImage = `${SITE_URL}/images/car-class.png`;
     return {
       title: 'All Mercedes Car Classes Service Dubai | Mercedes Garage',
       description:
         'Explore specialized Mercedes-Benz servicing, maintenance and repair for every car class — G-Class, S-Class, C-Class, AMG and more in Al Quoz, Dubai.',
-      alternates: { canonical: `${SITE_URL}/car-class/all` },
+      alternates: { canonical: canonicalUrl },
       openGraph: {
         title: 'All Mercedes Car Classes Service Dubai | Mercedes Garage',
         description:
           'Specialized Mercedes-Benz workshop services for every class in Al Quoz, Dubai.',
-        url: `${SITE_URL}/car-class/all`,
+        url: canonicalUrl,
         siteName: SITE_NAME,
         type: 'website',
         locale: 'en_AE',
         images: [
           {
-            url: `${SITE_URL}/images/car-class.png`,
+            url: ogImage,
             width: 1200,
             height: 630,
             alt: 'Mercedes Garage Dubai - All Mercedes Car Classes',
@@ -80,7 +93,7 @@ export async function generateMetadata({ params }) {
         title: 'All Mercedes Car Classes Service Dubai | Mercedes Garage',
         description:
           'Specialized Mercedes-Benz workshop services in Al Quoz, Dubai.',
-        images: [`${SITE_URL}/images/car-class.png`],
+        images: [ogImage],
       },
       robots: {
         index: true,
@@ -100,19 +113,28 @@ export async function generateMetadata({ params }) {
   const description =
     data.seoDescription ||
     `Professional Mercedes ${formatted} servicing, maintenance and repair in Al Quoz, Dubai. Certified technicians, genuine parts and transparent pricing.`;
-  const image =
-    data.imageUrl || data.imageUrls?.[0] || `${SITE_URL}/images/car-class.png`;
+  const image = toAbsUrl(
+    data.imageUrl || data.imageUrls?.[0] || '/images/car-class.png'
+  );
+  const canonicalUrl = `${SITE_URL}/car-class/${className}`;
 
   return {
     title,
     description,
-    alternates: { canonical: `${SITE_URL}/car-class/${className}` },
+    alternates: { canonical: canonicalUrl },
     openGraph: {
       title,
       description,
-      url: `${SITE_URL}/car-class/${className}`,
+      url: canonicalUrl,
       siteName: SITE_NAME,
-      images: [{ url: image, width: 1200, height: 630, alt: `Mercedes ${formatted} service Dubai` }],
+      images: [
+        {
+          url: image,
+          width: 1200,
+          height: 630,
+          alt: `Mercedes ${formatted} service Dubai`,
+        },
+      ],
       locale: 'en_AE',
       type: 'website',
     },
@@ -149,7 +171,7 @@ export default async function Page({ params }) {
     '@id': `${SITE_URL}/#business`,
     name: SITE_NAME,
     alternateName: 'German Auto Expert',
-    url: SITE_URL,
+    url: `${SITE_URL}/`,
     telephone: '+971567888808',
     email: 'info@mercedesgaragedubai.com',
     image: `${SITE_URL}/images/logo.png`,
@@ -184,12 +206,17 @@ export default async function Page({ params }) {
     ],
   };
 
-  // ✅ Breadcrumb
+  // ✅ Breadcrumb (clean single-slash URLs)
   const breadcrumb = {
     '@type': 'BreadcrumbList',
     itemListElement: isAll
       ? [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Home',
+            item: `${SITE_URL}/`,
+          },
           {
             '@type': 'ListItem',
             position: 2,
@@ -198,7 +225,12 @@ export default async function Page({ params }) {
           },
         ]
       : [
-          { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Home',
+            item: `${SITE_URL}/`,
+          },
           {
             '@type': 'ListItem',
             position: 2,

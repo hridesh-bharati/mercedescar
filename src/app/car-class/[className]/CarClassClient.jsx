@@ -6,8 +6,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import {
   Wrench, ShieldCheck, Cpu, Phone, Mail, MapPin, Clock, Award, Users,
-  CheckCircle2, ArrowRight, Disc, Settings, Wind, Shield, AlertTriangle,
-  Sparkles, Car, Calendar, ChevronRight, Zap, HeartHandshake, Gauge
+  ArrowRight, Disc, Settings, Wind, Shield, AlertTriangle,
+  Car, Calendar, ChevronRight, Zap, HeartHandshake, Gauge
 } from 'lucide-react';
 import { dbService } from '@/services/dbService';
 import Header from '@/components/layout/Header';
@@ -31,7 +31,9 @@ const SERVICES_LIST = [
 
 export default function CarClassClient({ initialData, initialList, slug }) {
   const isAll = slug?.toLowerCase() === 'all';
-  const classNameFormatted = isAll ? 'All Mercedes Classes' : (initialData?.className || slug.replace(/-/g, ' ').toUpperCase());
+  const classNameFormatted = isAll
+    ? 'All Mercedes Classes'
+    : (initialData?.className || slug.replace(/-/g, ' ').toUpperCase());
 
   const [modelData, setModelData] = useState(initialData);
   const [allClasses, setAllClasses] = useState(initialList || []);
@@ -96,7 +98,7 @@ export default function CarClassClient({ initialData, initialList, slug }) {
       } else {
         setAlert({ type: 'error', msg: 'Failed to submit. Please call us directly.' });
       }
-    } catch (err) {
+    } catch {
       setAlert({ type: 'error', msg: 'A network error occurred. Please try again or call us.' });
     } finally {
       setSubmitting(false);
@@ -122,9 +124,9 @@ export default function CarClassClient({ initialData, initialList, slug }) {
       <>
         <Header />
         <main className="bg-light pb-5 min-vh-100">
-          <section 
-            className="position-relative text-white py-4 py-md-5" 
-            style={{ 
+          <section
+            className="position-relative text-white py-4 py-md-5"
+            style={{
               minHeight: '320px',
               backgroundImage: 'linear-gradient(rgba(10, 10, 10, 0.75), rgba(10, 10, 10, 0.75)), url("/images/servicesman.avif")',
               backgroundSize: 'cover',
@@ -212,7 +214,7 @@ export default function CarClassClient({ initialData, initialList, slug }) {
           <div className="container text-center py-5">
             <Car size={64} className="text-danger opacity-50 mb-4" aria-hidden="true" />
             <h1 className="fw-bold text-dark mb-3">Mercedes Class Not Found</h1>
-            <p className="text-muted mb-4">We couldn't find a service page for "{classNameFormatted}".</p>
+            <p className="text-muted mb-4">We couldn't find a service page for &ldquo;{classNameFormatted}&rdquo;.</p>
             <Link href="/car-class/all" className="btn btn-danger rounded-pill px-4 fw-bold">
               View All Classes
             </Link>
@@ -243,7 +245,7 @@ export default function CarClassClient({ initialData, initialList, slug }) {
               fill
               className="object-fit-cover"
               priority
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
+              sizes="(max-width: 768px) 100vw, 1200px"
               quality={75}
             />
           </div>
@@ -380,7 +382,7 @@ export default function CarClassClient({ initialData, initialList, slug }) {
                   Why Choose Mercedes Garage Dubai for {classNameFormatted}?
                 </h2>
                 <p className="text-muted mb-4" style={{ lineHeight: '1.8', fontSize: '0.95rem' }}>
-                  We've built our reputation on three pillars: certified expertise, genuine parts, and transparent communication. Here's what makes us Dubai's trusted choice for Mercedes owners.
+                  We&apos;ve built our reputation on three pillars: certified expertise, genuine parts, and transparent communication. Here&apos;s what makes us Dubai&apos;s trusted choice for Mercedes owners.
                 </p>
                 <div className="row g-3">
                   {[
@@ -580,126 +582,10 @@ export default function CarClassClient({ initialData, initialList, slug }) {
                     </div>
                   </div>
                 </div>
-
-                <div className="card border-0 shadow-sm rounded-4 p-3 p-md-4 bg-white border">
-                  <h3 className="text-dark fw-bold fs-6 mb-3">Why Mercedes Owners Trust Us</h3>
-                  <ul className="list-unstyled d-flex flex-column gap-2 small text-secondary mb-0">
-                    <li className="d-flex align-items-center gap-2">
-                      <CheckCircle2 size={16} className="text-success" aria-hidden="true" /> Certified Technicians
-                    </li>
-                    <li className="d-flex align-items-center gap-2">
-                      <CheckCircle2 size={16} className="text-success" aria-hidden="true" /> Genuine Mercedes Parts
-                    </li>
-                    <li className="d-flex align-items-center gap-2">
-                      <CheckCircle2 size={16} className="text-success" aria-hidden="true" /> Advanced Diagnostic Tools
-                    </li>
-                    <li className="d-flex align-items-center gap-2">
-                      <CheckCircle2 size={16} className="text-success" aria-hidden="true" /> Transparent Pricing
-                    </li>
-                    <li className="d-flex align-items-center gap-2">
-                      <CheckCircle2 size={16} className="text-success" aria-hidden="true" /> Quick Turnaround Time
-                    </li>
-                  </ul>
-                </div>
-
-                <div className="card border-0 shadow-sm rounded-4 p-3 p-md-4 bg-white border">
-                  <h3 className="text-dark fw-bold fs-6 mb-3">Quick Links</h3>
-                  <ul className="list-unstyled small mb-0 d-flex flex-column gap-2">
-                    <li>
-                      <a href="#about" className="text-dark text-decoration-none d-flex align-items-center gap-1">
-                        <ChevronRight size={14} className="text-danger" aria-hidden="true" /> About {classNameFormatted}
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#services" className="text-dark text-decoration-none d-flex align-items-center gap-1">
-                        <ChevronRight size={14} className="text-danger" aria-hidden="true" /> Our Services
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#why-choose-us" className="text-dark text-decoration-none d-flex align-items-center gap-1">
-                        <ChevronRight size={14} className="text-danger" aria-hidden="true" /> Why Choose Us
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#faqs" className="text-dark text-decoration-none d-flex align-items-center gap-1">
-                        <ChevronRight size={14} className="text-danger" aria-hidden="true" /> FAQs
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#booking-form" className="text-dark text-decoration-none d-flex align-items-center gap-1">
-                        <ChevronRight size={14} className="text-danger" aria-hidden="true" /> Book Now
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-
-                <div className="card border-0 shadow-sm rounded-4 p-3 p-md-4 bg-danger text-white">
-                  <h3 className="fw-bold mb-1 fs-6">Need Help Choosing?</h3>
-                  <p className="text-white-75 small mb-3">Our advisors are here to help.</p>
-                  <Link
-                    href="/contact-us"
-                    className="btn btn-light btn-sm rounded-pill px-4 fw-bold d-inline-flex align-items-center gap-1 text-danger"
-                    style={{ width: 'fit-content' }}
-                  >
-                    Contact Us <ArrowRight size={14} aria-hidden="true" />
-                  </Link>
-                </div>
               </div>
             </div>
           </div>
         </div>
-
-        {/* BOTTOM TRUST STRIP */}
-        <section className="py-4 py-md-5 mt-4 mt-md-5 bg-light border-top">
-          <div className="container">
-            <div className="row text-center text-md-start align-items-center g-3 g-md-4">
-              <div className="col-12 col-md-3">
-                <div className="d-flex align-items-center gap-3 p-3 rounded-4 shadow-sm border bg-white h-100">
-                  <div className="rounded-circle d-flex align-items-center justify-content-center bg-danger bg-opacity-10 text-danger flex-shrink-0" style={{ width: '48px', height: '48px' }}>
-                    <ShieldCheck size={24} aria-hidden="true" />
-                  </div>
-                  <div>
-                    <div className="fw-bold mb-0 text-dark small">Genuine Parts</div>
-                    <div className="text-muted" style={{ fontSize: '0.75rem' }}>100% Authentic</div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-12 col-md-3">
-                <div className="d-flex align-items-center gap-3 p-3 rounded-4 shadow-sm border bg-white h-100">
-                  <div className="rounded-circle d-flex align-items-center justify-content-center bg-primary bg-opacity-10 text-primary flex-shrink-0" style={{ width: '48px', height: '48px' }}>
-                    <Wrench size={24} aria-hidden="true" />
-                  </div>
-                  <div>
-                    <div className="fw-bold mb-0 text-dark small">Expert Techs</div>
-                    <div className="text-muted" style={{ fontSize: '0.75rem' }}>Factory Trained</div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-12 col-md-3">
-                <div className="d-flex align-items-center gap-3 p-3 rounded-4 shadow-sm border bg-white h-100">
-                  <div className="rounded-circle d-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success flex-shrink-0" style={{ width: '48px', height: '48px' }}>
-                    <Cpu size={24} aria-hidden="true" />
-                  </div>
-                  <div>
-                    <div className="fw-bold mb-0 text-dark small">Advanced Tools</div>
-                    <div className="text-muted" style={{ fontSize: '0.75rem' }}>Latest Tech</div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-12 col-md-3">
-                <div className="d-flex align-items-center gap-3 p-3 rounded-4 shadow-sm border bg-white h-100">
-                  <div className="rounded-circle d-flex align-items-center justify-content-center bg-warning bg-opacity-10 text-warning flex-shrink-0" style={{ width: '48px', height: '48px' }}>
-                    <Sparkles size={24} aria-hidden="true" />
-                  </div>
-                  <div>
-                    <div className="fw-bold mb-0 text-dark small">1000+ Clients</div>
-                    <div className="text-muted" style={{ fontSize: '0.75rem' }}>Trusted in Dubai</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
       </main>
       <Footer />
     </>
