@@ -35,7 +35,7 @@ export default function BlogsLayout({ children }) {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://www.mercedesgaragedubai.com/',
+        item: 'https://www.mercedesgaragedubai.com',
       },
       {
         '@type': 'ListItem',

@@ -9,6 +9,6 @@ export default function robots() {
       },
     ],
     sitemap: 'https://www.mercedesgaragedubai.com/sitemap.xml',
-    host: 'https://www.mercedesgaragedubai.com/',
+    host: 'https://www.mercedesgaragedubai.com',
   };
 }

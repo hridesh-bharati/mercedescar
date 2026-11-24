@@ -12,7 +12,7 @@ import AnalyticsTracker from '@/components/AnalyticsTracker';
 const GA_ID = 'G-RQ0CSJVTBG';
 
 export const metadata = {
-  metadataBase: new URL('https://www.mercedesgaragedubai.com/'),
+  metadataBase: new URL('https://www.mercedesgaragedubai.com'),
 
   title: {
     template: '%s | Mercedes Garage Dubai',
@@ -66,7 +66,7 @@ export const metadata = {
     title: 'Mercedes-Benz Specialist Workshop in Al Quoz',
     description:
       'Specialist Mercedes repair, servicing, diagnostics and maintenance in Al Quoz, Dubai.',
-    url: 'https://www.mercedesgaragedubai.com/',
+    url: 'https://www.mercedesgaragedubai.com',
     siteName: 'Mercedes Garage Dubai',
     images: [
       {
@@ -103,7 +103,7 @@ export default function RootLayout({ children }) {
     name: 'Mercedes Garage Dubai',
     alternateName: 'German Auto Expert',
     image: 'https://www.mercedesgaragedubai.com/images/logo.png',
-    url: 'https://www.mercedesgaragedubai.com/',
+    url: 'https://www.mercedesgaragedubai.com',
     telephone: '+971567888808',
     email: 'info@mercedesgaragedubai.com',
 
