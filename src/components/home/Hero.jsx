@@ -46,9 +46,12 @@ export default function Hero() {
           <Image
             key={slide.image}
             src={slide.image}
-            alt=""
+            // ✅ SEO FIX: Alt text added for images
+            alt={index === 0 ? "Mercedes-Benz specialist workshop in Al Quoz Dubai" : "Mercedes repair and maintenance services in Dubai"}
             fill
             priority={index === 0}
+            // ✅ Lazy loading added for slide 2
+            loading={index !== 0 ? 'lazy' : 'eager'}
             sizes="(max-width: 768px) 100vw, 100vw"
             quality={index === 0 ? 75 : 65}
             className={`hero-bg-image ${
@@ -78,6 +81,7 @@ export default function Hero() {
                       <span>{slide.badge}</span>
                     </div>
 
+                    {/* ✅ H1 & H2 Fix */}
                     {index === 0 ? (
                       <h1 className="enterprise-heading">
                         <span className="heading-main hero-heading-animate">
@@ -154,7 +158,6 @@ export default function Hero() {
                       </a>
                     </div>
 
-                    {/* ✅ Niche 3 animated down arrows */}
                     <div className="hero-scroll-indicator hero-paragraph-animate">
                       <svg width="32" height="16" viewBox="0 0 24 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <polyline points="2 2 12 10 22 2" />
@@ -166,7 +169,6 @@ export default function Hero() {
                         <polyline points="2 2 12 10 22 2" />
                       </svg>
                     </div>
-
                   </div>
                 </div>
               ))}
@@ -177,4 +179,3 @@ export default function Hero() {
     </section>
   );
 }
-

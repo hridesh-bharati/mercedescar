@@ -2,39 +2,29 @@
 import { Suspense } from 'react';
 import AboutClient from './AboutClient';
 
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://www.mercedesgaragedubai.com';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.mercedesgaragedubai.com';
 const SITE_NAME = 'Mercedes Garage Dubai';
 
+// ✅ Fixed Title & Description lengths
 export const metadata = {
-  title: 'About Mercedes Garage Dubai | Al Quoz Workshop',
-  description:
-    'Learn about Mercedes Garage Dubai — a specialist Mercedes-Benz workshop in Al Quoz, Dubai. Certified technicians, genuine parts and dealer-level diagnostics.',
+  title: 'About Us | Al Quoz Workshop', // 28 chars (Template will append)
+  description: 'Learn about Mercedes Garage Dubai — a specialist workshop in Al Quoz. Certified technicians, genuine parts and dealer-level diagnostics.', // 146 chars
   alternates: {
     canonical: `${SITE_URL}/about-us`,
   },
   openGraph: {
     title: 'About Mercedes Garage Dubai | Al Quoz Workshop',
-    description:
-      'Specialist Mercedes-Benz workshop in Al Quoz, Dubai. Certified technicians, genuine parts and dealer-level diagnostics.',
+    description: 'Specialist Mercedes-Benz workshop in Al Quoz, Dubai. Certified technicians, genuine parts and dealer-level diagnostics.',
     url: `${SITE_URL}/about-us`,
     siteName: SITE_NAME,
-    images: [
-      {
-        url: `${SITE_URL}/images/og-about.png`,
-        width: 1200,
-        height: 630,
-        alt: 'Mercedes Garage Dubai — Al Quoz Workshop',
-      },
-    ],
+    images: [{ url: `${SITE_URL}/images/og-about.png`, width: 1200, height: 630, alt: 'Mercedes Garage Dubai — Al Quoz Workshop' }],
     locale: 'en_AE',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'About Mercedes Garage Dubai | Al Quoz Workshop',
-    description:
-      'Specialist Mercedes-Benz workshop in Al Quoz, Dubai.',
+    description: 'Specialist Mercedes-Benz workshop in Al Quoz, Dubai.',
     images: [`${SITE_URL}/images/og-about.png`],
   },
   robots: { index: true, follow: true },
@@ -77,11 +67,7 @@ export default function AboutPage() {
       addressRegion: 'Dubai',
       addressCountry: 'AE',
     },
-    geo: {
-      '@type': 'GeoCoordinates',
-      latitude: 25.1321,
-      longitude: 55.2352,
-    },
+    geo: { '@type': 'GeoCoordinates', latitude: 25.1321, longitude: 55.2352 },
     areaServed: [
       { '@type': 'City', name: 'Dubai' },
       { '@type': 'Place', name: 'Al Quoz' },
@@ -92,8 +78,7 @@ export default function AboutPage() {
     '@context': 'https://schema.org',
     '@type': 'AboutPage',
     name: 'About Mercedes Garage Dubai',
-    description:
-      'Specialist Mercedes-Benz workshop in Al Quoz, Dubai — certified technicians, genuine parts and dealer-level diagnostics.',
+    description: 'Specialist Mercedes-Benz workshop in Al Quoz, Dubai — certified technicians, genuine parts and dealer-level diagnostics.',
     url: `${SITE_URL}/about-us`,
     mainEntity: { '@id': `${SITE_URL}/#organization` },
   };
@@ -103,12 +88,7 @@ export default function AboutPage() {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
-      {
-        '@type': 'ListItem',
-        position: 2,
-        name: 'About Us',
-        item: `${SITE_URL}/about-us`,
-      },
+      { '@type': 'ListItem', position: 2, name: 'About Us', item: `${SITE_URL}/about-us` },
     ],
   };
 
@@ -126,14 +106,7 @@ export default function AboutPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify([
-            organizationJsonLd,
-            aboutPageJsonLd,
-            breadcrumbJsonLd,
-            faqJsonLd,
-          ]),
-        }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify([organizationJsonLd, aboutPageJsonLd, breadcrumbJsonLd, faqJsonLd]) }}
       />
       <Suspense fallback={null}>
         <AboutClient faqs={faqs} />
@@ -141,4 +114,3 @@ export default function AboutPage() {
     </>
   );
 }
-

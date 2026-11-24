@@ -30,10 +30,11 @@ const slugify = (str = '') =>
 const getStaticPageContent = (slug, title = '') => {
   const normalizedSlug = slugify(slug);
 
+  // ✅ SEO FIX: Titles under 60 chars, Descriptions under 155 chars
   if (normalizedSlug.includes('amg') || normalizedSlug.includes('body-kit')) {
     return {
-      seoTitle: `Mercedes AMG Body Kits Dubai | G63 & AMG Styling | ${SITE_NAME}`,
-      seoDescription: `Transform your Mercedes with authentic AMG body kits, G63 wide-body kits, bumpers and grilles in Al Quoz, Dubai. Expert installation by certified specialists.`,
+      seoTitle: 'Mercedes AMG Body Kits Dubai | G63 Styling',
+      seoDescription: 'Transform your Mercedes with authentic AMG body kits, G63 wide-body kits, bumpers and grilles in Al Quoz, Dubai. Expert installation by specialists.',
       h1: 'Mercedes AMG Body Kits in Dubai',
       heroIntro:
         'Give your Mercedes-Benz the aggressive stance and high-performance look of a true AMG with genuine conversion kits and styling parts at our Al Quoz workshop in Dubai.',
@@ -66,8 +67,8 @@ const getStaticPageContent = (slug, title = '') => {
 
   if (normalizedSlug.includes('facelift')) {
     return {
-      seoTitle: `Mercedes Facelift Conversion Dubai | W205 to W206 Upgrade | ${SITE_NAME}`,
-      seoDescription: `Upgrade your older Mercedes to the latest facelift — W205 to W206, W213 E-Class, GLC. LED headlights, taillights, bumpers, and coding in Al Quoz, Dubai.`,
+      seoTitle: 'Mercedes Facelift Conversion Dubai | W205 to W206',
+      seoDescription: 'Upgrade your older Mercedes to the latest facelift — W205 to W206, W213 E-Class, GLC. LED headlights, taillights, bumpers, and coding in Al Quoz.',
       h1: 'Mercedes Facelift Upgrades in Dubai',
       heroIntro:
         'Upgrade the look of your older Mercedes-Benz to the newest generation design with our complete front and rear facelift conversion packages in Al Quoz, Dubai.',
@@ -100,8 +101,8 @@ const getStaticPageContent = (slug, title = '') => {
 
   if (normalizedSlug.includes('custom') || normalizedSlug.includes('upgrade')) {
     return {
-      seoTitle: `Mercedes Custom Upgrades Dubai | Carbon Fiber & Styling | ${SITE_NAME}`,
-      seoDescription: `Custom Mercedes-Benz styling, carbon fiber accents, interior upgrades, spoiler installations and bespoke modifications in Al Quoz, Dubai.`,
+      seoTitle: 'Mercedes Custom Upgrades Dubai | Carbon Fiber',
+      seoDescription: 'Custom Mercedes-Benz styling, carbon fiber accents, interior upgrades, spoiler installations and bespoke modifications in Al Quoz, Dubai.',
       h1: 'Custom Mercedes Upgrades in Dubai',
       heroIntro:
         'Personalize your Mercedes-Benz with bespoke custom upgrades, carbon fiber interior/exterior packages, custom alloys and performance styling at our Al Quoz workshop.',
@@ -135,7 +136,7 @@ const getStaticPageContent = (slug, title = '') => {
   const formattedTitle = title || slug.replace(/-/g, ' ').toUpperCase();
 
   return {
-    seoTitle: `Mercedes ${formattedTitle} Dubai | ${SITE_NAME}`,
+    seoTitle: `Mercedes ${formattedTitle} Dubai`,
     seoDescription: `Professional Mercedes ${formattedTitle} installation and custom services in Al Quoz, Dubai by certified technicians.`,
     h1: `Mercedes ${formattedTitle} in Dubai`,
     heroIntro:
@@ -278,7 +279,6 @@ export default async function BodyKitsDetailPage({ params }) {
     ? [item.imageUrl]
     : ['/images/car-class.png'];
 
-  // ✅ Null-safe
   const contentSections = Array.isArray(item.contentSections)
     ? item.contentSections
     : [];
@@ -534,6 +534,8 @@ export default async function BodyKitsDetailPage({ params }) {
                           className={`object-fit-cover ${styles.galleryImg}`}
                           sizes="(max-width: 576px) 50vw, 33vw"
                           quality={70}
+                          // ✅ SEO FIX: Explicit Lazy Loading
+                          loading={idx < 2 ? 'eager' : 'lazy'}
                         />
                       </div>
                     ))}

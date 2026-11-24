@@ -22,17 +22,16 @@ export default async function Gallery() {
           <span className="text-danger fw-bold small text-uppercase tracking-wider">
             MERCEDES WORKSHOP SHOWCASE
           </span>
-          {/* ✅ H1 — page-level SEO */}
-          <h1
-            id="gallery-heading"
-            className="fw-bold display-5 text-dark mt-1"
-          >
+          
+          {/* ✅ SEO FIX: H1 Tag Structure Cleaned */}
+          <h1 id="gallery-heading" className="fw-bold display-5 text-dark mt-1">
             Mercedes-Benz Workshop Gallery
-            <span className="text-danger d-block fs-4 mt-2">
-              in Al Quoz, Dubai
-            </span>
           </h1>
-          <p className="text-secondary small">
+          <h2 className="text-danger fs-4 mt-2 fw-normal">
+            in Al Quoz, Dubai
+          </h2>
+
+          <p className="text-secondary small mt-3">
             Explore our Mercedes-Benz workshop, AMG projects, engine repairs,
             body kits and facelift conversions in Dubai.
           </p>
@@ -54,4 +53,3 @@ export default async function Gallery() {
     </main>
   );
 }
-

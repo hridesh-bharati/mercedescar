@@ -9,20 +9,16 @@ import { unstable_cache } from 'next/cache';
 import { dbService } from '@/services/dbService';
 import './services.css';
 
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://www.mercedesgaragedubai.com';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.mercedesgaragedubai.com';
 const SITE_NAME = 'Mercedes Garage Dubai';
 
-// ✅ PDF-mapped SEO Metadata
 export const metadata = {
-  title: 'Mercedes Services Dubai | Repair, Diagnostics & Maintenance',
-  description:
-    'Mercedes repair, diagnostics and maintenance in Al Quoz, Dubai. Engine, brake, transmission, AC and electrical service by certified Mercedes specialists.',
+  title: 'Mercedes Services Dubai | Repair & Maintenance',
+  description: 'Mercedes repair, diagnostics and maintenance in Al Quoz, Dubai. Engine, brake, transmission, AC and electrical service by certified specialists.', // 146 chars
   alternates: { canonical: `${SITE_URL}/services` },
   openGraph: {
-    title: 'Mercedes Services Dubai | Repair, Diagnostics & Maintenance',
-    description:
-      'Mercedes repair, diagnostics and maintenance in Al Quoz, Dubai by certified specialists.',
+    title: 'Mercedes Services Dubai | Repair & Maintenance',
+    description: 'Mercedes repair, diagnostics and maintenance in Al Quoz, Dubai by certified specialists.',
     url: `${SITE_URL}/services`,
     siteName: SITE_NAME,
     images: [
@@ -38,15 +34,13 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Mercedes Services Dubai | Repair, Diagnostics & Maintenance',
-    description:
-      'Mercedes repair, diagnostics and maintenance in Al Quoz, Dubai.',
+    title: 'Mercedes Services Dubai | Repair & Maintenance',
+    description: 'Mercedes repair, diagnostics and maintenance in Al Quoz, Dubai.',
     images: [`${SITE_URL}/images/og-services.png`],
   },
   robots: { index: true, follow: true },
 };
 
-// ✅ Cached services data
 const getCachedServices = unstable_cache(
   async () => {
     const res = await dbService.getAll('services');
@@ -56,7 +50,6 @@ const getCachedServices = unstable_cache(
   { revalidate: 60, tags: ['services'] }
 );
 
-// PDF-required FAQ
 const faqs = [
   {
     q: 'What Mercedes services do you offer in Dubai?',
@@ -79,13 +72,11 @@ const faqs = [
 export default async function ServicesPage() {
   const initialServices = await getCachedServices();
 
-  // ✅ Improved ItemList — anchors + proper names
   const itemListJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
     name: 'Mercedes Services Dubai',
-    description:
-      'Comprehensive Mercedes-Benz repair and maintenance services in Al Quoz, Dubai.',
+    description: 'Comprehensive Mercedes-Benz repair and maintenance services in Al Quoz, Dubai.',
     itemListElement: initialServices.slice(0, 20).map((service, index) => ({
       '@type': 'ListItem',
       position: index + 1,
@@ -94,7 +85,6 @@ export default async function ServicesPage() {
     })),
   };
 
-  // ✅ Service schema (PDF checklist)
   const serviceJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Service',
@@ -124,7 +114,6 @@ export default async function ServicesPage() {
     },
   };
 
-  // ✅ Breadcrumb schema
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -134,7 +123,6 @@ export default async function ServicesPage() {
     ],
   };
 
-  // ✅ FAQ schema
   const faqJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -150,30 +138,26 @@ export default async function ServicesPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify([
-            itemListJsonLd,
-            serviceJsonLd,
-            breadcrumbJsonLd,
-            faqJsonLd,
-          ]),
+          __html: JSON.stringify([itemListJsonLd, serviceJsonLd, breadcrumbJsonLd, faqJsonLd]),
         }}
       />
 
       <Header />
       <main>
         <HeroSection />
+        
+        {/* ✅ H1 Added for SEO Structure */}
+        <div className="container mt-4">
+           <h1 className="visually-hidden">Mercedes-Benz Repair & Maintenance Services in Dubai</h1>
+        </div>
 
-        {/* Anchor targets for Services.jsx card links */}
         <div id="routine-maintenance" aria-hidden="true" />
         <div id="brake-repair" aria-hidden="true" />
         <div id="transmission-repair" aria-hidden="true" />
 
         <Suspense
           fallback={
-            <div
-              className="d-flex justify-content-center align-items-center py-5"
-              style={{ minHeight: '400px' }}
-            >
+            <div className="d-flex justify-content-center align-items-center py-5" style={{ minHeight: '400px' }}>
               <div className="spinner-border text-danger" role="status">
                 <span className="visually-hidden">Loading services...</span>
               </div>
@@ -183,20 +167,12 @@ export default async function ServicesPage() {
           <ServiceGrid initialServices={initialServices} />
         </Suspense>
 
-        {/* ✅ PDF FAQ section — visible, not just schema */}
         <section className="py-5 bg-white" id="services-faq">
           <div className="container">
-            <h2 className="fw-bold text-dark mb-4">
-              Frequently Asked Questions About Mercedes Services in Dubai
-            </h2>
+            <h2 className="fw-bold text-dark mb-4">Frequently Asked Questions About Mercedes Services in Dubai</h2>
             {faqs.map((f, i) => (
-              <details
-                key={i}
-                className="mb-3 p-3 border rounded-3 bg-light"
-              >
-                <summary className="fw-bold" style={{ cursor: 'pointer' }}>
-                  {f.q}
-                </summary>
+              <details key={i} className="mb-3 p-3 border rounded-3 bg-light">
+                <summary className="fw-bold" style={{ cursor: 'pointer' }}>{f.q}</summary>
                 <p className="mt-2 mb-0 text-secondary">{f.a}</p>
               </details>
             ))}
@@ -209,4 +185,3 @@ export default async function ServicesPage() {
     </>
   );
 }
-

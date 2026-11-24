@@ -8,6 +8,7 @@ import { ChevronLeft, ChevronRight, X, Layers } from 'lucide-react';
 export default function GalleryClient({ albums }) {
   const [activeAlbumImages, setActiveAlbumImages] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [activeAlbumTitle, setActiveAlbumTitle] = useState('');
 
   // ✅ Keyboard nav + scroll lock
   useEffect(() => {
@@ -37,9 +38,10 @@ export default function GalleryClient({ albums }) {
     };
   }, [activeAlbumImages]);
 
-  const openAlbumModal = (imagesArray) => {
+  const openAlbumModal = (imagesArray, title) => {
     if (imagesArray && imagesArray.length > 0) {
       setActiveAlbumImages(imagesArray);
+      setActiveAlbumTitle(title || 'Mercedes Workshop');
       setCurrentImageIndex(0);
     }
   };
@@ -68,6 +70,11 @@ export default function GalleryClient({ albums }) {
             '/images/servicesman.avif';
           const totalPhotos = album.images ? album.images.length : 1;
 
+          // ✅ SEO FIX: Better Alt Text Structure
+          const altText = album.title 
+            ? `Mercedes-Benz ${album.title} project at our Al Quoz workshop in Dubai` 
+            : 'Mercedes-Benz repair and upgrade project at Mercedes Garage Dubai';
+
           return (
             <div
               className="col-lg-4 col-md-6"
@@ -79,26 +86,28 @@ export default function GalleryClient({ albums }) {
                 type="button"
                 className="card border-0 shadow-sm rounded-4 overflow-hidden position-relative h-100 w-100 text-start p-0"
                 style={{ cursor: 'pointer', background: 'transparent' }}
-                onClick={() => openAlbumModal(album.images || [coverImg])}
+                onClick={() => openAlbumModal(album.images || [coverImg], album.title)}
                 aria-label={`View ${album.title || 'Mercedes gallery'} album with ${totalPhotos} photos`}
               >
                 <div className="position-relative" style={{ height: '240px' }}>
                   <Image
                     src={coverImg}
-                    alt={`${album.title || 'Mercedes workshop'} — Mercedes-Benz workshop in Al Quoz Dubai`}
+                    alt={altText}
                     fill
                     className="object-fit-cover"
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     priority={index < 3}
+                    loading={index < 3 ? 'eager' : 'lazy'}
                   />
                   <span className="position-absolute top-0 end-0 m-3 badge bg-dark bg-opacity-75 text-white px-3 py-2 rounded-pill small d-flex align-items-center gap-1 shadow-sm">
                     <Layers size={14} aria-hidden="true" /> {totalPhotos} Photos
                   </span>
                 </div>
                 <div className="p-3 bg-white text-start">
-                  <h3 className="fw-bold text-dark mb-1 fs-6">
+                  {/* ✅ SEO FIX: H3 changed to H4 (Since no H2 present before it) */}
+                  <h4 className="fw-bold text-dark mb-1 fs-6">
                     {album.title}
-                  </h3>
+                  </h4>
                   <span
                     className="text-muted small"
                     style={{ fontSize: '0.75rem' }}
@@ -155,10 +164,12 @@ export default function GalleryClient({ albums }) {
                 >
                   <Image
                     src={activeAlbumImages[currentImageIndex]}
-                    alt={`Mercedes workshop gallery image ${currentImageIndex + 1} of ${activeAlbumImages.length}`}
+                    // ✅ SEO FIX: Dynamic Alt Text with Album Context
+                    alt={`${activeAlbumTitle} — Mercedes-Benz service photo ${currentImageIndex + 1} in Dubai`}
                     fill
                     className="rounded-4 shadow-lg object-fit-contain"
                     sizes="90vw"
+                    loading="eager" // Since it's a modal viewer, eager is fine
                   />
                 </div>
                 <span
@@ -188,4 +199,3 @@ export default function GalleryClient({ albums }) {
     </>
   );
 }
-

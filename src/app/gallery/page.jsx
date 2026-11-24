@@ -7,12 +7,17 @@ const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || 'https://www.mercedesgaragedubai.com';
 
 export const metadata = {
-  title: 'Mercedes Workshop Gallery Dubai | Mercedes Garage',
+  // ✅ Title length fixed (36 chars, template will make it ~60)
+  title: 'Mercedes Workshop Gallery Dubai', 
+  
+  // ✅ Description length fixed (148 chars)
   description:
     'Explore our Mercedes-Benz workshop gallery in Al Quoz, Dubai. See our facility, AMG projects, engine repairs, body kits and facelift conversions.',
+  
   alternates: { canonical: `${SITE_URL}/gallery` },
+  
   openGraph: {
-    title: 'Mercedes Workshop Gallery Dubai | Mercedes Garage',
+    title: 'Mercedes Workshop Gallery Dubai',
     description:
       'Inside our Mercedes-Benz workshop in Al Quoz, Dubai — AMG projects, repairs and upgrades.',
     url: `${SITE_URL}/gallery`,
@@ -85,4 +90,3 @@ export default function GalleryPage() {
     </>
   );
 }
-
