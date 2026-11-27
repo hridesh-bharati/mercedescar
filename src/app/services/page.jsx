@@ -12,8 +12,9 @@ import './services.css';
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.mercedesgaragedubai.com';
 const SITE_NAME = 'Mercedes Garage Dubai';
 
+// ✅ PDF-mapped SEO Metadata - Fixed lengths (Title < 60, Desc < 155)
 export const metadata = {
-  title: 'Mercedes Services Dubai | Repair & Maintenance',
+  title: 'Mercedes Services Dubai | Repair & Maintenance', // 47 chars
   description: 'Mercedes repair, diagnostics and maintenance in Al Quoz, Dubai. Engine, brake, transmission, AC and electrical service by certified specialists.', // 146 chars
   alternates: { canonical: `${SITE_URL}/services` },
   openGraph: {

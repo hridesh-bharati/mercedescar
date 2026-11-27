@@ -13,9 +13,8 @@ import Welcome from '@/components/home/Welcome';
 import Preloader from '@/components/layout/PreLoader';
 
 export const metadata = {
-  title: 'Mercedes-Benz Specialist Workshop in Al Quoz',
-  description:
-    'Looking for a Mercedes-Benz garage in Dubai? Specialist Mercedes repair, servicing, diagnostics and maintenance in Al Quoz. Contact our expert team today.',
+  title: 'Mercedes-Benz Specialist Workshop',
+  description: 'Looking for a Mercedes garage in Dubai? Specialist repair, servicing, diagnostics and maintenance in Al Quoz. Contact our expert team today.', // 148 chars
   alternates: {
     canonical: 'https://www.mercedesgaragedubai.com',
   },
@@ -68,15 +67,11 @@ export default function Home() {
       <Process />
       <RedCarBanner />
 
-      {/* ✅ FAQ Section (PDF checklist) */}
       <section className="py-5 bg-light" id="faq">
         <div className="container">
           <h2 className="mb-4">Frequently Asked Questions</h2>
           {faqs.map((f, i) => (
-            <details
-              key={i}
-              className="mb-3 p-3 border rounded bg-white"
-            >
+            <details key={i} className="mb-3 p-3 border rounded bg-white">
               <summary className="fw-bold" style={{ cursor: 'pointer' }}>{f.q}</summary>
               <p className="mt-2 mb-0">{f.a}</p>
             </details>
